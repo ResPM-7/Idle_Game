@@ -1,7 +1,6 @@
-using System.Collections;
-using UnityEditor;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
 // 유닛의 진영
 public enum Team
@@ -21,218 +20,135 @@ public enum UnitState
     Destroyed // 처치됨
 }
 
-[RequireComponent(typeof(Animator), typeof(Collider2D))]
-public abstract class Unit_Base : MonoBehaviour
+public class Unit_Base : MonoBehaviour
 {
-    public Team unitTeam;
-    public UnitState currentState;
-
-    public float maxHp;
+    public Team team;
+    public float maxHp = 100f;
     public float currentHp;
-    public float attackPower;
-    public float defense;
-    public float moveSpeed;
-    public float attackRange; // 근접은 짧게, 원거리는 길게
-    public float attackCooldown; // 공격 속도
+    public float moveSpeed = 3f;
 
-    protected float currentAttackTimer = 0f;
+    private List<UnitAction_Base> myActions = new List<UnitAction_Base>();
 
-    protected Unit_Base currentTarget;
+    public UnitState currentState { get; private set; }
+    private UnitAction_Base currentActionToPerform;
+    private Transform currentTarget;
 
-    protected Animator anim;
-    protected SpriteRenderer spriteRenderer;
-
-    // UI 업데이트나 사망 처리용 이벤트
-    public UnityAction<Unit_Base> OnDeath;
-
-    protected virtual void Awake()
-    {
-        anim = GetComponent<Animator>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-    }
-
-    protected virtual void Start()
+    void Start()
     {
         currentHp = maxHp;
-        ChangeState(UnitState.Idle);
+
+        // 내 오브젝트에 붙은 모든 UnitAction을 가져옴
+        myActions = GetComponents<UnitAction_Base>().ToList();
+
+        // 우선순위가 높은 순서대로 내림차순 정렬
+        // 예 : 근접공격(2) 이후 원거리공격(1)
+        myActions = myActions.OrderByDescending(a => a.priority).ToList();
+
+        currentState = UnitState.Idle;
     }
 
-    protected virtual void Update()
+    void Update()
     {
         switch (currentState)
         {
             case UnitState.Idle:
-                UpdateIdle();
+                EvaluateActions();
                 break;
             case UnitState.Move:
-                UpdateMove();
+                MoveToTarget();
                 break;
             case UnitState.Attack:
-                UpdateAttack();
-                break;
-            case UnitState.Skill:
-                UpdateSkill();
-                break;
-            case UnitState.Stunned:
-                // 스턴 상태일 때는 아무것도 하지 않음
-                break;
-            case UnitState.Destroyed:
-                // 작성 중
+                // 애니메이션 이벤트나 별도 타이머로 상태를 Idle로 되돌려야 함
                 break;
         }
     }
 
-    #region FSM 상태별 업데이트 로직
-
-    protected virtual void UpdateIdle()
+    private void EvaluateActions()
     {
-        FindTarget();
+        UnitAction_Base actionToMove = null;
+        Transform targetForMove = null;
 
-        if (currentTarget != null)
+        // 우선순위가 높은 행동 조각부터 하나씩 검사
+        foreach (UnitAction_Base action in myActions)
         {
-            ChangeState(UnitState.Move);
+            // 쿨타임이 다 차서 쓸 수 있는 상태인가?
+            if (action.CanExecute())
+            {
+                // 원하는 타겟을 찾음(공격은 적, 힐은 아군)
+                Transform target = action.FindTarget(this);
+                if (target != null)
+                {
+                    // 타겟과의 거리 계산
+                    float dist = Vector2.Distance(transform.position, target.position);
+
+                    // 타겟이 사거리 안에 들어왔다면 실행
+                    if (dist <= action.actionRange)
+                    {
+                        currentActionToPerform = action;
+                        currentTarget = target;
+                        currentState = UnitState.Attack;
+                        PerformCurrentAction();
+                        return;
+                    }
+
+                    if (actionToMove == null)
+                    {
+                        actionToMove = action;
+                        targetForMove = target;
+                    }
+                }
+            }
         }
-    }
-
-    protected virtual void UpdateMove()
-    {
-        if (currentTarget == null || currentTarget.currentState == UnitState.Destroyed)
+        if (actionToMove != null)
         {
-            ChangeState(UnitState.Idle);
-            return;
-        }
-
-        // 타겟과의 거리 계산
-        float distance = Vector2.Distance(transform.position, currentTarget.transform.position);
-
-        if (distance <= attackRange)
-        {
-            // 사거리 내에 들어오면 공격 상태로 전환
-            ChangeState(UnitState.Attack);
+            currentActionToPerform = actionToMove;
+            currentTarget = targetForMove;
+            currentState = UnitState.Move;
         }
         else
         {
-            // 타겟을 향해 이동
-            Vector2 direction = (currentTarget.transform.position - transform.position).normalized;
-            transform.Translate(direction * moveSpeed * Time.deltaTime);
-
-            // 방향 바라보기
-            FlipSprite(direction.x);
+            // 쿨타임이거나 맵에 타겟이 없으면 대기
+            currentState = UnitState.Idle;
         }
     }
 
-    protected virtual void UpdateAttack()
+    private void MoveToTarget()
     {
-        if (currentTarget == null || currentTarget.currentState == UnitState.Destroyed)
+        // 타겟이 죽었거나 사라지면 대기
+        if (currentTarget == null)
         {
-            ChangeState(UnitState.Idle);
+            currentState = UnitState.Idle;
             return;
         }
 
-        // 사거리에서 벗어나면 다시 이동
-        float distance = Vector2.Distance(transform.position, currentTarget.transform.position);
-        if (distance > attackRange)
-        {
-            ChangeState(UnitState.Move);
-            return;
-        }
+        EvaluateActions();
 
-        // 공격 쿨타임 계산
-        currentAttackTimer += Time.deltaTime;
-        if (currentAttackTimer >= attackCooldown)
+        if (currentState == UnitState.Move && currentTarget != null)
         {
-            currentAttackTimer = 0f;
-            ExecuteAttack();
+            Vector2 dir = (currentTarget.position - transform.position).normalized;
+            transform.Translate(dir * moveSpeed * Time.deltaTime);
         }
     }
 
-    protected virtual void UpdateSkill()
+    private void PerformCurrentAction()
     {
-        // 작성 중
-    }
-
-    #endregion
-
-    #region 핵심 액션 메서드
-
-    // 상태 변경 및 애니메이션 처리
-    public virtual void ChangeState(UnitState newState)
-    {
-        if (currentState == UnitState.Destroyed) return;
-
-        currentState = newState;
-
-        anim.SetBool("IsMoving", false);
-
-        switch (newState)
+        if (currentTarget != null && currentActionToPerform != null)
         {
-            case UnitState.Idle:
-                break;
-            case UnitState.Move:
-                anim.SetBool("IsMoving", true);
-                break;
-            case UnitState.Attack:
-                anim.SetTrigger("DoAttack");
-                break;
-            case UnitState.Destroyed:
-                anim.SetTrigger("DoDestroy");
-                break;
+            currentActionToPerform.Execute(this, currentTarget);
         }
+
+        currentState = UnitState.Idle;
     }
 
-    public virtual void ExecuteAttack()
+    public void TakeDamage(float amount)
     {
-        if (currentTarget != null)
-        {
-            float damage = Mathf.Max(1, attackPower - currentTarget.defense);
-            // 크리티컬 작성 중
-            currentTarget.TakeDamage(damage);
-        }
-    }
+        float actualDamage = amount;
 
-    // 피격 처리
-    public virtual void TakeDamage(float damage)
-    {
-        if (currentState == UnitState.Destroyed) return;
-
-        currentHp -= damage;
-        // 데미지 텍스트 팝업 작성 중
+        currentHp -= actualDamage;
         if (currentHp <= 0)
         {
-            currentHp = 0;
-            DestroyUnit();
-        }
-        else
-        {
-            anim.SetTrigger("DoHit");
+            currentState = UnitState.Destroyed;
+            Destroy(gameObject);
         }
     }
-
-    protected virtual void DestroyUnit()
-    {
-        ChangeState(UnitState.Destroyed);
-
-        // 충돌체 끄기
-        GetComponent<Collider2D>().enabled = false;
-
-        // 처치 이벤트 발생 (웨이브 매니저나 머지 보드 등에서 감지)
-        OnDeath?.Invoke(this);
-
-        // 오브젝트 풀링 할 거면 바꿔야됨
-        Destroy(gameObject, 2f);
-    }
-
-    // 타겟 탐색 (오버라이드 가능하도록 가상 함수로)
-    protected virtual void FindTarget()
-    {
-        // Physics2D.OverlapCircleAll 같은 걸 쓸 수도 있지만, 보통 방치형 게임에서는 BattleManager 같은 걸로 씬에 있는 모든 유닛 리스트를 들고 있고, 여기서 가장 가까운 적을 찾아오는 방식이 성능상 훨씬 좋아요. 그래서 현재는 비워둡니다.
-    }
-
-    protected void FlipSprite(float xDirection)
-    {
-        if (xDirection > 0) spriteRenderer.flipX = false; // 오른쪽
-        else if (xDirection < 0) spriteRenderer.flipX = true; // 왼쪽
-    }
-
-    #endregion
 }
