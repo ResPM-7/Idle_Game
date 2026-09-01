@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public class UnitAction_Melee : UnitAction_Base
+public class UnitAction_Shooter : UnitAction_Base
 {
+
+    // 이거 싹 다 미완성임
+
     public float damage = 10f;
     public float aoeRadius = 0f; // 0이면 단일 타격, 0보다 크면 주변 적들도 타격
     public float searchRadius = 20f; // 적을 찾는 최대 시야 거리
@@ -65,6 +68,6 @@ public class UnitAction_Melee : UnitAction_Base
         Gizmos.DrawWireSphere(transform.position, actionRange); // 공격 사거리(빨간색)
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, searchRadius); // 시야 사거(노란색)
+        Gizmos.DrawWireSphere(transform.position, searchRadius); // 시야 사거리(노란색)
     }
 }
