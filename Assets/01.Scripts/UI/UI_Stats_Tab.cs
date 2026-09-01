@@ -12,18 +12,19 @@ public class UI_Stats_Tab : MonoBehaviour
     private readonly Color inactiveColor = new Color(0.5f, 0.5f, 0.5f, 1f);
     private void Start()
     {
-        
+
         for (int i = 0; i < tabButtons.Count; i++)
         {
-            int index = i; 
+            int index = i;
             tabButtons[i].onClick.AddListener(() => SelectTab(index));
         }
 
-        
+
         SelectTab(0);
     }
     public void SelectTab(int tabIndex)
     {
+        Debug.Log($"클릭 확인{tabIndex}");
         for (int i = 0; i < tabButtons.Count; i++)
         {
             bool isActive = (i == tabIndex);
@@ -39,11 +40,11 @@ public class UI_Stats_Tab : MonoBehaviour
                 tabImage.color = isActive ? activeColor : inactiveColor;
             }
 
-            TextMeshProUGUI tabText = tabButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-            if (tabText != null)
-            {
-                tabText.color = isActive ? activeColor : inactiveColor;
-            }
+            //TextMeshProUGUI tabText = tabButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+            //if (tabText != null)
+            //{
+            //    tabText.color = isActive ? activeColor : inactiveColor;
+            //}
         }
     }
 }
