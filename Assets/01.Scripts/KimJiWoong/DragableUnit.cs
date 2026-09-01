@@ -20,7 +20,7 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         UpdateLevelUI();
     }
 
-    private void UpdateLevelUI()
+    public void UpdateLevelUI()
     {
         if (levelText != null)
             levelText.text = "Lv." + unitLevel;
@@ -47,4 +47,5 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             transform.position = originalParent.position;
         }
     }
+
 }

@@ -23,7 +23,7 @@ public class MergeSlot : MonoBehaviour, IDropHandler
 
                 if (myUnit.unitLevel == droppedUnit.unitLevel) // 머지 성공!
                 {
-                    Destroy(droppedObj); // 드래그해 온 녀석은 삭제
+                    ObjectPoolManager.instance.ReturnObject("UnitTest_Prefab", droppedObj);
                     myUnit.LevelUp();
                     // TODO: 레벨업 외형 변경 및 이펙트 연출 호출
                 }

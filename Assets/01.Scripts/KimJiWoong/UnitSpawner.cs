@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class UnitSpawner : MonoBehaviour
 {
-    [Header("설정")]
-    public GameObject unitPrefab;
+    [Header("설정")] 
+    public string unitPoolName = "UnitTest_Prefab";
     public Transform gridPanel;
 
     public void SpawnTestUnit()
@@ -21,11 +21,8 @@ public class UnitSpawner : MonoBehaviour
 
         if (emptySlots.Count > 0)
         {
-            Transform targetSlot = emptySlots[0];
-            GameObject newUnit = Instantiate(unitPrefab, targetSlot);
-
-            newUnit.transform.localPosition = Vector3.zero;
-            newUnit.transform.localScale = Vector3.one; // 크기가 이상해지는 현상 방지!
+            Transform targetSlot = emptySlots[0]; 
+            UnitFactory.instance.CreateUnit(unitPoolName, 1, targetSlot);
         }
         else
         {
