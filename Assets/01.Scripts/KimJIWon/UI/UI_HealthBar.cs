@@ -33,16 +33,14 @@ public class UI_HealthBar : MonoBehaviour
     {
         currentHp = Mathf.Max(0, currentHp - damage);
 
-    #if UNITY_EDITOR
-            string poolKey = "DamageText";
-            
-            GameObject textObj = ObjectPoolManager.instance.GetObject(poolKey);
-    
-        if (textObj != null)
-            {
-                textObj.GetComponent<UI_DamageText>().Setup(damage, transform.parent.position, poolKey);
-            }
-    #endif
+#if UNITY_EDITOR
+        Vector3 spawnPos = (transform.parent != null) ? transform.parent.position : transform.position;
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowDamageText(damage, spawnPos);
+        }
+#endif
     }
 
     public void Heal(float amount)

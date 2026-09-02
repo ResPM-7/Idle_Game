@@ -4,20 +4,36 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+    [Header("Managers")]
     [SerializeField] private UI_PopUpManager popUpManager;
+
+    [Header("Canvases")]
+    [SerializeField] private Transform overlayCanvasTransform;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
+
+            //Canvas_Overlay µî·Ï
+            if (overlayCanvasTransform == null)
+            {
+                GameObject overlayObj = GameObject.Find("Canvas_Overlay");
+                if (overlayObj != null)
+                {
+                    overlayCanvasTransform = overlayObj.transform;
+                }
+            }
         }
         else
         {
             Destroy(gameObject);
         }
     }
+
+    #region PopUp
     public T ShowPopup<T>(T popupPrefab) where T : MonoBehaviour
     {
         if (popUpManager != null)
@@ -43,4 +59,29 @@ public class UIManager : MonoBehaviour
         if (popUpManager != null)
             popUpManager.CloseAllPopups();
     }
+    #endregion
+
+    #region InGame UI / Floating Text
+    public void ShowDamageText(float damage, Vector3 worldPos)
+    {
+        string poolKey = "DamageText";
+
+        if (ObjectPoolManager.instance == null) return; 
+
+        GameObject textObj = ObjectPoolManager.instance.GetObject(poolKey); 
+        if (textObj != null)
+        {
+            
+            if (overlayCanvasTransform != null)
+            {
+                textObj.transform.SetParent(overlayCanvasTransform, false);
+            }
+
+            if (textObj.TryGetComponent<UI_DamageText>(out var damageText))
+            {
+                damageText.Setup(damage, worldPos, poolKey);
+            }
+        }
+    }
+    #endregion
 }

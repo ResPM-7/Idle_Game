@@ -8,6 +8,23 @@ public class UI_PopUpManager : MonoBehaviour
 
     private Stack_PopupUI activePopupStack = new Stack_PopupUI();
 
+    private void Awake()
+    {
+        
+        if (popupCanvasTransform == null || !popupCanvasTransform.gameObject.scene.IsValid())
+        {
+            GameObject popupObj = GameObject.Find("Canvas_PopUp");
+            if (popupObj != null)
+            {
+                popupCanvasTransform = popupObj.transform;
+            }
+            else
+            {
+                Debug.LogWarning("씬에서 Canvas_PopUp을 찾을 수 없습니다.");
+            }
+        }
+    }
+
     public T ShowPopup<T>(T popupPrefab) where T : MonoBehaviour
     {
         if (popupPrefab == null) return null;

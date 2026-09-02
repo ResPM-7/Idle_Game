@@ -8,8 +8,6 @@ public class UI_DamageText : MonoBehaviour
     [SerializeField] private float moveHeight = 60f; // 위로 뜰 높이
     [SerializeField] private float duration = 0.5f;  // 연출 시간
 
-    private static Transform cachedCanvasTransform;
-
     private string myPoolName;
 
     public void Setup(float damage, Vector3 worldPos, string poolName)
@@ -17,28 +15,11 @@ public class UI_DamageText : MonoBehaviour
         myPoolName = poolName;
         damageText.text = Mathf.RoundToInt(damage).ToString();
 
-        if (cachedCanvasTransform == null)
-        {
-            GameObject overlayCanvas = GameObject.Find("Canvas_Overlay");
-            if (overlayCanvas != null)
-            {
-                cachedCanvasTransform = overlayCanvas.transform;
-            }
-            else
-            {
-                Canvas anyCanvas = FindAnyObjectByType<Canvas>();
-                if (anyCanvas != null) cachedCanvasTransform = anyCanvas.transform;
-            }
-        }
+        Vector3 targetWorldPos = worldPos + new Vector3(0f, 1f, 0f);
 
-        if (cachedCanvasTransform != null)
-        {
-            transform.SetParent(cachedCanvasTransform, false);
-        }
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(targetWorldPos);
+        screenPos.z = 0f; 
 
-        //유닛 위치를 Canvas 위치로 변환
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos + Vector3.up * 1.5f);
-        screenPos.z = 0f;
         transform.position = screenPos;
         transform.localScale = Vector3.one;
 
