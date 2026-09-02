@@ -1648,6 +1648,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 651381942338797186, guid: 37170231ce166554ebffd7e1ba62043e, type: 3}
+      propertyPath: objList.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 651381942338797186, guid: 37170231ce166554ebffd7e1ba62043e, type: 3}
       propertyPath: canvasPools.Array.data[0].targetCanvas
       value: 
       objectReference: {fileID: 1687887762}
