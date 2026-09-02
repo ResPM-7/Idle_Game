@@ -32,6 +32,17 @@ public class UI_HealthBar : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHp = Mathf.Max(0, currentHp - damage);
+
+    #if UNITY_EDITOR
+            string poolKey = "DamageText";
+            
+            GameObject textObj = ObjectPoolManager.instance.GetObject(poolKey);
+    
+        if (textObj != null)
+            {
+                textObj.GetComponent<UI_DamageText>().Setup(damage, transform.parent.position, poolKey);
+            }
+    #endif
     }
 
     public void Heal(float amount)

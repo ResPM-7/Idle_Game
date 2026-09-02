@@ -45,7 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPoolManager
   isDontDestroy: 0
-  objList: []
+  objList:
+  - poolName: DamageText
+    prefab: {fileID: 4532371116211410950, guid: bab855672a757f348a83b796cc5acb17, type: 3}
+    poolSize: 20
   canvasPools:
   - poolName: UnitTest_Prefab
     prefab: {fileID: 4829221465037358062, guid: 90e4087ce04a4bb4a872ea9231f20a3b, type: 3}
