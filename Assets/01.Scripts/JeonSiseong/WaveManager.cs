@@ -32,7 +32,7 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField] int maxWave = 10;         
 
-    [SerializeField] int maxKillCount =10;
+    [SerializeField] int maxKillCount =10;    
 
     [SerializeField] float bossTimeLimit = 30f;    // 보스 클리어 시간제한
     float bossTimer;
@@ -47,10 +47,11 @@ public class WaveManager : MonoBehaviour
 
     bool isBossBattle = false;
     bool waitingForBoss = false;
+    GameObject currentBoss;
 
     bool bossFinish = false;
 
-
+    Coroutine bossTimerRoutine;
 
 
     public void SpawnEnemy() 
@@ -113,7 +114,13 @@ public class WaveManager : MonoBehaviour
         if(currentWave >= maxWave)
         {
             waitingForBoss = true;
+
+            if(aliveCount <= 0)
+            {
+                StartBossBattle();
+            }
             
+
             return;
         }
         currentWave++;
@@ -122,11 +129,15 @@ public class WaveManager : MonoBehaviour
 
     void StartBossBattle()
     {
+
+        Debug.Log("보스출현");
+
         isBossBattle = true;
 
+        currentBoss =
         Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
 
-        StartCoroutine(BossTimer());
+        bossTimerRoutine = StartCoroutine(BossTimer());
     }
     
 
@@ -156,7 +167,13 @@ public class WaveManager : MonoBehaviour
 
         bossFinish = true;
 
-        NextWave();
+        if(bossTimerRoutine != null)
+        {
+            StopCoroutine(bossTimerRoutine);
+            bossTimerRoutine = null;
+        }
+
+        NextStage();
     }
 
 
@@ -167,6 +184,10 @@ public class WaveManager : MonoBehaviour
         currentWave = 1;
         killCount = 0;
         aliveCount = 0;
+
+        waitingForBoss = false;
+        bossFinish = false;
+        StartCoroutine(Spawn());
     }
 
 
@@ -174,11 +195,23 @@ public class WaveManager : MonoBehaviour
     {
         bossFinish = true;
 
+        if(currentBoss !=  null)
+        {
+            Destroy(currentBoss);
+            currentBoss = null;
+        }
+
+
+
+        waitingForBoss = false;
         isBossBattle = false;
 
         currentWave = 1;
         aliveCount = 0;
         killCount = 0;
+
+        StartCoroutine(Spawn());
+        bossFinish = false;
     }
 
 

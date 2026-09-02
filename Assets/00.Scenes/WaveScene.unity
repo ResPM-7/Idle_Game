@@ -148,10 +148,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 352c614f70be2b14a94dce7ce5bb40d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
+  bossPrefab: {fileID: 3453597324950768590, guid: e4c49b9ed14a9c04b9c09cac95e61637, type: 3}
+  bossSpawnPoint: {fileID: 0}
   spawnPoints:
   - {fileID: 607164087}
   - {fileID: 819583154}
   - {fileID: 1225522096}
+  spawnInterval: 1.2
+  maxAliveCount: 6
+  maxWave: 10
+  maxKillCount: 10
+  bossTimeLimit: 30
 --- !u!4 &179413416
 Transform:
   m_ObjectHideFlags: 0
@@ -333,7 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2110cf340fc18124cac6a26e0c1a6298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawn
-  enemyPrefab: {fileID: 1907362206387672548, guid: 96e6e394f3a6d6b468c000a7d5a2df25, type: 3}
+  enemyPrefab: {fileID: 3453597324950768590, guid: e4c49b9ed14a9c04b9c09cac95e61637, type: 3}
 --- !u!4 &607164088
 Transform:
   m_ObjectHideFlags: 0
@@ -462,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2110cf340fc18124cac6a26e0c1a6298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawn
-  enemyPrefab: {fileID: 1907362206387672548, guid: 96e6e394f3a6d6b468c000a7d5a2df25, type: 3}
+  enemyPrefab: {fileID: 3453597324950768590, guid: e4c49b9ed14a9c04b9c09cac95e61637, type: 3}
 --- !u!4 &819583155
 Transform:
   m_ObjectHideFlags: 0
@@ -507,7 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2110cf340fc18124cac6a26e0c1a6298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawn
-  enemyPrefab: {fileID: 1907362206387672548, guid: 96e6e394f3a6d6b468c000a7d5a2df25, type: 3}
+  enemyPrefab: {fileID: 3453597324950768590, guid: e4c49b9ed14a9c04b9c09cac95e61637, type: 3}
 --- !u!4 &1225522097
 Transform:
   m_ObjectHideFlags: 0
