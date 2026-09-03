@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6046513446379820465}
   - component: {fileID: 2063109613363005307}
   - component: {fileID: 6117928111714169218}
+  - component: {fileID: 6087070690999825510}
   m_Layer: 3
   m_Name: Battle_UnitLevel 2
   m_TagString: Player
@@ -156,3 +157,23 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &6087070690999825510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807837890451654685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 395a0fe39b8db25448337f856c667097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Unit_Base_Test
+  myData: {fileID: 11400000, guid: c1c0546cc1230eb45a6e394aa334b023, type: 2}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  currentHp: 0
+  attackTimer: 0
+  searchTimer: 0
+  currentTarget: {fileID: 0}
