@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5068642685798686842}
   - component: {fileID: 3079708200302371021}
   m_Layer: 5
-  m_Name: Panel_OptionPopUp
+  m_Name: OptionPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

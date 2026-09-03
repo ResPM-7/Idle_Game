@@ -18,13 +18,11 @@ public class UI_WaveHUD : MonoBehaviour
         {
             Transform timerObj = transform.Find("BossTimerText");
             if (timerObj != null) bossTimerText = timerObj.GetComponent<TMP_Text>();
-        }
-    }
-    private void Start()
-    {
-        // WaveManager ¹ÙÀÎµù
+        } 
+        
         BindToWaveManager();
     }
+    
     private void BindToWaveManager()
     {
         if (WaveManager.instance == null) return;
