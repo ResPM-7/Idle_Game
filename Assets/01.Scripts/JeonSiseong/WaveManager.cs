@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class WaveManager : MonoBehaviour
 {
@@ -37,11 +38,14 @@ public class WaveManager : MonoBehaviour
     [SerializeField] float bossTimeLimit = 30f;    // 보스 클리어 시간제한
     float bossTimer;
 
+    [SerializeField] TMP_Text waveCountText;
 
 
     int aliveCount = 0;
     int killCount = 0;
     int currentWave = 1;
+
+    
 
 
 
@@ -217,6 +221,6 @@ public class WaveManager : MonoBehaviour
 
     void Update()
     {
-        
+        waveCountText.text = "WAVE" + currentWave;
     }
 }
