@@ -92,3 +92,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   popUpManager: {fileID: 5211660710053711015}
   overlayCanvasTransform: {fileID: 0}
+  damageTextPrefab: {fileID: 4532371116211410950, guid: bab855672a757f348a83b796cc5acb17, type: 3}

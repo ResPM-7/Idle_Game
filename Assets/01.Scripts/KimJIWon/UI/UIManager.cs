@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -10,6 +12,8 @@ public class UIManager : MonoBehaviour
     [Header("Canvases")]
     [SerializeField] private Transform overlayCanvasTransform;
 
+    [Header("Prefabs")]
+    [SerializeField] private GameObject damageTextPrefab;
     private void Awake()
     {
         if (Instance == null)
@@ -71,7 +75,9 @@ public class UIManager : MonoBehaviour
     {
         string poolKey = "DamageText";
 
-        if (ObjectPoolManager.instance == null) return; 
+        if (ObjectPoolManager.instance == null) return;
+
+        EnsurePoolRegistered(poolKey, damageTextPrefab);
 
         GameObject textObj = ObjectPoolManager.instance.GetObject(poolKey); 
         if (textObj != null)
@@ -89,4 +95,33 @@ public class UIManager : MonoBehaviour
         }
     }
     #endregion
+
+    private void EnsurePoolRegistered(string poolKey, GameObject prefab)
+    {
+        var managerType = typeof(ObjectPoolManager);
+        var bindingFlags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+
+        var poolsField = managerType.GetField("pools", bindingFlags);
+        if (poolsField == null) return;
+
+        var pools = poolsField.GetValue(ObjectPoolManager.instance) as Dictionary<string, Queue<GameObject>>;
+        if (pools != null && !pools.ContainsKey(poolKey))
+        {
+            // ObjectPoolManager 내부 딕셔너리 세팅을 UIManager가 보완
+            var parentsField = managerType.GetField("poolParents", bindingFlags);
+            var prefabsField = managerType.GetField("prefabDict", bindingFlags);
+
+            var parents = parentsField?.GetValue(ObjectPoolManager.instance) as Dictionary<string, Transform>;
+            var prefabs = prefabsField?.GetValue(ObjectPoolManager.instance) as Dictionary<string, GameObject>;
+
+            pools[poolKey] = new Queue<GameObject>();
+
+            GameObject parentPool = new GameObject($"{poolKey}_Pool");
+            if (overlayCanvasTransform != null)
+                parentPool.transform.SetParent(overlayCanvasTransform, false);
+
+            if (parents != null) parents[poolKey] = parentPool.transform;
+            if (prefabs != null) prefabs[poolKey] = prefab;
+        }
+    }
 }
