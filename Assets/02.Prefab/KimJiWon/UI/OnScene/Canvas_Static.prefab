@@ -898,7 +898,7 @@ GameObject:
   - component: {fileID: 3848114304504073546}
   - component: {fileID: 9087096970064289209}
   m_Layer: 5
-  m_Name: Diamond_Box_BG
+  m_Name: Credit_Box_BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1520,7 +1520,7 @@ GameObject:
   - component: {fileID: 5001771787852422856}
   - component: {fileID: 392683140260625571}
   m_Layer: 5
-  m_Name: Diamond_Icon
+  m_Name: Credit_Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
