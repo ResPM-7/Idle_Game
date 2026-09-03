@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour,ISkillDamageable
 {
 
     [SerializeField] int maxHp = 1;
@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
 
 
 
-    public void TakeDamge()
+    public void TakeDamage()
     {
         currentHp--;
 
@@ -28,8 +28,18 @@ public class Enemy : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            TakeDamge();
+            TakeDamage();
             
+        }
+    }
+
+    public void TakeSkillDamage(int damage)
+    {
+       currentHp -= damage;
+
+        if(currentHp <= 0 )
+        {
+            Die();
         }
     }
 

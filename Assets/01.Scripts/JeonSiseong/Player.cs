@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
 
+    [SerializeField] SkillManager skillManager;
+
+
+
     Vector2 dir;
 
     Rigidbody2D rb;
@@ -32,6 +36,26 @@ public class Player : MonoBehaviour
             dir += Vector2.down;
 
         dir = dir.normalized;
+
+
+
+        if(Keyboard.current.aKey.wasPressedThisFrame)
+        {
+            skillManager.UsePoison(transform.position);
+        }
+
+
+        if(Keyboard.current.sKey.wasPressedThisFrame)
+        {
+            skillManager.UseLightning(transform.position);
+        }
+
+
+        if(Keyboard.current.dKey.wasPressedThisFrame)
+        {
+            skillManager.UseFire(transform.position);
+        }
+
     }
 
     private void FixedUpdate()
