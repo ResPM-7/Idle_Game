@@ -38,8 +38,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] float bossTimeLimit = 30f;    // 보스 클리어 시간제한
     float bossTimer;
 
-    [SerializeField] TMP_Text waveCountText;
-    [SerializeField] TMP_Text bossTimerText;
+    [SerializeField] TMP_Text waveCountText;        //     텍스트 추가
+    [SerializeField] TMP_Text bossTimerText;        //     텍스트 추가
 
 
 
