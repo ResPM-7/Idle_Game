@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Lv1
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   uiPoolName: UnitLevel 1
+  battlePoolName: Battle_UnitLevel 1
   unitId: 1
   unitLevel: 1
   unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UnitFactory : Singleton<UnitFactory>
+public class GridUnitFactory : Singleton<GridUnitFactory>
 {
     /// <summary>
     /// 풀에서 유닛을 가져와 부모 슬롯에 배치하고 초기화합니다.

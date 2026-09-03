@@ -4,7 +4,8 @@ using UnityEngine;
 public class UnitDataSO : ScriptableObject
 {
     [Header("풀링 정보")]
-    public string uiPoolName;
+    public string uiPoolName;// 머지 보드용 UI 유닛 풀 이름
+    public string battlePoolName;// 실제 전장에서 싸울 전투 유닛 풀 이름
 
     [Header("기본 정보")]
     public int unitId;

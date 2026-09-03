@@ -31,7 +31,7 @@ public class MergeSlot : MonoBehaviour, IDropHandler
                     ObjectPoolManager.instance.ReturnObject(droppedUnit.myData.uiPoolName, droppedObj);
 
                     // 2. 팩토리를 통해 아예 '새로운 2레벨 프리팹'을 이 자리에 소환합니다.
-                    UnitFactory.instance.CreateUnit(nextPoolName, nextData, transform);
+                    GridUnitFactory.instance.CreateUnit(nextPoolName, nextData, transform);
                 }
                 else // 레벨이 다르면 스왑
                 {
