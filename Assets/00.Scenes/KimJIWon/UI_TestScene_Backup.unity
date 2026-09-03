@@ -965,7 +965,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1824669474834756901, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
       propertyPath: m_text
-      value: diamond0000
+      value: Credit0000
       objectReference: {fileID: 0}
     - target: {fileID: 1833186314902484108, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
       propertyPath: m_AnchorMax.y
