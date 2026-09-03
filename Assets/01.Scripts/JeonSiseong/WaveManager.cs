@@ -39,6 +39,8 @@ public class WaveManager : MonoBehaviour
     float bossTimer;
 
     [SerializeField] TMP_Text waveCountText;
+    [SerializeField] TMP_Text bossTimerText;
+
 
 
     int aliveCount = 0;
@@ -88,6 +90,8 @@ public class WaveManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(Spawn());
+
+        bossTimerText.gameObject.SetActive(false);
     }
 
 
@@ -138,6 +142,8 @@ public class WaveManager : MonoBehaviour
 
         isBossBattle = true;
 
+        bossTimerText.gameObject.SetActive(true);
+
         currentBoss =
         Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
 
@@ -152,6 +158,8 @@ public class WaveManager : MonoBehaviour
         while(bossTimer > 0 && !bossFinish)
         {
             bossTimer -= Time.deltaTime;
+
+            bossTimerText.text =  Mathf.Ceil(bossTimer).ToString(); 
 
             yield return null;
         }
@@ -170,6 +178,8 @@ public class WaveManager : MonoBehaviour
         }
 
         bossFinish = true;
+
+        bossTimerText.gameObject.SetActive(false);
 
         if(bossTimerRoutine != null)
         {
@@ -198,6 +208,8 @@ public class WaveManager : MonoBehaviour
     void BossTimeOut()
     {
         bossFinish = true;
+
+        bossTimerText.gameObject.SetActive(false);
 
         if(currentBoss !=  null)
         {
