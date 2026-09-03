@@ -26,6 +26,11 @@ public class UIManager : MonoBehaviour
                     overlayCanvasTransform = overlayObj.transform;
                 }
             }
+            //UI_PopUpManager µî·Ï
+            if (popUpManager == null)
+            {
+                popUpManager = FindAnyObjectByType<UI_PopUpManager>();
+            }
         }
         else
         {

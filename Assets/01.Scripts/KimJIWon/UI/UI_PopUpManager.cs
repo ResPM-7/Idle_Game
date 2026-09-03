@@ -56,8 +56,11 @@ public class UI_PopUpManager : MonoBehaviour
         if (activePopupStack.Count > 0)
         {
             GameObject topPopup = activePopupStack.Pop();
-            Destroy(topPopup);
 
+            if (topPopup != null)
+            {
+                topPopup.SetActive(false);
+            }
         }
     }
     public void CloseAllPopups()

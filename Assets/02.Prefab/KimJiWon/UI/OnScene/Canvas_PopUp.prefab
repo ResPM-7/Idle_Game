@@ -87,7 +87,6 @@ GameObject:
   - component: {fileID: 7164675121193581118}
   - component: {fileID: 3126323241763366911}
   - component: {fileID: 1082628845092681401}
-  - component: {fileID: 4474766837103992300}
   m_Layer: 5
   m_Name: Canvas_PopUp
   m_TagString: Untagged
@@ -178,16 +177,3 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4474766837103992300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8499533483612500951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c89ea42b42780c14691ea03e8b3d48ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_PopUpManager
-  popupCanvasTransform: {fileID: 6352360511270033656}
