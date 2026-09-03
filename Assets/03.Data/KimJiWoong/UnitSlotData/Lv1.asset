@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
-  m_Name: TestUnit
+  m_Name: Lv1
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
-  team: 0
+  uiPoolName: UnitLevel 1
+  unitId: 1
+  unitLevel: 1
+  unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
   maxHp: 100
-  moveSpeed: 3
-  attackDamage: 10
+  moveSpeed: 10
+  attackDamage: 1
+  attackSpeed: 1
   attackRange: 2
-  attackCooldown: 1
-  aoeRadius: 0
+  attackCooldown: 0
+  nexUpdateUnit: {fileID: 11400000, guid: c1c0546cc1230eb45a6e394aa334b023, type: 2}

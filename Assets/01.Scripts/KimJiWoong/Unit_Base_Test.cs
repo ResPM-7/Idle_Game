@@ -65,7 +65,7 @@ public class Unit_Base_Test : MonoBehaviour
         foreach (Collider2D col in colliders)
         {
             Unit_Base_Test enemy = col.GetComponent<Unit_Base_Test>();
-            if (enemy != null && enemy.currentState != UnitState.Destroyed && enemy.myData.team != myData.team)
+            if (enemy != null && enemy.currentState != UnitState.Destroyed)
             {
                 float dist = Vector2.Distance(transform.position, enemy.transform.position);
                 if (dist < minDistance)

@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: LV. 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6842b1221358c0f42b293f4cf027c5e6, type: 2}
+  m_sharedMaterial: {fileID: 4516137259878825004, guid: 6842b1221358c0f42b293f4cf027c5e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 8224568871117379041}
   - component: {fileID: 9016329983280760763}
   m_Layer: 5
-  m_Name: UnitTest_Prefab
+  m_Name: UnitLevel 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,5 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0b6cc3588edcd488072f961324fb2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragableUnit
-  unitLevel: 1
+  myData: {fileID: 11400000, guid: b3da1176e1ed1d743afb4a67d40c910f, type: 2}
   levelText: {fileID: 4350361815227027120}
+  levelDataArray: []
+  originalParent: {fileID: 0}

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class UnitSpawner : MonoBehaviour
 {
     [Header("¼³Á¤")] 
-    public string unitPoolName = "UnitTest_Prefab";
     public Transform gridPanel;
+    public UnitDataSO baseUnitData;
 
     public void SpawnTestUnit()
     {
@@ -21,8 +21,8 @@ public class UnitSpawner : MonoBehaviour
 
         if (emptySlots.Count > 0)
         {
-            Transform targetSlot = emptySlots[0]; 
-            UnitFactory.instance.CreateUnit(unitPoolName, 1, targetSlot);
+            Transform targetSlot = emptySlots[0];
+            UnitFactory.instance.CreateUnit(baseUnitData.uiPoolName, baseUnitData, targetSlot);
         }
         else
         {
