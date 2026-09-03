@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class WaveManager : MonoBehaviour
 {
@@ -37,11 +38,16 @@ public class WaveManager : MonoBehaviour
     [SerializeField] float bossTimeLimit = 30f;    // 보스 클리어 시간제한
     float bossTimer;
 
+    [SerializeField] TMP_Text waveCountText;
+    [SerializeField] TMP_Text bossTimerText;
+
 
 
     int aliveCount = 0;
     int killCount = 0;
     int currentWave = 1;
+
+    
 
 
 
@@ -84,6 +90,8 @@ public class WaveManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(Spawn());
+
+        bossTimerText.gameObject.SetActive(false);
     }
 
 
@@ -134,6 +142,8 @@ public class WaveManager : MonoBehaviour
 
         isBossBattle = true;
 
+        bossTimerText.gameObject.SetActive(true);
+
         currentBoss =
         Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
 
@@ -148,6 +158,8 @@ public class WaveManager : MonoBehaviour
         while(bossTimer > 0 && !bossFinish)
         {
             bossTimer -= Time.deltaTime;
+
+            bossTimerText.text =  Mathf.Ceil(bossTimer).ToString(); 
 
             yield return null;
         }
@@ -166,6 +178,8 @@ public class WaveManager : MonoBehaviour
         }
 
         bossFinish = true;
+
+        bossTimerText.gameObject.SetActive(false);
 
         if(bossTimerRoutine != null)
         {
@@ -195,6 +209,8 @@ public class WaveManager : MonoBehaviour
     {
         bossFinish = true;
 
+        bossTimerText.gameObject.SetActive(false);
+
         if(currentBoss !=  null)
         {
             Destroy(currentBoss);
@@ -217,6 +233,6 @@ public class WaveManager : MonoBehaviour
 
     void Update()
     {
-        
+        waveCountText.text = "WAVE" + currentWave;
     }
 }
