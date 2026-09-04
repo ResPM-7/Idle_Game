@@ -24,7 +24,7 @@ public class Unit_Base_Test : MonoBehaviour
     // FSM 관련 변수
     private IUnitState currentState;
 
-    // 가비지 컬렉션(GC) 방지를 위해 상태 객체를 미리 생성해둡니다.
+    // 상태 객체를 미리 생성
     public IUnitState idleState = new UnitIdleState();
     public IUnitState moveState = new UnitMoveState();
     public IUnitState attackState = new UnitAttackState();
