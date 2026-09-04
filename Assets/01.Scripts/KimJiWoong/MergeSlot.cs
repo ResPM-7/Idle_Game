@@ -21,11 +21,17 @@ public class MergeSlot : MonoBehaviour, IDropHandler
             {
                 DragableUnit myUnit = transform.GetChild(0).GetComponent<DragableUnit>();
 
-                if (myUnit.unitLevel == droppedUnit.unitLevel) // 머지 성공!
+                if (myUnit.myData.unitLevel == droppedUnit.myData.unitLevel && myUnit.myData.nexUpdateUnit != null)
                 {
-                    ObjectPoolManager.instance.ReturnObject("UnitTest_Prefab", droppedObj);
-                    myUnit.LevelUp();
-                    // TODO: 레벨업 외형 변경 및 이펙트 연출 호출
+                    UnitDataSO nextData = myUnit.myData.nexUpdateUnit;
+                    string nextPoolName = nextData.uiPoolName; // 다음 레벨 프리팹의 풀 이름
+
+                    // 1. 기존에 있던 1레벨 유닛 2개는 각자의 풀로 돌려보내서 화면에서 삭제합니다.
+                    ObjectPoolManager.instance.ReturnObject(myUnit.myData.uiPoolName, myUnit.gameObject);
+                    ObjectPoolManager.instance.ReturnObject(droppedUnit.myData.uiPoolName, droppedObj);
+
+                    // 2. 팩토리를 통해 아예 '새로운 2레벨 프리팹'을 이 자리에 소환합니다.
+                    GridUnitFactory.instance.CreateUnit(nextPoolName, nextData, transform);
                 }
                 else // 레벨이 다르면 스왑
                 {

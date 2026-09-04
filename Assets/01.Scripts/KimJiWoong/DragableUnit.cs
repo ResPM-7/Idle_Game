@@ -1,50 +1,62 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.UI;
 
 public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public int unitLevel = 1;
+    [Header("데이터 및 UI")]
+    public UnitDataSO myData;
     public TextMeshProUGUI levelText;
-    public Transform originalParent;
 
-    private CanvasGroup canvasGroup; // 잦은 GetComponent 호출을 방지하기 위해 캐싱
+    [HideInInspector] public Transform originalParent;
+    private CanvasGroup canvasGroup;
 
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    // Start 대신 OnEnable을 사용합니다.
-    // 풀에서 꺼내져서 SetActive(true)가 될 때마다 실행됩니다.
     private void OnEnable()
     {
-        // 1. 풀에서 나왔을 때 무조건 드래그 가능한 상태로 초기화!
-        if (canvasGroup != null)
-        {
-            canvasGroup.blocksRaycasts = true;
-        }
+        if (canvasGroup != null) canvasGroup.blocksRaycasts = true;
+        UpdateLevelUI();
+    }
 
-        // 2. 텍스트 표시
+    // 팩토리에서 소환될 때 데이터를 직접 꽂아주는 함수
+    public void InitializeByData(UnitDataSO newData)
+    {
+        myData = newData;
         UpdateLevelUI();
     }
 
     public void LevelUp()
     {
-        unitLevel++;
-        UpdateLevelUI();
+        // SO 안에 다음 진화 데이터가 연결되어 있다면?
+        if (myData != null && myData.nexUpdateUnit != null)
+        {
+            // 내 데이터를 다음 레벨 데이터로 통째로 덮어씌움!
+            myData = myData.nexUpdateUnit;
+            UpdateLevelUI();
+        }
+        else
+        {
+            Debug.Log("더 이상 진화할 수 없는 최종 형태입니다!");
+        }
     }
 
     public void UpdateLevelUI()
     {
-        if (levelText != null)
-            levelText.text = "Lv." + unitLevel;
+        if (levelText != null && myData != null)
+        {
+            levelText.text = $"Lv.{myData.unitLevel}\n{myData.unitName}";
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = transform.parent;
-        canvasGroup.blocksRaycasts = false; // 마우스 포인터 뒤의 슬롯을 인식하기 위해 잠시 끔
+        canvasGroup.blocksRaycasts = false;
         transform.SetParent(transform.root);
     }
 
@@ -57,7 +69,6 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         canvasGroup.blocksRaycasts = true;
 
-        // 유닛이 활성화되어 있고(풀로 안 들어갔고), 여전히 허공(root)에 떠 있다면 원위치
         if (gameObject.activeSelf && transform.parent == transform.root)
         {
             transform.SetParent(originalParent);
