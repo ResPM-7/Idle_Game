@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
 
         dir = dir.normalized;
 
-
+        // 임시 스킬 사용
 
         if(Keyboard.current.aKey.wasPressedThisFrame)
         {

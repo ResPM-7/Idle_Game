@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Boss : MonoBehaviour
+public class Boss : MonoBehaviour, ISkillDamageable
 {
     [SerializeField] int maxHp = 1;
     [SerializeField] int currentHp = 1;
@@ -29,6 +29,17 @@ public class Boss : MonoBehaviour
         {
             TakeDamge();
 
+        }
+    }
+
+
+    public void TakeSkillDamage(int damage)
+    {
+        currentHp -= damage;
+
+        if (currentHp <= 0)
+        {
+            Die();
         }
     }
 
