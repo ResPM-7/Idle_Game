@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4138594068579839978}
   - component: {fileID: 2141235645472645233}
   - component: {fileID: 5479060736543026401}
-  - component: {fileID: 5543701822952456235}
   - component: {fileID: 663261235570407018}
   m_Layer: 5
   m_Name: BattleSlot
@@ -77,18 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5543701822952456235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 629198176292297284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f4434891d376e943a7505450bb2cc16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MergeSlot
 --- !u!114 &663261235570407018
 MonoBehaviour:
   m_ObjectHideFlags: 0
