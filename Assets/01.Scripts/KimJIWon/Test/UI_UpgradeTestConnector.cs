@@ -22,7 +22,10 @@ public class UI_UpgradeTestConnector : MonoBehaviour
         {
             new DummyStat { Type = StatType.Strength, StatName = "공격력", CurrentLevel = 1, CurrentValue = 10f, UpgradePrice = 100 },
             new DummyStat { Type = StatType.Health, StatName = "체력", CurrentLevel = 1, CurrentValue = 100f, UpgradePrice = 150 },
-            new DummyStat { Type = StatType.AttackSpeed, StatName = "공격속도", CurrentLevel = 1, CurrentValue = 1.0f, UpgradePrice = 200 }
+            new DummyStat { Type = StatType.AttackSpeed, StatName = "공격속도", CurrentLevel = 1, CurrentValue = 1.0f, UpgradePrice = 200 },
+
+            // 추가 확장 테스트 더미
+            new DummyStat { Type = StatType.Dummy, StatName = "더미 스탯", CurrentLevel = 1, CurrentValue = 99f, UpgradePrice = 500 }
         };
 
         //UIManager에 데이터 전달하여 UI 생성
