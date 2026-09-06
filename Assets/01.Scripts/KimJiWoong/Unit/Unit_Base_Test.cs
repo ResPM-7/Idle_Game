@@ -44,8 +44,25 @@ public class Unit_Base_Test : MonoBehaviour
         searchTimer = 0f;
         currentTarget = null;
 
-        // 초기 상태 진입
+        if (BarracksManager.instance != null)
+        {
+            if (!BarracksManager.instance.activeUnits.Contains(this))
+            {
+                BarracksManager.instance.activeUnits.Add(this);
+            }
+            BarracksManager.instance.ApplyStatsToUnit(this, 0f);
+        }
+
         ChangeState(idleState);
+    }
+
+    // 유닛이 풀로 반환되어 비활성화될 때 리스트에서 제거
+    private void OnDisable()
+    {
+        if (BarracksManager.instance != null)
+        {
+            BarracksManager.instance.activeUnits.Remove(this);
+        }
     }
 
     void Update()
