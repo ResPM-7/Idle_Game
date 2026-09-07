@@ -3,11 +3,13 @@ using UnityEngine.UI;
 
 public class UI_OptionButton : MonoBehaviour
 {
-    [SerializeField] private Button optionButton;
-    [SerializeField] private GameObject optionPopupPrefab; 
+    private Button optionButton;
 
-    private void Start()
+    private void Awake()
     {
+        //컴포넌트 자동 탐색
+        optionButton = GetComponent<Button>();
+
         if (optionButton != null)
         {
             optionButton.onClick.AddListener(OnClickOption);
@@ -16,9 +18,19 @@ public class UI_OptionButton : MonoBehaviour
 
     private void OnClickOption()
     {
-        if (optionPopupPrefab != null && UIManager.Instance != null)
+        if (UIManager.Instance == null) return;
+
+        Transform popupCanvas = GameObject.Find("Canvas_PopUp")?.transform;
+        if (popupCanvas != null)
         {
-            UIManager.Instance.ShowPopupGameObject(optionPopupPrefab);
+            Transform optionPopupTrans = popupCanvas.Find("OptionPopup");
+            if (optionPopupTrans != null)
+            {
+                UIManager.Instance.ShowPopupGameObject(optionPopupTrans.gameObject);
+                return;
+            }
         }
+
+        Debug.LogWarning("'OptionPopup'을 찾을 수 없습니다.");
     }
 }
