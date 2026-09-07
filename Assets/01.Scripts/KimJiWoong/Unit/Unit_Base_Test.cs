@@ -8,7 +8,7 @@ public interface IUnitState
 }
 
 
-public class Unit_Base_Test : MonoBehaviour
+public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 {
     [Header("기본 설정")]
     public UnitDataSO myData;
@@ -95,6 +95,11 @@ public class Unit_Base_Test : MonoBehaviour
         {
             ChangeState(destroyedState);
         }
+    }
+
+    public void TakeSkillDamage(float damage)
+    {
+        TakeDamage(damage);
     }
 
     private void OnDrawGizmosSelected()

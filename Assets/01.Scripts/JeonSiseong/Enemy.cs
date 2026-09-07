@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour,ISkillDamageable
+public class Enemy : MonoBehaviour
 {
 
     [SerializeField] int maxHp = 1;

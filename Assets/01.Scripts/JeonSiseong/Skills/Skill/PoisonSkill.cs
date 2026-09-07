@@ -6,7 +6,7 @@ public class PoisonSkill : MonoBehaviour
 
     [Header("Poison Setting")]
     [SerializeField] float radius = 2.5f;       //  스킬 범위 반지름
-    [SerializeField] int damage = 10;           // 스킬 데미지
+    [SerializeField] float damage = 10;           // 스킬 데미지
     [SerializeField] float duration = 5f;       // 지속 시간
     [SerializeField] float damageInterval = 1f;    // 데미지 들어가는 시간간격
 
@@ -14,30 +14,44 @@ public class PoisonSkill : MonoBehaviour
     [Header("Target")]
     [SerializeField] LayerMask enemyLayer;
 
-    void DamageEnemy()
+    //void DamageEnemy()
+    //{
+    //    Collider2D[] enemies
+    //        = Physics2D.OverlapCircleAll(transform.position, radius, enemyLayer);
+
+
+    //    foreach(Collider2D enemy in enemies)
+    //    {
+
+    //        ISkillDamageable target = enemy.GetComponent<ISkillDamageable>();
+
+    //        if(target != null)
+    //        {
+    //            Debug.Log("스킬 데미지");
+    //            target.TakeSkillDamage(damage);
+    //        }
+    //    }
+
+
+
+
+
+
+
+
+    //}
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        Collider2D[] enemies
-            = Physics2D.OverlapCircleAll(transform.position, radius, enemyLayer);
-
-
-        foreach(Collider2D enemy in enemies)
+        if (((1 << collision.gameObject.layer) & enemyLayer.value) != 0)
         {
 
-            ISkillDamageable target = enemy.GetComponent<ISkillDamageable>();
-
-            if(target != null)
+            ISkillDamageable target = collision.GetComponent<ISkillDamageable>();
+            if (target != null)
             {
                 target.TakeSkillDamage(damage);
             }
         }
-
-
-
-
-
-
-
-
     }
 
 
@@ -48,7 +62,7 @@ public class PoisonSkill : MonoBehaviour
 
         while (timer < duration)
         {
-            DamageEnemy();
+            //DamageEnemy();
 
             yield return new WaitForSeconds(damageInterval);
 

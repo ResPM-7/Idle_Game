@@ -13,6 +13,8 @@ public class UnitDestroyedState : IUnitState
         {
             unit.gameObject.SetActive(false);
         }
+
+        WaveManager.instance.EnemyKilled();
     }
 
     public void Execute(Unit_Base_Test unit) { }
