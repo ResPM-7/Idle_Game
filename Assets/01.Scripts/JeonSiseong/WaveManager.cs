@@ -334,10 +334,15 @@ public class WaveManager : MonoBehaviour
     void NextStage()
     {
        
-
         Debug.Log("다음 스테이지 시작");
 
+        if(bossTimerRoutine !=null)
+        {
+            StopCoroutine (bossTimerRoutine);
+            bossTimerRoutine = null;
+        }
 
+        currentBoss=null;
 
         isBossBattle = false;
 
@@ -348,6 +353,11 @@ public class WaveManager : MonoBehaviour
         waitingForBoss = false;
         bossFinish = false;
 
+        if(spawnRoutine != null)
+        {
+            StopCoroutine(spawnRoutine);
+            spawnRoutine = null;
+        }
 
         StartSpawn();
     }
