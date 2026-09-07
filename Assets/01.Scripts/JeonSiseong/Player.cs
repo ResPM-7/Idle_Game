@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     Vector2 dir;
 
-    Rigidbody2D rb;
+    //Rigidbody2D rb;
 
     [SerializeField] float moveSpeed = 3f;
 
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();
     }
 
     
@@ -58,8 +58,8 @@ public class Player : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-    {
-        rb.linearVelocity = dir * moveSpeed;
-    }
+    //private void FixedUpdate()
+    //{
+    //    rb.linearVelocity = dir * moveSpeed;
+    //}
 }
