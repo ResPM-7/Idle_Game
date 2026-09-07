@@ -58,6 +58,24 @@ public class WaveManager : MonoBehaviour
     bool bossFinish = false;
 
     Coroutine bossTimerRoutine;
+    Coroutine spawnRoutine;
+
+
+    void StartSpawn()
+    {
+
+        if(spawnRoutine != null)
+        {
+            StopCoroutine(spawnRoutine);
+        }
+
+        spawnRoutine = StartCoroutine(Spawn());
+    }
+
+
+
+
+
 
 
     public void SpawnEnemy() 
@@ -89,7 +107,7 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(Spawn());
+        StartSpawn();
 
         bossTimerText.gameObject.SetActive(false);
     }
@@ -137,6 +155,12 @@ public class WaveManager : MonoBehaviour
 
     void StartBossBattle()
     {
+
+        if(isBossBattle)
+        {
+            return;
+        }
+
 
         Debug.Log("보스출현");
 
@@ -201,7 +225,9 @@ public class WaveManager : MonoBehaviour
 
         waitingForBoss = false;
         bossFinish = false;
-        StartCoroutine(Spawn());
+
+
+        StartSpawn();
     }
 
 
@@ -226,7 +252,7 @@ public class WaveManager : MonoBehaviour
         aliveCount = 0;
         killCount = 0;
 
-        StartCoroutine(Spawn());
+        StartSpawn() ;
         bossFinish = false;
     }
 
