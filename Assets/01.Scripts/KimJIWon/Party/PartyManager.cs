@@ -24,7 +24,7 @@ public class PartyManager : MonoBehaviour
         if (pIdx < 0 || pIdx >= 5 || sIdx < 0 || sIdx >= 5) return;
 
         partyData[pIdx, sIdx] = unit;
-        Debug.Log($"{partyIndex}파티 {slotIndex}번 슬롯에 Lv.{unit?.unitLevel} 유닛 배치 완료");
+        //Debug.Log($"{partyIndex}파티 {slotIndex}번 슬롯에 Lv.{unit?.unitLevel} 유닛 배치 완료");
     }
 
     // 슬롯에서 유닛이 빠질 때 호출

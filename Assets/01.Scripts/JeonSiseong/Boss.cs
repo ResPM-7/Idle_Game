@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Boss : MonoBehaviour, ISkillDamageable
+public class Boss : MonoBehaviour
 {
     [SerializeField] int maxHp = 1;
     [SerializeField] int currentHp = 1;

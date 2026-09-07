@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PartyManager : Singleton<PartyManager>
+public class PartyBuildManager : Singleton<PartyBuildManager>
 {
     [Header("전투 구역 스폰 위치")]
     public Transform[] spawnPoints = new Transform[5];
