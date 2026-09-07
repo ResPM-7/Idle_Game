@@ -21,6 +21,11 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     [HideInInspector] public float searchTimer;
     [HideInInspector] public Transform currentTarget;
 
+    public UnitDataSO UnitData
+    {
+        get { return myData; }
+    }
+
     // FSM 관련 변수
     private IUnitState currentState;
 
