@@ -124,6 +124,7 @@ public class UIManager : MonoBehaviour
             if (prefabs != null) prefabs[poolKey] = prefab;
         }
     }
+
     #region Tab UI
     [Header("Tab UI References")]
     [SerializeField] private UI_UpgradeTab upgradeTab;
