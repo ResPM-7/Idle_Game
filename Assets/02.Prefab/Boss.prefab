@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2633395111666899773}
   - component: {fileID: 2452258619039183489}
   - component: {fileID: 7492259372032834873}
+  - component: {fileID: 5657808776079459170}
   m_Layer: 6
   m_Name: Boss
   m_TagString: Untagged
@@ -187,3 +188,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5657808776079459170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3624809761425899735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 316162414b8d64b4596a410aeb2e628a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Boss
