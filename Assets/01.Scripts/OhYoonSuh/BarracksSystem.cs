@@ -41,8 +41,10 @@ public class BarracksSystem : MonoBehaviour
     {
         StatData data = statDatabase[type];
 
-        // if (GameManager.Instance.PlayerGold < data.UpgradePrice) return;
-        // GameManager.Instance.UseGold(data.UpgradePrice);
+        if (!MoneyManager.instance.SpendGold(data.UpgradePrice))
+        {
+            return;
+        }
 
         data.LevelUp();
 
