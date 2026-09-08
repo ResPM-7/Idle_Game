@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6e0c5a6bc64c0488157fd869445af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSpawner
-  unitPoolName: UnitTest_Prefab
   gridPanel: {fileID: 0}
+  baseUnitData: {fileID: 11400000, guid: b3da1176e1ed1d743afb4a67d40c910f, type: 2}

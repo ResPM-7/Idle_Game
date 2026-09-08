@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public interface IUnitState
@@ -10,6 +11,10 @@ public interface IUnitState
 
 public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 {
+    //유닛 업그레이드 결합도를 낮추기위해 델리게이트
+    public static event Action<Unit_Base_Test> OnUnitSpawned; 
+    public static event Action<Unit_Base_Test> OnUnitDespawned;
+
     [Header("기본 설정")]
     public UnitDataSO myData;
 
@@ -46,23 +51,18 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         searchTimer = 0f;
         currentTarget = null;
 
-        if (BarracksManager.instance != null)
-        {
-            if (!BarracksManager.instance.activeUnits.Contains(this))
-            {
-                BarracksManager.instance.activeUnits.Add(this);
-            }
-            BarracksManager.instance.ApplyStatsToUnit(this, 0f);
-        }
-
         ChangeState(idleState);
+
+        // 매니저를 직접 찾지 않고 스폰되었다는 방송만 송출합니다
+        OnUnitSpawned?.Invoke(this);
     }
 
     private void OnDisable()
     {
-        if (BarracksManager.instance != null)
+        if (gameObject.scene.isLoaded)
         {
-            BarracksManager.instance.activeUnits.Remove(this);
+            // 유닛이 죽거나 풀로 돌아갈 때 방송 송출
+            OnUnitDespawned?.Invoke(this);
         }
     }
 
