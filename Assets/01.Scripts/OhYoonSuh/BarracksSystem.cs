@@ -41,9 +41,6 @@ public class BarracksSystem : MonoBehaviour
     {
         StatData data = statDatabase[type];
 
-        // if (GameManager.Instance.PlayerGold < data.UpgradePrice) return;
-        // GameManager.Instance.UseGold(data.UpgradePrice);
-
         data.LevelUp();
 
         if (type == StatType.Health)
@@ -51,9 +48,7 @@ public class BarracksSystem : MonoBehaviour
         else if (type == StatType.Strength)
             strengthUIItem.UpdateUI(data);
 
-        if (type == StatType.Health)
-            BarracksManager.instance.UpgradeUnits(data.ValueIncreasePerLevel, 0f);
-        else if (type == StatType.Strength)
-            BarracksManager.instance.UpgradeUnits(0f, data.ValueIncreasePerLevel);
+        // if-else로 나눌 필요 없이 딕셔너리 구조에 맞춰 한 줄로 호출!
+        BarracksManager.instance.UpgradeStat(type, data.ValueIncreasePerLevel);
     }
 }

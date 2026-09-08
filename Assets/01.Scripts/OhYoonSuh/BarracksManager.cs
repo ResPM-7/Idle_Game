@@ -5,49 +5,101 @@ public class BarracksManager : Singleton<BarracksManager>
 {
     public List<Unit_Base_Test> activeUnits = new List<Unit_Base_Test>();
 
+    private Dictionary<StatType, float> globalBuffs = new Dictionary<StatType, float>();
+
     public float bonusFlatHp = 10f;
     public float bonusFlatAttack = 10f;
 
-    // 업그레이드 발동 시 호출
-    public void UpgradeUnits(float hpIncrease, float attackIncrease)
+    //구독시작
+    private void OnEnable()
     {
-        bonusFlatHp += hpIncrease;
-        bonusFlatAttack += attackIncrease;
-
-        // 필드에 배치된 모든 플레이어 유닛 갱신
-        foreach (Unit_Base_Test unit in activeUnits)
-        {
-            ApplyStatsToUnit(unit, hpIncrease);
-        }
-
-        ShowNextUpgrade();
+        Unit_Base_Test.OnUnitSpawned += HandleUnitSpawned;
+        Unit_Base_Test.OnUnitDespawned += HandleUnitDespawned;
     }
 
-    public void ApplyStatsToUnit(Unit_Base_Test unit, float lastHpIncrease = 0f)
+    //구독해제
+    private void OnDisable()
+    {
+        Unit_Base_Test.OnUnitSpawned -= HandleUnitSpawned;
+        Unit_Base_Test.OnUnitDespawned -= HandleUnitDespawned;
+    }
+
+    // 업그레이드 발동 시 호출
+    public void UpgradeStat(StatType type, float increaseAmount)
+    {
+        if (!globalBuffs.ContainsKey(type))
+            globalBuffs[type] = 0f;
+
+        globalBuffs[type] += increaseAmount;
+
+        foreach (Unit_Base_Test unit in activeUnits)
+        {
+            ApplyRealTimeStat(unit, type, increaseAmount);
+        }
+    }
+
+    public float GetBuffValue(StatType type)
+    {
+        return globalBuffs.ContainsKey(type) ? globalBuffs[type] : 0f;
+    }
+
+    private void HandleUnitSpawned(Unit_Base_Test unit)
+    {
+        if (unit.CompareTag("Player"))
+        {
+            if (!activeUnits.Contains(unit)) activeUnits.Add(unit);
+
+            // 방금 스폰된 유닛에게는 '모든 스탯'을 한 번에 발라줍니다.
+            ApplyAllStatsToNewUnit(unit);
+        }
+    }
+
+    private void HandleUnitDespawned(Unit_Base_Test unit)
+    {
+        if (activeUnits.Contains(unit)) activeUnits.Remove(unit);
+    }
+
+    // 갓 스폰된 유닛 초기화 전용
+    private void ApplyAllStatsToNewUnit(Unit_Base_Test unit)
     {
         if (unit.myData == null) return;
 
-        float baseMaxHp = unit.myData.maxHp;
+        unit.currentHp = unit.myData.maxHp + GetBuffValue(StatType.Health);
+        unit.currentDamage = unit.myData.attackDamage + GetBuffValue(StatType.Strength);
 
-        float previousMaxHp = baseMaxHp + (bonusFlatHp - lastHpIncrease);
-        float newMaxHp = baseMaxHp + bonusFlatHp;
+        // 예시: unit.attackSpeed = unit.myData.attackSpeed + GetBuffValue(StatType.AttackSpeed);
+        // 예시: unit.magicPower = unit.myData.magicPower + GetBuffValue(StatType.MagicPower);
+    }
 
-        if (previousMaxHp > 0)
+    // 이미 싸우고 있는 유닛 실시간 갱신용
+    private void ApplyRealTimeStat(Unit_Base_Test unit, StatType type, float amount)
+    {
+        if (unit.myData == null) return;
+
+        switch (type)
         {
-            float hpRatio = unit.currentHp / previousMaxHp;
-            unit.currentHp = newMaxHp * hpRatio;
+            case StatType.Health:
+                float baseMaxHp = unit.myData.maxHp;
+                float currentMaxHp = baseMaxHp + GetBuffValue(StatType.Health);
+                float previousMaxHp = currentMaxHp - amount;
+
+                if (previousMaxHp > 0)
+                {
+                    float hpRatio = unit.currentHp / previousMaxHp;
+                    unit.currentHp = currentMaxHp * hpRatio;
+                }
+                break;
+
+            case StatType.Strength:
+                unit.currentDamage = unit.myData.attackDamage + GetBuffValue(StatType.Strength);
+                break;
+
+                // 새로운 스탯이 추가되면 아래에 case만 추가하면 완벽하게 작동합니다!
+                /*
+                case StatType.AttackSpeed:
+                    unit.attackSpeed = unit.myData.attackSpeed + GetBuffValue(StatType.AttackSpeed);
+                    break;
+                */
         }
-    }
-
-    // 공격력 계산용 (공격할 때 실시간 호출)
-    public float GetUpgradedAttack(float baseAttack)
-    {
-        // 퍼센트 증가 대신 상수 값 덧셈
-        return baseAttack + bonusFlatAttack;
-    }
-
-    private void ShowNextUpgrade()
-    {
-        Debug.Log("다음 업그레이드 선택지");
     }
 }

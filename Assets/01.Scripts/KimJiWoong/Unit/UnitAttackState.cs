@@ -7,8 +7,8 @@ public class UnitAttackState : IUnitState
 
         if (enemy != null)
         {
-            float finalDamage = BarracksManager.instance.GetUpgradedAttack(unit.myData.attackDamage);
-            enemy.TakeDamage(finalDamage);
+            // 매니저에게 물어보지 않고, 유닛 각자에게 저장된 최종 데미지로 공격합니다!
+            enemy.TakeDamage(unit.currentDamage);
         }
 
         unit.ChangeState(unit.idleState);

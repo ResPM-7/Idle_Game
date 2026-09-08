@@ -27,7 +27,7 @@ public class BattleUnitFactory : Singleton<BattleUnitFactory>
             if (unitScript != null)
             {
                 unitScript.Init(data);
-                BarracksManager.instance.ApplyStatsToUnit(unitScript, 0f);
+
             }
             else
             {
