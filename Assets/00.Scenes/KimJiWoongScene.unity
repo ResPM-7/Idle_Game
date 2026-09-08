@@ -739,6 +739,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Option
       objectReference: {fileID: 0}
+    - target: {fileID: 5207448061230941041, guid: 0d0b38203ddb4b145b54b1379a2f5b36, type: 3}
+      propertyPath: m_fontSize
+      value: 25.7
+      objectReference: {fileID: 0}
     - target: {fileID: 6322933853177478881, guid: 0d0b38203ddb4b145b54b1379a2f5b36, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1246,8 +1250,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a210cdce4015df246887fe18b8f80383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BarracksSystem
-  healthUIItem: {fileID: 1255729059}
-  strengthUIItem: {fileID: 490387337}
+  statConfigs:
+  - type: 1
+    statName: "\uCCB4\uB825"
+    valueIncreasePerLevel: 10
+    baseUpgradePrice: 10
+    priceIncreasePerLevel: 10
+    uiItem: {fileID: 1255729059}
+  - type: 0
+    statName: "\uACF5\uACA9\uB825"
+    valueIncreasePerLevel: 10
+    baseUpgradePrice: 10
+    priceIncreasePerLevel: 10
+    uiItem: {fileID: 490387337}
 --- !u!4 &1030479971
 Transform:
   m_ObjectHideFlags: 0
