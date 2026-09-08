@@ -461,11 +461,11 @@ public class TowerWaveManager : MonoBehaviour
     {
         if (isBossBattle)
         {
-            waveCountText.text = "Stage" + currentStage + "-Boss";
+            waveCountText.text =  currentStage + "Ãþ" + "-Boss";
         }
         else
         {
-            waveCountText.text = "Stage" + currentStage + "-" + currentWave;
+            waveCountText.text =  currentStage + "Ãþ" + "-" + currentWave + "Wave";
         }
 
     }
