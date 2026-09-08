@@ -10,6 +10,11 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
+            if (_applicationIsQuitting)
+            {
+                return null;
+            }
+
             if (_instance == null)
             {
                 _instance = FindObjectOfType<T>();
@@ -61,6 +66,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         if (_instance == this)
         {
+            _applicationIsQuitting = true;
             _instance = null;
         }
     }
