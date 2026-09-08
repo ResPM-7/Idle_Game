@@ -61,7 +61,6 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         ChangeState(idleState);
     }
 
-    // 유닛이 풀로 반환되어 비활성화될 때 리스트에서 제거
     private void OnDisable()
     {
         if (BarracksManager.instance != null)
