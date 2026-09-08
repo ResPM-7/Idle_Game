@@ -8,6 +8,7 @@ public class UnitAttackState : IUnitState
         if (enemy != null)
         {
             float finalDamage = BarracksManager.instance.GetUpgradedAttack(unit.myData.attackDamage);
+            unit.currentDamage = finalDamage;
             enemy.TakeDamage(finalDamage);
         }
 

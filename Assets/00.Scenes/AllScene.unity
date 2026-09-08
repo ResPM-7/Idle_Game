@@ -2235,6 +2235,54 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab6b20ca27a4a3d4d9470714165bda04, type: 3}
+--- !u!1 &570243973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 570243974}
+  - component: {fileID: 570243975}
+  m_Layer: 0
+  m_Name: BarracksManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &570243974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570243973}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &570243975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570243973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 624fc897c35c12d40a1c08d02da23d38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BarracksManager
+  isDontDestroy: 0
+  activeUnits: []
+  bonusFlatHp: 10
+  bonusFlatAttack: 10
 --- !u!224 &603671665 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4138594068579839978, guid: ab6b20ca27a4a3d4d9470714165bda04, type: 3}
@@ -4117,6 +4165,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   currentHp: 0
+  currentDamage: 0
   attackTimer: 0
   searchTimer: 0
   currentTarget: {fileID: 0}
@@ -4937,10 +4986,13 @@ SceneRoots:
   - {fileID: 690650384}
   - {fileID: 1855197217}
   - {fileID: 5235464428329707383}
+  - {fileID: 677368165}
+  - {fileID: 1030479971}
+  - {fileID: 570243974}
+  - {fileID: 809820009}
   - {fileID: 1499725473}
   - {fileID: 554263370}
   - {fileID: 1050417646}
-  - {fileID: 809820009}
   - {fileID: 1664816096}
   - {fileID: 116806015}
   - {fileID: 730435667}
@@ -4949,5 +5001,3 @@ SceneRoots:
   - {fileID: 1553022723}
   - {fileID: 1492348984}
   - {fileID: 796248631}
-  - {fileID: 677368165}
-  - {fileID: 1030479971}
