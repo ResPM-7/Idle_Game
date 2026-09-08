@@ -176,6 +176,14 @@ public class WaveManager : MonoBehaviour
             }
 
         }
+
+
+
+        Debug.Log("현재 웨이브 : " + currentWave);
+        Debug.Log("처치 수 : " + killCount);
+        Debug.Log("생존 몬스터 : " + aliveCount);
+
+
     }
 
     IEnumerator BossDelay()
@@ -240,14 +248,19 @@ public class WaveManager : MonoBehaviour
 
     void StartBossBattle()
     {
+        Debug.Log("스타트 보스 배틀 호출됨 ");
+
+
 
         if(isBossBattle)
         {
+            Debug.Log("이미 보스전 중");
             return;
         }
 
         if(currentBoss != null)
         {
+            Debug.Log("이미 보스 존재");
             return;
         }
 
@@ -310,6 +323,11 @@ public class WaveManager : MonoBehaviour
             bossTimerRoutine = null;
         }
 
+        //보스전 상태 종료를 미리 설정
+
+        isBossBattle = false;
+        waitingForBoss = false;
+
         currentBoss = null;
 
         if(nextStageRoutine==null)
@@ -336,28 +354,49 @@ public class WaveManager : MonoBehaviour
        
         Debug.Log("다음 스테이지 시작");
 
-        if(bossTimerRoutine !=null)
-        {
-            StopCoroutine (bossTimerRoutine);
-            bossTimerRoutine = null;
-        }
-
-        currentBoss=null;
+        //보스 상태 초기화
 
         isBossBattle = false;
+        waitingForBoss = false;
+        bossFinish = false;
+
+        //보스 참조 초기화
+
+        currentBoss = null;
+
+        //웨이브 초기화
 
         currentWave = 1;
         killCount = 0;
         aliveCount = 0;
 
-        waitingForBoss = false;
-        bossFinish = false;
+        //코루틴 초기화
 
         if(spawnRoutine != null)
         {
             StopCoroutine(spawnRoutine);
             spawnRoutine = null;
         }
+
+        if(nextWaveRoutine != null)
+        {
+            StopCoroutine(nextWaveRoutine);
+            nextWaveRoutine = null;
+        }
+
+        if(bossDelayRoutine != null)
+        {
+            StopCoroutine(bossDelayRoutine);
+            bossDelayRoutine = null;
+        }
+
+
+        if(bossTimerRoutine !=null)
+        {
+            StopCoroutine (bossTimerRoutine);
+            bossTimerRoutine = null;
+        }
+
 
         StartSpawn();
     }
