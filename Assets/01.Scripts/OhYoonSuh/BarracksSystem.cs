@@ -9,7 +9,7 @@ public struct StatConfig
     public float valueIncreasePerLevel; // 1업당 증가량
     public int baseUpgradePrice;        // 기본 강화 비용
     public int priceIncreasePerLevel;   // 레벨당 비용 증가량
-    public StatUpgradeItem uiItem;      // 연결할 UI 오브젝트
+    //public StatUpgradeItem uiItem;      // 연결할 UI 오브젝트
 }
 
 public class BarracksSystem : MonoBehaviour
@@ -17,10 +17,13 @@ public class BarracksSystem : MonoBehaviour
     [SerializeField] private StatConfig[] statConfigs;
 
     private Dictionary<StatType, StatData> statDatabase = new Dictionary<StatType, StatData>();
-    private Dictionary<StatType, StatUpgradeItem> uiDatabase = new Dictionary<StatType, StatUpgradeItem>();
+    //private Dictionary<StatType, StatUpgradeItem> uiDatabase = new Dictionary<StatType, StatUpgradeItem>();
 
     private void Start()
     {
+        // UIManager의 동적 UI 생성에 전달할 스탯 리스트
+        List<IStatData> statList = new List<IStatData>();
+
         foreach (var config in statConfigs)
         {
             // 1. 데이터 세팅
@@ -35,13 +38,20 @@ public class BarracksSystem : MonoBehaviour
             };
 
             statDatabase[config.type] = newData;
+            statList.Add(newData);
+        }
 
-            // 2. UI 매핑 및 초기화
-            if (config.uiItem != null)
-            {
-                uiDatabase[config.type] = config.uiItem;
-                config.uiItem.Setup(newData, OnUpgradeClicked);
-            }
+        //// 2. UI 매핑 및 초기화
+        //if (config.uiItem != null)
+        //{
+        //    uiDatabase[config.type] = config.uiItem;
+        //    config.uiItem.Setup(newData, OnUpgradeClicked);
+        //}
+
+        // 2. UIManager를 통해 UI 탭 항목들을 자동으로 동적 생성
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.InitUpgradeTab(statList, OnUpgradeClicked);
         }
     }
 
@@ -54,10 +64,16 @@ public class BarracksSystem : MonoBehaviour
 
         data.LevelUp();
 
-        // 딕셔너리에서 타입에 맞는 UI를 꺼내서 바로 업데이트합니다.
-        if (uiDatabase.ContainsKey(type))
+        //// 딕셔너리에서 타입에 맞는 UI를 꺼내서 바로 업데이트합니다.
+        //if (uiDatabase.ContainsKey(type))
+        //{
+        //    uiDatabase[type].UpdateUI(data);
+        //}
+
+        // 변경된 스탯 데이터를 UIManager를 통해 UI 단일 항목 새로고침
+        if (UIManager.Instance != null)
         {
-            uiDatabase[type].UpdateUI(data);
+            UIManager.Instance.RefreshUpgradeStatItem(data);
         }
 
         // 매니저 호출도 한 줄로 끝!
