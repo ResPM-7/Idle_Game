@@ -30,7 +30,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] int maxAliveCount = 6;   // 최대 생존 몬스터 수 
 
     [Header("Wave")]
-    [SerializeField] int maxWave = 10;         
+    [SerializeField] int maxWave = 5;         
     [SerializeField] int maxKillCount =10;
 
 
@@ -49,6 +49,7 @@ public class WaveManager : MonoBehaviour
     int aliveCount = 0;
     int killCount = 0;
     int currentWave = 1;
+    int currentStage = 1;      
 
     
 
@@ -325,8 +326,8 @@ public class WaveManager : MonoBehaviour
 
         //보스전 상태 종료를 미리 설정
 
-        isBossBattle = false;
-        waitingForBoss = false;
+        //isBossBattle = false;
+        //waitingForBoss = false;
 
         currentBoss = null;
 
@@ -364,8 +365,9 @@ public class WaveManager : MonoBehaviour
 
         currentBoss = null;
 
-        //웨이브 초기화
+        //웨이브 초기화 + 스테이지 증가
 
+        currentStage++;
         currentWave = 1;
         killCount = 0;
         aliveCount = 0;
@@ -435,6 +437,14 @@ public class WaveManager : MonoBehaviour
 
     void Update()
     {
-        waveCountText.text = "WAVE" + currentWave;
+        if(isBossBattle)
+        {
+            waveCountText.text = "Stage" + currentStage + "-Boss";
+        }
+        else
+        {
+            waveCountText.text = "Stage" + currentStage + "-" + currentWave;
+        }
+
     }
 }
