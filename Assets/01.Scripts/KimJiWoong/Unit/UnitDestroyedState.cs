@@ -14,7 +14,7 @@ public class UnitDestroyedState : IUnitState
             unit.gameObject.SetActive(false);
         }
 
-        TowerWaveManager.instance.EnemyKilled();
+        WaveManager.instance.EnemyKilled();
     }
 
     public void Execute(Unit_Base_Test unit) { }

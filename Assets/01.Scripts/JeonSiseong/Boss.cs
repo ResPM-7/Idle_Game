@@ -53,7 +53,7 @@ public class Boss : MonoBehaviour
 
     private void OnDisable()
     {
-       TowerWaveManager.instance.BossKilled();
+       WaveManager.instance.BossKilled();
     }
 
 }

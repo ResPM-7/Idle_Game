@@ -26,29 +26,37 @@ public class WaveManager : MonoBehaviour
 
     [Header("Monster Spawn")]
     [SerializeField] EnemySpawn[] spawnPoints;    //  몬스터 스폰 포인트 배열
-    [SerializeField] float spawnInterval = 1.2f;  // 몬스터 스폰 속도
-    [SerializeField] int maxAliveCount = 6;   // 최대 생존 몬스터 수 
+    //[SerializeField] float spawnInterval = 1.2f;  // 몬스터 스폰 간격
+    //[SerializeField] int maxAliveCount = 6;   // 동시 최대 생존 몬스터 수
 
     [Header("Wave")]
-    [SerializeField] int maxWave = 5;         
+    [SerializeField] int maxWave = 5;            // 스테이지 당 웨이브 수
     //[SerializeField] int maxKillCount =10;  
 
 
-    [Header("Boss Timer")]
-    [SerializeField] float bossTimeLimit = 30f;    // 보스 클리어 시간제한
+    //[Header("Boss Timer")]
+    //[SerializeField] float bossTimeLimit = 30f;    // 보스 클리어 제한 시간
     float bossTimer;
 
     [Header("UI")]
-    [SerializeField] TMP_Text waveCountText;        //     텍스트 추가
-    [SerializeField] TMP_Text bossTimerText;        //     텍스트 추가
+    [SerializeField] TMP_Text waveCountText;        
+    [SerializeField] TMP_Text bossTimerText;       
 
     [Header("Next Wave/Stage Delay")]
-    [SerializeField] float nextWaveDelay = 3f;    //  다음 웨이브 딜레이 시간
+    [SerializeField] float nextWaveDelay = 3f;    //  다음 웨이브/스테이지 진입 딜레이 시간
 
 
-    int aliveCount = 0;
-    int killCount = 0;
-    int spawnedCount = 0;
+    [Header("Wave Data")]
+    [SerializeField] WaveData waveData;     
+
+
+
+
+
+
+    int aliveCount = 0;     // 현재 생존 중인 몬스터 수
+    int killCount = 0;      // 현재 웨이브 처치 수 
+    int spawnedCount = 0;   // 현재 웨이브에서 이미 스폰한 수
 
 
     int currentWave = 1;
@@ -66,20 +74,24 @@ public class WaveManager : MonoBehaviour
 
     Coroutine bossTimerRoutine;
     Coroutine spawnRoutine;
-
     Coroutine nextWaveRoutine;
     Coroutine bossDelayRoutine;
     Coroutine nextStageRoutine;
 
     int GetKillCountForWave(int wave)
     {
-        if(wave <= 2)    // 1,2 웨이브 :3마리
-        {  return 3; }  
+        //if(wave <= 2)    // 1,2 웨이브 :3마리
+        //{  return 3; }  
 
-        if(wave <= 4)   // 3,4 웨이브 :4마리
-        { return 4; }
+        //if(wave <= 4)   // 3,4 웨이브 :4마리
+        //{ return 4; }
 
-        return 5;       // 5웨이브 : 5마리
+        //return 5;       // 5웨이브 : 5마리
+
+
+        int baseCount = waveData.baseKillCountPerWave[wave - 1];
+        int growth = (currentStage / waveData.stageGrowthInterval) * waveData.killCountGrowthPerInterval;
+        return baseCount + growth;
     }
 
 
@@ -119,13 +131,13 @@ public class WaveManager : MonoBehaviour
             int target = GetKillCountForWave(currentWave);
 
 
-            if(!waitingForBoss && aliveCount < maxAliveCount && spawnedCount < target)     
+            if(!waitingForBoss && aliveCount < waveData.maxAliveCount && spawnedCount < target)     
             {
                 SpawnEnemy();
                 spawnedCount++;
             }
             
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(waveData.spawnInterval);
         }
     }
 
@@ -304,7 +316,7 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator BossTimer()
     {
-        bossTimer = bossTimeLimit;
+        bossTimer = waveData.baseBossTimeLimit;
 
         while(bossTimer > 0 && !bossFinish)
         {

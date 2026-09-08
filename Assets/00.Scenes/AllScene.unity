@@ -3412,6 +3412,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1724723084313739174, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
+      propertyPath: waveData
+      value: 
+      objectReference: {fileID: 11400000, guid: 68fc76221f7d89d4ab40e308093d59d2, type: 2}
+    - target: {fileID: 1724723084313739174, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
       propertyPath: maxAliveCount
       value: 5
       objectReference: {fileID: 0}
