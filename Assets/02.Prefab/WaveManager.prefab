@@ -49,7 +49,9 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 0}
   spawnInterval: 1.2
-  maxAliveCount: 1
-  maxWave: 2
-  maxKillCount: 1
+  maxAliveCount: 0
+  maxWave: 5
   bossTimeLimit: 5
+  waveCountText: {fileID: 0}
+  bossTimerText: {fileID: 0}
+  nextWaveDelay: 3

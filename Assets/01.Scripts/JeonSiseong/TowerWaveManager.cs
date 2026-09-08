@@ -1,10 +1,10 @@
-using System.Collections;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using System.Collections;
 
-public class WaveManager : MonoBehaviour
+public class TowerWaveManager : MonoBehaviour
 {
-    public static WaveManager instance;
+    public static TowerWaveManager instance;
 
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] int maxAliveCount = 6;   // 최대 생존 몬스터 수 
 
     [Header("Wave")]
-    [SerializeField] int maxWave = 5;         
+    [SerializeField] int maxWave = 5;
     //[SerializeField] int maxKillCount =10;  
 
 
@@ -52,9 +52,9 @@ public class WaveManager : MonoBehaviour
 
 
     int currentWave = 1;
-    int currentStage = 1;      
+    int currentStage = 1;
 
-    
+
 
 
 
@@ -73,10 +73,10 @@ public class WaveManager : MonoBehaviour
 
     int GetKillCountForWave(int wave)
     {
-        if(wave <= 2)    // 1,2 웨이브 :3마리
-        {  return 3; }  
+        if (wave <= 2)    // 1,2 웨이브 :3마리
+        { return 3; }
 
-        if(wave <= 4)   // 3,4 웨이브 :4마리
+        if (wave <= 4)   // 3,4 웨이브 :4마리
         { return 4; }
 
         return 5;       // 5웨이브 : 5마리
@@ -86,7 +86,7 @@ public class WaveManager : MonoBehaviour
     void StartSpawn()
     {
 
-        if(spawnRoutine != null)
+        if (spawnRoutine != null)
         {
             StopCoroutine(spawnRoutine);
         }
@@ -100,12 +100,12 @@ public class WaveManager : MonoBehaviour
 
 
 
-    public void SpawnEnemy() 
+    public void SpawnEnemy()
     {
         int randomIndex = Random.Range(0, spawnPoints.Length);  // 스폰 포인트를 랜덤으로 뽑음
 
-        spawnPoints[randomIndex].SpawnEnemy();    
-        
+        spawnPoints[randomIndex].SpawnEnemy();
+
         aliveCount++;
     }
 
@@ -113,18 +113,18 @@ public class WaveManager : MonoBehaviour
     IEnumerator Spawn()
     {
 
-        while(!isBossBattle)
+        while (!isBossBattle)
         {
 
             int target = GetKillCountForWave(currentWave);
 
 
-            if(!waitingForBoss && aliveCount < maxAliveCount && spawnedCount < target)     
+            if (!waitingForBoss && aliveCount < maxAliveCount && spawnedCount < target)
             {
                 SpawnEnemy();
                 spawnedCount++;
             }
-            
+
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -145,7 +145,7 @@ public class WaveManager : MonoBehaviour
     {
         aliveCount--;
 
-        if(aliveCount < 0)
+        if (aliveCount < 0)
         {
             aliveCount = 0;
         }
@@ -153,14 +153,14 @@ public class WaveManager : MonoBehaviour
 
         killCount++;
 
-        if(waitingForBoss && aliveCount <= 0)
+        if (waitingForBoss && aliveCount <= 0)
         {
 
-            if(bossDelayRoutine == null)
+            if (bossDelayRoutine == null)
             {
                 bossDelayRoutine = StartCoroutine(BossDelay());
             }
-            
+
             return;
         }
 
@@ -168,28 +168,28 @@ public class WaveManager : MonoBehaviour
 
 
 
-        if(killCount >= GetKillCountForWave(currentWave))
+        if (killCount >= GetKillCountForWave(currentWave))
         {
 
 
-            if(currentWave >= maxWave)
+            if (currentWave >= maxWave)
             {
                 waitingForBoss = true;
 
-                if(spawnRoutine != null)
+                if (spawnRoutine != null)
                 {
                     StopCoroutine(spawnRoutine);
                     spawnRoutine = null;
                 }
 
-                if(aliveCount <= 0 && bossDelayRoutine==null)
+                if (aliveCount <= 0 && bossDelayRoutine == null)
                 {
-                    bossDelayRoutine= StartCoroutine(BossDelay());
+                    bossDelayRoutine = StartCoroutine(BossDelay());
                 }
             }
             else
             {
-                if(nextWaveRoutine == null)
+                if (nextWaveRoutine == null)
                 {
                     nextWaveRoutine = StartCoroutine(NextWaveDelay());
                 }
@@ -208,7 +208,7 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator BossDelay()
     {
-        if(spawnRoutine !=  null)
+        if (spawnRoutine != null)
         {
             StopCoroutine(spawnRoutine);
             spawnRoutine = null;
@@ -227,7 +227,7 @@ public class WaveManager : MonoBehaviour
     IEnumerator NextWaveDelay()
     {
 
-        if(spawnRoutine != null)
+        if (spawnRoutine != null)
         {
             StopCoroutine(spawnRoutine);
             spawnRoutine = null;
@@ -246,17 +246,17 @@ public class WaveManager : MonoBehaviour
 
     void NextWave()
     {
-        if(currentWave >= maxWave)
+        if (currentWave >= maxWave)
         {
             waitingForBoss = true;
 
-            if(aliveCount <= 0 && bossDelayRoutine == null)
+            if (aliveCount <= 0 && bossDelayRoutine == null)
             {
 
                 bossDelayRoutine = StartCoroutine(BossDelay());
-                
+
             }
-            
+
 
             return;
         }
@@ -273,13 +273,13 @@ public class WaveManager : MonoBehaviour
 
 
 
-        if(isBossBattle)
+        if (isBossBattle)
         {
             Debug.Log("이미 보스전 중");
             return;
         }
 
-        if(currentBoss != null)
+        if (currentBoss != null)
         {
             Debug.Log("이미 보스 존재");
             return;
@@ -300,22 +300,22 @@ public class WaveManager : MonoBehaviour
 
         bossTimerRoutine = StartCoroutine(BossTimer());
     }
-    
+
 
     IEnumerator BossTimer()
     {
         bossTimer = bossTimeLimit;
 
-        while(bossTimer > 0 && !bossFinish)
+        while (bossTimer > 0 && !bossFinish)
         {
             bossTimer -= Time.deltaTime;
 
-            bossTimerText.text =  Mathf.Ceil(bossTimer).ToString(); 
+            bossTimerText.text = Mathf.Ceil(bossTimer).ToString();
 
             yield return null;
         }
 
-        if(!bossFinish)
+        if (!bossFinish)
         {
             BossTimeOut();
         }
@@ -324,7 +324,7 @@ public class WaveManager : MonoBehaviour
     public void BossKilled()
     {
 
-        if(bossFinish)    // 보스 사망 함수가 두번 호출 됐을 때, 스테이지 두번 올라가는 것을 방지
+        if (bossFinish)    // 보스 사망 함수가 두번 호출 됐을 때, 스테이지 두번 올라가는 것을 방지
         {
             return;
         }
@@ -338,7 +338,7 @@ public class WaveManager : MonoBehaviour
 
 
         // 보스 타이머 정지
-        if(bossTimerRoutine != null)
+        if (bossTimerRoutine != null)
         {
             StopCoroutine(bossTimerRoutine);
             bossTimerRoutine = null;
@@ -351,12 +351,12 @@ public class WaveManager : MonoBehaviour
 
         currentBoss = null;
 
-        if(nextStageRoutine==null)
+        if (nextStageRoutine == null)
         {
             nextStageRoutine = StartCoroutine(NextStageDelay());
         }
 
-        
+
     }
 
     IEnumerator NextStageDelay()
@@ -372,7 +372,7 @@ public class WaveManager : MonoBehaviour
 
     void NextStage()
     {
-       
+
         Debug.Log("다음 스테이지 시작");
 
         //보스 상태 초기화
@@ -401,22 +401,22 @@ public class WaveManager : MonoBehaviour
             spawnRoutine = null;
         }
 
-        if(nextWaveRoutine != null)
+        if (nextWaveRoutine != null)
         {
             StopCoroutine(nextWaveRoutine);
             nextWaveRoutine = null;
         }
 
-        if(bossDelayRoutine != null)
+        if (bossDelayRoutine != null)
         {
             StopCoroutine(bossDelayRoutine);
             bossDelayRoutine = null;
         }
 
 
-        if(bossTimerRoutine !=null)
+        if (bossTimerRoutine != null)
         {
-            StopCoroutine (bossTimerRoutine);
+            StopCoroutine(bossTimerRoutine);
             bossTimerRoutine = null;
         }
 
@@ -431,13 +431,13 @@ public class WaveManager : MonoBehaviour
 
         bossTimerText.gameObject.SetActive(false);
 
-        if(currentBoss !=  null)
+        if (currentBoss != null)
         {
             Destroy(currentBoss);
             currentBoss = null;
         }
 
-        if(bossTimerRoutine != null)
+        if (bossTimerRoutine != null)
         {
             StopCoroutine(bossTimerRoutine);
             bossTimerRoutine = null;
@@ -452,14 +452,14 @@ public class WaveManager : MonoBehaviour
         killCount = 0;
         spawnedCount = 0;
 
-        StartSpawn() ;
+        StartSpawn();
         bossFinish = false;
     }
 
 
     void Update()
     {
-        if(isBossBattle)
+        if (isBossBattle)
         {
             waveCountText.text = "Stage" + currentStage + "-Boss";
         }
