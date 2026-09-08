@@ -17,14 +17,10 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public LayerMask targetLayer;
 
     public float currentHp;
+    public float currentDamage;
     [HideInInspector] public float attackTimer;
     [HideInInspector] public float searchTimer;
     [HideInInspector] public Transform currentTarget;
-
-    public UnitDataSO UnitData
-    {
-        get { return myData; }
-    }
 
     // FSM 관련 변수
     private IUnitState currentState;
@@ -45,6 +41,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     {
         myData = data;
         currentHp = myData.maxHp;
+        currentDamage = myData.attackDamage;
         attackTimer = 0f;
         searchTimer = 0f;
         currentTarget = null;
@@ -61,7 +58,6 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         ChangeState(idleState);
     }
 
-    // 유닛이 풀로 반환되어 비활성화될 때 리스트에서 제거
     private void OnDisable()
     {
         if (BarracksManager.instance != null)
