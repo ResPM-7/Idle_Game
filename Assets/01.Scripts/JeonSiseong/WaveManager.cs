@@ -8,7 +8,7 @@ public class WaveManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        if (instance == null)   // 
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
