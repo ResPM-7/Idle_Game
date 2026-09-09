@@ -28,7 +28,6 @@ public class BattleSlotUI : BaseSlot
     // 드롭이 완료된 후 처리할 작업
     protected override void OnAfterDrop()
     {
-        // 배틀 슬롯에 변화가 생겼으니 5칸 전체 동기화 실행
-        BattleSlotPanel.instance.SyncAllBattleSlots();
+        //배치를 누르면 파티가 출력되도록 변경
     }
 }
