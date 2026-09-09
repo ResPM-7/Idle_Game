@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class FireSkill : MonoBehaviour
+public class FireSkill : Skill
 {
 
-    [Header("Fire Settings")]
-    [SerializeField] float radius = 5f;         // 스킬 범위 반지름
-    [SerializeField] float damage = 20;          // 스킬 데미지
+    //[Header("Fire Settings")]
+    //[SerializeField] float radius = 5f;         // 스킬 범위 반지름
+    //[SerializeField] float damage = 20;          // 스킬 데미지
 
 
-    [Header("Target")]
-    [SerializeField] LayerMask enemyLayer;
+    //[Header("Target")]
+    //[SerializeField] LayerMask enemyLayer;
 
 
     //void DamageEnemy()
@@ -28,16 +28,21 @@ public class FireSkill : MonoBehaviour
     //}
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (((1 << collision.gameObject.layer) & enemyLayer.value) != 0)
-        { 
+        //if (((1 << collision.gameObject.layer) & enemyLayer.value) != 0)
+        //{ 
 
-            ISkillDamageable target = collision.GetComponent<ISkillDamageable>();
-            if (target != null)
-            {
-                Debug.Log("파이어 데미지");
-                target.TakeSkillDamage(damage);
-            }
-        }
+        //    ISkillDamageable target = collision.GetComponent<ISkillDamageable>();
+        //    if (target != null)
+        //    {
+        //        Debug.Log("파이어 데미지");
+        //        target.TakeSkillDamage(damage);
+        //    }
+        //}
+
+        DamageTarget(collision);
+
+
+
     }
 
 
@@ -49,14 +54,11 @@ public class FireSkill : MonoBehaviour
     }
 
 
-    private void OnDrawGizmosSelected()
-    {
+    //private void OnDrawGizmosSelected()
+    //{
 
-        Gizmos.DrawWireSphere(transform.position, radius);
-    }
+    //    Gizmos.DrawWireSphere(transform.position, radius);
+    //}
 
-    void Update()
-    {
-        
-    }
+   
 }

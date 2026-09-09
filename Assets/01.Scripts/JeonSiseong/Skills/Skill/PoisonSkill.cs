@@ -1,18 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
-public class PoisonSkill : MonoBehaviour
+public class PoisonSkill : Skill
 {
 
     [Header("Poison Setting")]
-    [SerializeField] float radius = 2.5f;       //  스킬 범위 반지름
-    [SerializeField] float damage = 10;           // 스킬 데미지
+    //[SerializeField] float radius = 2.5f;       //  스킬 범위 반지름
+    //[SerializeField] float damage = 10;           // 스킬 데미지
     [SerializeField] float duration = 5f;       // 지속 시간
     [SerializeField] float damageInterval = 1f;    // 데미지 들어가는 시간간격
 
 
-    [Header("Target")]
-    [SerializeField] LayerMask enemyLayer;
+    //[Header("Target")]
+    //[SerializeField] LayerMask enemyLayer;
 
     //void DamageEnemy()
     //{
@@ -43,15 +43,17 @@ public class PoisonSkill : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (((1 << collision.gameObject.layer) & enemyLayer.value) != 0)
-        {
+        //if (((1 << collision.gameObject.layer) & enemyLayer.value) != 0)
+        //{
 
-            ISkillDamageable target = collision.GetComponent<ISkillDamageable>();
-            if (target != null)
-            {
-                target.TakeSkillDamage(damage);
-            }
-        }
+        //    ISkillDamageable target = collision.GetComponent<ISkillDamageable>();
+        //    if (target != null)
+        //    {
+        //        target.TakeSkillDamage(damage);
+        //    }
+        //}
+
+        DamageTarget(collision);
     }
 
 
@@ -85,11 +87,11 @@ public class PoisonSkill : MonoBehaviour
     }
 
 
-    private void OnDrawGizmosSelected()
-    {
+    //private void OnDrawGizmosSelected()
+    //{
         
-        Gizmos.DrawWireSphere(transform.position, radius);
-    }
+    //    Gizmos.DrawWireSphere(transform.position, radius);
+    //}
 
 
 

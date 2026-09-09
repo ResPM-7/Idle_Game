@@ -1917,6 +1917,28 @@ PrefabInstance:
       addedObject: {fileID: 60891254}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
+--- !u!114 &116806016 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2873805346917175886, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
+  m_PrefabInstance: {fileID: 116806015}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &116806017 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3843473409104012346, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
+  m_PrefabInstance: {fileID: 116806015}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &130148665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3412,9 +3434,9 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1724723084313739174, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
-      propertyPath: waveData
-      value: 
-      objectReference: {fileID: 11400000, guid: 68fc76221f7d89d4ab40e308093d59d2, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1724723084313739174, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
       propertyPath: maxAliveCount
       value: 5
@@ -3429,16 +3451,20 @@ PrefabInstance:
       objectReference: {fileID: 437829325}
     - target: {fileID: 2744793613153947738, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
       propertyPath: m_Name
-      value: WaveManager
+      value: TowerWaveManager
       objectReference: {fileID: 0}
     - target: {fileID: 2744793613153947738, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1724723084313739174, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2744793613153947738, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1194911574}
   m_SourcePrefab: {fileID: 100100000, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
 --- !u!1001 &943605104
 PrefabInstance:
@@ -3898,6 +3924,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 690650384}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1194911573 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2744793613153947738, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
+  m_PrefabInstance: {fileID: 809820009}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1194911574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194911573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f661c8dbb8cbc74c896c1295f0e6ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerWaveManager
+  bossPrefab: {fileID: 3624809761425899735, guid: 34501b131c8215345abf6cd11b0b1958, type: 3}
+  bossSpawnPoint: {fileID: 1050417647}
+  spawnPoints:
+  - {fileID: 437829325}
+  spawnInterval: 1.2
+  maxAliveCount: 6
+  maxWave: 5
+  bossTimeLimit: 30
+  waveCountText: {fileID: 116806017}
+  bossTimerText: {fileID: 116806016}
+  nextWaveDelay: 3
 --- !u!1 &1208156409
 GameObject:
   m_ObjectHideFlags: 0
