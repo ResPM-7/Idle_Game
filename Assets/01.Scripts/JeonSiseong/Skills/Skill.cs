@@ -14,7 +14,7 @@ public class Skill : MonoBehaviour
     protected void DamageTarget(Collider2D collision)
     {
 
-        if ((((1 << collision.gameObject.layer) & enemyLayer.value) == 0)
+        if ((((1 << collision.gameObject.layer) & enemyLayer.value) == 0))
         return;
 
 
