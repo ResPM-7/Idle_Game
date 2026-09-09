@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     //Rigidbody2D rb;
 
-    [SerializeField] float moveSpeed = 3f;
+    //[SerializeField] float moveSpeed = 3f;
 
 
 
