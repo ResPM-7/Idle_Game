@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.5
+  m_fontSize: 29.65
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1242,6 +1242,7 @@ GameObject:
   - component: {fileID: 719414019440877423}
   - component: {fileID: 7617892761403959115}
   - component: {fileID: 4311510346700730659}
+  - component: {fileID: 1307512703138720940}
   m_Layer: 5
   m_Name: Gold_Text
   m_TagString: Untagged
@@ -1368,6 +1369,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1307512703138720940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2209191454738953936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fc5b7233ce2204d9d130ffc0239e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_CurrencyDisplay
+  amountText: {fileID: 4311510346700730659}
 --- !u!1 &2266104499840912049
 GameObject:
   m_ObjectHideFlags: 0
@@ -1620,7 +1634,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.5
+  m_fontSize: 29.65
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3344,6 +3358,7 @@ GameObject:
   - component: {fileID: 2308063438525807635}
   - component: {fileID: 144579302356271310}
   - component: {fileID: 1824669474834756901}
+  - component: {fileID: 1807249078851030414}
   m_Layer: 5
   m_Name: Credit_Text
   m_TagString: Untagged
@@ -3470,6 +3485,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1807249078851030414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5325224657194951344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fc5b7233ce2204d9d130ffc0239e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_CurrencyDisplay
+  amountText: {fileID: 1824669474834756901}
 --- !u!1 &5530529246770220228
 GameObject:
   m_ObjectHideFlags: 0
@@ -4578,7 +4606,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2324482627424826598}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.46578848
+  m_Size: 0.44181815
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -121,7 +121,7 @@ public class UIManager : Singleton<UIManager>
     [Header("Tab UI References")]
     [SerializeField] private UI_UpgradeTab upgradeTab;
 
-    // 게임 시작 시 단 한 번 외부(데이터 매니저)에서 스탯 리스트를 전달받아 탭을 세팅함 <- BarrackSystem.cs
+    // 게임 시작 시 단 한 번 외부(데이터 매니저)에서 스탯 리스트를 전달받아 탭을 세팅함 <- BarrackSystem.cs  
     public void InitUpgradeTab(List<IStatData> statList, System.Action<StatType> onUpgradeRequest)
     {
         if (upgradeTab == null)
