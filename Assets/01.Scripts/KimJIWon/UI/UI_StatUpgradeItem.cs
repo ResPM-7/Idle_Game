@@ -45,8 +45,7 @@ public class StatUpgradeItem : MonoBehaviour
         //현재 증가 수치 (공격속도는 소수점 F2, 일반 스탯은 F0 표기)
         if (valueText != null)
         {
-            string format = (data.Type == StatType.AttackSpeed) ? "F2" : "F0";
-            valueText.text = $"+{data.CurrentValue.ToString(format)}";
+            valueText.text = $"+{data.CurrentValue.ToString("F0")}";
         }
 
         //업그레이드 비용

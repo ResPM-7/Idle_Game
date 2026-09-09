@@ -23,4 +23,6 @@ MonoBehaviour:
   attackSpeed: 0
   attackRange: 0
   attackCooldown: 0
+  coin: 0
+  fame: 10
   nexUpdateUnit: {fileID: 0}

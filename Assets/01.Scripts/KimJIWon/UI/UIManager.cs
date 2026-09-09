@@ -140,5 +140,16 @@ public class UIManager : MonoBehaviour
             upgradeTab.InitTab(statList, onUpgradeRequest);
         }
     }
+    // 업그레이드 수치 변경 시 특정 스탯 UI 항목만 단일 갱신
+    public void RefreshUpgradeStatItem(IStatData updatedData)
+    {
+        if (upgradeTab == null)
+            upgradeTab = FindAnyObjectByType<UI_UpgradeTab>();
+
+        if (upgradeTab != null)
+        {
+            upgradeTab.RefreshStatItem(updatedData);
+        }
+    }
     #endregion
 }
