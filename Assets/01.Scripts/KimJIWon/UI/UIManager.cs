@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
-    public static UIManager Instance { get; private set; }
+    public static UIManager Instance => instance;
 
     [Header("Managers")]
     [SerializeField] private UI_PopUpManager popUpManager;
@@ -14,33 +14,25 @@ public class UIManager : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject damageTextPrefab;
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+        base.Awake();
 
-            //Canvas_Overlay 등록
-            if (overlayCanvasTransform == null)
-            {
-                GameObject overlayObj = GameObject.Find("Canvas_Overlay");
-                if (overlayObj != null)
-                {
-                    overlayCanvasTransform = overlayObj.transform;
-                }
-            }
-            //UI_PopUpManager 등록
-            if (popUpManager == null)
-            {
-                popUpManager = FindAnyObjectByType<UI_PopUpManager>();
-            }
-        }
-        else
+        if (instance != this) return;
+
+        //캔버스 등록
+        if (overlayCanvasTransform == null)
         {
-            Destroy(gameObject);
+            GameObject overlayObj = GameObject.Find("Canvas_Overlay");
+            if (overlayObj != null)
+                overlayCanvasTransform = overlayObj.transform;
         }
+
+        //팝업 매니저 등록 (없을 시)
+        if (popUpManager == null)
+            popUpManager = FindAnyObjectByType<UI_PopUpManager>();
     }
+
 
     #region PopUp
     public T ShowPopup<T>(T popupPrefab) where T : MonoBehaviour
