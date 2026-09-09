@@ -1,16 +1,16 @@
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class LightningSkill : MonoBehaviour
+public class LightningSkill : Skill
 {
 
-    [Header("Lightning Settings")]
-    [SerializeField] float radius = 1.5f;    // 스킬 범위 반지름
-    [SerializeField] float damage = 100;       // 스킬 데미지
+    //[Header("Lightning Settings")]
+    //[SerializeField] float radius = 1.5f;    // 스킬 범위 반지름
+    //[SerializeField] float damage = 100;       // 스킬 데미지
 
 
-    [Header("Target")]
-    [SerializeField] LayerMask enemyLayer;
+    //[Header("Target")]
+    //[SerializeField] LayerMask enemyLayer;
 
 
     //void DamageEnemy()
@@ -30,23 +30,28 @@ public class LightningSkill : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (((1 << collision.gameObject.layer) & enemyLayer.value) != 0)
-        {
+        //if (((1 << collision.gameObject.layer) & enemyLayer.value) != 0)
+        //{
 
-            ISkillDamageable target = collision.GetComponent<ISkillDamageable>();
-            if (target != null)
-            {
-                target.TakeSkillDamage(damage);
-            }
-        }
+        //    ISkillDamageable target = collision.GetComponent<ISkillDamageable>();
+        //    if (target != null)
+        //    {
+        //        target.TakeSkillDamage(damage);
+        //    }
+        //}
+
+        DamageTarget(collision);
+
+
     }
 
 
-    private void OnDrawGizmosSelected()
-    {
 
-        Gizmos.DrawWireSphere(transform.position, radius);
-    }
+    //private void OnDrawGizmosSelected()
+    //{
+
+    //    Gizmos.DrawWireSphere(transform.position, radius);
+    //}
 
 
 
@@ -62,8 +67,5 @@ public class LightningSkill : MonoBehaviour
     }
 
     
-    void Update()
-    {
-        
-    }
+    
 }
