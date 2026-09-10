@@ -7,9 +7,6 @@ public class MoneyManager : Singleton<MoneyManager>
     public int currentGold = 0;
     public int currentCredit = 0;
 
-    [SerializeField] private TextMeshProUGUI coinText;
-    [SerializeField] private TextMeshProUGUI creditText;
-
     // 값이 변경될 때마다 UI 등에 알리기 위한 이벤트
     public event Action<int> OnGoldChanged;
     public event Action<int> OnCreditChanged;
