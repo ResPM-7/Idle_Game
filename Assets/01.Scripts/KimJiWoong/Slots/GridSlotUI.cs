@@ -23,6 +23,6 @@ public class GridSlotUI : BaseSlot
     {
         // 인벤토리에서 유닛이 합쳐지거나 움직였어도, 배틀 패널을 한 번 동기화해 줍니다.
         // (배틀 필드에 있던 유닛이 인벤토리로 스왑되어 밀려왔을 수도 있기 때문입니다)
-        //BattleSlotPanel.instance.SyncAllBattleSlots();
+        BattleSlotPanel.instance.SyncAllBattleSlots();
     }
 }
