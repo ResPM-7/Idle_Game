@@ -1920,6 +1920,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
+--- !u!114 &116806016 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1807249078851030414, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
+  m_PrefabInstance: {fileID: 116806015}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fc5b7233ce2204d9d130ffc0239e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_CurrencyDisplay
+--- !u!114 &116806017 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1307512703138720940, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
+  m_PrefabInstance: {fileID: 116806015}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fc5b7233ce2204d9d130ffc0239e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_CurrencyDisplay
 --- !u!1001 &130148665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4285,6 +4307,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5258081515565088987, guid: 4121d3be8bee1d04a9eeb7262c51b720, type: 3}
+      propertyPath: goldDisplay
+      value: 
+      objectReference: {fileID: 116806017}
+    - target: {fileID: 5258081515565088987, guid: 4121d3be8bee1d04a9eeb7262c51b720, type: 3}
+      propertyPath: creditDisplay
+      value: 
+      objectReference: {fileID: 116806016}
     - target: {fileID: 6852432702013977891, guid: 4121d3be8bee1d04a9eeb7262c51b720, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

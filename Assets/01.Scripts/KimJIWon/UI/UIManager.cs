@@ -8,12 +8,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Managers")]
     [SerializeField] private UI_PopUpManager popUpManager;
-
-    [Header("Canvases")]
-    
-
-    [Header("Prefabs")]
-    [SerializeField] private GameObject damageTextPrefab;
+   
     protected override void Awake()
     {
         base.Awake();
@@ -69,18 +64,26 @@ public class UIManager : Singleton<UIManager>
     #region InGame UI / Floating Text
     public void ShowDamageText(float damage, Vector3 worldPos)
     {
-        string poolKey = "DamageText";
+        const string poolKey = "DamageText";
 
-        if (ObjectPoolManager.instance == null) return;
+        if (ObjectPoolManager.instance == null)
+            return;
 
-        GameObject textObj = ObjectPoolManager.instance.GetObject(poolKey); 
-        if (textObj != null)
+        GameObject textObj = ObjectPoolManager.instance.GetObject(poolKey);
+        if (textObj == null)
         {
-            if (textObj.TryGetComponent<UI_DamageText>(out var damageText))
-            {
-                damageText.Setup(damage, worldPos, poolKey);
-            }
+            Debug.LogWarning($"'{poolKey}' 풀에서 오브젝트를 가져오지 못했습니다.");
+            return;
         }
+
+        if (!textObj.TryGetComponent<UI_DamageText>(out var damageText))
+        {
+            Debug.LogError($"'{poolKey}' 프리팹에 UI_DamageText가 없습니다.");
+            ObjectPoolManager.instance.ReturnObject(poolKey, textObj);
+            return;
+        }
+
+        damageText.Setup(damage, worldPos, poolKey);
     }
     #endregion
 
