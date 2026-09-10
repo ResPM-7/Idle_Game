@@ -48,10 +48,8 @@ MonoBehaviour:
   bossSpawnPoint: {fileID: 0}
   spawnPoints:
   - {fileID: 0}
-  spawnInterval: 1.2
-  maxAliveCount: 0
   maxWave: 5
-  bossTimeLimit: 5
   waveCountText: {fileID: 0}
   bossTimerText: {fileID: 0}
   nextWaveDelay: 3
+  waveData: {fileID: 11400000, guid: 68fc76221f7d89d4ab40e308093d59d2, type: 2}

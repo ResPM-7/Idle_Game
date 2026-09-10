@@ -63,13 +63,14 @@ public class BarracksSystem : MonoBehaviour
 
         StatData data = statDatabase[type];
 
+        if (MoneyManager.instance != null && !MoneyManager.instance.SpendGold(data.UpgradePrice))
+        {
+            Debug.Log($"골드가 부족하여 {data.StatName} 업그레이드 실패!");
+            return;
+        }
+
         data.LevelUp();
 
-        //// 딕셔너리에서 타입에 맞는 UI를 꺼내서 바로 업데이트합니다.
-        //if (uiDatabase.ContainsKey(type))
-        //{
-        //    uiDatabase[type].UpdateUI(data);
-        //}
 
         // 변경된 스탯 데이터를 UIManager를 통해 UI 단일 항목 새로고침
         if (UIManager.Instance != null)

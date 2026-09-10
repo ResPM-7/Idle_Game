@@ -8,6 +8,10 @@ public class SkillManager : MonoBehaviour
     [SerializeField] GameObject lightningSkillPrefab;
     [SerializeField] GameObject fireSkillPrefab;
 
+    [SerializeField] private string poisonPoolName = "Posion"; // 이미지에 적힌 오타 그대로 맞춤
+    [SerializeField] private string lightningPoolName = "Lightning";
+    [SerializeField] private string firePoolName = "Fire";
+
 
     [Header("Skill Cooltime")]                          // 각 스킬 쿨타임
     [SerializeField] float poisonCooltime = 8f;

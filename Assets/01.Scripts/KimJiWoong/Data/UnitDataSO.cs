@@ -23,7 +23,7 @@ public class UnitDataSO : ScriptableObject
 
     [Header("적 처치시 재화드롭")]
     public int coin;//스텟강화
-    public int fame;//소환재화
+    public int credit;//소환재화
 
     [Header("다음 업그레이드 유닛(있으면 추가 없으면 빈칸)")]
     public UnitDataSO nexUpdateUnit;
