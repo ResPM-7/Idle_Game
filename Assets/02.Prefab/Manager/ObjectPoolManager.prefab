@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6666354635185941539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 891457175053359980}
+  - component: {fileID: 1906311554964298587}
+  m_Layer: 0
+  m_Name: ObjectPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &891457175053359980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6666354635185941539}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1906311554964298587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6666354635185941539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a73fc2f5cbee94aa3fd4f0ecf931a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPoolManager
+  isDontDestroy: 0
+  objList:
+  - poolName: Battle_UnitLevel 1
+    prefab: {fileID: 807837890451654685, guid: e6a5decf73ca00a428b6ecb0e77b8949, type: 3}
+    poolSize: 5
+  - poolName: Battle_UnitLevel 2
+    prefab: {fileID: 807837890451654685, guid: 0428e407d52de0c4bad2fdd1a5a0e809, type: 3}
+    poolSize: 5
+  - poolName: Boss
+    prefab: {fileID: 3624809761425899735, guid: 34501b131c8215345abf6cd11b0b1958, type: 3}
+    poolSize: 5
+  - poolName: Enemy
+    prefab: {fileID: 4004752810020888005, guid: 5fb46b1e861649b4692e75a6a363f539, type: 3}
+    poolSize: 5
+  - poolName: Fire
+    prefab: {fileID: 467310908342717953, guid: 3ad08d14d2f8b2745aa4a2ffc24e47e3, type: 3}
+    poolSize: 1
+  - poolName: Lightning
+    prefab: {fileID: 2261763633164832102, guid: 34fb6409fb8ef104c959a9910144e9c2, type: 3}
+    poolSize: 1
+  - poolName: Posion
+    prefab: {fileID: 2220259676657357551, guid: 6b2995635950a174aa2bdd5c423a5030, type: 3}
+    poolSize: 1
+  canvasPools:
+  - poolName: UnitLevel 1
+    prefab: {fileID: 4829221465037358062, guid: 90e4087ce04a4bb4a872ea9231f20a3b, type: 3}
+    targetCanvas: {fileID: 0}
+    poolSize: 5
+  - poolName: UnitLevel 2
+    prefab: {fileID: 4829221465037358062, guid: aaac0635deb072e46b25eadf4d081d85, type: 3}
+    targetCanvas: {fileID: 0}
+    poolSize: 5
+  - poolName: HpBar
+    prefab: {fileID: 4829221465037358062, guid: aaac0635deb072e46b25eadf4d081d85, type: 3}
+    targetCanvas: {fileID: 0}
+    poolSize: 5
