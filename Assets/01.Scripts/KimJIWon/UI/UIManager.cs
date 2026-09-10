@@ -33,6 +33,18 @@ public class UIManager : Singleton<UIManager>
             popUpManager = FindAnyObjectByType<UI_PopUpManager>();
     }
 
+    private void Start()
+    {
+        moneyManager = MoneyManager.instance;
+
+        // 초기 보유 재화 표시
+        goldDisplay.SetAmount(moneyManager.currentGold);
+        creditDisplay.SetAmount(moneyManager.currentCredit);
+
+        // 이후 재화 변경 감지
+        moneyManager.OnGoldChanged += HandleGoldChanged;
+        moneyManager.OnCreditChanged += HandleCreditChanged;
+    }
 
     #region PopUp
     public T ShowPopup<T>(T popupPrefab) where T : MonoBehaviour
@@ -142,6 +154,35 @@ public class UIManager : Singleton<UIManager>
         {
             upgradeTab.RefreshStatItem(updatedData);
         }
+    }
+    #endregion
+
+    #region Currency Display
+    [Header("Currency UI")]
+    [SerializeField] private UI_CurrencyDisplay goldDisplay;
+    [SerializeField] private UI_CurrencyDisplay creditDisplay;
+
+    private MoneyManager moneyManager;
+
+    private void HandleGoldChanged(int gold)
+    {
+        goldDisplay.SetAmount(gold);
+    }
+
+    private void HandleCreditChanged(int credit)
+    {
+        creditDisplay.SetAmount(credit);
+    }
+
+    protected override void OnDestroy()
+    {
+        if (moneyManager != null)
+        {
+            moneyManager.OnGoldChanged -= HandleGoldChanged;
+            moneyManager.OnCreditChanged -= HandleCreditChanged;
+        }
+
+        base.OnDestroy();
     }
     #endregion
 }
