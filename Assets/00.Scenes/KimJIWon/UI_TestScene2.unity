@@ -2374,6 +2374,9 @@ MonoBehaviour:
   poisonSkillPrefab: {fileID: 2220259676657357551, guid: 6b2995635950a174aa2bdd5c423a5030, type: 3}
   lightningSkillPrefab: {fileID: 2261763633164832102, guid: 34fb6409fb8ef104c959a9910144e9c2, type: 3}
   fireSkillPrefab: {fileID: 467310908342717953, guid: 3ad08d14d2f8b2745aa4a2ffc24e47e3, type: 3}
+  poisonPoolName: Posion
+  lightningPoolName: Lightning
+  firePoolName: Fire
   poisonCooltime: 8
   lightningCooltime: 5
   fireCooltime: 10
@@ -2571,6 +2574,10 @@ PrefabInstance:
     - target: {fileID: 5207448061230941041, guid: 0d0b38203ddb4b145b54b1379a2f5b36, type: 3}
       propertyPath: m_text
       value: Option
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207448061230941041, guid: 0d0b38203ddb4b145b54b1379a2f5b36, type: 3}
+      propertyPath: m_fontSize
+      value: 25.7
       objectReference: {fileID: 0}
     - target: {fileID: 6322933853177478881, guid: 0d0b38203ddb4b145b54b1379a2f5b36, type: 3}
       propertyPath: m_Pivot.x
@@ -2877,7 +2884,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   skillManager: {fileID: 677368166}
-  moveSpeed: 3
 --- !u!4 &796248631
 Transform:
   m_ObjectHideFlags: 0
@@ -2942,6 +2948,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1724723084313739174, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
+      propertyPath: waveData
+      value: 
+      objectReference: {fileID: 11400000, guid: 68fc76221f7d89d4ab40e308093d59d2, type: 2}
+    - target: {fileID: 1724723084313739174, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
       propertyPath: bossSpawnPoint
       value: 
       objectReference: {fileID: 1050417647}
@@ -2962,6 +2972,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67ffb8d7b63a40645a4235e66228c439, type: 3}
+--- !u!1001 &834235889
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066087384356562920, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
+      propertyPath: m_Name
+      value: DummyUnit
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
 --- !u!1001 &943605104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4484,3 +4551,4 @@ SceneRoots:
   - {fileID: 1553022723}
   - {fileID: 1492348984}
   - {fileID: 796248631}
+  - {fileID: 834235889}
