@@ -160,11 +160,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.840039
+      value: -1.68
       objectReference: {fileID: 0}
     - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.23603147
+      value: 1.03
       objectReference: {fileID: 0}
     - target: {fileID: 1571438556895940127, guid: 8b549b7f8b0d9544bb9d4b12c81d3d06, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2973,7 +2973,7 @@ MonoBehaviour:
     targetCanvas: {fileID: 0}
     poolSize: 5
   - poolName: HpBar
-    prefab: {fileID: 4829221465037358062, guid: aaac0635deb072e46b25eadf4d081d85, type: 3}
+    prefab: {fileID: 2066575373135292623, guid: c233f3944d62f964a87dceb56b8f3cb0, type: 3}
     targetCanvas: {fileID: 1396195220}
     poolSize: 5
   - poolName: DamageText
@@ -3290,6 +3290,7 @@ GameObject:
   - component: {fileID: 5078257745637543367}
   - component: {fileID: 5879826414664169535}
   - component: {fileID: 8869613140048751939}
+  - component: {fileID: 8869613140048751940}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -3310,6 +3311,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossHUDPresenter
   bossHUD: {fileID: 533804463}
+--- !u!114 &8869613140048751940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8869613140048751938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff4a389029b3ff43a95a3f35bc70a8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthBarManager
+  worldCamera: {fileID: 1002850126}
+  worldOffset: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
