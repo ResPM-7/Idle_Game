@@ -17,6 +17,89 @@ public class HealthBarManager : MonoBehaviour
             worldCamera = Camera.main;
     }
 
+#if UNITY_EDITOR // TakeDamage 테스트용 함수
+    private void Update()
+    {
+        var keyboard = UnityEngine.InputSystem.Keyboard.current;
+        if (keyboard == null)
+            return;
+
+        if (keyboard.qKey.wasPressedThisFrame)
+        {
+            TestDamageAllUnits(10f);
+        }
+
+        if (keyboard.wKey.wasPressedThisFrame)
+        {
+            TestHealAllUnits(10f);
+        }
+    }
+
+    private void TestDamageAllUnits(float damage)
+    {
+        var healthBarSnapshot =
+            new List<KeyValuePair<Unit_Base_Test, UI_HealthBar>>(healthBars);
+
+        foreach (var pair in healthBarSnapshot)
+        {
+            Unit_Base_Test unit = pair.Key;
+            UI_HealthBar healthBar = pair.Value;
+
+            if (unit == null ||
+                unit.myData == null ||
+                healthBar == null ||
+                !unit.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+
+            unit.TakeDamage(damage);
+
+            float normalizedHp = unit.myData.maxHp > 0f
+                ? unit.currentHp / unit.myData.maxHp
+                : 0f;
+
+            healthBar.SetFill(normalizedHp);
+
+            UIManager.Instance?.ShowDamageText(
+                damage,
+                unit.transform.position
+            );
+        }
+    }
+
+    private void TestHealAllUnits(float amount)
+    {
+        var healthBarSnapshot =
+            new List<KeyValuePair<Unit_Base_Test, UI_HealthBar>>(healthBars);
+
+        foreach (var pair in healthBarSnapshot)
+        {
+            Unit_Base_Test unit = pair.Key;
+            UI_HealthBar healthBar = pair.Value;
+
+            if (unit == null ||
+                unit.myData == null ||
+                healthBar == null ||
+                !unit.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+
+            unit.currentHp = Mathf.Min(
+                unit.currentHp + amount,
+                unit.myData.maxHp
+            );
+
+            float normalizedHp = unit.myData.maxHp > 0f
+                ? unit.currentHp / unit.myData.maxHp
+                : 0f;
+
+            healthBar.SetFill(normalizedHp);
+        }
+    }
+#endif
+
     private void OnEnable()
     {
         Unit_Base_Test.OnUnitSpawned += HandleUnitSpawned;
