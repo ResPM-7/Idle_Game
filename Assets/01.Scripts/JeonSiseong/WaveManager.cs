@@ -5,38 +5,17 @@ using UnityEngine.Rendering;
 
 public class WaveManager : Singleton<WaveManager>
 {
-    //public static WaveManager instance;
-
-    //private void Awake()
-    //{
-    //    if (instance == null)   
-    //    {
-    //        instance = this;
-    //        DontDestroyOnLoad(gameObject);
-    //    }
-    //    else
-    //        Destroy(gameObject);
-
-    //}
-
-
-
+    
     [Header("Boss")]
     [SerializeField] GameObject bossPrefab;    // 보스 몬스터 프리팹
     [SerializeField] Transform bossSpawnPoint;  // 보스 스폰 포인트
 
     [Header("Monster Spawn")]
     [SerializeField] EnemySpawn[] spawnPoints;    //  몬스터 스폰 포인트 배열
-    //[SerializeField] float spawnInterval = 1.2f;  // 몬스터 스폰 간격
-    //[SerializeField] int maxAliveCount = 6;   // 동시 최대 생존 몬스터 수
-
+    
     [Header("Wave")]
     [SerializeField] int maxWave = 5;            // 스테이지 당 웨이브 수
-    //[SerializeField] int maxKillCount =10;  
-
-
-    //[Header("Boss Timer")]
-    //[SerializeField] float bossTimeLimit = 30f;    // 보스 클리어 제한 시간
+    
     float bossTimer;
 
     [Header("UI")]
@@ -50,28 +29,29 @@ public class WaveManager : Singleton<WaveManager>
     [Header("Wave Data")]
     [SerializeField] WaveData waveData;     
 
-
-
-
-
-
     int aliveCount = 0;     // 현재 생존 중인 몬스터 수
     int killCount = 0;      // 현재 웨이브 처치 수 
     int spawnedCount = 0;   // 현재 웨이브에서 이미 스폰한 수
 
+    bool bossFinish = false;
 
     int currentWave = 1;
-    int currentStage = 1;      
+    int currentStage = 1;
 
-    
+    private WaveState currentState = WaveState.NormalWave;
 
+    public enum WaveState
+    {
+        NormalWave,
+        WaitingNextWave,
+        WaitingBoss,
+        BossBattle,
+        WaitingNextStage
+    }
 
-
-    bool isBossBattle = false;
-    bool waitingForBoss = false;
     GameObject currentBoss;
 
-    bool bossFinish = false;
+   
 
     Coroutine bossTimerRoutine;
     Coroutine spawnRoutine;
@@ -81,18 +61,19 @@ public class WaveManager : Singleton<WaveManager>
 
     int GetKillCountForWave(int wave)
     {
-        //if(wave <= 2)    // 1,2 웨이브 :3마리
-        //{  return 3; }  
-
-        //if(wave <= 4)   // 3,4 웨이브 :4마리
-        //{ return 4; }
-
-        //return 5;       // 5웨이브 : 5마리
-
-
+      
         int baseCount = waveData.baseKillCountPerWave[wave - 1];
         int growth = (currentStage / waveData.stageGrowthInterval) * waveData.killCountGrowthPerInterval;
         return baseCount + growth;
+    }
+
+    void StopRoutine(ref  Coroutine routine)
+    {
+        if(routine != null)
+        {
+            StopCoroutine(routine);
+            routine = null;
+        }
     }
 
 
@@ -107,39 +88,62 @@ public class WaveManager : Singleton<WaveManager>
         spawnRoutine = StartCoroutine(Spawn());
     }
 
-
-
-
-
-
-
-    public void SpawnEnemy() 
+    void StopSpawn()
     {
+        if(spawnRoutine != null)
+        {
+           StopRoutine(ref spawnRoutine);
+        }
+    }
+
+
+
+
+
+    public bool SpawnEnemy() 
+    {
+        if(spawnPoints == null || spawnPoints.Length == 0)
+        {
+            Debug.Log("스폰 포인트가 없습니다");
+            return false;
+        }
+
+
         int randomIndex = Random.Range(0, spawnPoints.Length);  // 스폰 포인트를 랜덤으로 뽑음
 
-        spawnPoints[randomIndex].SpawnEnemy();    
+        bool success = spawnPoints[randomIndex].SpawnEnemy();
+
+        if(success)
+        {
+            aliveCount++;
+        }
+
+        return success;
         
-        aliveCount++;
     }
 
 
     IEnumerator Spawn()
     {
 
-        while(!isBossBattle)
+        while(currentState == WaveState.NormalWave) 
         {
 
             int target = GetKillCountForWave(currentWave);
 
 
-            if(!waitingForBoss && aliveCount < waveData.maxAliveCount && spawnedCount < target)     
+            if(aliveCount < waveData.maxAliveCount && spawnedCount < target)     
             {
-                SpawnEnemy();
-                spawnedCount++;
+               if(SpawnEnemy())
+                {
+                    spawnedCount++;
+                }
             }
             
             yield return new WaitForSeconds(waveData.spawnInterval);
         }
+
+        spawnRoutine = null;
     }
 
 
@@ -147,6 +151,8 @@ public class WaveManager : Singleton<WaveManager>
 
     void Start()
     {
+        currentState = WaveState.NormalWave;
+
         StartSpawn();
 
         bossTimerText.gameObject.SetActive(false);
@@ -157,51 +163,47 @@ public class WaveManager : Singleton<WaveManager>
     public void EnemyKilled()
     {
         aliveCount--;
-        Debug.Log("유닛 죽음");
+
         if(aliveCount < 0)
         {
             aliveCount = 0;
         }
 
-
         killCount++;
 
-        if(waitingForBoss && aliveCount <= 0)
+        if(currentState == WaveState.WaitingBoss)
         {
-
-            if(bossDelayRoutine == null)
+            if(aliveCount <= 0 && bossDelayRoutine == null)
             {
                 bossDelayRoutine = StartCoroutine(BossDelay());
             }
-            
+
             return;
         }
 
-
-
-
-
+        //일반 웨이브 처치 목표 달성
         if(killCount >= GetKillCountForWave(currentWave))
         {
 
-
+            // 마지막 웨이브
             if(currentWave >= maxWave)
             {
-                waitingForBoss = true;
+               currentState = WaveState.WaitingBoss;
 
-                if(spawnRoutine != null)
-                {
-                    StopCoroutine(spawnRoutine);
-                    spawnRoutine = null;
-                }
+                StopSpawn();
 
                 if(aliveCount <= 0 && bossDelayRoutine==null)
                 {
                     bossDelayRoutine= StartCoroutine(BossDelay());
                 }
             }
+            // 일반 다음 웨이브
             else
             {
+                currentState = WaveState.WaitingNextWave;
+
+                StopSpawn();
+
                 if(nextWaveRoutine == null)
                 {
                     nextWaveRoutine = StartCoroutine(NextWaveDelay());
@@ -210,41 +212,28 @@ public class WaveManager : Singleton<WaveManager>
 
         }
 
-
-
-        Debug.Log("현재 웨이브 : " + currentWave);
-        Debug.Log("처치 수 : " + killCount);
-        Debug.Log("생존 몬스터 : " + aliveCount);
-
-
     }
 
     IEnumerator BossDelay()
     {
-        if(spawnRoutine !=  null)
-        {
-            StopCoroutine(spawnRoutine);
-            spawnRoutine = null;
-        }
+       StopSpawn();
 
 
         yield return new WaitForSeconds(nextWaveDelay);
 
         bossDelayRoutine = null;
 
-        StartBossBattle();
+        if(currentState == WaveState.WaitingBoss)
+        {
+            StartBossBattle();
+        }
+        
     }
 
 
 
     IEnumerator NextWaveDelay()
     {
-
-        if(spawnRoutine != null)
-        {
-            StopCoroutine(spawnRoutine);
-            spawnRoutine = null;
-        }
 
         yield return new WaitForSeconds(nextWaveDelay);
 
@@ -259,23 +248,13 @@ public class WaveManager : Singleton<WaveManager>
 
     void NextWave()
     {
-        if(currentWave >= maxWave)
-        {
-            waitingForBoss = true;
-
-            if(aliveCount <= 0 && bossDelayRoutine == null)
-            {
-
-                bossDelayRoutine = StartCoroutine(BossDelay());
-                
-            }
-            
-
-            return;
-        }
+        
         currentWave++;
+
         killCount = 0;
         spawnedCount = 0;
+
+        currentState = WaveState.NormalWave;
 
         StartSpawn();
     }
@@ -284,9 +263,7 @@ public class WaveManager : Singleton<WaveManager>
     {
         Debug.Log("스타트 보스 배틀 호출됨 ");
 
-
-
-        if(isBossBattle)
+        if(currentState == WaveState.BossBattle)
         {
             Debug.Log("이미 보스전 중");
             return;
@@ -301,18 +278,14 @@ public class WaveManager : Singleton<WaveManager>
 
         Debug.Log("보스출현");
 
-        isBossBattle = true;
-        waitingForBoss = true;
+       currentState = WaveState.BossBattle;
         bossFinish = false;
 
         bossTimerText.gameObject.SetActive(true);
 
-
-        //currentBoss =
-        //Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
-
         currentBoss =
             ObjectPoolManager.instance.GetObject("Boss");
+
         if(currentBoss != null)
         {
             currentBoss.transform.position = bossSpawnPoint.position;
@@ -355,21 +328,15 @@ public class WaveManager : Singleton<WaveManager>
 
         Debug.Log("보스처치 다음 스테이지 시작");
 
+        currentState = WaveState.WaitingNextStage;
 
         bossTimerText.gameObject.SetActive(false);
 
 
         // 보스 타이머 정지
-        if(bossTimerRoutine != null)
-        {
-            StopCoroutine(bossTimerRoutine);
-            bossTimerRoutine = null;
-        }
+       StopRoutine(ref bossTimerRoutine);
 
         //보스전 상태 종료를 미리 설정
-
-        //isBossBattle = false;
-        //waitingForBoss = false;
 
         currentBoss = null;
 
@@ -397,51 +364,26 @@ public class WaveManager : Singleton<WaveManager>
        
         Debug.Log("다음 스테이지 시작");
 
-        //보스 상태 초기화
-
-        isBossBattle = false;
-        waitingForBoss = false;
-        bossFinish = false;
-
-        //보스 참조 초기화
-
-        currentBoss = null;
-
-        //웨이브 초기화 + 스테이지 증가
-
         currentStage++;
+
         currentWave = 1;
+
         killCount = 0;
         aliveCount = 0;
         spawnedCount = 0;
 
+        currentBoss = null;
+
+        StopSpawn();
+
         //코루틴 초기화
 
-        if (spawnRoutine != null)
-        {
-            StopCoroutine(spawnRoutine);
-            spawnRoutine = null;
-        }
+        StopRoutine(ref spawnRoutine);
+        StopRoutine(ref nextWaveRoutine);
+        StopRoutine(ref bossDelayRoutine);
+        StopRoutine(ref bossTimerRoutine);
 
-        if(nextWaveRoutine != null)
-        {
-            StopCoroutine(nextWaveRoutine);
-            nextWaveRoutine = null;
-        }
-
-        if(bossDelayRoutine != null)
-        {
-            StopCoroutine(bossDelayRoutine);
-            bossDelayRoutine = null;
-        }
-
-
-        if(bossTimerRoutine !=null)
-        {
-            StopCoroutine (bossTimerRoutine);
-            bossTimerRoutine = null;
-        }
-
+        currentState = WaveState.NormalWave;
 
         StartSpawn();
     }
@@ -449,14 +391,16 @@ public class WaveManager : Singleton<WaveManager>
 
     void BossTimeOut()
     {
+        if (bossFinish)
+            return;
+
         bossFinish = true;
 
         bossTimerText.gameObject.SetActive(false);
 
         if(currentBoss !=  null)
         {
-            //Destroy(currentBoss);
-
+           
             ObjectPoolManager.instance.ReturnObject("Boss",currentBoss);
             currentBoss = null;
         }
@@ -467,23 +411,21 @@ public class WaveManager : Singleton<WaveManager>
             bossTimerRoutine = null;
         }
 
-
-        waitingForBoss = false;
-        isBossBattle = false;
-
         currentWave = 1;
         aliveCount = 0;
         killCount = 0;
         spawnedCount = 0;
 
-        StartSpawn() ;
         bossFinish = false;
+
+        StartSpawn() ;
+        
     }
 
 
     void Update()
     {
-        if(isBossBattle)
+        if(currentState == WaveState.BossBattle)
         {
             waveCountText.text = "Stage" + currentStage + "-Boss";
         }

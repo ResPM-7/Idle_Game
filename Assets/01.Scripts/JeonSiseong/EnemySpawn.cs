@@ -2,40 +2,23 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    //[SerializeField] GameObject enemyPrefab;   // 몬스터 프리팹
-
     [SerializeField] private string poolName = "Enemy";
 
-
-
-
-     public void SpawnEnemy()  // 몬스터 스폰
+     public bool SpawnEnemy()  
     {
-        //Instantiate(enemyPrefab,transform.position,Quaternion.identity);
-
         GameObject enemy = ObjectPoolManager.instance.GetObject(poolName);
 
         if(enemy == null )
         {
-            Debug.LogWarning(poolName + " 풀을 찾을 수 없습니다");
-            return;
+            Debug.LogWarning("몬스터 생성 실패 :" + poolName);
+            return false;
         }
 
         enemy.transform.position = transform.position;
         enemy.transform.rotation = Quaternion.identity;
 
+        return true;
+
     }
 
-
-
-    void Start()
-    {
-        
-    }
-
-    
-    void Update()
-    {
-        
-    }
 }
