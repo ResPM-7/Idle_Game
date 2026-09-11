@@ -6,6 +6,7 @@ public class BossHUDPresenter : MonoBehaviour
 
     private void Awake()
     {
+        //게임 시작 시 비활성화
         if (bossHUD != null)
         {
             bossHUD.Hide();
