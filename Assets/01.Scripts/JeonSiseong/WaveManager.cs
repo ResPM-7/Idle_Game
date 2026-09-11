@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Rendering;
 
 public class WaveManager : Singleton<WaveManager>
 {
@@ -156,7 +157,7 @@ public class WaveManager : Singleton<WaveManager>
     public void EnemyKilled()
     {
         aliveCount--;
-
+        Debug.Log("À¯´Ö Á×À½");
         if(aliveCount < 0)
         {
             aliveCount = 0;

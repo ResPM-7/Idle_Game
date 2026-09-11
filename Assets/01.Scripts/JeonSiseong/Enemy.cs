@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-
-    //[SerializeField] int maxHp = 1;
-    [SerializeField] private float currentHp = 1f;
-
-    private bool isDead = false;
     private Unit_Base_Test unitBase;
 
     private void Awake()
@@ -14,91 +9,35 @@ public class Enemy : MonoBehaviour
         unitBase = GetComponent<Unit_Base_Test>();
     }
 
-
-
-
-    public void TakeDamage(float damage)
-    {
-        if (isDead) return;
-
-        currentHp -= damage;
-
-        if(unitBase !=  null)
-        {
-            unitBase.currentHp = currentHp;
-        }
-
-
-        if (currentHp <= 0)
-        {
-            Die();
-        }
-    }
-
-    public void Die()
-    {
-        
-        if (isDead) return;
-
-        isDead = true;
-
-        if(unitBase !=null)
-        {
-            unitBase.currentHp = 0f;
-        }
-
-        if(WaveManager.instance != null)
-        {
-            WaveManager.instance.EnemyKilled();
-        }
-        
-        //Destroy(gameObject);
-
-        ObjectPoolManager.instance.ReturnObject("Enemy", gameObject);
-    }
-
-    //public void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Player"))
-    //    {
-    //        TakeDamage();
-
-    //    }
-    //}
-
-    public void TakeSkillDamage(int damage)
-    {
-
-        //if (isDead)
-        //    return;
-
-        //currentHp -= damage;
-
-        //if (currentHp <= 0)
-        //{
-        //    Die();
-        //}
-
-        TakeDamage(damage);
-    }
-
     private void OnEnable()
     {
-        //  변수 초기화
-        currentHp = 1f;
-        isDead=false;
-
-        
-        if(unitBase != null && unitBase.myData != null)
-        {
-           unitBase.Init(unitBase.myData);
-        }
-    
-        if(unitBase != null && unitBase.myData != null)
+        if (unitBase != null && unitBase.myData != null)
         {
             unitBase.Init(unitBase.myData);
         }
 
+        // 유닛이 활성화될 때 사망 이벤트를 귀 기울여 듣기 시작합니다 (구독)
+        if (unitBase != null)
+        {
+            unitBase.OnDeathEvent += HandleDeath;
+        }
     }
 
+    private void OnDisable()
+    {
+        // 비활성화(풀 반환)될 때는 반드시 구독을 취소해야 메모리 누수가 없습니다!
+        if (unitBase != null)
+        {
+            unitBase.OnDeathEvent -= HandleDeath;
+        }
+    }
+
+    // 체력이 0이 되어 OnDeathEvent가 터지면 이 함수가 실행됩니다.
+    private void HandleDeath()
+    {
+        // 이때 확실하게 웨이브 매니저에게 적이 죽었다고 알립니다.
+        WaveManager.instance.EnemyKilled();
+
+        // (참고: 오브젝트를 풀로 되돌리는 로직은 UnitDestroyedState 내부에서 처리하는 것이 깔끔합니다)
+    }
 }

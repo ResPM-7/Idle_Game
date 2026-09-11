@@ -733,7 +733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5207448061230941041, guid: 0d0b38203ddb4b145b54b1379a2f5b36, type: 3}
       propertyPath: m_fontSize
-      value: 25.7
+      value: 23.9
       objectReference: {fileID: 0}
     - target: {fileID: 6322933853177478881, guid: 0d0b38203ddb4b145b54b1379a2f5b36, type: 3}
       propertyPath: m_Pivot.x
@@ -3654,7 +3654,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2324482627334006169}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.44181815
+  m_Size: 0.49508473
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3734,7 +3734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 352c614f70be2b14a94dce7ce5bb40d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
-  isDontDestroy: 0
   bossPrefab: {fileID: 3624809761425899735, guid: 34501b131c8215345abf6cd11b0b1958, type: 3}
   bossSpawnPoint: {fileID: 1050417647}
   spawnPoints:
