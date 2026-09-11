@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
@@ -18,26 +19,52 @@ public class SkillManager : MonoBehaviour
     [SerializeField] float lightningCooltime = 5f;
     [SerializeField] float fireCooltime = 10f;
 
+    [Header("스킬 위치")]
+    [SerializeField] private Transform skillSpawnPoint;
+
+    [Header("스킬 쿨타임 이미지 확인")]
+    [SerializeField] private Image poisonCooldownImage;
+    [SerializeField] private Image lightningCooldownImage;
+    [SerializeField] private Image fireCooldownImage;
+
 
     float poisonTimer;
     float lightningTimer;
     float fireTimer;
 
+    
+
+    public void OnClickPoisonSkill()
+    {
+        if (skillSpawnPoint != null) UsePoison(skillSpawnPoint.position);
+    }
+
+    public void OnClickLightningSkill()
+    {
+        if (skillSpawnPoint != null) UseLightning(skillSpawnPoint.position);
+    }
+
+    public void OnClickFireSkill()
+    {
+        if (skillSpawnPoint != null) UseFire(skillSpawnPoint.position);
+    }
+
     public void UsePoison(Vector3 position)       // 플레이어가 호출 할 독 스킬
     {
-        if(poisonTimer > 0)
+        if (poisonTimer > 0)
         {
             return;
         }
 
         poisonTimer = poisonCooltime;
 
-
-        GameObject obj=
-        Instantiate(poisonSkillPrefab, position, Quaternion.identity);
+        GameObject obj = ObjectPoolManager.instance.GetObject(poisonPoolName);
+        if (obj != null)
+        {
+            obj.transform.position = position;
+            obj.transform.rotation = Quaternion.identity;
+        }
     }
-
-
 
     public void UseLightning(Vector3 position)       // 플레이어가 호출 할 번개 스킬
     {
@@ -48,9 +75,12 @@ public class SkillManager : MonoBehaviour
 
         lightningTimer = lightningCooltime;
 
-
-        GameObject obj =
-        Instantiate(lightningSkillPrefab, position, Quaternion.identity);
+        GameObject obj = ObjectPoolManager.instance.GetObject(lightningPoolName);
+        if (obj != null)
+        {
+            obj.transform.position = position;
+            obj.transform.rotation = Quaternion.identity;
+        }
     }
 
 
@@ -65,9 +95,12 @@ public class SkillManager : MonoBehaviour
 
         fireTimer = fireCooltime;
 
-
-        GameObject obj =
-        Instantiate(fireSkillPrefab, position, Quaternion.identity);
+        GameObject obj = ObjectPoolManager.instance.GetObject(firePoolName);
+        if (obj != null)
+        {
+            obj.transform.position = position;
+            obj.transform.rotation = Quaternion.identity;
+        }
     }
 
 
@@ -80,11 +113,27 @@ public class SkillManager : MonoBehaviour
         
     }
 
-    
-    void Update()
+    private void Update()
     {
-        poisonTimer -= Time.deltaTime;
-        lightningTimer -= Time.deltaTime;
-        fireTimer -= Time.deltaTime;
+        if (poisonTimer > 0)
+        {
+            poisonTimer -= Time.deltaTime;
+            if (poisonCooldownImage != null)
+                poisonCooldownImage.fillAmount = poisonTimer / poisonCooltime; // 남은 비율 계산
+        }
+
+        if (lightningTimer > 0)
+        {
+            lightningTimer -= Time.deltaTime;
+            if (lightningCooldownImage != null)
+                lightningCooldownImage.fillAmount = lightningTimer / lightningCooltime;
+        }
+
+        if (fireTimer > 0)
+        {
+            fireTimer -= Time.deltaTime;
+            if (fireCooldownImage != null)
+                fireCooldownImage.fillAmount = fireTimer / fireCooltime;
+        }
     }
 }

@@ -64,7 +64,7 @@ MonoBehaviour:
   - poolName: Lightning
     prefab: {fileID: 2261763633164832102, guid: 34fb6409fb8ef104c959a9910144e9c2, type: 3}
     poolSize: 1
-  - poolName: Posion
+  - poolName: Poison
     prefab: {fileID: 2220259676657357551, guid: 6b2995635950a174aa2bdd5c423a5030, type: 3}
     poolSize: 1
   canvasPools:

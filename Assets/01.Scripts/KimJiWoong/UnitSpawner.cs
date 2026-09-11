@@ -7,6 +7,9 @@ public class UnitSpawner : MonoBehaviour
     public Transform gridPanel;
     public UnitDataSO baseUnitData;
 
+    [Header("비용 설정")]
+    [SerializeField] private int spawnCost = 10;
+
     private List<Transform> gridSlots = new List<Transform>();
 
     private void Awake()
@@ -38,7 +41,10 @@ public class UnitSpawner : MonoBehaviour
         // 빈 칸을 찾았으면 소환, 못 찾았으면 꽉 찬 상태
         if (targetSlot != null)
         {
-            GridUnitFactory.instance.CreateUnit(baseUnitData.uiPoolName, baseUnitData, targetSlot);
+            if (MoneyManager.instance != null && MoneyManager.instance.SpendCredit(spawnCost))
+            {
+                GridUnitFactory.instance.CreateUnit(baseUnitData.uiPoolName, baseUnitData, targetSlot);
+            }
         }
         else
         {
