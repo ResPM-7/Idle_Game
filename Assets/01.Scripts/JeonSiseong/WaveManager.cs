@@ -2,21 +2,21 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class WaveManager : MonoBehaviour
+public class WaveManager : Singleton<WaveManager>
 {
-    public static WaveManager instance;
+    //public static WaveManager instance;
 
-    private void Awake()
-    {
-        if (instance == null)   
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
+    //private void Awake()
+    //{
+    //    if (instance == null)   
+    //    {
+    //        instance = this;
+    //        DontDestroyOnLoad(gameObject);
+    //    }
+    //    else
+    //        Destroy(gameObject);
 
-    }
+    //}
 
 
 
@@ -307,8 +307,17 @@ public class WaveManager : MonoBehaviour
         bossTimerText.gameObject.SetActive(true);
 
 
+        //currentBoss =
+        //Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+
         currentBoss =
-        Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+            ObjectPoolManager.instance.GetObject("Boss");
+        if(currentBoss != null)
+        {
+            currentBoss.transform.position = bossSpawnPoint.position;
+            currentBoss.transform.rotation = Quaternion.identity;
+        }
+
 
         bossTimerRoutine = StartCoroutine(BossTimer());
     }
@@ -445,7 +454,9 @@ public class WaveManager : MonoBehaviour
 
         if(currentBoss !=  null)
         {
-            Destroy(currentBoss);
+            //Destroy(currentBoss);
+
+            ObjectPoolManager.instance.ReturnObject("Boss",currentBoss);
             currentBoss = null;
         }
 
