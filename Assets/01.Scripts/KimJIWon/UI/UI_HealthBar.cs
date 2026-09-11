@@ -9,6 +9,9 @@ public class UI_HealthBar : MonoBehaviour
     [SerializeField] private float maxHp = 100f;
     [SerializeField] private float currentHp = 100f;
 
+    [Header("Test Target")]
+    [SerializeField] private Transform testTarget;
+
     private void Update()
     {
         UpdateHealthBar();
@@ -50,9 +53,25 @@ public class UI_HealthBar : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        if (hpFillImage != null && maxHp > 0)
+        if (maxHp > 0f)
         {
-            hpFillImage.fillAmount = currentHp / maxHp;
+            SetFill(currentHp / maxHp);
         }
     }
+    public void SetFill(float normalizedHp)
+    {
+        if (hpFillImage != null)
+        {
+            hpFillImage.fillAmount = Mathf.Clamp01(normalizedHp);
+        }
+    }
+    public void SetScreenPosition(Vector3 screenPosition)
+    {
+        transform.position = screenPosition;
+    }
+    public void SetVisible(bool visible)
+    {
+        gameObject.SetActive(visible);
+    }
+
 }
