@@ -17,15 +17,15 @@ public class UI_HealthBar : MonoBehaviour
         UpdateHealthBar();
 
 #if UNITY_EDITOR
-        // 2. 테스트용(A: 데미지, S: 회복)
+        
         var keyboard = UnityEngine.InputSystem.Keyboard.current;
         if (keyboard == null) return;
 
-        if (keyboard.aKey.wasPressedThisFrame)
+        if (keyboard.qKey.wasPressedThisFrame)
         {
             TakeDamage(10f);
         }
-        if (keyboard.sKey.wasPressedThisFrame)
+        if (keyboard.wKey.wasPressedThisFrame)
         {
             Heal(10f);
         }
