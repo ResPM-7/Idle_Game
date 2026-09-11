@@ -59,6 +59,18 @@ public class WaveManager : Singleton<WaveManager>
     Coroutine bossDelayRoutine;
     Coroutine nextStageRoutine;
 
+
+    //웨이브 초기화
+    void ResetWave()
+    {
+        currentWave = 1;
+
+        aliveCount = 0;
+        killCount = 0;
+        spawnedCount = 0;
+    }
+
+
     int GetKillCountForWave(int wave)
     {
       
@@ -76,6 +88,14 @@ public class WaveManager : Singleton<WaveManager>
         }
     }
 
+    void FinishBoss()
+    {
+        bossTimerText.gameObject.SetActive(false);
+
+        StopRoutine(ref bossTimerRoutine);
+
+        currentBoss = null;
+    }
 
     void StartSpawn()
     {
@@ -218,7 +238,6 @@ public class WaveManager : Singleton<WaveManager>
     {
        StopSpawn();
 
-
         yield return new WaitForSeconds(nextWaveDelay);
 
         bossDelayRoutine = null;
@@ -263,36 +282,49 @@ public class WaveManager : Singleton<WaveManager>
     {
         Debug.Log("스타트 보스 배틀 호출됨 ");
 
+        //이미 보스전이면 중복 실행 방지
         if(currentState == WaveState.BossBattle)
         {
             Debug.Log("이미 보스전 중");
             return;
         }
 
+        //이미 보스가 존재하면 중복 생성 방지
         if(currentBoss != null)
         {
             Debug.Log("이미 보스 존재");
             return;
         }
 
+        //풀에서 보스 가져오기
+        GameObject boss = ObjectPoolManager.instance.GetObject("Boss");
 
-        Debug.Log("보스출현");
+        // 보스 생성 실패
+        if(boss == null)
+        {
+            Debug.Log("보스 생성 실패");
 
-       currentState = WaveState.BossBattle;
+            //아직 보스 대기 상태 유지
+            currentState = WaveState.WaitingBoss;
+
+            return;
+        }
+
+        //보스 위치 설정
+        boss.transform.position = bossSpawnPoint.position;
+        boss.transform.rotation = Quaternion.identity;
+
+        currentBoss = boss;
+
+        //보스전 시작
+        currentState = WaveState.BossBattle;
         bossFinish = false;
 
         bossTimerText.gameObject.SetActive(true);
 
-        currentBoss =
-            ObjectPoolManager.instance.GetObject("Boss");
+        Debug.Log("보스출현");
 
-        if(currentBoss != null)
-        {
-            currentBoss.transform.position = bossSpawnPoint.position;
-            currentBoss.transform.rotation = Quaternion.identity;
-        }
-
-
+        //보스 생성 성공 후에만 타이머 시작
         bossTimerRoutine = StartCoroutine(BossTimer());
     }
     
@@ -330,15 +362,7 @@ public class WaveManager : Singleton<WaveManager>
 
         currentState = WaveState.WaitingNextStage;
 
-        bossTimerText.gameObject.SetActive(false);
-
-
-        // 보스 타이머 정지
-       StopRoutine(ref bossTimerRoutine);
-
-        //보스전 상태 종료를 미리 설정
-
-        currentBoss = null;
+       FinishBoss();
 
         if(nextStageRoutine==null)
         {
@@ -366,11 +390,7 @@ public class WaveManager : Singleton<WaveManager>
 
         currentStage++;
 
-        currentWave = 1;
-
-        killCount = 0;
-        aliveCount = 0;
-        spawnedCount = 0;
+        ResetWave();
 
         currentBoss = null;
 
@@ -396,28 +416,26 @@ public class WaveManager : Singleton<WaveManager>
 
         bossFinish = true;
 
+        Debug.Log("보스 제한시간 종료");
+
         bossTimerText.gameObject.SetActive(false);
 
-        if(currentBoss !=  null)
+        //보스 풀로 반환
+        if (currentBoss != null)
         {
-           
-            ObjectPoolManager.instance.ReturnObject("Boss",currentBoss);
-            currentBoss = null;
+
+            ObjectPoolManager.instance.ReturnObject("Boss", currentBoss);
         }
 
-        if(bossTimerRoutine != null)
-        {
-            StopCoroutine(bossTimerRoutine);
-            bossTimerRoutine = null;
-        }
+        FinishBoss();
 
-        currentWave = 1;
-        aliveCount = 0;
-        killCount = 0;
-        spawnedCount = 0;
+        ResetWave();
+
+        currentState = WaveState.NormalWave;
 
         bossFinish = false;
 
+        //일반 웨이브 다시 시작
         StartSpawn() ;
         
     }
@@ -425,7 +443,7 @@ public class WaveManager : Singleton<WaveManager>
 
     void Update()
     {
-        if(currentState == WaveState.BossBattle)
+        if(currentState == WaveState.BossBattle  || currentState == WaveState.WaitingNextStage)
         {
             waveCountText.text = "Stage" + currentStage + "-Boss";
         }
