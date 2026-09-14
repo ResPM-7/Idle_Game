@@ -9,7 +9,7 @@ public class BattleSlotUI : BaseSlot
     // 배틀 슬롯만의 특별한 합성 규칙 구현
     protected override void HandleMerge(DragableUnit droppedUnit, DragableUnit myUnit)
     {
-        UnitDataSO nextData = myUnit.myData.nexUpdateUnit;
+        UnitDataSO nextData = myUnit.myData.nextUpgradeUnit;
 
         // 부모 연결 끊기 (고스트 데이터 방지)
         myUnit.transform.SetParent(null);

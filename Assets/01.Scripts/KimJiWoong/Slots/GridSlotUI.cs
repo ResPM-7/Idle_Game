@@ -4,7 +4,7 @@ public class GridSlotUI : BaseSlot
     // 인벤토리만의 합성 규칙 구현
     protected override void HandleMerge(DragableUnit droppedUnit, DragableUnit myUnit)
     {
-        UnitDataSO nextData = myUnit.myData.nexUpdateUnit;
+        UnitDataSO nextData = myUnit.myData.nextUpgradeUnit;
 
         // 부모 연결 끊기
         myUnit.transform.SetParent(null);

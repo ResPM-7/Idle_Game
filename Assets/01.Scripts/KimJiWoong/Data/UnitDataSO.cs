@@ -3,22 +3,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Unit Data", menuName = "Data/Unit Data")]
 public class UnitDataSO : ScriptableObject
 {
-    [Header("풀링 정보")]
-    public string uiPoolName;// 머지 보드용 UI 유닛 풀 이름
-    public string battlePoolName;// 실제 전장에서 싸울 전투 유닛 풀 이름
-
     [Header("기본 정보")]
     public int unitId;
     public int unitLevel;
     public string unitName;
-    public float maxHp;
-    public float moveSpeed;
+
+    public string uiPoolName;
+    public string battlePoolName;
+
+    [Header("외형 정보")]
+    public Sprite unitSprite;
 
     [Header("전투 정보")]
+    public float maxHp;
+    public float moveSpeed;
     public float attackDamage;
     public float attackSpeed;
     public float attackRange;
-    public float attackCooldown;
 
 
     [Header("적 처치시 재화드롭")]
@@ -26,5 +27,5 @@ public class UnitDataSO : ScriptableObject
     public int credit;//소환재화
 
     [Header("다음 업그레이드 유닛(있으면 추가 없으면 빈칸)")]
-    public UnitDataSO nexUpdateUnit;
+    public UnitDataSO nextUpgradeUnit;
 }

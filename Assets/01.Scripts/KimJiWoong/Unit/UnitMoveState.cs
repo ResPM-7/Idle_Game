@@ -19,7 +19,7 @@ public class UnitMoveState : IUnitState
 
         if (dist <= unit.MyData.attackRange)
         {
-            if (unit.AttackTimer >= unit.MyData.attackCooldown)
+            if (unit.AttackTimer >= unit.CurrentAttackSpeed)
             {
                 unit.ChangeState(unit.attackState); // 공격 사거리 진입 시 Attack 전환
             }

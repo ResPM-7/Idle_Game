@@ -16,18 +16,19 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public static event Action<Unit_Base_Test> OnUnitDespawned;
 
     public event Action OnDeathEvent;
-    public event Action<float, float, float> OnHpChanged;
+    public event Action<Unit_Base_Test, float, float, float> OnHpChanged;
 
     [Header("기본 설정")]
     [SerializeField] private UnitDataSO myData;
     [SerializeField] private LayerMask targetLayer;
+    //본인의 외형
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     public UnitDataSO MyData => myData;
     public LayerMask TargetLayer => targetLayer;
     public float CurrentHp { get; set; }
     public float CurrentDamage { get; set; }
     public float CurrentAttackSpeed { get; set; }
-    public float CurrentAttackCooldown { get; set; }
     public float AttackTimer { get; set; }
     public float SearchTimer { get; set; }
     public Transform CurrentTarget { get; set; }
@@ -50,10 +51,15 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public void Init(UnitDataSO data)
     {
         myData = data;
+
+        if (spriteRenderer != null && myData.unitSprite != null)
+        {
+            spriteRenderer.sprite = myData.unitSprite;
+        }
+
         CurrentHp = myData.maxHp;
         CurrentDamage = myData.attackDamage; 
         CurrentAttackSpeed = myData.attackSpeed;
-        CurrentAttackCooldown = myData.attackCooldown;
         AttackTimer = 0f;
         SearchTimer = 0f;
         CurrentTarget = null;
@@ -101,7 +107,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentHp -= amount;
 
 
-        OnHpChanged?.Invoke(CurrentHp, myData.maxHp, amount);
+        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, amount);
         if (CurrentHp <= 0)
         {
             OnDeathEvent?.Invoke();
