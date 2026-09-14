@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1180276980158693692
+--- !u!1 &1307030228454987814
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 367151491422226818}
-  - component: {fileID: 684397996377534376}
+  - component: {fileID: 3468857926402343581}
+  - component: {fileID: 3578030145915865487}
   m_Layer: 0
   m_Name: UI_PopUpManager
   m_TagString: Untagged
@@ -17,35 +17,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &367151491422226818
+--- !u!4 &3468857926402343581
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180276980158693692}
+  m_GameObject: {fileID: 1307030228454987814}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5578230896490697025}
+  m_Father: {fileID: 8746302902955297697}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &684397996377534376
+--- !u!114 &3578030145915865487
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180276980158693692}
+  m_GameObject: {fileID: 1307030228454987814}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c89ea42b42780c14691ea03e8b3d48ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_PopUpManager
   popupCanvasTransform: {fileID: 0}
---- !u!1 &3596171049203177748
+--- !u!1 &4878481573967991991
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,8 +53,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5578230896490697025}
-  - component: {fileID: 7215722364599846123}
+  - component: {fileID: 8746302902955297697}
+  - component: {fileID: 2394164508364242003}
+  - component: {fileID: 1086598437108571781}
+  - component: {fileID: 7939978079070718223}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -62,36 +64,64 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5578230896490697025
+--- !u!4 &8746302902955297697
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3596171049203177748}
+  m_GameObject: {fileID: 4878481573967991991}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 367151491422226818}
+  - {fileID: 3468857926402343581}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7215722364599846123
+--- !u!114 &2394164508364242003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3596171049203177748}
+  m_GameObject: {fileID: 4878481573967991991}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04897c9e289d5414baabe14ddcfb8ead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   isDontDestroy: 0
-  popUpManager: {fileID: 684397996377534376}
-  overlayCanvasTransform: {fileID: 0}
-  damageTextPrefab: {fileID: 4532371116211410950, guid: bab855672a757f348a83b796cc5acb17, type: 3}
+  popUpManager: {fileID: 3578030145915865487}
   upgradeTab: {fileID: 0}
+  goldDisplay: {fileID: 0}
+  creditDisplay: {fileID: 0}
+--- !u!114 &1086598437108571781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878481573967991991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0258f8b0fb229fb46bcf5aca4f349cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossHUDPresenter
+  isDontDestroy: 0
+  bossHUD: {fileID: 0}
+--- !u!114 &7939978079070718223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878481573967991991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff4a389029b3ff43a95a3f35bc70a8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthBarManager
+  worldCamera: {fileID: 0}
+  worldOffset: {x: 0, y: 0, z: 0}

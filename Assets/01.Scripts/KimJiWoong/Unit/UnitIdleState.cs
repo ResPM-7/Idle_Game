@@ -7,11 +7,11 @@ public class UnitIdleState : IUnitState
 
     public void Execute(Unit_Base_Test unit)
     {
-        unit.searchTimer += Time.deltaTime;
-        if (unit.searchTimer < 0.2f) return;
-        unit.searchTimer = 0f;
+        unit.SearchTimer += Time.deltaTime;
+        if (unit.SearchTimer < 0.2f) return;
+        unit.SearchTimer = 0f;
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(unit.transform.position, unit.myData.attackRange * 2f, unit.targetLayer);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(unit.transform.position, unit.MyData.attackRange * 2f, unit.TargetLayer);
         Transform closestTarget = null;
         float minDistance = float.MaxValue;
 
@@ -19,7 +19,7 @@ public class UnitIdleState : IUnitState
         {
             Unit_Base_Test enemy = col.GetComponent<Unit_Base_Test>();
 
-            if (enemy != null && enemy.currentHp > 0)
+            if (enemy != null && enemy.CurrentHp > 0)
             {
                 float dist = Vector2.Distance(unit.transform.position, enemy.transform.position);
                 if (dist < minDistance)
@@ -32,7 +32,7 @@ public class UnitIdleState : IUnitState
 
         if (closestTarget != null)
         {
-            unit.currentTarget = closestTarget;
+            unit.CurrentTarget = closestTarget;
             unit.ChangeState(unit.moveState); // 타겟 발견 시 Move 상태로 전환
         }
     }

@@ -19,16 +19,18 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public event Action<float, float> OnHpChanged;
 
     [Header("기본 설정")]
-    public UnitDataSO myData;
+    [SerializeField] private UnitDataSO myData;
+    [SerializeField] private LayerMask targetLayer;
 
-    [Header("타겟팅 설정")]
-    public LayerMask targetLayer;
-
-    public float currentHp;
-    public float currentDamage;
-    [HideInInspector] public float attackTimer;
-    [HideInInspector] public float searchTimer;
-    [HideInInspector] public Transform currentTarget;
+    public UnitDataSO MyData => myData;
+    public LayerMask TargetLayer => targetLayer;
+    public float CurrentHp { get; set; }
+    public float CurrentDamage { get; set; }
+    public float CurrentAttackSpeed { get; set; }
+    public float CurrentAttackCooldown { get; set; }
+    public float AttackTimer { get; set; }
+    public float SearchTimer { get; set; }
+    public Transform CurrentTarget { get; set; }
 
     // FSM 관련 변수
     private IUnitState currentState;
@@ -48,11 +50,13 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public void Init(UnitDataSO data)
     {
         myData = data;
-        currentHp = myData.maxHp;
-        currentDamage = myData.attackDamage;
-        attackTimer = 0f;
-        searchTimer = 0f;
-        currentTarget = null;
+        CurrentHp = myData.maxHp;
+        CurrentDamage = myData.attackDamage; 
+        CurrentAttackSpeed = myData.attackSpeed;
+        CurrentAttackCooldown = myData.attackCooldown;
+        AttackTimer = 0f;
+        SearchTimer = 0f;
+        CurrentTarget = null;
 
         ChangeState(idleState);
 
@@ -94,10 +98,10 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     {
         if (currentState == destroyedState) return;
 
-        currentHp -= amount;
+        CurrentHp -= amount;
 
-        OnHpChanged?.Invoke(currentHp, myData.maxHp);
-        if (currentHp <= 0)
+        OnHpChanged?.Invoke(CurrentHp, myData.maxHp);
+        if (CurrentHp <= 0)
         {
             OnDeathEvent?.Invoke();
             ChangeState(destroyedState);

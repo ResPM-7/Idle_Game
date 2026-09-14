@@ -21,6 +21,8 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 2
   attackSpeed: 0.9
-  attackRange: 2
+  attackRange: 5
   attackCooldown: 0
+  coin: 0
+  credit: 0
   nexUpdateUnit: {fileID: 0}

@@ -46,7 +46,7 @@ public class HealthBarManager : MonoBehaviour
             UI_HealthBar healthBar = pair.Value;
 
             if (unit == null ||
-                unit.myData == null ||
+                unit.MyData == null ||
                 healthBar == null ||
                 !unit.gameObject.activeInHierarchy)
             {
@@ -55,8 +55,8 @@ public class HealthBarManager : MonoBehaviour
 
             unit.TakeDamage(damage);
 
-            float normalizedHp = unit.myData.maxHp > 0f
-                ? unit.currentHp / unit.myData.maxHp
+            float normalizedHp = unit.MyData.maxHp > 0f
+                ? unit.CurrentHp / unit.MyData.maxHp
                 : 0f;
 
             healthBar.SetFill(normalizedHp);
@@ -79,20 +79,20 @@ public class HealthBarManager : MonoBehaviour
             UI_HealthBar healthBar = pair.Value;
 
             if (unit == null ||
-                unit.myData == null ||
+                unit.MyData == null ||
                 healthBar == null ||
                 !unit.gameObject.activeInHierarchy)
             {
                 continue;
             }
 
-            unit.currentHp = Mathf.Min(
-                unit.currentHp + amount,
-                unit.myData.maxHp
+            unit.CurrentHp = Mathf.Min(
+                unit.CurrentHp + amount,
+                unit.MyData.maxHp
             );
 
-            float normalizedHp = unit.myData.maxHp > 0f
-                ? unit.currentHp / unit.myData.maxHp
+            float normalizedHp = unit.MyData.maxHp > 0f
+                ? unit.CurrentHp / unit.MyData.maxHp
                 : 0f;
 
             healthBar.SetFill(normalizedHp);
@@ -181,9 +181,9 @@ public class HealthBarManager : MonoBehaviour
                 continue;
             }
 
-            float maxHp = unit.myData.maxHp;
+            float maxHp = unit.MyData.maxHp;
             float normalizedHp = maxHp > 0f
-                ? unit.currentHp / maxHp
+                ? unit.CurrentHp / maxHp
                 : 0f;
 
             healthBar.SetFill(normalizedHp);

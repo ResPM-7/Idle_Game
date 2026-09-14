@@ -167,7 +167,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &7736573895719504831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,11 +184,6 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
-  currentHp: 0
-  currentDamage: 0
-  attackTimer: 0
-  searchTimer: 0
-  currentTarget: {fileID: 0}
 --- !u!114 &8962647155445619845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,4 +196,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a49f25578eef6429efc190871cf5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  currentHp: 1

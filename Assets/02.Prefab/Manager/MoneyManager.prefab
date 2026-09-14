@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &815988358998763528
+--- !u!1 &518895933561932827
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6188501489997817642}
-  - component: {fileID: 3984965613267138069}
+  - component: {fileID: 9162284085547228653}
+  - component: {fileID: 7387790228173080205}
   m_Layer: 0
   m_Name: MoneyManager
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6188501489997817642
+--- !u!4 &9162284085547228653
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 815988358998763528}
+  m_GameObject: {fileID: 518895933561932827}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,13 +32,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3984965613267138069
+--- !u!114 &7387790228173080205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 815988358998763528}
+  m_GameObject: {fileID: 518895933561932827}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d579c3cfdf659d4bb139c05d50e0d1f, type: 3}
@@ -46,6 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoneyManager
   isDontDestroy: 0
   currentGold: 500
-  currentCredit: 0
-  coinText: {fileID: 0}
-  creditText: {fileID: 0}
+  currentCredit: 100

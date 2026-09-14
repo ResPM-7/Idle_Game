@@ -95,6 +95,11 @@ public class WaveManager : Singleton<WaveManager>
         StopRoutine(ref bossTimerRoutine);
 
         currentBoss = null;
+
+        if (BossHUDPresenter.instance != null)
+        {
+            BossHUDPresenter.instance.EndBossBattle();
+        }
     }
 
     void StartSpawn()
@@ -325,6 +330,18 @@ public class WaveManager : Singleton<WaveManager>
         Debug.Log("보스출현");
 
         //보스 생성 성공 후에만 타이머 시작
+        Unit_Base_Test bossUnit = currentBoss.GetComponent<Unit_Base_Test>();
+        if (bossUnit != null && BossHUDPresenter.instance != null)
+        {
+            BossHUDPresenter.instance.BeginBossBattle(
+                bossUnit.MyData.unitName,
+                bossUnit.CurrentHp,
+                bossUnit.MyData.maxHp,
+                waveData.baseBossTimeLimit,
+                waveData.baseBossTimeLimit
+            );
+        }
+
         bossTimerRoutine = StartCoroutine(BossTimer());
     }
     
@@ -337,7 +354,12 @@ public class WaveManager : Singleton<WaveManager>
         {
             bossTimer -= Time.deltaTime;
 
-            bossTimerText.text =  Mathf.Ceil(bossTimer).ToString(); 
+            bossTimerText.text =  Mathf.Ceil(bossTimer).ToString();
+
+            if (BossHUDPresenter.instance != null)
+            {
+                BossHUDPresenter.instance.UpdateBossTimer(bossTimer, waveData.baseBossTimeLimit);
+            }
 
             yield return null;
         }

@@ -62,10 +62,10 @@ public class BarracksManager : Singleton<BarracksManager>
     // 갓 스폰된 유닛 초기화 전용
     private void ApplyAllStatsToNewUnit(Unit_Base_Test unit)
     {
-        if (unit.myData == null) return;
+        if (unit.MyData == null) return;
 
-        unit.currentHp = unit.myData.maxHp + GetBuffValue(StatType.Health);
-        unit.currentDamage = unit.myData.attackDamage + GetBuffValue(StatType.Strength);
+        unit.CurrentHp = unit.MyData.maxHp + GetBuffValue(StatType.Health);
+        unit.CurrentDamage = unit.MyData.attackDamage + GetBuffValue(StatType.Strength);
 
         // 예시: unit.attackSpeed = unit.myData.attackSpeed + GetBuffValue(StatType.AttackSpeed);
         // 예시: unit.magicPower = unit.myData.magicPower + GetBuffValue(StatType.MagicPower);
@@ -74,24 +74,24 @@ public class BarracksManager : Singleton<BarracksManager>
     // 이미 싸우고 있는 유닛 실시간 갱신용
     private void ApplyRealTimeStat(Unit_Base_Test unit, StatType type, float amount)
     {
-        if (unit.myData == null) return;
+        if (unit.MyData == null) return;
 
         switch (type)
         {
             case StatType.Health:
-                float baseMaxHp = unit.myData.maxHp;
+                float baseMaxHp = unit.MyData.maxHp;
                 float currentMaxHp = baseMaxHp + GetBuffValue(StatType.Health);
                 float previousMaxHp = currentMaxHp - amount;
 
                 if (previousMaxHp > 0)
                 {
-                    float hpRatio = unit.currentHp / previousMaxHp;
-                    unit.currentHp = currentMaxHp * hpRatio;
+                    float hpRatio = unit.CurrentHp / previousMaxHp;
+                    unit.CurrentHp = currentMaxHp * hpRatio;
                 }
                 break;
 
             case StatType.Strength:
-                unit.currentDamage = unit.myData.attackDamage + GetBuffValue(StatType.Strength);
+                unit.CurrentDamage = unit.MyData.attackDamage + GetBuffValue(StatType.Strength);
                 break;
 
                 // 새로운 스탯이 추가되면 아래에 case만 추가하면 완벽하게 작동합니다!

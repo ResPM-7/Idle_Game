@@ -7,27 +7,27 @@ public class UnitMoveState : IUnitState
 
     public void Execute(Unit_Base_Test unit)
     {
-        unit.attackTimer += Time.deltaTime;
+        unit.AttackTimer += Time.deltaTime;
 
-        if (unit.currentTarget == null || unit.currentTarget.GetComponent<Unit_Base_Test>().currentHp <= 0)
+        if (unit.CurrentTarget == null || unit.CurrentTarget.GetComponent<Unit_Base_Test>().CurrentHp <= 0)
         {
             unit.ChangeState(unit.idleState);
             return;
         }
 
-        float dist = Vector2.Distance(unit.transform.position, unit.currentTarget.position);
+        float dist = Vector2.Distance(unit.transform.position, unit.CurrentTarget.position);
 
-        if (dist <= unit.myData.attackRange)
+        if (dist <= unit.MyData.attackRange)
         {
-            if (unit.attackTimer >= unit.myData.attackCooldown)
+            if (unit.AttackTimer >= unit.MyData.attackCooldown)
             {
                 unit.ChangeState(unit.attackState); // 공격 사거리 진입 시 Attack 전환
             }
         }
         else
         {
-            Vector2 dir = (unit.currentTarget.position - unit.transform.position).normalized;
-            unit.transform.Translate(dir * unit.myData.moveSpeed * Time.deltaTime);
+            Vector2 dir = (unit.CurrentTarget.position - unit.transform.position).normalized;
+            unit.transform.Translate(dir * unit.MyData.moveSpeed * Time.deltaTime);
         }
     }
 }

@@ -167,7 +167,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &2633395111666899773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,11 +184,6 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
-  currentHp: 0
-  currentDamage: 0
-  attackTimer: 0
-  searchTimer: 0
-  currentTarget: {fileID: 0}
 --- !u!114 &5657808776079459170
 MonoBehaviour:
   m_ObjectHideFlags: 0
