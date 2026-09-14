@@ -37,63 +37,36 @@ public class HealthBarManager : MonoBehaviour
 
     private void TestDamageAllUnits(float damage)
     {
-        var healthBarSnapshot =
-            new List<KeyValuePair<Unit_Base_Test, UI_HealthBar>>(healthBars);
+        var unitSnapshot = new List<Unit_Base_Test>(healthBars.Keys);
 
-        foreach (var pair in healthBarSnapshot)
+        foreach (Unit_Base_Test unit in unitSnapshot)
         {
-            Unit_Base_Test unit = pair.Key;
-            UI_HealthBar healthBar = pair.Value;
-
-            if (unit == null ||
-                unit.MyData == null ||
-                healthBar == null ||
-                !unit.gameObject.activeInHierarchy)
+            if (unit == null || unit.MyData == null || !unit.gameObject.activeInHierarchy)
             {
                 continue;
             }
 
             unit.TakeDamage(damage);
-
-            float normalizedHp = unit.MyData.maxHp > 0f
-                ? unit.CurrentHp / unit.MyData.maxHp
-                : 0f;
-
-            healthBar.SetFill(normalizedHp);
-
-            UIManager.Instance?.ShowDamageText(
-                damage,
-                unit.transform.position
-            );
         }
     }
 
     private void TestHealAllUnits(float amount)
     {
-        var healthBarSnapshot =
-            new List<KeyValuePair<Unit_Base_Test, UI_HealthBar>>(healthBars);
+        var healthBarSnapshot = new List<KeyValuePair<Unit_Base_Test, UI_HealthBar>>(healthBars);
 
         foreach (var pair in healthBarSnapshot)
         {
             Unit_Base_Test unit = pair.Key;
             UI_HealthBar healthBar = pair.Value;
 
-            if (unit == null ||
-                unit.MyData == null ||
-                healthBar == null ||
-                !unit.gameObject.activeInHierarchy)
+            if (unit == null || unit.MyData == null || healthBar == null || !unit.gameObject.activeInHierarchy)
             {
                 continue;
             }
 
-            unit.CurrentHp = Mathf.Min(
-                unit.CurrentHp + amount,
-                unit.MyData.maxHp
-            );
+            unit.CurrentHp = Mathf.Min(unit.CurrentHp + amount,unit.MyData.maxHp);
 
-            float normalizedHp = unit.MyData.maxHp > 0f
-                ? unit.CurrentHp / unit.MyData.maxHp
-                : 0f;
+            float normalizedHp = unit.MyData.maxHp > 0f ? unit.CurrentHp / unit.MyData.maxHp : 0f;
 
             healthBar.SetFill(normalizedHp);
         }
@@ -113,7 +86,13 @@ public class HealthBarManager : MonoBehaviour
 
         foreach (var pair in healthBars)
         {
-            ReturnHealthBar(pair.Value);
+            Unit_Base_Test unit = pair.Key;
+            UI_HealthBar healthBar = pair.Value;
+
+            if (unit != null)
+                unit.OnHpChanged -= HandleUnitHpChanged;
+
+            ReturnHealthBar(healthBar);
         }
 
         healthBars.Clear();
@@ -128,9 +107,7 @@ public class HealthBarManager : MonoBehaviour
 
     private void HandleUnitSpawned(Unit_Base_Test unit)
     {
-        if (unit == null ||
-            healthBars.ContainsKey(unit) ||
-            pendingUnits.Contains(unit))
+        if (unit == null || healthBars.ContainsKey(unit) || pendingUnits.Contains(unit))
         {
             return;
         }
@@ -142,9 +119,28 @@ public class HealthBarManager : MonoBehaviour
     {
         pendingUnits.Remove(unit);
 
-        if (unit != null && healthBars.Remove(unit, out UI_HealthBar healthBar))
-        {
+        if (unit == null)
+            return;
+
+        unit.OnHpChanged -= HandleUnitHpChanged;
+
+        if (healthBars.Remove(unit, out UI_HealthBar healthBar))
             ReturnHealthBar(healthBar);
+    }
+    private void HandleUnitHpChanged(Unit_Base_Test unit, float currentHp, float maxHp, float damage)
+    {
+        if (unit == null || !healthBars.TryGetValue(unit, out UI_HealthBar healthBar) || healthBar == null)
+        {
+            return;
+        }
+
+        float normalizedHp = maxHp > 0f ? currentHp / maxHp : 0f;
+
+        healthBar.SetFill(normalizedHp);
+
+        if (damage > 0f)
+        {
+            UIManager.Instance?.ShowDamageText(damage, unit.transform.position);
         }
     }
 
@@ -163,18 +159,14 @@ public class HealthBarManager : MonoBehaviour
                 continue;
             }
 
-            GameObject healthBarObject =
-                ObjectPoolManager.instance.GetObject(HpBarPoolKey);
+            GameObject healthBarObject = ObjectPoolManager.instance.GetObject(HpBarPoolKey);
 
             if (healthBarObject == null)
                 return;
 
             if (!healthBarObject.TryGetComponent(out UI_HealthBar healthBar))
             {
-                ObjectPoolManager.instance.ReturnObject(
-                    HpBarPoolKey,
-                    healthBarObject
-                );
+                ObjectPoolManager.instance.ReturnObject(HpBarPoolKey, healthBarObject);
 
                 pendingUnits.RemoveAt(i);
                 Debug.LogWarning("HpBar prefab에 UI_HealthBar가 없습니다.");
@@ -182,14 +174,16 @@ public class HealthBarManager : MonoBehaviour
             }
 
             float maxHp = unit.MyData.maxHp;
-            float normalizedHp = maxHp > 0f
-                ? unit.CurrentHp / maxHp
-                : 0f;
+            float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
             healthBar.SetFill(normalizedHp);
             healthBar.SetVisible(true);
 
             healthBars.Add(unit, healthBar);
+
+            unit.OnHpChanged -= HandleUnitHpChanged;
+            unit.OnHpChanged += HandleUnitHpChanged;
+
             pendingUnits.RemoveAt(i);
         }
     }
@@ -234,9 +228,6 @@ public class HealthBarManager : MonoBehaviour
 
         healthBar.SetVisible(false);
 
-        ObjectPoolManager.instance.ReturnObject(
-            HpBarPoolKey,
-            healthBar.gameObject
-        );
+        ObjectPoolManager.instance.ReturnObject(HpBarPoolKey, healthBar.gameObject);
     }
 }
