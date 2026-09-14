@@ -5,54 +5,21 @@ public class UI_HealthBar : MonoBehaviour
 {
     [SerializeField] private Image hpFillImage;
 
-    [Header("Test Data")]
-    [SerializeField] private float maxHp = 100f;
-    [SerializeField] private float currentHp = 100f;
-
-    private void Update()
+    public void SetFill(float normalizedHp)
     {
-        UpdateHealthBar();
-
-#if UNITY_EDITOR
-        // 2. 테스트용(A: 데미지, S: 회복)
-        var keyboard = UnityEngine.InputSystem.Keyboard.current;
-        if (keyboard == null) return;
-
-        if (keyboard.aKey.wasPressedThisFrame)
+        if (hpFillImage != null)
         {
-            TakeDamage(10f);
+            hpFillImage.fillAmount = Mathf.Clamp01(normalizedHp);
         }
-        if (keyboard.sKey.wasPressedThisFrame)
-        {
-            Heal(10f);
-        }
-#endif
     }
 
-    public void TakeDamage(float damage)
+    public void SetScreenPosition(Vector3 screenPosition)
     {
-        currentHp = Mathf.Max(0, currentHp - damage);
-
-#if UNITY_EDITOR
-        Vector3 spawnPos = (transform.parent != null) ? transform.parent.position : transform.position;
-
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.ShowDamageText(damage, spawnPos);
-        }
-#endif
+        transform.position = screenPosition;
     }
 
-    public void Heal(float amount)
+    public void SetVisible(bool visible)
     {
-        currentHp = Mathf.Min(maxHp, currentHp + amount);
-    }
-
-    private void UpdateHealthBar()
-    {
-        if (hpFillImage != null && maxHp > 0)
-        {
-            hpFillImage.fillAmount = currentHp / maxHp;
-        }
+        gameObject.SetActive(visible);
     }
 }
