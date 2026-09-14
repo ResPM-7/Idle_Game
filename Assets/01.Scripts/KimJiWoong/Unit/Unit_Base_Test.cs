@@ -16,7 +16,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public static event Action<Unit_Base_Test> OnUnitDespawned;
 
     public event Action OnDeathEvent;
-    public event Action<float, float> OnHpChanged;
+    public event Action<float, float, float> OnHpChanged;
 
     [Header("기본 설정")]
     [SerializeField] private UnitDataSO myData;
@@ -100,7 +100,8 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
         CurrentHp -= amount;
 
-        OnHpChanged?.Invoke(CurrentHp, myData.maxHp);
+
+        OnHpChanged?.Invoke(CurrentHp, myData.maxHp, amount);
         if (CurrentHp <= 0)
         {
             OnDeathEvent?.Invoke();

@@ -210,6 +210,10 @@ public class HealthBarManager : MonoBehaviour
             if (unit == null || healthBar == null)
                 continue;
 
+            float maxHp = unit.MyData.maxHp;
+            float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
+            healthBar.SetFill(normalizedHp);
+
             Vector3 screenPosition = worldCamera.WorldToScreenPoint(
                 unit.transform.position + worldOffset
             );

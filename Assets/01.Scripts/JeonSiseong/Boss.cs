@@ -27,7 +27,7 @@ public class Boss : MonoBehaviour
         }
     }
 
-    private void HandleHpChanged(float currentHp, float maxHp)
+    private void HandleHpChanged(float currentHp, float maxHp, float damage)
     {
         if (BossHUDPresenter.instance != null)
         {

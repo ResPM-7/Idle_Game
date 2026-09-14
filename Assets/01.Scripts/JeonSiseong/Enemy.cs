@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
         if (unitBase != null)
         {
             unitBase.OnDeathEvent += HandleDeath;
+            unitBase.OnHpChanged += HandleHpChanged;
         }
     }
 
@@ -29,7 +30,14 @@ public class Enemy : MonoBehaviour
         if (unitBase != null)
         {
             unitBase.OnDeathEvent -= HandleDeath;
+            unitBase.OnHpChanged -= HandleHpChanged;
         }
+    }
+
+
+    private void HandleHpChanged(float currentHp, float maxHp, float damage)
+    {
+
     }
 
     // 체력이 0이 되어 OnDeathEvent가 터지면 이 함수가 실행됩니다.
