@@ -33,10 +33,10 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     public void LevelUp()
     {
         // SO 안에 다음 진화 데이터가 연결되어 있다면?
-        if (myData != null && myData.nexUpdateUnit != null)
+        if (myData != null && myData.nextUpgradeUnit != null)
         {
             // 내 데이터를 다음 레벨 데이터로 통째로 덮어씌움!
-            myData = myData.nexUpdateUnit;
+            myData = myData.nextUpgradeUnit;
             UpdateLevelUI();
         }
         else

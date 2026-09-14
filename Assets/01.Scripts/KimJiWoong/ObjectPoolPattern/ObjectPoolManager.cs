@@ -22,9 +22,9 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
     }
 
     //기본 오브젝트
-    [SerializeField] private List<ObjectPoolItem> objList = new List<ObjectPoolItem>();
+    [SerializeField] public List<ObjectPoolItem> objList = new List<ObjectPoolItem>();
     //캔버스 전용 오브젝트 풀
-    [SerializeField] private List<CanvasPoolItem> canvasPools = new List<CanvasPoolItem>();
+    [SerializeField] public List<CanvasPoolItem> canvasPools = new List<CanvasPoolItem>();
 
     private Dictionary<string, Queue<GameObject>> pools = new Dictionary<string, Queue<GameObject>>();
     private Dictionary<string, Transform> poolParents = new Dictionary<string, Transform>();
