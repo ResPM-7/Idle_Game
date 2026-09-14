@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    private void HandleHpChanged(float currentHp, float maxHp, float damage)
+    private void HandleHpChanged(Unit_Base_Test unit, float currentHp, float maxHp, float damage)
     {
 
     }
