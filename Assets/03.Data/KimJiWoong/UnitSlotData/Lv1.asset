@@ -17,8 +17,8 @@ MonoBehaviour:
   unitId: 1
   unitLevel: 1
   unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
-  maxHp: 100
-  moveSpeed: 10
+  maxHp: 999
+  moveSpeed: 2
   attackDamage: 1
   attackSpeed: 1
   attackRange: 5

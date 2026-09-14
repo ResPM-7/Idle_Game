@@ -19,7 +19,7 @@ MonoBehaviour:
   unitName: "\uD14C\uC2A4\uD2B8\uC801"
   maxHp: 5000
   moveSpeed: 10
-  attackDamage: 0
+  attackDamage: 1
   attackSpeed: 0
   attackRange: 0
   attackCooldown: 0

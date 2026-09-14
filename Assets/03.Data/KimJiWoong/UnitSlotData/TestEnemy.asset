@@ -19,10 +19,10 @@ MonoBehaviour:
   unitName: "\uD14C\uC2A4\uD2B8\uC801"
   maxHp: 20
   moveSpeed: 10
-  attackDamage: 0
-  attackSpeed: 0
-  attackRange: 0
+  attackDamage: 10
+  attackSpeed: 0.5
+  attackRange: 5
   attackCooldown: 0
   coin: 10
-  fame: 0
+  credit: 0
   nexUpdateUnit: {fileID: 0}
