@@ -11,12 +11,28 @@ public class Boss : MonoBehaviour
 
     private void OnEnable()
     {
-        if (unitBase != null) unitBase.OnDeathEvent += HandleDeath;
+        if (unitBase != null)
+        {
+            unitBase.OnDeathEvent += HandleDeath;
+            unitBase.OnHpChanged += HandleHpChanged;
+        }
     }
 
     private void OnDisable()
     {
-        if (unitBase != null) unitBase.OnDeathEvent -= HandleDeath;
+        if (unitBase != null)
+        {
+            unitBase.OnDeathEvent -= HandleDeath;
+            unitBase.OnHpChanged -= HandleHpChanged;
+        }
+    }
+
+    private void HandleHpChanged(float currentHp, float maxHp)
+    {
+        if (BossHUDPresenter.instance != null)
+        {
+            BossHUDPresenter.instance.UpdateBossHealth(currentHp, maxHp);
+        }
     }
 
     private void HandleDeath()

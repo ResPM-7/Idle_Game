@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
   m_Name: TestBoss
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
-  uiPoolName: Enemy
-  battlePoolName: Enemy
+  uiPoolName: Boss
+  battlePoolName: Boss
   unitId: 5
   unitLevel: 5
   unitName: "\uD14C\uC2A4\uD2B8\uC801"
-  maxHp: 20
+  maxHp: 99999
   moveSpeed: 10
   attackDamage: 0
   attackSpeed: 0

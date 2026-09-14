@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class BossHUDPresenter : MonoBehaviour
+public class BossHUDPresenter : Singleton<BossHUDPresenter>
 {
     [SerializeField] private UI_BossHUD bossHUD;
 
-    private void Awake()
+    private void Start()
     {
         //게임 시작 시 비활성화
         if (bossHUD != null)

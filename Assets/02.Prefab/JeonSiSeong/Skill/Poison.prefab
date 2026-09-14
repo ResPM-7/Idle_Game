@@ -48,11 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PoisonSkill
   radius: 2.5
   damage: 10
-  duration: 5
-  damageInterval: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  duration: 5
+  damageInterval: 1
 --- !u!58 &234308120934957558
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -171,7 +171,7 @@ SpriteRenderer:
   m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.056114297, g: 0.9150943, b: 0.069248736, a: 0.12156863}
+  m_Color: {r: 0.9846983, g: 0, b: 1, a: 0.12156863}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

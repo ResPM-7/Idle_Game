@@ -16,6 +16,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public static event Action<Unit_Base_Test> OnUnitDespawned;
 
     public event Action OnDeathEvent;
+    public event Action<float, float> OnHpChanged;
 
     [Header("기본 설정")]
     public UnitDataSO myData;
@@ -94,6 +95,8 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         if (currentState == destroyedState) return;
 
         currentHp -= amount;
+
+        OnHpChanged?.Invoke(currentHp, myData.maxHp);
         if (currentHp <= 0)
         {
             OnDeathEvent?.Invoke();
