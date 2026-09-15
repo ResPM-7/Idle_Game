@@ -11,6 +11,9 @@ public class HealthBarManager : MonoBehaviour
     private readonly Dictionary<Unit_Base_Test, UI_HealthBar> healthBars = new();
     private readonly List<Unit_Base_Test> pendingUnits = new();
 
+    private readonly HashSet<Unit_Base_Test> revealedEnemyHealthBars = new();
+    [SerializeField] private LayerMask enemyLayer;
+
     private void Awake()
     {
         if (worldCamera == null)
@@ -97,6 +100,7 @@ public class HealthBarManager : MonoBehaviour
 
         healthBars.Clear();
         pendingUnits.Clear();
+        revealedEnemyHealthBars.Clear();
     }
 
     private void LateUpdate()
@@ -123,6 +127,7 @@ public class HealthBarManager : MonoBehaviour
             return;
 
         unit.OnHpChanged -= HandleUnitHpChanged;
+        revealedEnemyHealthBars.Remove(unit);
 
         if (healthBars.Remove(unit, out UI_HealthBar healthBar))
             ReturnHealthBar(healthBar);
@@ -140,6 +145,9 @@ public class HealthBarManager : MonoBehaviour
 
         if (damage > 0f)
         {
+            if (IsEnemy(unit))
+                revealedEnemyHealthBars.Add(unit);
+
             UIManager.Instance?.ShowDamageText(damage, unit.transform.position);
         }
     }
@@ -177,7 +185,14 @@ public class HealthBarManager : MonoBehaviour
             float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
             healthBar.SetFill(normalizedHp);
-            healthBar.SetVisible(true);
+            // HP바가 풀에서 나온 직후 이전 위치에 잠깐 보이는 것을 방지
+            healthBar.SetVisible(false);
+
+            // HP바 생성 전에 이미 피해를 받은 경우에도 표시
+            if (IsEnemy(unit) && unit.CurrentHp < maxHp)
+            {
+                revealedEnemyHealthBars.Add(unit);
+            }
 
             healthBars.Add(unit, healthBar);
 
@@ -204,15 +219,11 @@ public class HealthBarManager : MonoBehaviour
             if (unit == null || healthBar == null)
                 continue;
 
-            float maxHp = unit.MyData.maxHp;
-            float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
-            healthBar.SetFill(normalizedHp);
-
             Vector3 screenPosition = worldCamera.WorldToScreenPoint(
                 unit.transform.position + worldOffset
             );
 
-            bool isVisible = screenPosition.z > 0f;
+            bool isVisible = screenPosition.z > 0f && ShouldShowHealthBar(unit); 
 
             healthBar.SetVisible(isVisible);
 
@@ -229,5 +240,23 @@ public class HealthBarManager : MonoBehaviour
         healthBar.SetVisible(false);
 
         ObjectPoolManager.instance.ReturnObject(HpBarPoolKey, healthBar.gameObject);
+    }
+
+    //적 판별
+    private bool IsEnemy(Unit_Base_Test unit)
+    {
+        if (unit == null)
+            return false;
+
+        return (enemyLayer.value & (1 << unit.gameObject.layer)) != 0;
+    }
+    private bool ShouldShowHealthBar(Unit_Base_Test unit)
+    {
+        // 아군은 처음부터 표시
+        if (!IsEnemy(unit))
+            return true;
+
+        // 적은 한 번이라도 피해를 받은 뒤 표시
+        return revealedEnemyHealthBars.Contains(unit);
     }
 }
