@@ -29,7 +29,7 @@ MonoBehaviour:
   coin: 0
   credit: 0
   nextUpgradeUnits:
-  - {fileID: 11400000, guid: e83419b379a34cb46bf464c0815e2a8b, type: 2}
-  - {fileID: 11400000, guid: 59283ffe2de13574591bf441f55721d7, type: 2}
-  - {fileID: 11400000, guid: 001fc98b7d9545f4cbabee6b7509423a, type: 2}
-  - {fileID: 11400000, guid: 36af9279108a6ea43a69705c3287cf23, type: 2}
+  - {fileID: 11400000, guid: de128887e9e6cdc489502ddb866e5f50, type: 2}
+  - {fileID: 11400000, guid: 07a38e8256fa0f04794342487597e666, type: 2}
+  - {fileID: 11400000, guid: 3503a4b6fcc592647854c4045d4752ce, type: 2}
+  - {fileID: 11400000, guid: 7afb19c24d691f54fa9bf86ca6049ccb, type: 2}
