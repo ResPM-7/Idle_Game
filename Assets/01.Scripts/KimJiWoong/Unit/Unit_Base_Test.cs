@@ -12,11 +12,11 @@ public interface IUnitState
 public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 {
     //유닛 업그레이드 결합도를 낮추기위해 델리게이트
-    public static event Action<Unit_Base_Test> OnUnitSpawned; 
+    public static event Action<Unit_Base_Test> OnUnitSpawned;
     public static event Action<Unit_Base_Test> OnUnitDespawned;
 
     public event Action OnDeathEvent;
-    public event Action<Unit_Base_Test, float, float, float> OnHpChanged;
+    public event Action<Unit_Base_Test, float, float, float, bool> OnHpChanged;
 
     [Header("기본 설정")]
     [SerializeField] private UnitDataSO myData;
@@ -59,7 +59,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         }
 
         CurrentHp = myData.maxHp;
-        CurrentDamage = myData.attackDamage; 
+        CurrentDamage = myData.attackDamage;
         CurrentAttackSpeed = myData.attackSpeed;
         CurrentDefense = myData.defense;
         AttackTimer = 0f;
@@ -69,7 +69,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
         ChangeState(idleState);
         //소환될때 유닛 체력바가 제대로 출력되게
-        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f);
+        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f, false);
         // 매니저를 직접 찾지 않고 스폰되었다는 방송만 송출합니다
         OnUnitSpawned?.Invoke(this);
     }
@@ -104,7 +104,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         currentState.Enter(this);
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, bool isCritical = false)
     {
         if (currentState == destroyedState) return;
 
@@ -114,7 +114,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentHp -= amount;
 
         //UI나 이펙트 쪽에 '최종 계산된 데미지(finalDamage)'를 넘겨줍니다.
-        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, finalDamage);
+        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, finalDamage, isCritical);
 
         if (CurrentHp <= 0)
         {
