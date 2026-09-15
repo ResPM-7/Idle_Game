@@ -33,6 +33,8 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public float AttackTimer { get; set; }
     public float SearchTimer { get; set; }
     public Transform CurrentTarget { get; set; }
+    public float CurrentCriticalRate { get; set; }
+    public float CurrentCriticalDamage { get; set; }
 
     // FSM 관련 변수
     private IUnitState currentState;
@@ -62,6 +64,8 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentDamage = myData.attackDamage;
         CurrentAttackSpeed = myData.attackSpeed;
         CurrentDefense = myData.defense;
+        CurrentCriticalRate = myData.criticalRate;
+        CurrentCriticalDamage = myData.criticalDamage;
         AttackTimer = 0f;
         SearchTimer = 0f;
         CurrentTarget = null;
@@ -111,7 +115,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         //방어력 차감 방어력이 높아서 데미지가 0이되어도 이벤트가 나오게 구현
         float finalDamage = Mathf.Max(0f, amount - CurrentDefense);
 
-        CurrentHp -= amount;
+        CurrentHp -= finalDamage;
 
         //UI나 이펙트 쪽에 '최종 계산된 데미지(finalDamage)'를 넘겨줍니다.
         OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, finalDamage, isCritical);
