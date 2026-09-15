@@ -73,7 +73,7 @@ MonoBehaviour:
     prefab: {fileID: 2066575373135292623, guid: dc4412c9d5d0a1f4e831a2d5594faee5, type: 3}
     targetCanvas: {fileID: 0}
     poolSize: 5
-  - poolName: DamageText
+  - poolName: UI_DamageText
     prefab: {fileID: 4532371116211410950, guid: 9b54e771196e4be448e942ef100cab9e, type: 3}
     targetCanvas: {fileID: 0}
     poolSize: 5

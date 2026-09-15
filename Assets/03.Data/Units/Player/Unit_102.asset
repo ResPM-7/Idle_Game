@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
-  m_Name: Lv2
+  m_Name: Unit_102
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
-  uiPoolName: UnitLevel 2
-  battlePoolName: Battle_UnitLevel 2
-  unitId: 2
+  unitId: 102
   unitLevel: 2
-  unitName: "\uACAC\uC2B5 \uC804\uC0AC"
-  maxHp: 150
+  unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 110
   moveSpeed: 10
   attackDamage: 2
-  attackSpeed: 0.9
+  attackSpeed: 1
   attackRange: 5
-  attackCooldown: 0
+  defense: 0
+  criticalRate: 5
+  criticalDamage: 2
   coin: 0
   credit: 0
-  nexUpdateUnit: {fileID: 0}
+  nextUpgradeUnit: {fileID: 11400000, guid: e0b6451f24d9de64694eabb41c26e11c, type: 2}

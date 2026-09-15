@@ -7,10 +7,13 @@ using System.IO;
 public class GoogleSheetSync : EditorWindow
 {
     // =========================================================
-    // 1. 유닛 데이터 세팅
+    // 1. 유닛 데이터 세팅 (아군 & 적군 분리)
     // =========================================================
     private const string unitDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=0&single=true&output=csv";
-    private const string savePath = "Assets/03.Data/Units";
+    private const string enemyDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=1042200275&single=true&output=csv";
+
+    private const string playerSavePath = "Assets/03.Data/Units/Player";
+    private const string enemySavePath = "Assets/03.Data/Units/Enemy";
 
     // =========================================================
     // 2. 오브젝트 풀 데이터 세팅
@@ -22,37 +25,58 @@ public class GoogleSheetSync : EditorWindow
     private const string poolPrefabFolder = "Assets/02.Prefab/ObjectPool";
 
     // =========================================================
-    // 유닛 데이터 동기화
+    // 유닛 데이터 동기화 (아군 + 적군)
     // =========================================================
-    [MenuItem("Tools/1. 구글 시트 동기화 (유닛 데이터)")]
+    [MenuItem("Tools/1. 구글 시트 동기화 (유닛 데이터 통합)")]
     public static void SyncData()
     {
-        var request = UnityWebRequest.Get(unitDataUrl);
-        var operation = request.SendWebRequest();
+        var playerReq = UnityWebRequest.Get(unitDataUrl);
+        var playerOp = playerReq.SendWebRequest();
 
-        operation.completed += (asyncOp) =>
+        playerOp.completed += (op1) =>
         {
-            if (request.result == UnityWebRequest.Result.Success)
+            if (playerReq.result == UnityWebRequest.Result.Success)
             {
-                ParseAndApplyUnitData(request.downloadHandler.text);
+                ParseAndApplyUnitData(playerReq.downloadHandler.text, playerSavePath, "Unit_");
+
+                var enemyReq = UnityWebRequest.Get(enemyDataUrl);
+                var enemyOp = enemyReq.SendWebRequest();
+
+                enemyOp.completed += (op2) =>
+                {
+                    if (enemyReq.result == UnityWebRequest.Result.Success)
+                    {
+                        ParseAndApplyUnitData(enemyReq.downloadHandler.text, enemySavePath, "Enemy_");
+
+                        AssetDatabase.SaveAssets();
+                        AssetDatabase.Refresh();
+                        Debug.Log("아군 및 적군 유닛 데이터 구글 시트 동기화 완료! (스탯 추가 반영)");
+                    }
+                    else
+                    {
+                        Debug.LogError("적군 동기화 실패: " + enemyReq.error);
+                    }
+                    enemyReq.Dispose();
+                };
             }
             else
             {
-                Debug.LogError("유닛 동기화 실패: " + request.error);
+                Debug.LogError("아군 동기화 실패: " + playerReq.error);
             }
-            request.Dispose();
+            playerReq.Dispose();
         };
     }
 
-    private static void ParseAndApplyUnitData(string csv)
+    private static void ParseAndApplyUnitData(string csv, string targetFolderPath, string fileNamePrefix)
     {
-        if (!AssetDatabase.IsValidFolder(savePath))
+        if (!AssetDatabase.IsValidFolder(targetFolderPath))
         {
-            Directory.CreateDirectory(savePath);
-            AssetDatabase.Refresh();
+            string parent = Path.GetDirectoryName(targetFolderPath).Replace('\\', '/');
+            string folder = Path.GetFileName(targetFolderPath);
+            AssetDatabase.CreateFolder(parent, folder);
         }
 
-        string[] guids = AssetDatabase.FindAssets("t:UnitDataSO");
+        string[] guids = AssetDatabase.FindAssets("t:UnitDataSO", new[] { targetFolderPath });
         Dictionary<int, UnitDataSO> soDict = new Dictionary<int, UnitDataSO>();
 
         foreach (string guid in guids)
@@ -72,10 +96,9 @@ public class GoogleSheetSync : EditorWindow
 
             string[] values = line.Split(',');
 
-            // [오류 수정] 콤마만 있는 빈 줄(,,,,)이거나 데이터가 부족하면 무시
-            if (values.Length < 12 || string.IsNullOrWhiteSpace(values[0])) continue;
+            //  O열(credit, 14번 인덱스)까지 최소 15개의 데이터가 필요함
+            if (values.Length < 15 || string.IsNullOrWhiteSpace(values[0])) continue;
 
-            // 숫자가 아니면 무시
             if (!int.TryParse(values[0], out int id)) continue;
 
             string unitName = values[4];
@@ -85,7 +108,7 @@ public class GoogleSheetSync : EditorWindow
                 targetSO = ScriptableObject.CreateInstance<UnitDataSO>();
                 targetSO.unitId = id;
 
-                string assetPath = $"{savePath}/Unit_{id}.asset";
+                string assetPath = $"{targetFolderPath}/{fileNamePrefix}{id}.asset";
                 AssetDatabase.CreateAsset(targetSO, assetPath);
                 soDict[id] = targetSO;
             }
@@ -94,20 +117,24 @@ public class GoogleSheetSync : EditorWindow
             targetSO.battlePoolName = values[2];
             targetSO.unitName = unitName;
 
-            // [안전 장치] 빈칸이 섞여 있어도 에러가 터지지 않고 0으로 처리되도록 TryParse 적용
             int.TryParse(values[3], out targetSO.unitLevel);
             float.TryParse(values[5], out targetSO.maxHp);
             float.TryParse(values[6], out targetSO.moveSpeed);
             float.TryParse(values[7], out targetSO.attackDamage);
             float.TryParse(values[8], out targetSO.attackSpeed);
             float.TryParse(values[9], out targetSO.attackRange);
-            int.TryParse(values[10], out targetSO.coin);
-            int.TryParse(values[11], out targetSO.credit);
+            int.TryParse(values[10], out targetSO.defense);
+            int.TryParse(values[11], out targetSO.criticalRate);
+            float.TryParse(values[12], out targetSO.criticalDamage);
 
-            // M열 (12): nextUpgradeUnitId
-            if (values.Length > 12 && !string.IsNullOrWhiteSpace(values[12]))
+            // 밀려난 N열(13), O열(14)
+            int.TryParse(values[13], out targetSO.coin);
+            int.TryParse(values[14], out targetSO.credit);
+
+            // P열 (15): nextUpgradeUnitId
+            if (values.Length > 15 && !string.IsNullOrWhiteSpace(values[15]))
             {
-                if (int.TryParse(values[12], out int nextId))
+                if (int.TryParse(values[15], out int nextId))
                 {
                     upgradeLinks[targetSO] = nextId;
                 }
@@ -127,10 +154,6 @@ public class GoogleSheetSync : EditorWindow
                 EditorUtility.SetDirty(currentSO);
             }
         }
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        Debug.Log("유닛 데이터 구글 시트 동기화 완료");
     }
 
     // =========================================================
@@ -175,17 +198,15 @@ public class GoogleSheetSync : EditorWindow
     private static void ParseAndApplyPoolData(string objCsv, string canvasCsv)
     {
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(poolManagerPrefabPath);
-        if (prefab == null)
-        {
-            Debug.LogError($"경로 오류: [{poolManagerPrefabPath}] 에서 프리팹을 찾을 수 없습니다.");
-            return;
-        }
+        if (prefab == null) return;
 
         ObjectPoolManager manager = prefab.GetComponent<ObjectPoolManager>();
         if (manager == null) return;
 
-        // 1. 일반 오브젝트 풀
+        // --- 1. 일반 오브젝트 풀 완전 동기화 ---
         string[] objLines = objCsv.Split('\n');
+        HashSet<string> validObjPools = new HashSet<string>();
+
         for (int i = 2; i < objLines.Length; i++)
         {
             string line = objLines[i].Trim();
@@ -197,6 +218,8 @@ public class GoogleSheetSync : EditorWindow
             string sheetPoolName = values[0];
             int.TryParse(values[1], out int sheetPoolSize);
             GameObject matchingPrefab = FindPrefabByName(sheetPoolName);
+
+            validObjPools.Add(sheetPoolName);
 
             bool isFound = false;
             for (int j = 0; j < manager.objList.Count; j++)
@@ -223,8 +246,18 @@ public class GoogleSheetSync : EditorWindow
             }
         }
 
-        // 2. 캔버스 풀
+        for (int i = manager.objList.Count - 1; i >= 0; i--)
+        {
+            if (!validObjPools.Contains(manager.objList[i].poolName))
+            {
+                manager.objList.RemoveAt(i);
+            }
+        }
+
+        // --- 2. 캔버스 풀 완전 동기화 ---
         string[] canvasLines = canvasCsv.Split('\n');
+        HashSet<string> validCanvasPools = new HashSet<string>();
+
         for (int i = 2; i < canvasLines.Length; i++)
         {
             string line = canvasLines[i].Trim();
@@ -236,6 +269,8 @@ public class GoogleSheetSync : EditorWindow
             string sheetPoolName = values[0];
             int.TryParse(values[1], out int sheetPoolSize);
             GameObject matchingPrefab = FindPrefabByName(sheetPoolName);
+
+            validCanvasPools.Add(sheetPoolName);
 
             bool isFound = false;
             for (int j = 0; j < manager.canvasPools.Count; j++)
@@ -262,10 +297,18 @@ public class GoogleSheetSync : EditorWindow
             }
         }
 
+        for (int i = manager.canvasPools.Count - 1; i >= 0; i--)
+        {
+            if (!validCanvasPools.Contains(manager.canvasPools[i].poolName))
+            {
+                manager.canvasPools.RemoveAt(i);
+            }
+        }
+
         EditorUtility.SetDirty(prefab);
         PrefabUtility.SavePrefabAsset(prefab);
         AssetDatabase.Refresh();
-        Debug.Log("오브젝트 풀 사이즈 구글 시트 동기화 완료! (일반 풀 & 캔버스 풀)");
+        Debug.Log("오브젝트 풀 사이즈 구글 시트 동기화 완료!");
     }
 
     private static GameObject FindPrefabByName(string prefabName)

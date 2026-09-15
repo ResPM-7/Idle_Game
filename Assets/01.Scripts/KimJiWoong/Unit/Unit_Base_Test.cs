@@ -64,8 +64,10 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         SearchTimer = 0f;
         CurrentTarget = null;
 
-        ChangeState(idleState);
 
+        ChangeState(idleState);
+        //소환될때 유닛 체력바가 제대로 출력되게
+        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f);
         // 매니저를 직접 찾지 않고 스폰되었다는 방송만 송출합니다
         OnUnitSpawned?.Invoke(this);
     }
