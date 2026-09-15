@@ -2921,9 +2921,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2132097911711909159, guid: 4995e90b3623d7243bec753bc84b2f2e, type: 3}
+      propertyPath: maxWave
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132097911711909159, guid: 4995e90b3623d7243bec753bc84b2f2e, type: 3}
       propertyPath: bossSpawnPoint
       value: 
       objectReference: {fileID: 1050417647}
+    - target: {fileID: 2132097911711909159, guid: 4995e90b3623d7243bec753bc84b2f2e, type: 3}
+      propertyPath: deathPlayerunit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2132097911711909159, guid: 4995e90b3623d7243bec753bc84b2f2e, type: 3}
       propertyPath: 'spawnPoints.Array.data[0]'
       value: 
