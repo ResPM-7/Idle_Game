@@ -134,7 +134,7 @@ public class HealthBarManager : MonoBehaviour
         if (healthBars.Remove(unit, out UI_HealthBar healthBar))
             ReturnHealthBar(healthBar);
     }
-    private void HandleUnitHpChanged(Unit_Base_Test unit, float currentHp, float maxHp, float damage)
+    private void HandleUnitHpChanged(Unit_Base_Test unit, float currentHp, float maxHp, float damage,bool isCritical)
     {
         if (unit == null || !healthBars.TryGetValue(unit, out UI_HealthBar healthBar) || healthBar == null)
         {
