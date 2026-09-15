@@ -28,4 +28,4 @@ MonoBehaviour:
   criticalDamage: 0
   coin: 0
   credit: 10
-  nextUpgradeUnit: {fileID: 0}
+  nextUpgradeUnits: []
