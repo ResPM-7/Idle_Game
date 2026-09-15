@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using UnityEngine.Rendering;
+using System.Collections.Generic;
+
 
 public class WaveManager : Singleton<WaveManager>
 {
@@ -50,6 +51,7 @@ public class WaveManager : Singleton<WaveManager>
     }
 
     GameObject currentBoss;
+    List<Unit_Base_Test> activeEnemies = new List<Unit_Base_Test>();  // 현재 살아있는 일반 몬스터
 
    
 
@@ -86,6 +88,35 @@ public class WaveManager : Singleton<WaveManager>
             StopCoroutine(routine);
             routine = null;
         }
+    }
+
+    private void OnEnable()
+    {
+        Unit_Base_Test.OnUnitSpawned += RegisterEnemy;
+        Unit_Base_Test.OnUnitDespawned += UnregisterEnemy;
+
+    }
+
+    private void OnDisable()
+    {
+        Unit_Base_Test.OnUnitSpawned -= RegisterEnemy;
+        Unit_Base_Test.OnUnitDespawned -= UnregisterEnemy;
+    }
+
+    void RegisterEnemy(Unit_Base_Test unit)
+    {
+        if(unit.GetComponent<Enemy>() == null)
+            return;
+
+        if(!activeEnemies.Contains(unit))
+        {
+            activeEnemies.Add(unit);
+        }
+    }
+
+    void UnregisterEnemy(Unit_Base_Test unit)
+    {
+        activeEnemies.Remove(unit);
     }
 
     void FinishBoss()
@@ -429,6 +460,54 @@ public class WaveManager : Singleton<WaveManager>
 
         StartSpawn();
     }
+
+    public void GameOverRestart()
+    {
+        // 현재 진행 중인 모든 코루틴 정지
+        StopRoutine(ref spawnRoutine);
+        StopRoutine(ref nextWaveRoutine);
+        StopRoutine(ref bossDelayRoutine);
+        StopRoutine(ref bossTimerRoutine);
+        StopRoutine(ref nextStageRoutine);
+
+        // 현재 보스가 있으면 풀로 반환
+        if(currentBoss != null)
+        {
+            ObjectPoolManager.instance.ReturnObject("Boss", currentBoss);
+            currentBoss = null;
+        }
+
+        // 현재 살아있는 일반 몬스터 전부 풀로 반환
+        for(int i = activeEnemies.Count -1; i >=0;i--)
+        {
+            Unit_Base_Test enemy = activeEnemies[i];
+
+            if(enemy != null && enemy.gameObject.activeSelf)
+            {
+                ObjectPoolManager.instance.ReturnObject(
+                    enemy.MyData.battlePoolName,
+                    enemy.gameObject);
+            }
+        }
+
+        activeEnemies.Clear();
+
+        // 보스 관련 UI 종료
+        FinishBoss();
+
+        // 현재 스테이지는 유지, 웨이브만 1로 초기화
+        ResetWave();
+
+        bossFinish = false;
+
+        // 일반 웨이브로 상태 변경
+        currentState = WaveState.NormalWave;
+
+        // 다시 1웨이브 시작
+        StartSpawn();
+    }
+    
+
 
 
     void BossTimeOut()

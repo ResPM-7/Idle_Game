@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
             unitBase.OnDeathEvent += HandleDeath;
             unitBase.OnHpChanged += HandleHpChanged;
         }
+
     }
 
     private void OnDisable()
