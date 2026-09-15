@@ -28,4 +28,5 @@ MonoBehaviour:
   criticalDamage: 2
   coin: 0
   credit: 0
-  nextUpgradeUnit: {fileID: 11400000, guid: 2359025f22c5c024ab9f2e13c9bf4157, type: 2}
+  nextUpgradeUnits:
+  - {fileID: 11400000, guid: 2359025f22c5c024ab9f2e13c9bf4157, type: 2}
