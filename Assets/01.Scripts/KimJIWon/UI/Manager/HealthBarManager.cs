@@ -13,6 +13,8 @@ public class HealthBarManager : MonoBehaviour
 
     private readonly HashSet<Unit_Base_Test> revealedEnemyHealthBars = new();
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private Color playerHealthColor = Color.green;
+    [SerializeField] private Color enemyHealthColor = Color.red;
 
     private void Awake()
     {
@@ -184,6 +186,7 @@ public class HealthBarManager : MonoBehaviour
             float maxHp = unit.MyData.maxHp;
             float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
+            healthBar.SetFillColor(IsEnemy(unit) ? enemyHealthColor : playerHealthColor);
             healthBar.SetFill(normalizedHp);
             // HP바가 풀에서 나온 직후 이전 위치에 잠깐 보이는 것을 방지
             healthBar.SetVisible(false);
