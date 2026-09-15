@@ -29,6 +29,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public float CurrentHp { get; set; }
     public float CurrentDamage { get; set; }
     public float CurrentAttackSpeed { get; set; }
+    public int CurrentDefense { get; set; }
     public float AttackTimer { get; set; }
     public float SearchTimer { get; set; }
     public Transform CurrentTarget { get; set; }
@@ -60,6 +61,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentHp = myData.maxHp;
         CurrentDamage = myData.attackDamage; 
         CurrentAttackSpeed = myData.attackSpeed;
+        CurrentDefense = myData.defense;
         AttackTimer = 0f;
         SearchTimer = 0f;
         CurrentTarget = null;
@@ -106,10 +108,14 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     {
         if (currentState == destroyedState) return;
 
+        //방어력 차감 방어력이 높아서 데미지가 0이되어도 이벤트가 나오게 구현
+        float finalDamage = Mathf.Max(0f, amount - CurrentDefense);
+
         CurrentHp -= amount;
 
+        //UI나 이펙트 쪽에 '최종 계산된 데미지(finalDamage)'를 넘겨줍니다.
+        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, finalDamage);
 
-        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, amount);
         if (CurrentHp <= 0)
         {
             OnDeathEvent?.Invoke();
