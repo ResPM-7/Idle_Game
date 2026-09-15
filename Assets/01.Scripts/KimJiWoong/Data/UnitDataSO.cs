@@ -21,6 +21,12 @@ public class UnitDataSO : ScriptableObject
     public float attackSpeed;
     public float attackRange;
 
+    public int defense;
+    [Range(0,100)]
+    public int criticalRate;
+    public float criticalDamage; //배율
+
+
 
     [Header("적 처치시 재화드롭")]
     public int coin;//스텟강화

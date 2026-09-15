@@ -180,10 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395a0fe39b8db25448337f856c667097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit_Base_Test
-  myData: {fileID: 11400000, guid: c2f064ce4371362479a752d9e244cb9e, type: 2}
+  myData: {fileID: 11400000, guid: b0b64b1cb457da84580f3eccea3b24dc, type: 2}
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
+  spriteRenderer: {fileID: 0}
 --- !u!114 &8962647155445619845
 MonoBehaviour:
   m_ObjectHideFlags: 0
