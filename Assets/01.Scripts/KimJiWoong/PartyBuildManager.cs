@@ -72,4 +72,37 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
         }
         return count;
     }
+
+    public void ResetAllBattleUnits()
+    {
+        // 1. 전장에 남아있거나 죽어있는 모든 유닛을 싹 비웁니다.
+        for (int i = 0; i < activeBattleUnits.Length; i++)
+        {
+            if (activeBattleUnits[i] != null)
+            {
+                UnitDataSO oldData = activeUnitDatas[i];
+
+                // 유닛이 안 죽고 살아서 활성화되어 있다면 풀로 되돌려줍니다.
+                // (이미 죽어서 비활성화된 유닛은 에러 방지를 위해 중복 반환하지 않음)
+                if (activeBattleUnits[i].activeInHierarchy)
+                {
+                    activeBattleUnits[i].SetActive(false);
+                    if (oldData != null && !string.IsNullOrEmpty(oldData.battlePoolName))
+                    {
+                        ObjectPoolManager.instance.ReturnObject(oldData.battlePoolName, activeBattleUnits[i]);
+                    }
+                }
+
+                // 매니저의 추적 데이터 초기화 (이게 버그 해결의 핵심입니다!)
+                activeBattleUnits[i] = null;
+                activeUnitDatas[i] = null;
+            }
+        }
+
+        // 2. 패널(UI)에 올려져 있는 유닛들을 기준으로 다시 쌩쌩한 새 유닛들을 소환!
+        if (BattleSlotPanel.instance != null)
+        {
+            BattleSlotPanel.instance.SyncAllBattleSlots();
+        }
+    }
 }
