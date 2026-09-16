@@ -50,7 +50,7 @@ public class GoogleSheetSync : EditorWindow
 
                         AssetDatabase.SaveAssets();
                         AssetDatabase.Refresh();
-                        Debug.Log("아군 및 적군 유닛 데이터 구글 시트 동기화 완료! (스탯 추가 반영)");
+                        Debug.Log(" 아군 및 적군 유닛 데이터 구글 시트 동기화 완료! (배열 진화 오류 수정됨)");
                     }
                     else
                     {
@@ -87,7 +87,8 @@ public class GoogleSheetSync : EditorWindow
         }
 
         string[] lines = csv.Split('\n');
-        Dictionary<UnitDataSO, int> upgradeLinks = new Dictionary<UnitDataSO, int>();
+
+        Dictionary<UnitDataSO, string> upgradeLinks = new Dictionary<UnitDataSO, string>();
 
         for (int i = 2; i < lines.Length; i++)
         {
@@ -96,7 +97,6 @@ public class GoogleSheetSync : EditorWindow
 
             string[] values = line.Split(',');
 
-            //  O열(credit, 14번 인덱스)까지 최소 15개의 데이터가 필요함
             if (values.Length < 15 || string.IsNullOrWhiteSpace(values[0])) continue;
 
             if (!int.TryParse(values[0], out int id)) continue;
@@ -127,16 +127,19 @@ public class GoogleSheetSync : EditorWindow
             int.TryParse(values[11], out targetSO.criticalRate);
             float.TryParse(values[12], out targetSO.criticalDamage);
 
-            // 밀려난 N열(13), O열(14)
             int.TryParse(values[13], out targetSO.coin);
             int.TryParse(values[14], out targetSO.credit);
 
-            // P열 (15): nextUpgradeUnitId
-            if (values.Length > 15 && !string.IsNullOrWhiteSpace(values[15]))
+            // 다중 선택 데이터 조립 로직
+            // 쉼표 때문에 쪼개져버린 15번 인덱스부터 끝까지의 모든 텍스트를 다시 하나로 묶어줍니다.
+            if (values.Length > 15)
             {
-                if (int.TryParse(values[15], out int nextId))
+                string joinedIds = string.Join(",", values, 15, values.Length - 15);
+                joinedIds = joinedIds.Replace("\"", ""); // 구글 시트가 억지로 넣은 큰따옴표 제거
+
+                if (!string.IsNullOrWhiteSpace(joinedIds))
                 {
-                    upgradeLinks[targetSO] = nextId;
+                    upgradeLinks[targetSO] = joinedIds;
                 }
             }
 
@@ -146,13 +149,28 @@ public class GoogleSheetSync : EditorWindow
         foreach (var link in upgradeLinks)
         {
             UnitDataSO currentSO = link.Key;
-            int nextUpgradeId = link.Value;
+            string arrayString = link.Value;
 
-            if (soDict.TryGetValue(nextUpgradeId, out UnitDataSO nextSO))
+            string[] nextIds = arrayString.Split(new char[] { ' ', ',', '/' }, System.StringSplitOptions.RemoveEmptyEntries);
+            List<UnitDataSO> nextSOList = new List<UnitDataSO>();
+
+            foreach (string idStr in nextIds)
             {
-                currentSO.nextUpgradeUnit = nextSO;
-                EditorUtility.SetDirty(currentSO);
+                if (int.TryParse(idStr.Trim(), out int nextId))
+                {
+                    if (soDict.TryGetValue(nextId, out UnitDataSO nextSO))
+                    {
+                        nextSOList.Add(nextSO);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[동기화 경고] {currentSO.unitName}의 진화 대상인 {nextId}번 유닛을 찾을 수 없습니다.");
+                    }
+                }
             }
+
+            currentSO.nextUpgradeUnits = nextSOList.ToArray();
+            EditorUtility.SetDirty(currentSO);
         }
     }
 
@@ -308,7 +326,7 @@ public class GoogleSheetSync : EditorWindow
         EditorUtility.SetDirty(prefab);
         PrefabUtility.SavePrefabAsset(prefab);
         AssetDatabase.Refresh();
-        Debug.Log("오브젝트 풀 사이즈 구글 시트 동기화 완료!");
+        Debug.Log(" 오브젝트 풀 사이즈 구글 시트 동기화 완료!");
     }
 
     private static GameObject FindPrefabByName(string prefabName)

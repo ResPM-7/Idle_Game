@@ -31,7 +31,9 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
             DragableUnit myUnit = transform.GetChild(0).GetComponent<DragableUnit>();
 
             // 레벨이 같고 다음 단계가 있다면 합성(Merge), 아니면 교체(Swap)
-            if (myUnit.myData.unitLevel == droppedUnit.myData.unitLevel && myUnit.myData.nextUpgradeUnit != null)
+            if (myUnit.myData.unitLevel == droppedUnit.myData.unitLevel &&
+                myUnit.myData.nextUpgradeUnits != null &&
+                myUnit.myData.nextUpgradeUnits.Length > 0)
             {
                 HandleMerge(droppedUnit, myUnit);
             }

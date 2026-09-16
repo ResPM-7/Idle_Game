@@ -58,4 +58,18 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
             Debug.Log($"{slotIndex + 1}번 자리 비움!");
         }
     }
+
+    //배틀 할수 있다면 편성된 파티의 수를 확인하기위한 코드 웨이브매니저에게 집어넣어서 maxPlayerDeathCount가 변경되게 
+    public int GetActiveUnitCount()
+    {
+        int count = 0;
+        for (int i = 0; i < activeBattleUnits.Length; i++)
+        {
+            if (activeBattleUnits[i] != null)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
 }

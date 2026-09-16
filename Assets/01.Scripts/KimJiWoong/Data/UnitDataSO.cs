@@ -32,6 +32,19 @@ public class UnitDataSO : ScriptableObject
     public int coin;//스텟강화
     public int credit;//소환재화
 
-    [Header("다음 업그레이드 유닛(있으면 추가 없으면 빈칸)")]
-    public UnitDataSO nextUpgradeUnit;
+    [Header("다음 업그레이드 유닛 (여러 개면 /로 구분하여 랜덤 진화 있으면 추가 없으면 빈칸)")]
+    public UnitDataSO[] nextUpgradeUnits; //단일 객체에서 배열[]로 변경!
+
+    // 랜덤 진화를 처리하는 핵심 함수
+    public UnitDataSO GetNextUpgradeUnit()
+    {
+        // 진화 트리가 아예 없으면 null 반환
+        if (nextUpgradeUnits == null || nextUpgradeUnits.Length == 0) return null;
+
+        // 진화 트리가 1개뿐이면 그것을 그대로 반환 (기존의 확정 진화)
+        if (nextUpgradeUnits.Length == 1) return nextUpgradeUnits[0];
+
+        // 2개 이상일 경우 랜덤으로 하나를 뽑아서 반환 (랜덤 분기 진화)
+        return nextUpgradeUnits[Random.Range(0, nextUpgradeUnits.Length)];
+    }
 }

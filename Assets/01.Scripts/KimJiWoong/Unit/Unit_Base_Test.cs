@@ -12,11 +12,11 @@ public interface IUnitState
 public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 {
     //유닛 업그레이드 결합도를 낮추기위해 델리게이트
-    public static event Action<Unit_Base_Test> OnUnitSpawned; 
+    public static event Action<Unit_Base_Test> OnUnitSpawned;
     public static event Action<Unit_Base_Test> OnUnitDespawned;
 
     public event Action OnDeathEvent;
-    public event Action<Unit_Base_Test, float, float, float> OnHpChanged;
+    public event Action<Unit_Base_Test, float, float, float, bool> OnHpChanged;
 
     [Header("기본 설정")]
     [SerializeField] private UnitDataSO myData;
@@ -29,6 +29,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public float CurrentHp { get; set; }
     public float CurrentDamage { get; set; }
     public float CurrentAttackSpeed { get; set; }
+    public int CurrentDefense { get; set; }
     public float AttackTimer { get; set; }
     public float SearchTimer { get; set; }
     public Transform CurrentTarget { get; set; }
@@ -58,14 +59,17 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         }
 
         CurrentHp = myData.maxHp;
-        CurrentDamage = myData.attackDamage; 
+        CurrentDamage = myData.attackDamage;
         CurrentAttackSpeed = myData.attackSpeed;
+        CurrentDefense = myData.defense;
         AttackTimer = 0f;
         SearchTimer = 0f;
         CurrentTarget = null;
 
-        ChangeState(idleState);
 
+        ChangeState(idleState);
+        //소환될때 유닛 체력바가 제대로 출력되게
+        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f, false);
         // 매니저를 직접 찾지 않고 스폰되었다는 방송만 송출합니다
         OnUnitSpawned?.Invoke(this);
     }
@@ -100,14 +104,18 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         currentState.Enter(this);
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, bool isCritical = false)
     {
         if (currentState == destroyedState) return;
 
+        //방어력 차감 방어력이 높아서 데미지가 0이되어도 이벤트가 나오게 구현
+        float finalDamage = Mathf.Max(0f, amount - CurrentDefense);
+
         CurrentHp -= amount;
 
+        //UI나 이펙트 쪽에 '최종 계산된 데미지(finalDamage)'를 넘겨줍니다.
+        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, finalDamage, isCritical);
 
-        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, amount);
         if (CurrentHp <= 0)
         {
             OnDeathEvent?.Invoke();
@@ -118,6 +126,23 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public void TakeSkillDamage(float damage)
     {
         TakeDamage(damage);
+    }
+
+    public void ResetAndStopCombat()
+    {
+        // 1. 체력을 최대치로 100% 회복
+        CurrentHp = myData.maxHp;
+
+        // 2. UI 체력바 갱신
+        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f, false);
+
+        // 3. 타겟팅 초기화 및 타이머 리셋
+        CurrentTarget = null;
+        AttackTimer = 0f;
+        SearchTimer = 0f;
+
+        // 4. 현재 공격 중이거나 이동 중이더라도 강제로 대기(Idle) 상태로 정지!
+        ChangeState(idleState);
     }
 
     private void OnDrawGizmosSelected()

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
-  m_Name: Unit_107
+  m_Name: Unit_501
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
-  unitId: 107
+  unitId: 501
   unitLevel: 6
-  unitName: "\uAD81\uC218"
+  unitName: "\uC0AC\uC81C"
   uiPoolName: UIUnit
   battlePoolName: BattleUnit
   unitSprite: {fileID: 0}
@@ -23,9 +23,9 @@ MonoBehaviour:
   attackDamage: 5
   attackSpeed: 1
   attackRange: 5
-  defense: 0
-  criticalRate: 10
+  defense: 1
+  criticalRate: 0
   criticalDamage: 2
   coin: 0
   credit: 0
-  nextUpgradeUnit: {fileID: 0}
+  nextUpgradeUnits: []

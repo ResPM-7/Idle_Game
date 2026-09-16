@@ -32,11 +32,11 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void LevelUp()
     {
-        // SO 안에 다음 진화 데이터가 연결되어 있다면?
-        if (myData != null && myData.nextUpgradeUnit != null)
+        UnitDataSO nextData = myData.GetNextUpgradeUnit(); // 랜덤 진화 함수 호출
+
+        if (nextData != null)
         {
-            // 내 데이터를 다음 레벨 데이터로 통째로 덮어씌움!
-            myData = myData.nextUpgradeUnit;
+            myData = nextData;
             UpdateLevelUI();
         }
         else
@@ -55,6 +55,18 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // 1. 현재 배틀 슬롯(전장)에 배치된 유닛인지 확인합니다.
+        bool isInBattleSlot = GetComponentInParent<BattleSlotUI>() != null;
+
+        // 2. 나중에 WaveManager가 완성되면 아래 주석을 해제하세요!
+        // 전투 중(isBattleActive == true)이면서 배틀 슬롯에 있다면 드래그를 막습니다.
+        /*
+        if (isInBattleSlot && WaveManager.instance.isBattleActive)
+        {
+            return; 
+        }
+        */
+
         originalParent = transform.parent;
         canvasGroup.blocksRaycasts = false;
         transform.SetParent(transform.root);
