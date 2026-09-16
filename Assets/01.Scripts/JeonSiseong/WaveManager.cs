@@ -22,7 +22,7 @@ public class WaveManager : Singleton<WaveManager>
     [Header("UI")]
     [SerializeField] TMP_Text waveCountText;
     [SerializeField] TMP_Text bossTimerText;
-    [SerializeField] TMP_Text giveUpButtonText;
+    [SerializeField] TMP_Text giveUpButtonText;  
 
     [Header("Next Wave/Stage Delay")]
     [SerializeField] float nextWaveDelay = 3f;    //  다음 웨이브/스테이지 진입 딜레이 시간
@@ -42,7 +42,7 @@ public class WaveManager : Singleton<WaveManager>
 
     bool bossFinish = false;
 
-    bool stageGiveUp = false;
+    public bool stageGiveUp = false;
 
     int currentWave = 1;
     int currentStage = 1;
