@@ -1147,6 +1147,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: critical_icon
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 25
+        width: 99
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6b8f71c337debf4ba50df5e8deffd15
+      internalID: -472428067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -1192,6 +1214,7 @@ TextureImporter:
       brush_damage_7: -506209141447732411
       brush_damage_8: 4461491172917329510
       brush_damage_9: -8324775509547481448
+      critical_icon: -472428067
       damage_0: 9106994456765555448
       damage_1: 8939433925689245420
       damage_2: -4134125829785455257

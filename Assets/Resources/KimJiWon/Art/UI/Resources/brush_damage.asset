@@ -285,6 +285,11 @@ MonoBehaviour:
     m_GlyphIndex: 40
     m_Scale: 1
     m_Name: MISS
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 41
+    m_Scale: 1
+    m_Name: critical_icon
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
@@ -942,5 +947,21 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: 1307934826082089333, guid: e95a526d055b1cc44a189393f996bc4d, type: 3}
+  - m_Index: 41
+    m_Metrics:
+      m_Width: 118
+      m_Height: 108
+      m_HorizontalBearingX: -59
+      m_HorizontalBearingY: 54
+      m_HorizontalAdvance: 70
+    m_GlyphRect:
+      m_X: 326
+      m_Y: 25
+      m_Width: 99
+      m_Height: 103
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -472428067, guid: e95a526d055b1cc44a189393f996bc4d, type: 3}
   spriteInfoList: []
   fallbackSpriteAssets: []

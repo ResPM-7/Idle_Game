@@ -153,6 +153,6 @@ MonoBehaviour:
   damageText: {fileID: 9100072344644458217}
   moveHeight: 60
   duration: 0.5
-  criticalScale: 1.25
+  criticalScale: 1.2
   criticalTint: {r: 0.75, g: 0.75, b: 0.75, a: 1}
-  criticalIconSpriteName: 
+  criticalIconSpriteName: critical_icon
