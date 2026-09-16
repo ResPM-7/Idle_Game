@@ -297,7 +297,7 @@ MonoBehaviour:
       m_Height: 118
       m_HorizontalBearingX: -50.5
       m_HorizontalBearingY: 59
-      m_HorizontalAdvance: 101
+      m_HorizontalAdvance: 80
     m_GlyphRect:
       m_X: 0
       m_Y: 540
@@ -313,7 +313,7 @@ MonoBehaviour:
       m_Height: 119
       m_HorizontalBearingX: -49
       m_HorizontalBearingY: 59.5
-      m_HorizontalAdvance: 98
+      m_HorizontalAdvance: 80
     m_GlyphRect:
       m_X: 402
       m_Y: 540
@@ -329,7 +329,7 @@ MonoBehaviour:
       m_Height: 119
       m_HorizontalBearingX: -44.5
       m_HorizontalBearingY: 59.5
-      m_HorizontalAdvance: 89
+      m_HorizontalAdvance: 80
     m_GlyphRect:
       m_X: 806
       m_Y: 540
@@ -345,7 +345,7 @@ MonoBehaviour:
       m_Height: 119
       m_HorizontalBearingX: -46
       m_HorizontalBearingY: 59.5
-      m_HorizontalAdvance: 92
+      m_HorizontalAdvance: 80
     m_GlyphRect:
       m_X: 905
       m_Y: 540
@@ -361,7 +361,7 @@ MonoBehaviour:
       m_Height: 121
       m_HorizontalBearingX: -45
       m_HorizontalBearingY: 60.5
-      m_HorizontalAdvance: 90
+      m_HorizontalAdvance: 80
     m_GlyphRect:
       m_X: 606
       m_Y: 539
@@ -377,7 +377,7 @@ MonoBehaviour:
       m_Height: 122
       m_HorizontalBearingX: -40.5
       m_HorizontalBearingY: 61
-      m_HorizontalAdvance: 81
+      m_HorizontalAdvance: 80
     m_GlyphRect:
       m_X: 510
       m_Y: 538
@@ -409,7 +409,7 @@ MonoBehaviour:
       m_Height: 125
       m_HorizontalBearingX: -44.5
       m_HorizontalBearingY: 62.5
-      m_HorizontalAdvance: 89
+      m_HorizontalAdvance: 80
     m_GlyphRect:
       m_X: 306
       m_Y: 537
@@ -425,7 +425,7 @@ MonoBehaviour:
       m_Height: 124
       m_HorizontalBearingX: -48
       m_HorizontalBearingY: 62
-      m_HorizontalAdvance: 96
+      m_HorizontalAdvance: 80
     m_GlyphRect:
       m_X: 703
       m_Y: 537
@@ -441,7 +441,7 @@ MonoBehaviour:
       m_Height: 126
       m_HorizontalBearingX: -42.5
       m_HorizontalBearingY: 63
-      m_HorizontalAdvance: 85
+      m_HorizontalAdvance: 80
     m_GlyphRect:
       m_X: 208
       m_Y: 536
@@ -935,7 +935,7 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 265
       m_Height: 114
-      m_HorizontalBearingX: -132.5
+      m_HorizontalBearingX: 0
       m_HorizontalBearingY: 57
       m_HorizontalAdvance: 265
     m_GlyphRect:
