@@ -12,6 +12,8 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     [HideInInspector] public Transform originalParent;
     private CanvasGroup canvasGroup;
 
+    private bool isValidDrag = false;
+
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -53,19 +55,23 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    private bool IsLocked()
     {
-        // 1. 현재 배틀 슬롯(전장)에 배치된 유닛인지 확인합니다.
         bool isInBattleSlot = GetComponentInParent<BattleSlotUI>() != null;
 
-        // stageGiveUp이 false일 때(포기하지 않고 전투가 진행 중일 때) 드래그를 막습니다.
-        // WaveManager.instance != null 체크를 추가해 에러를 방지합니다.
-
+        // 배틀 슬롯에 있고 && 전투가 진행 중(!stageGiveUp)이라면 조작 불가(true)
         if (isInBattleSlot && WaveManager.instance != null && !WaveManager.instance.stageGiveUp)
         {
-            return;
+            return true;
         }
+        return false; // 그 외(그리드에 있거나, 전투 정지 중)에는 모두 조작 가능(false)
+    }
 
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        // 조작 불가 상태면 아무것도 하지 않고 함수 종료 (원래 부모 유지)
+        if (IsLocked()) return;
 
         originalParent = transform.parent;
         canvasGroup.blocksRaycasts = false;
@@ -74,11 +80,17 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnDrag(PointerEventData eventData)
     {
+        // 조작 불가 상태면 마우스를 따라다니지 않음
+        if (IsLocked()) return;
+
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        // 조작 불가 상태면 드롭 처리도 무시
+        if (IsLocked()) return;
+
         canvasGroup.blocksRaycasts = true;
 
         if (gameObject.activeSelf && transform.parent == transform.root)

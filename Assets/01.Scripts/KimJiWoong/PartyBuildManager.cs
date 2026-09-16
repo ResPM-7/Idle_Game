@@ -18,13 +18,18 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
         if (activeBattleUnits[slotIndex] != null)
         {
             UnitDataSO oldData = activeUnitDatas[slotIndex];
-            activeBattleUnits[slotIndex].SetActive(false);
 
-            if (oldData != null && !string.IsNullOrEmpty(oldData.battlePoolName))
+            // [더블 풀링 방지] 유닛이 아직 맵에 살아서 활성화되어 있을 때만 풀로 돌려보냅니다!
+            if (activeBattleUnits[slotIndex].activeInHierarchy)
             {
-                ObjectPoolManager.instance.ReturnObject(oldData.battlePoolName, activeBattleUnits[slotIndex]);
+                activeBattleUnits[slotIndex].SetActive(false);
+                if (oldData != null && !string.IsNullOrEmpty(oldData.battlePoolName))
+                {
+                    ObjectPoolManager.instance.ReturnObject(oldData.battlePoolName, activeBattleUnits[slotIndex]);
+                }
             }
 
+            // 이미 죽었든 살아서 반환됐든, 매니저의 추적 리스트에서는 깔끔하게 지워줍니다.
             activeBattleUnits[slotIndex] = null;
             activeUnitDatas[slotIndex] = null;
         }
@@ -46,11 +51,14 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
         {
             UnitDataSO oldData = activeUnitDatas[slotIndex];
 
-            activeBattleUnits[slotIndex].SetActive(false);
-
-            if (oldData != null && !string.IsNullOrEmpty(oldData.battlePoolName))
+            // [더블 풀링 방지] 여기도 동일하게 살아있을 때만 반환!
+            if (activeBattleUnits[slotIndex].activeInHierarchy)
             {
-                ObjectPoolManager.instance.ReturnObject(oldData.battlePoolName, activeBattleUnits[slotIndex]);
+                activeBattleUnits[slotIndex].SetActive(false);
+                if (oldData != null && !string.IsNullOrEmpty(oldData.battlePoolName))
+                {
+                    ObjectPoolManager.instance.ReturnObject(oldData.battlePoolName, activeBattleUnits[slotIndex]);
+                }
             }
 
             activeBattleUnits[slotIndex] = null;
