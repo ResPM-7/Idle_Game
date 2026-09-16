@@ -55,6 +55,18 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // 1. 현재 배틀 슬롯(전장)에 배치된 유닛인지 확인합니다.
+        bool isInBattleSlot = GetComponentInParent<BattleSlotUI>() != null;
+
+        // 2. 나중에 WaveManager가 완성되면 아래 주석을 해제하세요!
+        // 전투 중(isBattleActive == true)이면서 배틀 슬롯에 있다면 드래그를 막습니다.
+        /*
+        if (isInBattleSlot && WaveManager.instance.isBattleActive)
+        {
+            return; 
+        }
+        */
+
         originalParent = transform.parent;
         canvasGroup.blocksRaycasts = false;
         transform.SetParent(transform.root);

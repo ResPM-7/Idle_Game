@@ -128,6 +128,23 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         TakeDamage(damage);
     }
 
+    public void ResetAndStopCombat()
+    {
+        // 1. 체력을 최대치로 100% 회복
+        CurrentHp = myData.maxHp;
+
+        // 2. UI 체력바 갱신
+        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f, false);
+
+        // 3. 타겟팅 초기화 및 타이머 리셋
+        CurrentTarget = null;
+        AttackTimer = 0f;
+        SearchTimer = 0f;
+
+        // 4. 현재 공격 중이거나 이동 중이더라도 강제로 대기(Idle) 상태로 정지!
+        ChangeState(idleState);
+    }
+
     private void OnDrawGizmosSelected()
     {
         // 데이터가 아직 안 들어왔다면 그리지 않음 (에러 방지)
