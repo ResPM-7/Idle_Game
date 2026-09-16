@@ -37,7 +37,7 @@ public class WaveManager : Singleton<WaveManager>
     [Header("임시 게임오버 플레이어 사망 횟수")]
     [SerializeField] public int maxPlayerDeathCount;
 
-    int playerDeathCount = 0;
+    int playerDeathCount = 0;   // 플레이어 사망 횟수
 
     bool bossFinish = false;
 
