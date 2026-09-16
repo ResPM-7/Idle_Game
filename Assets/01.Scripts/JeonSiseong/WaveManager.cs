@@ -22,6 +22,7 @@ public class WaveManager : Singleton<WaveManager>
     [Header("UI")]
     [SerializeField] TMP_Text waveCountText;
     [SerializeField] TMP_Text bossTimerText;
+    [SerializeField] TMP_Text giveUpButtonText;
 
     [Header("Next Wave/Stage Delay")]
     [SerializeField] float nextWaveDelay = 3f;    //  다음 웨이브/스테이지 진입 딜레이 시간
@@ -40,6 +41,8 @@ public class WaveManager : Singleton<WaveManager>
     int playerDeathCount = 0;   // 플레이어 사망 횟수
 
     bool bossFinish = false;
+
+    bool stageGiveUp = false;
 
     int currentWave = 1;
     int currentStage = 1;
@@ -430,6 +433,7 @@ public class WaveManager : Singleton<WaveManager>
 
     }
 
+    
     IEnumerator NextStageDelay()
     {
         yield return new WaitForSeconds(nextWaveDelay);
@@ -512,6 +516,76 @@ public class WaveManager : Singleton<WaveManager>
         StartSpawn();
     }
 
+    public void StageGiveUp()
+    {
+        // 이미 포기한 상태라면 다시 시작
+        if(stageGiveUp)
+        {
+            stageGiveUp = false;
+
+            ResetWave();
+
+            bossFinish = false;
+
+            currentState = WaveState.NormalWave;
+
+            giveUpButtonText.text = "GIVE UP";
+
+            Debug.Log($"Stage{currentStage}-1 재시작");
+
+            StartSpawn();
+
+            return;
+        }
+
+        //처음 누른 경우에는 포기
+        Debug.Log("현재 웨이브 포기");
+
+        stageGiveUp = true;
+
+        // 현재 실행 중인 코루틴 전부 정지
+        StopRoutine(ref spawnRoutine);
+        StopRoutine(ref nextWaveRoutine);
+        StopRoutine(ref bossDelayRoutine);
+        StopRoutine(ref bossTimerRoutine);
+        StopRoutine(ref nextStageRoutine);
+
+        // 현재 보스가 있으면 풀로 반환
+        if(currentBoss != null)
+        {
+            ObjectPoolManager.instance.ReturnObject("Boss", currentBoss);
+            currentBoss = null;         
+        }
+
+        // 현재 살아 있는 일반 몬스터 전부 풀로 반환
+        for(int i= activeEnemies.Count -1; i >= 0; i--)
+        {
+            Unit_Base_Test enemy =activeEnemies[i];
+
+            if(enemy != null && enemy.gameObject.activeSelf)
+            {
+                ObjectPoolManager.instance.ReturnObject(enemy.MyData.battlePoolName, enemy.gameObject);
+            }
+        }
+
+        // 리스트 정리
+        activeEnemies.Clear();
+
+        // 보스 UI 종료
+        FinishBoss();
+
+        // 전투 중지
+        currentState = WaveState.WaitingNextStage;
+
+        Debug.Log($"Stage{currentStage} 중지 상태");
+
+        //버튼 글자 변경
+        giveUpButtonText.text = "RESTART";
+
+        Debug.Log($"Stage {currentStage} 포기 상태");
+
+
+    }
     public void PlayerDied()
     {
         playerDeathCount++;
@@ -562,6 +636,13 @@ public class WaveManager : Singleton<WaveManager>
 
     void Update()
     {
+        if(stageGiveUp)
+        {
+            waveCountText.text = "Stage" + currentStage;
+            return;
+        }
+
+
         if (currentState == WaveState.BossBattle || currentState == WaveState.WaitingNextStage)
         {
             waveCountText.text = "Stage" + currentStage + "-Boss";
