@@ -14,8 +14,6 @@ public class HealthBarManager : MonoBehaviour
 
     private readonly HashSet<Unit_Base_Test> revealedEnemyHealthBars = new();
     [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private Color playerHealthColor = Color.green;
-    [SerializeField] private Color enemyHealthColor = Color.red;
 
     private void Awake()
     {
@@ -23,7 +21,7 @@ public class HealthBarManager : MonoBehaviour
             worldCamera = Camera.main;
     }
 
-#if UNITY_EDITOR // TakeDamage Å×½ºÆ®¿ë ÇÔ¼ö
+#if UNITY_EDITOR // TakeDamage í…ŒìŠ¤íŠ¸ìš© í•¨ìˆ˜
     private void Update()
     {
         var keyboard = UnityEngine.InputSystem.Keyboard.current;
@@ -62,7 +60,7 @@ public class HealthBarManager : MonoBehaviour
             return;
         }
 
-        Debug.LogWarning("Damage PopupÀ» Ç¥½ÃÇÒ È°¼º À¯´ÖÀÌ ¾ø½À´Ï´Ù.");
+        Debug.LogWarning("Damage Popupì„ í‘œì‹œí•  í™œì„± ìœ ë‹›ì´ ì—†ìŠµë‹ˆë‹¤.");
     }
 
     private void TestDamageAllUnits(float damage)
@@ -145,7 +143,7 @@ public class HealthBarManager : MonoBehaviour
             return;
         }
 
-        // Init¿¡¼­ Àü´ŞµÇ´Â damage 0 ÀÌº¥Æ®´Â ½ÇÁ¦ MISS°¡ ¾Æ´Ï¹Ç·Î Ãë¼ÒÇÑ´Ù.
+        // Initì—ì„œ ì „ë‹¬ë˜ëŠ” damage 0 ì´ë²¤íŠ¸ëŠ” ì‹¤ì œ MISSê°€ ì•„ë‹ˆë¯€ë¡œ ì·¨ì†Œí•œë‹¤.
         pendingMissUnits.RemoveAll(pendingUnit => pendingUnit == unit);
         revealedEnemyHealthBars.Remove(unit);
 
@@ -246,19 +244,19 @@ public class HealthBarManager : MonoBehaviour
                 ObjectPoolManager.instance.ReturnObject(HpBarPoolKey, healthBarObject);
 
                 pendingUnits.RemoveAt(i);
-                Debug.LogWarning("HpBar prefab¿¡ UI_HealthBar°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogWarning("HpBar prefabì— UI_HealthBarê°€ ì—†ìŠµë‹ˆë‹¤.");
                 continue;
             }
 
             float maxHp = unit.MyData.maxHp;
             float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
-            healthBar.SetFillColor(IsEnemy(unit) ? enemyHealthColor : playerHealthColor);
+            healthBar.SetStyle(IsEnemy(unit));
             healthBar.SetFill(normalizedHp);
-            // HP¹Ù°¡ Ç®¿¡¼­ ³ª¿Â Á÷ÈÄ ÀÌÀü À§Ä¡¿¡ Àá±ñ º¸ÀÌ´Â °ÍÀ» ¹æÁö
+            // HPë°”ê°€ í’€ì—ì„œ ë‚˜ì˜¨ ì§í›„ ì´ì „ ìœ„ì¹˜ì— ì ê¹ ë³´ì´ëŠ” ê²ƒì„ ë°©ì§€
             healthBar.SetVisible(false);
 
-            // HP¹Ù »ı¼º Àü¿¡ ÀÌ¹Ì ÇÇÇØ¸¦ ¹ŞÀº °æ¿ì¿¡µµ Ç¥½Ã
+            // HPë°” ìƒì„± ì „ì— ì´ë¯¸ í”¼í•´ë¥¼ ë°›ì€ ê²½ìš°ì—ë„ í‘œì‹œ
             if (IsEnemy(unit) && unit.CurrentHp < maxHp)
             {
                 revealedEnemyHealthBars.Add(unit);
@@ -312,7 +310,7 @@ public class HealthBarManager : MonoBehaviour
         ObjectPoolManager.instance.ReturnObject(HpBarPoolKey, healthBar.gameObject);
     }
 
-    //Àû ÆÇº°
+    //ì  íŒë³„
     private bool IsEnemy(Unit_Base_Test unit)
     {
         if (unit == null)
@@ -322,11 +320,11 @@ public class HealthBarManager : MonoBehaviour
     }
     private bool ShouldShowHealthBar(Unit_Base_Test unit)
     {
-        // ¾Æ±ºÀº Ã³À½ºÎÅÍ Ç¥½Ã
+        // ì•„êµ°ì€ ì²˜ìŒë¶€í„° í‘œì‹œ
         if (!IsEnemy(unit))
             return true;
 
-        // ÀûÀº ÇÑ ¹øÀÌ¶óµµ ÇÇÇØ¸¦ ¹ŞÀº µÚ Ç¥½Ã
+        // ì ì€ í•œ ë²ˆì´ë¼ë„ í”¼í•´ë¥¼ ë°›ì€ ë’¤ í‘œì‹œ
         return revealedEnemyHealthBars.Contains(unit);
     }
 }

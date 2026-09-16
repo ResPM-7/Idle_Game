@@ -6,6 +6,7 @@ using UnityEngine;
 public class UI_DamageText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI damageText;
+    [SerializeField] private Vector3 worldOffset = new Vector3(0f, 1.5f, 0f);
     [SerializeField] private float moveHeight = 60f; // 위로 뜰 높이
     [SerializeField] private float duration = 0.5f;  // 연출 시간
 
@@ -28,7 +29,7 @@ public class UI_DamageText : MonoBehaviour
         damageText.color = useCriticalStyle ? criticalTint : Color.white;
         damageText.text = isMiss ? "<sprite name=\"MISS\">" : BuildDamageSpriteText(damage, useCriticalStyle);
 
-        Vector3 targetWorldPos = worldPos + new Vector3(0f, 1f, 0f);
+        Vector3 targetWorldPos = worldPos + worldOffset;
 
         Vector3 screenPos = Camera.main.WorldToScreenPoint(targetWorldPos);
         screenPos.z = 0f; 
