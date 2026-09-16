@@ -6,6 +6,13 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
+        //재 마우스를 올려놓은 곳이 '배틀 슬롯'인데, 전투가 진행 중(!stageGiveUp)이라면?
+        if (this is BattleSlotUI && WaveManager.instance != null && !WaveManager.instance.stageGiveUp)
+        {
+            Debug.Log("전투 중에는 전장에 유닛을 배치하거나 합성할 수 없습니다!");
+            return; // 여기서 함수를 끝내버려서 드롭을 무효화합니다!
+        }
+
         GameObject droppedObj = eventData.pointerDrag;
         DragableUnit droppedUnit = droppedObj.GetComponent<DragableUnit>();
 

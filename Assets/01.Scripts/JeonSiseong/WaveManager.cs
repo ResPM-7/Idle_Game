@@ -42,7 +42,7 @@ public class WaveManager : Singleton<WaveManager>
 
     bool bossFinish = false;
 
-    bool stageGiveUp = false;
+    public bool stageGiveUp = false;
 
     int currentWave = 1;
     int currentStage = 1;
@@ -512,6 +512,11 @@ public class WaveManager : Singleton<WaveManager>
         // 일반 웨이브로 상태 변경
         currentState = WaveState.NormalWave;
 
+        //게임오버로 인한 재시작 시에도 아군 체력 리셋 및 사망 횟수 갱신
+        PartyBuildManager.instance.ResetAllBattleUnits();
+        maxPlayerDeathCount = PartyBuildManager.instance.GetActiveUnitCount();
+        playerDeathCount = 0;
+
         // 다시 1웨이브 시작
         StartSpawn();
     }
@@ -531,7 +536,10 @@ public class WaveManager : Singleton<WaveManager>
 
             giveUpButtonText.text = "GIVE UP";
 
-            Debug.Log($"Stage{currentStage}-1 재시작");
+            maxPlayerDeathCount = PartyBuildManager.instance.GetActiveUnitCount();
+            playerDeathCount = 0; // 누적 사망 횟수도 0으로 초기화
+
+            Debug.Log($"Stage{currentStage}-1 재시작 (최대 사망 허용: {maxPlayerDeathCount}명)");
 
             StartSpawn();
 
@@ -573,6 +581,8 @@ public class WaveManager : Singleton<WaveManager>
 
         // 보스 UI 종료
         FinishBoss();
+
+        PartyBuildManager.instance.ResetAllBattleUnits();
 
         // 전투 중지
         currentState = WaveState.WaitingNextStage;

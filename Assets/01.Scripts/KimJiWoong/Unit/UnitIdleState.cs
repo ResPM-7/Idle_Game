@@ -9,12 +9,12 @@ public class UnitIdleState : IUnitState
     {
         // 나중에 WaveManager 완성 시 아래 주석 해제! 
         // 파티 편성 모드(전투 정지)라면 적을 탐색하지 않고 가만히 서 있게 합니다.
-        /*
-        if (WaveManager.instance != null && !WaveManager.instance.isBattleActive) 
+        
+        if (WaveManager.instance != null && WaveManager.instance.stageGiveUp) 
         {
             return;
         }
-        */
+        
 
         unit.SearchTimer += Time.deltaTime;
         if (unit.SearchTimer < 0.2f) return;
