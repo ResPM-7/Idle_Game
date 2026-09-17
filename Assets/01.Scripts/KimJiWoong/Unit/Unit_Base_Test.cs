@@ -26,15 +26,15 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
     public UnitDataSO MyData => myData;
     public LayerMask TargetLayer => targetLayer;
+    public float CurrentAttackSpeed { get; set; }
     public float CurrentHp { get; set; }
     public float CurrentDamage { get; set; }
-    public float CurrentAttackSpeed { get; set; }
     public int CurrentDefense { get; set; }
+    public float CurrentCriticalRate { get; set; }
+    public float CurrentCriticalDamage { get; set; }
     public float AttackTimer { get; set; }
     public float SearchTimer { get; set; }
     public Transform CurrentTarget { get; set; }
-    public float CurrentCriticalRate { get; set; }
-    public float CurrentCriticalDamage { get; set; }
 
     // FSM 관련 변수
     private IUnitState currentState;
