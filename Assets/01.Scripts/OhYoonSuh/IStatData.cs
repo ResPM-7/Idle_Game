@@ -2,7 +2,9 @@ public enum StatType
 {
     Strength,    // 힘
     Health,      // 체력
-   
+    Defense,
+    CriticalRate,
+    CriticalDamage,
     Dummy,
 
     //스탯 데이터 확장 시 추가
