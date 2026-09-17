@@ -45,12 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
   isDontDestroy: 0
-  bossPrefab: {fileID: 3624809761425899735, guid: 34501b131c8215345abf6cd11b0b1958, type: 3}
+  bossData: {fileID: 11400000, guid: 71b60ee52e195334ca9d55d137f52237, type: 2}
   bossSpawnPoint: {fileID: 0}
   spawnPoints:
   - {fileID: 0}
   maxWave: 2
   waveCountText: {fileID: 0}
   bossTimerText: {fileID: 0}
+  giveUpButtonText: {fileID: 0}
   nextWaveDelay: 3
+  gameOverDelay: 2
   waveData: {fileID: 11400000, guid: 68fc76221f7d89d4ab40e308093d59d2, type: 2}
+  maxPlayerDeathCount: 5
+  stageGiveUp: 0

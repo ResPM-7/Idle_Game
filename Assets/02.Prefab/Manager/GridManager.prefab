@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSpawner
   gridPanel: {fileID: 0}
-  baseUnitData: {fileID: 11400000, guid: b3da1176e1ed1d743afb4a67d40c910f, type: 2}
+  baseUnitData: {fileID: 11400000, guid: 1db63748386e98f45b6a5e9804a595ee, type: 2}
   spawnCost: 10

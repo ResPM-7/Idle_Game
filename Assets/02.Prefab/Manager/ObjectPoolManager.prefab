@@ -70,10 +70,10 @@ MonoBehaviour:
     targetCanvas: {fileID: 0}
     poolSize: 5
   - poolName: HpBar
-    prefab: {fileID: 2066575373135292623, guid: dc4412c9d5d0a1f4e831a2d5594faee5, type: 3}
+    prefab: {fileID: 5856575354111760795, guid: 282e843d763b216479c066069b7cfbbb, type: 3}
     targetCanvas: {fileID: 0}
     poolSize: 5
   - poolName: UI_DamageText
-    prefab: {fileID: 4532371116211410950, guid: 9b54e771196e4be448e942ef100cab9e, type: 3}
+    prefab: {fileID: 1557475160153535025, guid: 97fa04c417802d04a9a86ea13f597db0, type: 3}
     targetCanvas: {fileID: 0}
     poolSize: 5

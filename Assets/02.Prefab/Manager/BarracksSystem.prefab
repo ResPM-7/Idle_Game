@@ -56,7 +56,17 @@ MonoBehaviour:
     baseUpgradePrice: 10
     priceIncreasePerLevel: 10
   - type: 2
-    statName: "\uB354\uBBF8"
+    statName: "\uBC29\uC5B4\uB825"
+    valueIncreasePerLevel: 5
+    baseUpgradePrice: 5
+    priceIncreasePerLevel: 5
+  - type: 3
+    statName: "\uCE58\uBA85\uD0C0\uD655\uB960"
+    valueIncreasePerLevel: 5
+    baseUpgradePrice: 5
+    priceIncreasePerLevel: 5
+  - type: 4
+    statName: "\uCE58\uBA85\uD0C0\uD53C\uD574 \uBC30\uC728"
     valueIncreasePerLevel: 5
     baseUpgradePrice: 5
     priceIncreasePerLevel: 5
