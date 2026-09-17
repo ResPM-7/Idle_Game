@@ -279,7 +279,11 @@ PrefabInstance:
     - target: {fileID: 252647930380997319, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
       propertyPath: m_fontSize
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 32
+=======
+      value: 30.55
+>>>>>>> parent of 46ca505 (스킬들을 오브젝트풀로 변경)
 =======
       value: 30.55
 >>>>>>> parent of 46ca505 (스킬들을 오브젝트풀로 변경)
@@ -531,7 +535,11 @@ PrefabInstance:
     - target: {fileID: 1938318287507146398, guid: dbacc0b0b1178cb448a8767162e1e359, type: 3}
       propertyPath: m_fontSize
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 32
+=======
+      value: 30.55
+>>>>>>> parent of 46ca505 (스킬들을 오브젝트풀로 변경)
 =======
       value: 30.55
 >>>>>>> parent of 46ca505 (스킬들을 오브젝트풀로 변경)
@@ -1621,7 +1629,11 @@ PrefabInstance:
     - target: {fileID: 5207448061230941041, guid: 0d0b38203ddb4b145b54b1379a2f5b36, type: 3}
       propertyPath: m_fontSize
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 25.55
+=======
+      value: 24.9
+>>>>>>> parent of 46ca505 (스킬들을 오브젝트풀로 변경)
 =======
       value: 24.9
 >>>>>>> parent of 46ca505 (스킬들을 오브젝트풀로 변경)
