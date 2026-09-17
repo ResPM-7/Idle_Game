@@ -3,43 +3,102 @@ using UnityEngine;
 
 public class PoisonSkill : Skill
 {
-    [Header("Poison Setting")]
-    [SerializeField] private string poolName = "Poison";
-    [SerializeField] private float duration = 5f;
-    [SerializeField] private float damageInterval = 1f;
 
-    private void OnEnable()
+    [Header("Poison Setting")]
+    //[SerializeField] float radius = 2.5f;       //  스킬 범위 반지름
+    //[SerializeField] float damage = 10;           // 스킬 데미지
+    [SerializeField] float duration = 5f;       // 지속 시간
+    [SerializeField] float damageInterval = 1f;    // 데미지 들어가는 시간간격
+
+
+    //[Header("Target")]
+    //[SerializeField] LayerMask enemyLayer;
+
+    //void DamageEnemy()
+    //{
+    //    Collider2D[] enemies
+    //        = Physics2D.OverlapCircleAll(transform.position, radius, enemyLayer);
+
+
+    //    foreach(Collider2D enemy in enemies)
+    //    {
+
+    //        ISkillDamageable target = enemy.GetComponent<ISkillDamageable>();
+
+    //        if(target != null)
+    //        {
+    //            Debug.Log("스킬 데미지");
+    //            target.TakeSkillDamage(damage);
+    //        }
+    //    }
+
+
+
+
+
+
+
+
+    //}
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        //if (((1 << collision.gameObject.layer) & enemyLayer.value) != 0)
+        //{
+
+        //    ISkillDamageable target = collision.GetComponent<ISkillDamageable>();
+        //    if (target != null)
+        //    {
+        //        target.TakeSkillDamage(damage);
+        //    }
+        //}
+
+        DamageTarget(collision);
+    }
+
+
+    IEnumerator PoisonRoutine()
+    {
+
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            //DamageEnemy();
+
+            yield return new WaitForSeconds(damageInterval);
+
+            timer += damageInterval;
+        }
+
+        Destroy(gameObject);
+    }
+
+
+
+
+
+
+
+
+    void Start()
     {
         StartCoroutine(PoisonRoutine());
     }
 
-    private IEnumerator PoisonRoutine()
+
+    //private void OnDrawGizmosSelected()
+    //{
+        
+    //    Gizmos.DrawWireSphere(transform.position, radius);
+    //}
+
+
+
+
+
+    void Update()
     {
-        // GetObject()가 활성화한 뒤 SkillManager가 위치를 세팅할 시간을 한 프레임 줌
-        yield return null;
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            Collider2D[] targets = Physics2D.OverlapCircleAll(
-                transform.position,
-                radius,
-                enemyLayer
-            );
-
-            foreach (Collider2D target in targets)
-            {
-                DamageTarget(target);
-            }
-
-            yield return new WaitForSeconds(damageInterval);
-            elapsedTime += damageInterval;
-        }
-
-        if (ObjectPoolManager.instance != null)
-        {
-            ObjectPoolManager.instance.ReturnObject(poolName, gameObject);
-        }
+        
     }
 }
