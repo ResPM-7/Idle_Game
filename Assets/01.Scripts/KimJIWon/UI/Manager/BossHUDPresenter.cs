@@ -13,23 +13,12 @@ public class BossHUDPresenter : Singleton<BossHUDPresenter>
         }
     }
 
-    public void BeginBossBattle(
-        string bossName,
-        float currentHp,
-        float maxHp,
-        float remainingTime,
-        float totalTime)
+    public void BeginBossBattle(string bossName, float currentHp, float maxHp, float remainingTime, float totalTime)
     {
         if (bossHUD == null)
             return;
 
-        bossHUD.Show(
-            bossName,
-            currentHp,
-            maxHp,
-            remainingTime,
-            totalTime
-        );
+        bossHUD.Show(bossName, currentHp, maxHp, remainingTime, totalTime);
     }
 
     public void UpdateBossHealth(float currentHp, float maxHp)

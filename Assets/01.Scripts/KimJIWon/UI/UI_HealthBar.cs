@@ -13,6 +13,12 @@ public class UI_HealthBar : MonoBehaviour
         }
     }
 
+    public void SetFillColor(Color color)
+    {
+        if (hpFillImage != null)
+            hpFillImage.color = color;
+    }
+
     public void SetScreenPosition(Vector3 screenPosition)
     {
         transform.position = screenPosition;

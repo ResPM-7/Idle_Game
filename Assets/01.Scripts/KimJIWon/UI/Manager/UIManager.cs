@@ -64,7 +64,7 @@ public class UIManager : Singleton<UIManager>
     #region InGame UI / Floating Text
     public void ShowDamageText(float damage, Vector3 worldPos)
     {
-        const string poolKey = "DamageText";
+        const string poolKey = "UI_DamageText";
 
         if (ObjectPoolManager.instance == null)
             return;

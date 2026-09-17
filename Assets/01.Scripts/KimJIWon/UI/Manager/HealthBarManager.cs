@@ -11,6 +11,11 @@ public class HealthBarManager : MonoBehaviour
     private readonly Dictionary<Unit_Base_Test, UI_HealthBar> healthBars = new();
     private readonly List<Unit_Base_Test> pendingUnits = new();
 
+    private readonly HashSet<Unit_Base_Test> revealedEnemyHealthBars = new();
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private Color playerHealthColor = Color.green;
+    [SerializeField] private Color enemyHealthColor = Color.red;
+
     private void Awake()
     {
         if (worldCamera == null)
@@ -37,63 +42,36 @@ public class HealthBarManager : MonoBehaviour
 
     private void TestDamageAllUnits(float damage)
     {
-        var healthBarSnapshot =
-            new List<KeyValuePair<Unit_Base_Test, UI_HealthBar>>(healthBars);
+        var unitSnapshot = new List<Unit_Base_Test>(healthBars.Keys);
 
-        foreach (var pair in healthBarSnapshot)
+        foreach (Unit_Base_Test unit in unitSnapshot)
         {
-            Unit_Base_Test unit = pair.Key;
-            UI_HealthBar healthBar = pair.Value;
-
-            if (unit == null ||
-                unit.MyData == null ||
-                healthBar == null ||
-                !unit.gameObject.activeInHierarchy)
+            if (unit == null || unit.MyData == null || !unit.gameObject.activeInHierarchy)
             {
                 continue;
             }
 
             unit.TakeDamage(damage);
-
-            float normalizedHp = unit.MyData.maxHp > 0f
-                ? unit.CurrentHp / unit.MyData.maxHp
-                : 0f;
-
-            healthBar.SetFill(normalizedHp);
-
-            UIManager.Instance?.ShowDamageText(
-                damage,
-                unit.transform.position
-            );
         }
     }
 
     private void TestHealAllUnits(float amount)
     {
-        var healthBarSnapshot =
-            new List<KeyValuePair<Unit_Base_Test, UI_HealthBar>>(healthBars);
+        var healthBarSnapshot = new List<KeyValuePair<Unit_Base_Test, UI_HealthBar>>(healthBars);
 
         foreach (var pair in healthBarSnapshot)
         {
             Unit_Base_Test unit = pair.Key;
             UI_HealthBar healthBar = pair.Value;
 
-            if (unit == null ||
-                unit.MyData == null ||
-                healthBar == null ||
-                !unit.gameObject.activeInHierarchy)
+            if (unit == null || unit.MyData == null || healthBar == null || !unit.gameObject.activeInHierarchy)
             {
                 continue;
             }
 
-            unit.CurrentHp = Mathf.Min(
-                unit.CurrentHp + amount,
-                unit.MyData.maxHp
-            );
+            unit.CurrentHp = Mathf.Min(unit.CurrentHp + amount,unit.MyData.maxHp);
 
-            float normalizedHp = unit.MyData.maxHp > 0f
-                ? unit.CurrentHp / unit.MyData.maxHp
-                : 0f;
+            float normalizedHp = unit.MyData.maxHp > 0f ? unit.CurrentHp / unit.MyData.maxHp : 0f;
 
             healthBar.SetFill(normalizedHp);
         }
@@ -113,11 +91,18 @@ public class HealthBarManager : MonoBehaviour
 
         foreach (var pair in healthBars)
         {
-            ReturnHealthBar(pair.Value);
+            Unit_Base_Test unit = pair.Key;
+            UI_HealthBar healthBar = pair.Value;
+
+            if (unit != null)
+                unit.OnHpChanged -= HandleUnitHpChanged;
+
+            ReturnHealthBar(healthBar);
         }
 
         healthBars.Clear();
         pendingUnits.Clear();
+        revealedEnemyHealthBars.Clear();
     }
 
     private void LateUpdate()
@@ -128,9 +113,7 @@ public class HealthBarManager : MonoBehaviour
 
     private void HandleUnitSpawned(Unit_Base_Test unit)
     {
-        if (unit == null ||
-            healthBars.ContainsKey(unit) ||
-            pendingUnits.Contains(unit))
+        if (unit == null || healthBars.ContainsKey(unit) || pendingUnits.Contains(unit))
         {
             return;
         }
@@ -142,9 +125,32 @@ public class HealthBarManager : MonoBehaviour
     {
         pendingUnits.Remove(unit);
 
-        if (unit != null && healthBars.Remove(unit, out UI_HealthBar healthBar))
-        {
+        if (unit == null)
+            return;
+
+        unit.OnHpChanged -= HandleUnitHpChanged;
+        revealedEnemyHealthBars.Remove(unit);
+
+        if (healthBars.Remove(unit, out UI_HealthBar healthBar))
             ReturnHealthBar(healthBar);
+    }
+    private void HandleUnitHpChanged(Unit_Base_Test unit, float currentHp, float maxHp, float damage)
+    {
+        if (unit == null || !healthBars.TryGetValue(unit, out UI_HealthBar healthBar) || healthBar == null)
+        {
+            return;
+        }
+
+        float normalizedHp = maxHp > 0f ? currentHp / maxHp : 0f;
+
+        healthBar.SetFill(normalizedHp);
+
+        if (damage > 0f)
+        {
+            if (IsEnemy(unit))
+                revealedEnemyHealthBars.Add(unit);
+
+            UIManager.Instance?.ShowDamageText(damage, unit.transform.position);
         }
     }
 
@@ -163,18 +169,14 @@ public class HealthBarManager : MonoBehaviour
                 continue;
             }
 
-            GameObject healthBarObject =
-                ObjectPoolManager.instance.GetObject(HpBarPoolKey);
+            GameObject healthBarObject = ObjectPoolManager.instance.GetObject(HpBarPoolKey);
 
             if (healthBarObject == null)
                 return;
 
             if (!healthBarObject.TryGetComponent(out UI_HealthBar healthBar))
             {
-                ObjectPoolManager.instance.ReturnObject(
-                    HpBarPoolKey,
-                    healthBarObject
-                );
+                ObjectPoolManager.instance.ReturnObject(HpBarPoolKey, healthBarObject);
 
                 pendingUnits.RemoveAt(i);
                 Debug.LogWarning("HpBar prefab에 UI_HealthBar가 없습니다.");
@@ -182,14 +184,24 @@ public class HealthBarManager : MonoBehaviour
             }
 
             float maxHp = unit.MyData.maxHp;
-            float normalizedHp = maxHp > 0f
-                ? unit.CurrentHp / maxHp
-                : 0f;
+            float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
+            healthBar.SetFillColor(IsEnemy(unit) ? enemyHealthColor : playerHealthColor);
             healthBar.SetFill(normalizedHp);
-            healthBar.SetVisible(true);
+            // HP바가 풀에서 나온 직후 이전 위치에 잠깐 보이는 것을 방지
+            healthBar.SetVisible(false);
+
+            // HP바 생성 전에 이미 피해를 받은 경우에도 표시
+            if (IsEnemy(unit) && unit.CurrentHp < maxHp)
+            {
+                revealedEnemyHealthBars.Add(unit);
+            }
 
             healthBars.Add(unit, healthBar);
+
+            unit.OnHpChanged -= HandleUnitHpChanged;
+            unit.OnHpChanged += HandleUnitHpChanged;
+
             pendingUnits.RemoveAt(i);
         }
     }
@@ -210,15 +222,11 @@ public class HealthBarManager : MonoBehaviour
             if (unit == null || healthBar == null)
                 continue;
 
-            float maxHp = unit.MyData.maxHp;
-            float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
-            healthBar.SetFill(normalizedHp);
-
             Vector3 screenPosition = worldCamera.WorldToScreenPoint(
                 unit.transform.position + worldOffset
             );
 
-            bool isVisible = screenPosition.z > 0f;
+            bool isVisible = screenPosition.z > 0f && ShouldShowHealthBar(unit); 
 
             healthBar.SetVisible(isVisible);
 
@@ -234,9 +242,24 @@ public class HealthBarManager : MonoBehaviour
 
         healthBar.SetVisible(false);
 
-        ObjectPoolManager.instance.ReturnObject(
-            HpBarPoolKey,
-            healthBar.gameObject
-        );
+        ObjectPoolManager.instance.ReturnObject(HpBarPoolKey, healthBar.gameObject);
+    }
+
+    //적 판별
+    private bool IsEnemy(Unit_Base_Test unit)
+    {
+        if (unit == null)
+            return false;
+
+        return (enemyLayer.value & (1 << unit.gameObject.layer)) != 0;
+    }
+    private bool ShouldShowHealthBar(Unit_Base_Test unit)
+    {
+        // 아군은 처음부터 표시
+        if (!IsEnemy(unit))
+            return true;
+
+        // 적은 한 번이라도 피해를 받은 뒤 표시
+        return revealedEnemyHealthBars.Contains(unit);
     }
 }
