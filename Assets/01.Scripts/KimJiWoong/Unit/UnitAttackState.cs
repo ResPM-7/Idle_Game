@@ -14,10 +14,10 @@ public class UnitAttackState : IUnitState
 
             // [추가] 치명타 계산 로직
             // 0 ~ 99 사이의 랜덤 숫자를 뽑아, 내 크리티컬 확률보다 낮으면 발동! (예: 확률이 20이면 0~19가 나올 때 발동)
-            if (Random.Range(0, 100) < unit.MyData.criticalRate)
+            if (Random.Range(0, 100) < unit.CurrentCriticalRate)
             {
                 // 데미지 배율 적용
-                finalDamage *= unit.MyData.criticalDamage;
+                finalDamage *= unit.CurrentCriticalDamage;
                 isCrit = true;
                 //Debug.Log($"{unit.MyData.unitName} 크리티컬 발동! 데미지: {finalDamage}");
             }
