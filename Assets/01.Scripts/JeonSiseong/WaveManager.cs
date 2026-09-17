@@ -8,8 +8,8 @@ public class WaveManager : Singleton<WaveManager>
 {
 
     [Header("Boss")]
-    [SerializeField] GameObject bossPrefab;    // 보스 몬스터 프리팹
-    [SerializeField] Transform bossSpawnPoint;  // 보스 스폰 포인트
+    [SerializeField] private UnitDataSO bossData;
+    [SerializeField] private Transform bossSpawnPoint;
 
     [Header("Monster Spawn")]
     [SerializeField] EnemySpawn[] spawnPoints;    //  몬스터 스폰 포인트 배열
@@ -345,23 +345,27 @@ public class WaveManager : Singleton<WaveManager>
             return;
         }
 
-        //풀에서 보스 가져오기
-        GameObject boss = ObjectPoolManager.instance.GetObject("Boss");
-
-        // 보스 생성 실패
-        if (boss == null)
+        if (bossData == null)
         {
-            Debug.Log("보스 생성 실패");
-
-            //아직 보스 대기 상태 유지
+            Debug.LogWarning("WaveManager의 Boss Data가 비어 있습니다.");
             currentState = WaveState.WaitingBoss;
-
             return;
         }
 
-        //보스 위치 설정
-        boss.transform.position = bossSpawnPoint.position;
-        boss.transform.rotation = Quaternion.identity;
+        GameObject boss = BattleUnitFactory.instance.CreateBattleUnit(
+            bossData,
+            bossSpawnPoint
+        );
+
+        if (boss == null)
+        {
+            Debug.LogWarning(
+                $"보스 생성 실패: {bossData.battlePoolName}"
+            );
+
+            currentState = WaveState.WaitingBoss;
+            return;
+        }
 
         currentBoss = boss;
 

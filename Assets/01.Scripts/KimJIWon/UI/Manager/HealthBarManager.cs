@@ -248,7 +248,7 @@ public class HealthBarManager : MonoBehaviour
                 continue;
             }
 
-            float maxHp = unit.MyData.maxHp;
+            float maxHp = unit.CurrentMaxHp;
             float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
             healthBar.SetStyle(IsEnemy(unit));

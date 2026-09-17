@@ -24,7 +24,7 @@ MonoBehaviour:
   attackSpeed: 1
   attackRange: 5
   defense: 0
-  criticalRate: 20
+  criticalRate: 25
   criticalDamage: 2.5
   coin: 0
   credit: 0

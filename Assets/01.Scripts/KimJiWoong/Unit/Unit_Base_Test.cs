@@ -27,6 +27,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public UnitDataSO MyData => myData;
     public LayerMask TargetLayer => targetLayer;
     public float CurrentAttackSpeed { get; set; }
+    public float CurrentMaxHp { get; set; }
     public float CurrentHp { get; set; }
     public float CurrentDamage { get; set; }
     public int CurrentDefense { get; set; }
@@ -60,7 +61,8 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
             spriteRenderer.sprite = myData.unitSprite;
         }
 
-        CurrentHp = myData.maxHp;
+        CurrentMaxHp = myData.maxHp;
+        CurrentHp = CurrentMaxHp;
         CurrentDamage = myData.attackDamage;
         CurrentAttackSpeed = myData.attackSpeed;
         CurrentDefense = myData.defense;
@@ -118,7 +120,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentHp -= finalDamage;
 
         //UI나 이펙트 쪽에 '최종 계산된 데미지(finalDamage)'를 넘겨줍니다.
-        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, finalDamage, isCritical);
+        OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, finalDamage, isCritical);
 
         if (CurrentHp <= 0)
         {

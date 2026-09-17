@@ -2,23 +2,30 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    [SerializeField] private string poolName = "Enemy";
+    [Header("생성할 적 데이터")]
+    [SerializeField] private UnitDataSO enemyData;
 
-     public bool SpawnEnemy()  
+    public bool SpawnEnemy()
     {
-        GameObject enemy = ObjectPoolManager.instance.GetObject(poolName);
-
-        if(enemy == null )
+        if (enemyData == null)
         {
-            Debug.LogWarning("몬스터 생성 실패 :" + poolName);
+            Debug.LogWarning("EnemySpawn의 Enemy Data가 비어 있습니다.");
             return false;
         }
 
-        enemy.transform.position = transform.position;
-        enemy.transform.rotation = Quaternion.identity;
+        GameObject enemy = BattleUnitFactory.instance.CreateBattleUnit(
+            enemyData,
+            transform
+        );
+
+        if (enemy == null)
+        {
+            Debug.LogWarning(
+                $"몬스터 생성 실패: {enemyData.battlePoolName}"
+            );
+            return false;
+        }
 
         return true;
-
     }
-
 }

@@ -64,11 +64,15 @@ public class BarracksManager : Singleton<BarracksManager>
     {
         if (unit.MyData == null) return;
 
-        unit.CurrentHp = unit.MyData.maxHp + GetBuffValue(StatType.Health);
-        unit.CurrentDamage = unit.MyData.attackDamage + GetBuffValue(StatType.Strength);
+        // 병영 강화까지 반영한 실제 최대 체력
+        unit.CurrentMaxHp =
+            unit.MyData.maxHp + GetBuffValue(StatType.Health);
 
-        // 예시: unit.attackSpeed = unit.myData.attackSpeed + GetBuffValue(StatType.AttackSpeed);
-        // 예시: unit.magicPower = unit.myData.magicPower + GetBuffValue(StatType.MagicPower);
+        // 새로 생성된 유닛은 강화된 최대 체력으로 시작
+        unit.CurrentHp = unit.CurrentMaxHp;
+
+        unit.CurrentDamage =
+            unit.MyData.attackDamage + GetBuffValue(StatType.Strength);
     }
 
     // 이미 싸우고 있는 유닛 실시간 갱신용
@@ -79,27 +83,44 @@ public class BarracksManager : Singleton<BarracksManager>
         switch (type)
         {
             case StatType.Health:
-                float baseMaxHp = unit.MyData.maxHp;
-                float currentMaxHp = baseMaxHp + GetBuffValue(StatType.Health);
-                float previousMaxHp = currentMaxHp - amount;
+                float previousMaxHp = unit.CurrentMaxHp;
 
-                if (previousMaxHp > 0)
-                {
-                    float hpRatio = unit.CurrentHp / previousMaxHp;
-                    unit.CurrentHp = currentMaxHp * hpRatio;
-                }
+                float newMaxHp =
+                    unit.MyData.maxHp + GetBuffValue(StatType.Health);
+
+                // 현재 체력 비율을 유지하며 최대 체력만 갱신
+                float hpRatio = previousMaxHp > 0f
+                    ? unit.CurrentHp / previousMaxHp
+                    : 1f;
+
+                unit.CurrentMaxHp = newMaxHp;
+                unit.CurrentHp = newMaxHp * hpRatio;
                 break;
 
             case StatType.Strength:
                 unit.CurrentDamage = unit.MyData.attackDamage + GetBuffValue(StatType.Strength);
                 break;
 
-                // 새로운 스탯이 추가되면 아래에 case만 추가하면 완벽하게 작동합니다!
-                /*
-                case StatType.AttackSpeed:
-                    unit.attackSpeed = unit.myData.attackSpeed + GetBuffValue(StatType.AttackSpeed);
-                    break;
-                */
+            case StatType.Defense:
+                unit.CurrentDefense =
+                    unit.MyData.defense +
+                    Mathf.RoundToInt(GetBuffValue(StatType.Defense));
+                break;
+
+            case StatType.CriticalRate:
+                unit.CurrentCriticalRate = Mathf.Clamp(
+                    unit.MyData.criticalRate +
+                    Mathf.RoundToInt(GetBuffValue(StatType.CriticalRate)),
+                    0,
+                    100
+                );
+                break;
+
+            case StatType.CriticalDamage:
+                unit.CurrentCriticalDamage =
+                    unit.MyData.criticalDamage +
+                    GetBuffValue(StatType.CriticalDamage) / 100f;
+                break;
         }
     }
 }

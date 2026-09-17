@@ -20,7 +20,7 @@ MonoBehaviour:
   unitSprite: {fileID: 0}
   maxHp: 100
   moveSpeed: 10
-  attackDamage: 1
+  attackDamage: 2
   attackSpeed: 1
   attackRange: 5
   defense: 0
