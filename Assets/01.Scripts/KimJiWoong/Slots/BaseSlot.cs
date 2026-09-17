@@ -6,22 +6,28 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
-        //재 마우스를 올려놓은 곳이 '배틀 슬롯'인데, 전투가 진행 중(!stageGiveUp)이라면?
-        if (this is BattleSlotUI && WaveManager.instance != null && !WaveManager.instance.stageGiveUp)
+        if (this is BattleSlotUI &&
+            WaveManager.instance != null &&
+            !WaveManager.instance.stageGiveUp)
         {
-            Debug.Log("전투 중에는 전장에 유닛을 배치하거나 합성할 수 없습니다!");
-            return; // 여기서 함수를 끝내버려서 드롭을 무효화합니다!
+            Debug.Log("전투 중에는 배틀 슬롯의 유닛을 조작할 수 없습니다!");
+            return;
         }
+
+        // 드래그가 실제로 시작되지 않았거나 이미 해제된 경우 방어
+        if (eventData == null || eventData.pointerDrag == null)
+            return;
 
         GameObject droppedObj = eventData.pointerDrag;
         DragableUnit droppedUnit = droppedObj.GetComponent<DragableUnit>();
 
-        if (droppedUnit == null) return;
+        // 원래 슬롯 정보가 없으면 이동/교체/머지를 처리할 수 없음
+        if (droppedUnit == null || droppedUnit.originalParent == null)
+            return;
 
-        // 부모 클래스 타입(BaseSlot)으로 찾으면, 배틀이든 인벤이든 다 찾아냅니다!
-        BaseSlot oldSlot = droppedUnit.originalParent.GetComponentInParent<BaseSlot>();
+        BaseSlot oldSlot =
+            droppedUnit.originalParent.GetComponentInParent<BaseSlot>();
 
-        // 제자리 드롭 방지
         if (oldSlot != null && oldSlot == this)
         {
             droppedUnit.transform.SetParent(transform);
@@ -29,15 +35,19 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
             return;
         }
 
+        // 아래 기존 코드 유지
         if (transform.childCount == 0)
         {
             HandleEmptySlot(droppedUnit);
         }
         else
         {
-            DragableUnit myUnit = transform.GetChild(0).GetComponent<DragableUnit>();
+            DragableUnit myUnit =
+                transform.GetChild(0).GetComponent<DragableUnit>();
 
-            // 레벨이 같고 다음 단계가 있다면 합성(Merge), 아니면 교체(Swap)
+            if (myUnit == null || myUnit.myData == null || droppedUnit.myData == null)
+                return;
+
             if (myUnit.myData.unitLevel == droppedUnit.myData.unitLevel &&
                 myUnit.myData.nextUpgradeUnits != null &&
                 myUnit.myData.nextUpgradeUnits.Length > 0)

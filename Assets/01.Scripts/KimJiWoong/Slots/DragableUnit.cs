@@ -70,33 +70,47 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // 조작 불가 상태면 아무것도 하지 않고 함수 종료 (원래 부모 유지)
+        // 전투 중이면 새 드래그 시작 자체를 막음
         if (IsLocked()) return;
 
+        isValidDrag = true;
         originalParent = transform.parent;
-        canvasGroup.blocksRaycasts = false;
+
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = false;
+
         transform.SetParent(transform.root);
     }
 
+
     public void OnDrag(PointerEventData eventData)
     {
-        // 조작 불가 상태면 마우스를 따라다니지 않음
-        if (IsLocked()) return;
+        // 이미 시작된 드래그만 움직임
+        if (!isValidDrag) return;
 
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // 조작 불가 상태면 드롭 처리도 무시
-        if (IsLocked()) return;
+        // 드래그를 시작하지 못했다면 처리할 것 없음
+        if (!isValidDrag) return;
 
-        canvasGroup.blocksRaycasts = true;
+        isValidDrag = false;
 
-        if (gameObject.activeSelf && transform.parent == transform.root)
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = true;
+
+        // 일시정지 해제 등으로 전투 상태가 바뀌었어도,
+        // root에 남은 유닛은 반드시 원래 슬롯으로 복귀시킴
+        if (gameObject.activeSelf &&
+            transform.parent == transform.root &&
+            originalParent != null)
         {
             transform.SetParent(originalParent);
             transform.position = originalParent.position;
         }
+
+        originalParent = null;
     }
 }
