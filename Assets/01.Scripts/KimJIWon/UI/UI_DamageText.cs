@@ -1,5 +1,5 @@
 using System.Text;
-using DG.Tweening;
+using DG.Tweening; 
 using TMPro;
 using UnityEngine;
 
@@ -32,7 +32,7 @@ public class UI_DamageText : MonoBehaviour
         Vector3 targetWorldPos = worldPos + worldOffset;
 
         Vector3 screenPos = Camera.main.WorldToScreenPoint(targetWorldPos);
-        screenPos.z = 0f;
+        screenPos.z = 0f; 
 
         transform.position = screenPos;
         transform.localScale = Vector3.one * (useCriticalStyle ? criticalScale : 1f);
@@ -48,7 +48,7 @@ public class UI_DamageText : MonoBehaviour
         //¹Ý³³
         seq.OnComplete(() =>
         {
-            ObjectPoolManager.instance.ReturnObject(myPoolName, gameObject);
+        ObjectPoolManager.instance.ReturnObject(myPoolName, gameObject);
         });
     }
 
