@@ -8,7 +8,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Managers")]
     [SerializeField] private UI_PopUpManager popUpManager;
-   
+
     protected override void Awake()
     {
         base.Awake();
@@ -62,7 +62,7 @@ public class UIManager : Singleton<UIManager>
     #endregion
 
     #region InGame UI / Floating Text
-    public void ShowDamageText(float damage, Vector3 worldPos)
+    public void ShowDamageText(float damage, Vector3 worldPos, bool isCritical = false)
     {
         const string poolKey = "UI_DamageText";
 
@@ -83,7 +83,7 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
-        damageText.Setup(damage, worldPos, poolKey);
+        damageText.Setup(damage, worldPos, poolKey, isCritical);
     }
     #endregion
 

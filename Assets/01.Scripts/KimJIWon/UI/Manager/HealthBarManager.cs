@@ -10,11 +10,10 @@ public class HealthBarManager : MonoBehaviour
 
     private readonly Dictionary<Unit_Base_Test, UI_HealthBar> healthBars = new();
     private readonly List<Unit_Base_Test> pendingUnits = new();
+    private readonly List<Unit_Base_Test> pendingMissUnits = new();
 
     private readonly HashSet<Unit_Base_Test> revealedEnemyHealthBars = new();
     [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private Color playerHealthColor = Color.green;
-    [SerializeField] private Color enemyHealthColor = Color.red;
 
     private void Awake()
     {
@@ -38,6 +37,30 @@ public class HealthBarManager : MonoBehaviour
         {
             TestHealAllUnits(10f);
         }
+
+        if (keyboard.mKey.wasPressedThisFrame)
+        {
+            TestDamagePopup(0f, false);
+        }
+
+        if (keyboard.cKey.wasPressedThisFrame)
+        {
+            TestDamagePopup(1234f, true);
+        }
+    }
+
+    private void TestDamagePopup(float damage, bool isCritical)
+    {
+        foreach (Unit_Base_Test unit in healthBars.Keys)
+        {
+            if (unit == null || !unit.gameObject.activeInHierarchy)
+                continue;
+
+            UIManager.Instance?.ShowDamageText(damage, unit.transform.position, isCritical);
+            return;
+        }
+
+        Debug.LogWarning("Damage Popup을 표시할 활성 유닛이 없습니다.");
     }
 
     private void TestDamageAllUnits(float damage)
@@ -69,7 +92,7 @@ public class HealthBarManager : MonoBehaviour
                 continue;
             }
 
-            unit.CurrentHp = Mathf.Min(unit.CurrentHp + amount,unit.MyData.maxHp);
+            unit.CurrentHp = Mathf.Min(unit.CurrentHp + amount, unit.MyData.maxHp);
 
             float normalizedHp = unit.MyData.maxHp > 0f ? unit.CurrentHp / unit.MyData.maxHp : 0f;
 
@@ -102,21 +125,40 @@ public class HealthBarManager : MonoBehaviour
 
         healthBars.Clear();
         pendingUnits.Clear();
+        pendingMissUnits.Clear();
         revealedEnemyHealthBars.Clear();
     }
 
     private void LateUpdate()
     {
         TryCreatePendingHealthBars();
+        ShowPendingMisses();
         UpdateHealthBarPositions();
     }
 
     private void HandleUnitSpawned(Unit_Base_Test unit)
     {
-        if (unit == null || healthBars.ContainsKey(unit) || pendingUnits.Contains(unit))
+        if (unit == null)
         {
             return;
         }
+
+        // Init에서 전달되는 damage 0 이벤트는 실제 MISS가 아니므로 취소한다.
+        pendingMissUnits.RemoveAll(pendingUnit => pendingUnit == unit);
+        revealedEnemyHealthBars.Remove(unit);
+
+        if (healthBars.TryGetValue(unit, out UI_HealthBar existingHealthBar))
+        {
+            float maxHp = unit.MyData != null ? unit.MyData.maxHp : 0f;
+            float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
+
+            existingHealthBar.SetFill(normalizedHp);
+            existingHealthBar.SetVisible(false);
+            return;
+        }
+
+        if (pendingUnits.Contains(unit))
+            return;
 
         pendingUnits.Add(unit);
     }
@@ -124,6 +166,7 @@ public class HealthBarManager : MonoBehaviour
     private void HandleUnitDespawned(Unit_Base_Test unit)
     {
         pendingUnits.Remove(unit);
+        pendingMissUnits.RemoveAll(pendingUnit => pendingUnit == unit);
 
         if (unit == null)
             return;
@@ -134,7 +177,7 @@ public class HealthBarManager : MonoBehaviour
         if (healthBars.Remove(unit, out UI_HealthBar healthBar))
             ReturnHealthBar(healthBar);
     }
-    private void HandleUnitHpChanged(Unit_Base_Test unit, float currentHp, float maxHp, float damage)
+    private void HandleUnitHpChanged(Unit_Base_Test unit, float currentHp, float maxHp, float damage, bool isCritical)
     {
         if (unit == null || !healthBars.TryGetValue(unit, out UI_HealthBar healthBar) || healthBar == null)
         {
@@ -145,13 +188,35 @@ public class HealthBarManager : MonoBehaviour
 
         healthBar.SetFill(normalizedHp);
 
-        if (damage > 0f)
-        {
-            if (IsEnemy(unit))
-                revealedEnemyHealthBars.Add(unit);
+        if (damage < 0f)
+            return;
 
-            UIManager.Instance?.ShowDamageText(damage, unit.transform.position);
+        if (Mathf.Approximately(damage, 0f))
+        {
+            pendingMissUnits.Add(unit);
+            return;
         }
+
+        ShowDamagePopup(unit, damage, isCritical);
+    }
+
+    private void ShowPendingMisses()
+    {
+        foreach (Unit_Base_Test unit in pendingMissUnits)
+        {
+            if (unit != null && unit.gameObject.activeInHierarchy && healthBars.ContainsKey(unit))
+                ShowDamagePopup(unit, 0f, false);
+        }
+
+        pendingMissUnits.Clear();
+    }
+
+    private void ShowDamagePopup(Unit_Base_Test unit, float damage, bool isCritical)
+    {
+        if (IsEnemy(unit))
+            revealedEnemyHealthBars.Add(unit);
+
+        UIManager.Instance?.ShowDamageText(damage, unit.transform.position, isCritical);
     }
 
     private void TryCreatePendingHealthBars()
@@ -186,7 +251,7 @@ public class HealthBarManager : MonoBehaviour
             float maxHp = unit.MyData.maxHp;
             float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
-            healthBar.SetFillColor(IsEnemy(unit) ? enemyHealthColor : playerHealthColor);
+            healthBar.SetStyle(IsEnemy(unit));
             healthBar.SetFill(normalizedHp);
             // HP바가 풀에서 나온 직후 이전 위치에 잠깐 보이는 것을 방지
             healthBar.SetVisible(false);
@@ -226,7 +291,7 @@ public class HealthBarManager : MonoBehaviour
                 unit.transform.position + worldOffset
             );
 
-            bool isVisible = screenPosition.z > 0f && ShouldShowHealthBar(unit); 
+            bool isVisible = screenPosition.z > 0f && ShouldShowHealthBar(unit);
 
             healthBar.SetVisible(isVisible);
 

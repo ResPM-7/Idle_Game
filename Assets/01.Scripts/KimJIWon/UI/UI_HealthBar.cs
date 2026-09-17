@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class UI_HealthBar : MonoBehaviour
 {
     [SerializeField] private Image hpFillImage;
+    [SerializeField] private Sprite playerFillSprite;
+    [SerializeField] private Sprite enemyFillSprite;
 
     public void SetFill(float normalizedHp)
     {
@@ -13,10 +15,15 @@ public class UI_HealthBar : MonoBehaviour
         }
     }
 
-    public void SetFillColor(Color color)
+    public void SetStyle(bool isEnemy)
     {
-        if (hpFillImage != null)
-            hpFillImage.color = color;
+        if (hpFillImage == null)
+            return;
+
+        hpFillImage.sprite = isEnemy
+            ? enemyFillSprite
+            : playerFillSprite;
+        hpFillImage.color = Color.white;
     }
 
     public void SetScreenPosition(Vector3 screenPosition)
