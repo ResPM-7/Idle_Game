@@ -8,6 +8,7 @@ public class PoisonSkill : Skill
     [Header("Poison Setting")]
     [SerializeField] float duration = 5f;       // 지속 시간
     [SerializeField] float damageInterval = 1f;    // 데미지 들어가는 시간간격
+    [SerializeField] private string poolName = "Poison";
 
     private float tickTimer = 0f;
     private List<Collider2D> targetsInRange = new List<Collider2D>();
@@ -22,43 +23,7 @@ public class PoisonSkill : Skill
     {
         targetsInRange.Remove(collision);
     }
-
-
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    tickTimer += Time.fixedDeltaTime;
-
-    //    if (tickTimer >= damageInterval)
-    //    {
-    //        tickTimer = 0f;
-    //        DamageTarget(collision);
-    //    }
-
-    //}
-
-
-    //IEnumerator PoisonRoutine()
-    //{
-
-    //    float timer = 0f;
-
-    //    while (timer < duration)
-    //    {
-    //        yield return new WaitForSeconds(damageInterval);
-
-    //        timer += damageInterval;
-    //    }
-
-    //    Destroy(gameObject);
-    //}
-
-    void Start()
-    {
-        //StartCoroutine(PoisonRoutine());
-        Destroy(gameObject, duration);
-
-    }
-
+ 
     void Update()
     {
         tickTimer += Time.deltaTime;
@@ -78,5 +43,17 @@ public class PoisonSkill : Skill
                 DamageTarget(targetsInRange[i]);
             }
         }
+    }
+
+    void Start()
+    {
+        tickTimer = 0f;
+        targetsInRange.Clear();
+        Invoke(nameof(ReturnToPool), duration);
+    }
+
+    private void ReturnToPool()
+    {
+        ObjectPoolManager.instance.ReturnObject(poolName, gameObject);
     }
 }
