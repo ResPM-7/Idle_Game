@@ -73,6 +73,9 @@ public class WaveManager : Singleton<WaveManager>
     Coroutine nextStageRoutine;
     Coroutine gameOverRoutine;
 
+    public int CurrentStage => currentStage;
+    public event System.Action<int> OnStageChanged;
+
     //웨이브 초기화
     void ResetWave()
     {
@@ -460,6 +463,7 @@ public class WaveManager : Singleton<WaveManager>
         Debug.Log("다음 스테이지 시작");
 
         currentStage++;
+        OnStageChanged?.Invoke(currentStage);
 
         ResetWave();
 

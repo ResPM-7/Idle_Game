@@ -5,12 +5,15 @@ public class UnitSpawner : MonoBehaviour
 {
     [Header("설정")] 
     public Transform gridPanel;
-    public UnitDataSO baseUnitData;
+    public UnitDataSO baseUnitData; // 1스테이지
+    [SerializeField] private UnitDataSO[] upgradedSpawnData; // 2스테이지부터 순서대로
 
     [Header("비용 설정")]
     [SerializeField] private int spawnCost = 10;
 
     private List<Transform> gridSlots = new List<Transform>();
+
+    private UnitDataSO currentSpawnData;
 
     private void Awake()
     {
@@ -23,6 +26,33 @@ public class UnitSpawner : MonoBehaviour
         Debug.Log($"초기화 완료: 총 {gridSlots.Count}개의 그리드 슬롯이 리스트에 저장되었습니다.");
     }
 
+    private void OnEnable()
+    {
+        WaveManager.instance.OnStageChanged += UpdateSpawnData;
+    }
+
+    private void Start()
+    {
+        UpdateSpawnData(WaveManager.instance.CurrentStage);
+    }
+
+    private void OnDisable()
+    {
+        if (WaveManager.instance != null)
+            WaveManager.instance.OnStageChanged -= UpdateSpawnData;
+    }
+
+    private void UpdateSpawnData(int stage)
+    {
+        currentSpawnData = baseUnitData;
+
+        if (stage < 2 || upgradedSpawnData == null || upgradedSpawnData.Length == 0)
+            return;
+
+        int index = Mathf.Min(stage - 2, upgradedSpawnData.Length - 1);
+        if (upgradedSpawnData[index] != null)
+            currentSpawnData = upgradedSpawnData[index];
+    }
 
     public void SpawnTestUnit()
     {
@@ -43,7 +73,11 @@ public class UnitSpawner : MonoBehaviour
         {
             if (MoneyManager.instance != null && MoneyManager.instance.SpendCredit(spawnCost))
             {
-                GridUnitFactory.instance.CreateUnit(baseUnitData.uiPoolName, baseUnitData, targetSlot);
+                GridUnitFactory.instance.CreateUnit(
+                    currentSpawnData.uiPoolName,
+                    currentSpawnData,
+                    targetSlot
+                    );
             }
         }
         else
