@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public interface IUnitState
 {
@@ -46,6 +47,8 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public IUnitState attackState = new UnitAttackState();
     public IUnitState destroyedState = new UnitDestroyedState();
 
+    private float baseDamage;
+
     private void Start()
     {
         if (myData != null) Init(myData);
@@ -64,6 +67,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentMaxHp = myData.maxHp;
         CurrentHp = CurrentMaxHp;
         CurrentDamage = myData.attackDamage;
+        baseDamage = myData.attackDamage;
         CurrentAttackSpeed = myData.attackSpeed;
         CurrentDefense = myData.defense;
         CurrentCriticalRate = myData.criticalRate;
@@ -163,5 +167,19 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         // 2. 적 탐색 범위 (노란색) - 현재 코드에서 사거리의 2배로 탐색 중이시죠!
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, myData.attackRange * 2f);
+    }
+
+    public void ApplyDamageBuff(float multiplier, float duration)
+    {
+        StartCoroutine(DamageBuffRoutine(multiplier, duration));
+    }
+
+    private IEnumerator DamageBuffRoutine(float multiplier, float duration)
+    {
+        CurrentDamage = baseDamage * multiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        CurrentDamage = baseDamage;
     }
 }

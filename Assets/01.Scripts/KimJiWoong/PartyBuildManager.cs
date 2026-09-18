@@ -1,7 +1,10 @@
 using UnityEngine;
+using System.Collections;
+using Unity.VisualScripting;
 
 public class PartyBuildManager : Singleton<PartyBuildManager>
 {
+   
     [Header("전투 구역 스폰 위치")]
     public Transform[] spawnPoints = new Transform[5];
 
@@ -120,14 +123,29 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
     {
         float totalAttack = 0f;
 
-        for(int i=0;i<activeBattleUnits.Length;i++)
+        for (int i = 0; i < activeBattleUnits.Length; i++)
         {
-            if(activeBattleUnits[i] != null)
+            if (activeBattleUnits[i] != null)
             {
                 totalAttack += activeUnitDatas[i].attackDamage;
             }
         }
 
         return totalAttack;
+    }
+
+    // 버프
+    public void ApplyUnitDamageBuff(float multiplier, float duration)
+    {
+        foreach(GameObject unitObj in activeBattleUnits)
+        {
+            if(unitObj == null) continue;
+
+            Unit_Base_Test unit = unitObj.GetComponent<Unit_Base_Test>();
+            if(unit != null)
+            {
+                unit.ApplyDamageBuff(multiplier, duration);
+            }
+        }
     }
 }
