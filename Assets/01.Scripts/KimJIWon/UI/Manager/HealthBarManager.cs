@@ -10,7 +10,7 @@ public class HealthBarManager : MonoBehaviour
 
     private readonly Dictionary<Unit_Base_Test, UI_HealthBar> healthBars = new();
     private readonly List<Unit_Base_Test> pendingUnits = new();
-    private readonly List<Unit_Base_Test> pendingMissUnits = new();
+    private readonly List<Unit_Base_Test> pendingBlockedUnits = new();
 
     private readonly HashSet<Unit_Base_Test> revealedEnemyHealthBars = new();
     [SerializeField] private LayerMask enemyLayer;
@@ -38,7 +38,7 @@ public class HealthBarManager : MonoBehaviour
             TestHealAllUnits(10f);
         }
 
-        if (keyboard.mKey.wasPressedThisFrame)
+        if (keyboard.bKey.wasPressedThisFrame)
         {
             TestDamagePopup(0f, false);
         }
@@ -125,14 +125,14 @@ public class HealthBarManager : MonoBehaviour
 
         healthBars.Clear();
         pendingUnits.Clear();
-        pendingMissUnits.Clear();
+        pendingBlockedUnits.Clear();
         revealedEnemyHealthBars.Clear();
     }
 
     private void LateUpdate()
     {
         TryCreatePendingHealthBars();
-        ShowPendingMisses();
+        ShowPendingBlockedPopups();
         UpdateHealthBarPositions();
     }
 
@@ -143,8 +143,8 @@ public class HealthBarManager : MonoBehaviour
             return;
         }
 
-        // Init에서 전달되는 damage 0 이벤트는 실제 MISS가 아니므로 취소한다.
-        pendingMissUnits.RemoveAll(pendingUnit => pendingUnit == unit);
+        // Init에서 전달되는 damage 0 이벤트는 실제 BLOCKED가 아니므로 취소한다.
+        pendingBlockedUnits.RemoveAll(pendingUnit => pendingUnit == unit);
         revealedEnemyHealthBars.Remove(unit);
 
         if (healthBars.TryGetValue(unit, out UI_HealthBar existingHealthBar))
@@ -166,7 +166,7 @@ public class HealthBarManager : MonoBehaviour
     private void HandleUnitDespawned(Unit_Base_Test unit)
     {
         pendingUnits.Remove(unit);
-        pendingMissUnits.RemoveAll(pendingUnit => pendingUnit == unit);
+        pendingBlockedUnits.RemoveAll(pendingUnit => pendingUnit == unit);
 
         if (unit == null)
             return;
@@ -193,22 +193,22 @@ public class HealthBarManager : MonoBehaviour
 
         if (Mathf.Approximately(damage, 0f))
         {
-            pendingMissUnits.Add(unit);
+            pendingBlockedUnits.Add(unit);
             return;
         }
 
         ShowDamagePopup(unit, damage, isCritical);
     }
 
-    private void ShowPendingMisses()
+    private void ShowPendingBlockedPopups()
     {
-        foreach (Unit_Base_Test unit in pendingMissUnits)
+        foreach (Unit_Base_Test unit in pendingBlockedUnits)
         {
             if (unit != null && unit.gameObject.activeInHierarchy && healthBars.ContainsKey(unit))
                 ShowDamagePopup(unit, 0f, false);
         }
 
-        pendingMissUnits.Clear();
+        pendingBlockedUnits.Clear();
     }
 
     private void ShowDamagePopup(Unit_Base_Test unit, float damage, bool isCritical)

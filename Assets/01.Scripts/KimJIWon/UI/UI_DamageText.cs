@@ -7,8 +7,12 @@ public class UI_DamageText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private Vector3 worldOffset = new Vector3(0f, 1.5f, 0f);
+    [SerializeField] private Vector2 randomScreenOffset = new Vector2(30f, 15f);
     [SerializeField] private float moveHeight = 60f; // 위로 뜰 높이
     [SerializeField] private float duration = 0.5f;  // 연출 시간
+
+    [Header("Blocked Style")]
+    [SerializeField] private TMP_SpriteAsset blockedSpriteAsset;
 
     [Header("Critical Style")]
     [SerializeField] private float criticalScale = 1.25f;
@@ -16,22 +20,40 @@ public class UI_DamageText : MonoBehaviour
     [SerializeField] private string criticalIconSpriteName;
 
     private string myPoolName;
+    private TMP_SpriteAsset damageSpriteAsset;
     private readonly StringBuilder spriteTextBuilder = new();
+
+    private void Awake()
+    {
+        damageSpriteAsset = damageText.spriteAsset;
+    }
 
     public void Setup(float damage, Vector3 worldPos, string poolName, bool isCritical = false)
     {
         myPoolName = poolName;
 
-        bool isMiss = damage <= 0f;
-        bool useCriticalStyle = isCritical && !isMiss;
+        bool isBlocked = damage <= 0f;
+        bool useCriticalStyle = isCritical && !isBlocked;
 
         damageText.tintAllSprites = true;
         damageText.color = useCriticalStyle ? criticalTint : Color.white;
-        damageText.text = isMiss ? "<sprite name=\"MISS\">" : BuildDamageSpriteText(damage, useCriticalStyle);
+
+        if (isBlocked)
+        {
+            damageText.spriteAsset = blockedSpriteAsset;
+            damageText.text = "<sprite name=\"BLOCKED\">";
+        }
+        else
+        {
+            damageText.spriteAsset = damageSpriteAsset;
+            damageText.text = BuildDamageSpriteText(damage, useCriticalStyle);
+        }
 
         Vector3 targetWorldPos = worldPos + worldOffset;
 
         Vector3 screenPos = Camera.main.WorldToScreenPoint(targetWorldPos);
+        screenPos.x += Random.Range(-Mathf.Abs(randomScreenOffset.x), Mathf.Abs(randomScreenOffset.x));
+        screenPos.y += Random.Range(-Mathf.Abs(randomScreenOffset.y), Mathf.Abs(randomScreenOffset.y));
         screenPos.z = 0f; 
 
         transform.position = screenPos;
