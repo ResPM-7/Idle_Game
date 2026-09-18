@@ -20,12 +20,12 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
     [Header("기본 설정")]
     [SerializeField] private UnitDataSO myData;
-    [SerializeField] private LayerMask targetLayer;
     //본인의 외형
     [SerializeField] private SpriteRenderer spriteRenderer;
+    public LayerMask TargetLayer { get; private set; }
+    public LayerMask AllyLayer { get; private set; }
 
     public UnitDataSO MyData => myData;
-    public LayerMask TargetLayer => targetLayer;
     public float CurrentAttackSpeed { get; set; }
     public float CurrentMaxHp { get; set; }
     public float CurrentHp { get; set; }
@@ -55,6 +55,27 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public void Init(UnitDataSO data)
     {
         myData = data;
+
+        int playerLayerIdx = LayerMask.NameToLayer("Player");
+        int enemyLayerIdx = LayerMask.NameToLayer("Enemy");
+
+        if (playerLayerIdx == -1 || enemyLayerIdx == -1)
+        {
+            Debug.LogError("유니티 설정에 'Player' 또는 'Enemy' 레이어가 없습니다! Add Layer를 해주세요.");
+        }
+
+        if (myData.team == Team_Test.Player)
+        {
+            gameObject.layer = playerLayerIdx;            // 내 레이어를 Player로
+            AllyLayer = 1 << playerLayerIdx;              // 아군 탐색용 레이어 = Player
+            TargetLayer = 1 << enemyLayerIdx;             // 적 탐색용 레이어 = Enemy
+        }
+        else if (myData.team == Team_Test.Enemy)
+        {
+            gameObject.layer = enemyLayerIdx;             // 내 레이어를 Enemy로
+            AllyLayer = 1 << enemyLayerIdx;               // 아군 탐색용 레이어 = Enemy
+            TargetLayer = 1 << playerLayerIdx;            // 적 탐색용 레이어 = Player
+        }
 
         if (spriteRenderer != null && myData.unitSprite != null)
         {
@@ -127,6 +148,15 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
             OnDeathEvent?.Invoke();
             ChangeState(destroyedState);
         }
+    }
+
+    public void TakeHeal(float amount)
+    {
+        if (currentState == destroyedState) return;
+
+        CurrentHp = Mathf.Min(CurrentHp + amount, CurrentMaxHp);
+        // UI 업데이트
+        OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, -1f, false);
     }
 
     public void TakeSkillDamage(float damage)

@@ -15,13 +15,27 @@ public class UnitMoveState : IUnitState
             return;
         }
 
+        bool isTargetAlly = ((1 << unit.CurrentTarget.gameObject.layer) & unit.AllyLayer.value) != 0;
+        float stopDistance = 0f;
+
+        if (isTargetAlly)
+        {
+            stopDistance = unit.MyData.healRange;
+        }
+        else
+        {
+            // 원거리 공격이 가능하면 원거리 사거리에서 정지, 근접만 가능하면 근접 사거리까지 접근
+            if (unit.MyData.canRanged) stopDistance = unit.MyData.rangedRange;
+            else if (unit.MyData.canMelee) stopDistance = unit.MyData.meleeRange;
+        }
+
         float dist = Vector2.Distance(unit.transform.position, unit.CurrentTarget.position);
 
-        if (dist <= unit.MyData.attackRange)
+        if (dist <= stopDistance)
         {
             if (unit.AttackTimer >= unit.CurrentAttackSpeed)
             {
-                unit.ChangeState(unit.attackState); // 공격 사거리 진입 시 Attack 전환
+                unit.ChangeState(unit.attackState);
             }
         }
         else
