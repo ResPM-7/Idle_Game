@@ -70,6 +70,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentMaxHp = myData.maxHp;
         CurrentHp = CurrentMaxHp;
         CurrentDamage = myData.attackDamage;
+        baseDamage = myData.attackDamage;
         CurrentAttackSpeed = myData.attackSpeed;
         CurrentDefense = myData.defense;
         CurrentCriticalRate = myData.criticalRate;
