@@ -27,5 +27,5 @@ MonoBehaviour:
   criticalRate: 0
   criticalDamage: 0
   coin: 0
-  credit: 10
+  credit: 50
   nextUpgradeUnits: []
