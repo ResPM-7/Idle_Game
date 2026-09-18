@@ -18,7 +18,7 @@ MonoBehaviour:
   uiPoolName: Enemy
   battlePoolName: Enemy
   unitSprite: {fileID: 0}
-  maxHp: 20
+  maxHp: 30
   moveSpeed: 0
   attackDamage: 10
   attackSpeed: 1

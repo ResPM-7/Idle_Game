@@ -1,104 +1,82 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PoisonSkill : Skill
 {
 
     [Header("Poison Setting")]
-    //[SerializeField] float radius = 2.5f;       //  스킬 범위 반지름
-    //[SerializeField] float damage = 10;           // 스킬 데미지
     [SerializeField] float duration = 5f;       // 지속 시간
     [SerializeField] float damageInterval = 1f;    // 데미지 들어가는 시간간격
 
+    private float tickTimer = 0f;
+    private List<Collider2D> targetsInRange = new List<Collider2D>();
 
-    //[Header("Target")]
-    //[SerializeField] LayerMask enemyLayer;
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!targetsInRange.Contains(collision))
+            targetsInRange.Add(collision);
+    }
 
-    //void DamageEnemy()
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        targetsInRange.Remove(collision);
+    }
+
+
+    //private void OnTriggerStay2D(Collider2D collision)
     //{
-    //    Collider2D[] enemies
-    //        = Physics2D.OverlapCircleAll(transform.position, radius, enemyLayer);
+    //    tickTimer += Time.fixedDeltaTime;
 
-
-    //    foreach(Collider2D enemy in enemies)
+    //    if (tickTimer >= damageInterval)
     //    {
-
-    //        ISkillDamageable target = enemy.GetComponent<ISkillDamageable>();
-
-    //        if(target != null)
-    //        {
-    //            Debug.Log("스킬 데미지");
-    //            target.TakeSkillDamage(damage);
-    //        }
+    //        tickTimer = 0f;
+    //        DamageTarget(collision);
     //    }
-
-
-
-
-
-
-
 
     //}
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        //if (((1 << collision.gameObject.layer) & enemyLayer.value) != 0)
-        //{
 
-        //    ISkillDamageable target = collision.GetComponent<ISkillDamageable>();
-        //    if (target != null)
-        //    {
-        //        target.TakeSkillDamage(damage);
-        //    }
-        //}
+    //IEnumerator PoisonRoutine()
+    //{
 
-        DamageTarget(collision);
-    }
+    //    float timer = 0f;
 
+    //    while (timer < duration)
+    //    {
+    //        yield return new WaitForSeconds(damageInterval);
 
-    IEnumerator PoisonRoutine()
-    {
+    //        timer += damageInterval;
+    //    }
 
-        float timer = 0f;
-
-        while (timer < duration)
-        {
-            //DamageEnemy();
-
-            yield return new WaitForSeconds(damageInterval);
-
-            timer += damageInterval;
-        }
-
-        Destroy(gameObject);
-    }
-
-
-
-
-
-
-
+    //    Destroy(gameObject);
+    //}
 
     void Start()
     {
-        StartCoroutine(PoisonRoutine());
+        //StartCoroutine(PoisonRoutine());
+        Destroy(gameObject, duration);
+
     }
-
-
-    //private void OnDrawGizmosSelected()
-    //{
-        
-    //    Gizmos.DrawWireSphere(transform.position, radius);
-    //}
-
-
-
-
 
     void Update()
     {
-        
+        tickTimer += Time.deltaTime;
+
+        if(tickTimer >= damageInterval)
+        {
+            tickTimer = 0f;
+
+            for(int i = targetsInRange.Count - 1; i >= 0;i--)
+            {
+                if (targetsInRange[i] == null)
+                {
+                    targetsInRange.RemoveAt(i);
+                    continue;
+                }
+
+                DamageTarget(targetsInRange[i]);
+            }
+        }
     }
 }
