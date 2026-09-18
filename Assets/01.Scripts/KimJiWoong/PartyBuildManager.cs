@@ -113,4 +113,21 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
             BattleSlotPanel.instance.SyncAllBattleSlots();
         }
     }
+
+
+    // 공격력 합산 함수
+    public float GetTotalAttack()
+    {
+        float totalAttack = 0f;
+
+        for(int i=0;i<activeBattleUnits.Length;i++)
+        {
+            if(activeBattleUnits[i] != null)
+            {
+                totalAttack += activeUnitDatas[i].attackDamage;
+            }
+        }
+
+        return totalAttack;
+    }
 }
