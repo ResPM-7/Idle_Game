@@ -468,13 +468,18 @@ public class WaveManager : Singleton<WaveManager>
         StopSpawn();
 
         //코루틴 초기화
-
         StopRoutine(ref spawnRoutine);
         StopRoutine(ref nextWaveRoutine);
         StopRoutine(ref bossDelayRoutine);
         StopRoutine(ref bossTimerRoutine);
 
         currentState = WaveState.NormalWave;
+
+        // 아군 유닛 체력 초기화
+        if(PartyBuildManager.instance != null)
+        {
+            PartyBuildManager.instance.ResetAllBattleUnits();
+        }
 
         StartSpawn();
     }
