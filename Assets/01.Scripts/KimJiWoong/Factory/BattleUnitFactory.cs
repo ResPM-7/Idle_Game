@@ -3,26 +3,26 @@ using UnityEngine;
 public class BattleUnitFactory : Singleton<BattleUnitFactory>
 {
     /// <summary>
-    /// Ç®¿¡¼­ ÀüÅõ À¯´ÖÀ» °¡Á®¿Í ÁöÁ¤µÈ ½ºÆù À§Ä¡¿¡ ¹èÄ¡ÇÏ°í ÃÊ±âÈ­ÇÕ´Ï´Ù.
+    /// í’€ì—ì„œ ì „íˆ¬ ìœ ë‹›ì„ ê°€ì ¸ì™€ ì§€ì •ëœ ìŠ¤í° ìœ„ì¹˜ì— ë°°ì¹˜í•˜ê³  ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
     /// </summary>
-    public GameObject CreateBattleUnit(UnitDataSO data, Transform spawnPoint)
+    public GameObject CreateBattleUnit(UnitData data, Transform spawnPoint)
     {
         if (string.IsNullOrEmpty(data.battlePoolName))
         {
-            Debug.LogWarning($"[{data.unitName}]ÀÇ battlePoolNameÀÌ ºñ¾îÀÖ½À´Ï´Ù!");
+            Debug.LogWarning($"[{data.unitName}]ì˜ battlePoolNameì´ ë¹„ì–´ìˆìŠµë‹ˆë‹¤!");
             return null;
         }
 
-        // 1. Ç®¿¡¼­ ÀüÅõ À¯´Ö °¡Á®¿À±â
+        // 1. í’€ì—ì„œ ì „íˆ¬ ìœ ë‹› ê°€ì ¸ì˜¤ê¸°
         GameObject battleUnit = ObjectPoolManager.instance.GetObject(data.battlePoolName);
 
         if (battleUnit != null)
         {
-            // 2. ÁöÁ¤µÈ ½ºÆù À§Ä¡·Î ÀÌµ¿ ¹× ÃÊ±âÈ­
+            // 2. ì§€ì •ëœ ìŠ¤í° ìœ„ì¹˜ë¡œ ì´ë™ ë° ì´ˆê¸°í™”
             battleUnit.transform.position = spawnPoint.position;
             battleUnit.transform.rotation = Quaternion.identity;
 
-            // 3. ÀüÅõ À¯´Ö¿¡ µ¥ÀÌÅÍ(SO) ÁÖÀÔ
+            // 3. ì „íˆ¬ ìœ ë‹›ì— ë°ì´í„°(SO) ì£¼ì…
             Unit_Base_Test unitScript = battleUnit.GetComponent<Unit_Base_Test>();
             if (unitScript != null)
             {
@@ -31,10 +31,10 @@ public class BattleUnitFactory : Singleton<BattleUnitFactory>
             }
             else
             {
-                Debug.LogWarning($"{battleUnit.name} ÇÁ¸®ÆÕ¿¡ Unit_Base_Test ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù!");
+                Debug.LogWarning($"{battleUnit.name} í”„ë¦¬íŒ¹ì— Unit_Base_Test ì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤!");
             }
         }
 
-        return battleUnit; // »ı¼ºµÈ À¯´Ö ¹İÈ¯
+        return battleUnit; // ìƒì„±ëœ ìœ ë‹› ë°˜í™˜
     }
 }

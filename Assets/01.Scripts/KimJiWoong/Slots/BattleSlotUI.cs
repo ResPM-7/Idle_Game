@@ -1,34 +1,34 @@
 using UnityEngine;
 
-// MonoBehaviour ´ë½Å ¹æ±İ ¸¸µç BaseSlotÀ» »ó¼Ó¹Ş½À´Ï´Ù!
+// MonoBehaviour ëŒ€ì‹  ë°©ê¸ˆ ë§Œë“  BaseSlotì„ ìƒì†ë°›ìŠµë‹ˆë‹¤!
 public class BattleSlotUI : BaseSlot
 {
-    [Header("½½·Ô ¹øÈ£ (0 ~ 4)")]
+    [Header("ìŠ¬ë¡¯ ë²ˆí˜¸ (0 ~ 4)")]
     public int slotIndex;
 
-    // ¹èÆ² ½½·Ô¸¸ÀÇ Æ¯º°ÇÑ ÇÕ¼º ±ÔÄ¢ ±¸Çö
+    // ë°°í‹€ ìŠ¬ë¡¯ë§Œì˜ íŠ¹ë³„í•œ í•©ì„± ê·œì¹™ êµ¬í˜„
     protected override void HandleMerge(DragableUnit droppedUnit, DragableUnit myUnit)
     {
-        UnitDataSO nextData = myUnit.myData.GetNextUpgradeUnit();
+        UnitData nextData = myUnit.myData.GetNextUpgradeUnit();
 
-        // ºÎ¸ğ ¿¬°á ²÷±â (°í½ºÆ® µ¥ÀÌÅÍ ¹æÁö)
+        // ë¶€ëª¨ ì—°ê²° ëŠê¸° (ê³ ìŠ¤íŠ¸ ë°ì´í„° ë°©ì§€)
         myUnit.transform.SetParent(null);
         droppedUnit.transform.SetParent(null);
 
-        // ±âÁ¸ À¯´Ö 2°³ Ç®·Î ¹İÈ¯
+        // ê¸°ì¡´ ìœ ë‹› 2ê°œ í’€ë¡œ ë°˜í™˜
         ObjectPoolManager.instance.ReturnObject(myUnit.myData.uiPoolName, myUnit.gameObject);
         ObjectPoolManager.instance.ReturnObject(droppedUnit.myData.uiPoolName, droppedUnit.gameObject);
 
-        // ¹èÆ² ½½·Ô¿¡¼­ ÇÕ¼ºµÇ¸é ÀÎº¥Åä¸®(originalParent)·Î Æ¨°Ü³À´Ï´Ù!
+        // ë°°í‹€ ìŠ¬ë¡¯ì—ì„œ í•©ì„±ë˜ë©´ ì¸ë²¤í† ë¦¬(originalParent)ë¡œ íŠ•ê²¨ëƒ…ë‹ˆë‹¤!
         GridUnitFactory.instance.CreateUnit(nextData.uiPoolName, nextData, droppedUnit.originalParent);
 
         OnAfterDrop();
     }
 
-    // µå·ÓÀÌ ¿Ï·áµÈ ÈÄ Ã³¸®ÇÒ ÀÛ¾÷
+    // ë“œë¡­ì´ ì™„ë£Œëœ í›„ ì²˜ë¦¬í•  ì‘ì—…
     protected override void OnAfterDrop()
     {
-        // ¹èÆ² ½½·Ô¿¡ º¯È­°¡ »ı°åÀ¸´Ï 5Ä­ ÀüÃ¼ µ¿±âÈ­ ½ÇÇà
+        // ë°°í‹€ ìŠ¬ë¡¯ì— ë³€í™”ê°€ ìƒê²¼ìœ¼ë‹ˆ 5ì¹¸ ì „ì²´ ë™ê¸°í™” ì‹¤í–‰
         BattleSlotPanel.instance.SyncAllBattleSlots();
     }
 }

@@ -3,9 +3,9 @@ using UnityEngine;
 public class GridUnitFactory : Singleton<GridUnitFactory>
 {
     /// <summary>
-    /// Ç®¿¡¼­ À¯´ÖÀ» °¡Á®¿Í ºÎ¸ğ ½½·Ô¿¡ ¹èÄ¡ÇÏ°í ÃÊ±âÈ­ÇÕ´Ï´Ù.
+    /// í’€ì—ì„œ ìœ ë‹›ì„ ê°€ì ¸ì™€ ë¶€ëª¨ ìŠ¬ë¡¯ì— ë°°ì¹˜í•˜ê³  ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
     /// </summary>
-    public GameObject CreateUnit(string poolName, UnitDataSO data, Transform parentSlot)
+    public GameObject CreateUnit(string poolName, UnitData data, Transform parentSlot)
     {
         GameObject unit = ObjectPoolManager.instance.GetObject(poolName);
 
@@ -18,7 +18,7 @@ public class GridUnitFactory : Singleton<GridUnitFactory>
         DragableUnit dragUnit = unit.GetComponent<DragableUnit>();
         if (dragUnit != null)
         {
-            //À§¿¡¼­ ¸¸µç ÇÔ¼ö·Î SO µ¥ÀÌÅÍ¸¦ ÁÖÀÔ
+            //ìœ„ì—ì„œ ë§Œë“  í•¨ìˆ˜ë¡œ SO ë°ì´í„°ë¥¼ ì£¼ì…
             dragUnit.InitializeByData(data);
         }
 

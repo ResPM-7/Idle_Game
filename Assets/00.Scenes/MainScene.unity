@@ -1632,9 +1632,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8712897332008392561, guid: e991cf75d751bdb40834e4bf058f05f5, type: 3}
-      propertyPath: enemyData
+      propertyPath: enemyUnitData
       value: 
-      objectReference: {fileID: 11400000, guid: b0b64b1cb457da84580f3eccea3b24dc, type: 2}
+      objectReference: {fileID: 11400000, guid: b00c6ea8003f450185b75f31791d1c02, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2371,7 +2371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395a0fe39b8db25448337f856c667097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit_Base_Test
-  myData: {fileID: 11400000, guid: c2f064ce4371362479a752d9e244cb9e, type: 2}
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -3359,9 +3358,9 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2132097911711909159, guid: 4995e90b3623d7243bec753bc84b2f2e, type: 3}
-      propertyPath: bossData
+      propertyPath: enemyUnitData
       value: 
-      objectReference: {fileID: 11400000, guid: 71b60ee52e195334ca9d55d137f52237, type: 2}
+      objectReference: {fileID: 11400000, guid: b00c6ea8003f450185b75f31791d1c02, type: 2}
     - target: {fileID: 2132097911711909159, guid: 4995e90b3623d7243bec753bc84b2f2e, type: 3}
       propertyPath: bossSpawnPoint
       value: 
@@ -3602,29 +3601,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1992583573}
     - target: {fileID: 198854689075040285, guid: 9dd707ce3bb48e044a3aeb017764ce49, type: 3}
-      propertyPath: baseUnitData
+      propertyPath: playerUnitData
       value: 
-      objectReference: {fileID: 11400000, guid: 1db63748386e98f45b6a5e9804a595ee, type: 2}
+      objectReference: {fileID: 11400000, guid: c7a146239b064a7ba369b44bd0cf96ef, type: 2}
     - target: {fileID: 198854689075040285, guid: 9dd707ce3bb48e044a3aeb017764ce49, type: 3}
-      propertyPath: upgradedSpawnData.Array.size
+      propertyPath: upgradedSpawnUnitIds.Array.size
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 198854689075040285, guid: 9dd707ce3bb48e044a3aeb017764ce49, type: 3}
-      propertyPath: 'upgradedSpawnData.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: dde605fc40a258b43911ee349661cef5, type: 2}
+      propertyPath: 'upgradedSpawnUnitIds.Array.data[0]'
+      value: 102
+      objectReference: {fileID: 0}
     - target: {fileID: 198854689075040285, guid: 9dd707ce3bb48e044a3aeb017764ce49, type: 3}
-      propertyPath: 'upgradedSpawnData.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: e0b6451f24d9de64694eabb41c26e11c, type: 2}
+      propertyPath: 'upgradedSpawnUnitIds.Array.data[1]'
+      value: 103
+      objectReference: {fileID: 0}
     - target: {fileID: 198854689075040285, guid: 9dd707ce3bb48e044a3aeb017764ce49, type: 3}
-      propertyPath: 'upgradedSpawnData.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 2359025f22c5c024ab9f2e13c9bf4157, type: 2}
+      propertyPath: 'upgradedSpawnUnitIds.Array.data[2]'
+      value: 104
+      objectReference: {fileID: 0}
     - target: {fileID: 198854689075040285, guid: 9dd707ce3bb48e044a3aeb017764ce49, type: 3}
-      propertyPath: 'upgradedSpawnData.Array.data[3]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 67204a074355d624cb9365f6d8ac742e, type: 2}
+      propertyPath: 'upgradedSpawnUnitIds.Array.data[3]'
+      value: 105
+      objectReference: {fileID: 0}
     - target: {fileID: 3816858494421910867, guid: 9dd707ce3bb48e044a3aeb017764ce49, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

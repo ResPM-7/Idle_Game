@@ -239,7 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0b6cc3588edcd488072f961324fb2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragableUnit
-  myData: {fileID: 11400000, guid: b3da1176e1ed1d743afb4a67d40c910f, type: 2}
   levelText: {fileID: 4350361815227027120}
   levelDataArray: []
   originalParent: {fileID: 0}

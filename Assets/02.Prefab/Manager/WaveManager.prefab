@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
   isDontDestroy: 0
-  bossPrefab: {fileID: 3624809761425899735, guid: 34501b131c8215345abf6cd11b0b1958, type: 3}
+  enemyUnitData: {fileID: 11400000, guid: b00c6ea8003f450185b75f31791d1c02, type: 2}
+  bossUnitId: 301
   bossSpawnPoint: {fileID: 0}
   spawnPoints:
   - {fileID: 0}

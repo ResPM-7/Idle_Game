@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    [Header("»ı¼ºÇÒ Àû µ¥ÀÌÅÍ")]
-    [SerializeField] private UnitDataSO enemyData;
+    [Header("ì  í†µí•© ë°ì´í„°")]
+    [SerializeField] private UnitDataSO enemyUnitData;
+    [SerializeField] private int enemyUnitId = 201;
 
     public bool SpawnEnemy()
     {
+        if (enemyUnitData == null)
+        {
+            Debug.LogWarning("EnemySpawnì˜ EnemyUnitDataê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
+            return false;
+        }
+
+        UnitData enemyData = enemyUnitData.GetById(enemyUnitId);
         if (enemyData == null)
         {
-            Debug.LogWarning("EnemySpawnÀÇ Enemy Data°¡ ºñ¾î ÀÖ½À´Ï´Ù.");
+            Debug.LogWarning($"EnemyUnitDataì—ì„œ unitId {enemyUnitId}ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return false;
         }
 
@@ -21,7 +29,7 @@ public class EnemySpawn : MonoBehaviour
         if (enemy == null)
         {
             Debug.LogWarning(
-                $"¸ó½ºÅÍ »ı¼º ½ÇÆĞ: {enemyData.battlePoolName}"
+                $"ëª¬ìŠ¤í„° ìƒì„± ì‹¤íŒ¨: {enemyData.battlePoolName}"
             );
             return false;
         }

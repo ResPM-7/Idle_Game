@@ -1,19 +1,19 @@
 
 public class GridSlotUI : BaseSlot
 {
-    // ÀÎº¥Åä¸®¸¸ÀÇ ÇÕ¼º ±ÔÄ¢ ±¸Çö
+    // ì¸ë²¤í† ë¦¬ë§Œì˜ í•©ì„± ê·œì¹™ êµ¬í˜„
     protected override void HandleMerge(DragableUnit droppedUnit, DragableUnit myUnit)
     {
-        UnitDataSO nextData = myUnit.myData.GetNextUpgradeUnit();
+        UnitData nextData = myUnit.myData.GetNextUpgradeUnit();
 
-        // ºÎ¸ğ ¿¬°á ²÷±â
+        // ë¶€ëª¨ ì—°ê²° ëŠê¸°
         myUnit.transform.SetParent(null);
         droppedUnit.transform.SetParent(null);
 
         ObjectPoolManager.instance.ReturnObject(myUnit.myData.uiPoolName, myUnit.gameObject);
         ObjectPoolManager.instance.ReturnObject(droppedUnit.myData.uiPoolName, droppedUnit.gameObject);
 
-        //ÀÎº¥Åä¸®¿¡¼­´Â ÇÕ¼ºµÈ »óÀ§ À¯´ÖÀ» Áö±İ ³» ÀÚ¸®(transform)¿¡ ±×´ë·Î »ı¼ºÇÕ´Ï´Ù!
+        //ì¸ë²¤í† ë¦¬ì—ì„œëŠ” í•©ì„±ëœ ìƒìœ„ ìœ ë‹›ì„ ì§€ê¸ˆ ë‚´ ìë¦¬(transform)ì— ê·¸ëŒ€ë¡œ ìƒì„±í•©ë‹ˆë‹¤!
         GridUnitFactory.instance.CreateUnit(nextData.uiPoolName, nextData, transform);
 
         OnAfterDrop();
@@ -21,8 +21,8 @@ public class GridSlotUI : BaseSlot
 
     protected override void OnAfterDrop()
     {
-        // ÀÎº¥Åä¸®¿¡¼­ À¯´ÖÀÌ ÇÕÃÄÁö°Å³ª ¿òÁ÷¿´¾îµµ, ¹èÆ² ÆĞ³ÎÀ» ÇÑ ¹ø µ¿±âÈ­ÇØ Áİ´Ï´Ù.
-        // (¹èÆ² ÇÊµå¿¡ ÀÖ´ø À¯´ÖÀÌ ÀÎº¥Åä¸®·Î ½º¿ÒµÇ¾î ¹Ğ·Á¿ÔÀ» ¼öµµ ÀÖ±â ¶§¹®ÀÔ´Ï´Ù)
+        // ì¸ë²¤í† ë¦¬ì—ì„œ ìœ ë‹›ì´ í•©ì³ì§€ê±°ë‚˜ ì›€ì§ì˜€ì–´ë„, ë°°í‹€ íŒ¨ë„ì„ í•œ ë²ˆ ë™ê¸°í™”í•´ ì¤ë‹ˆë‹¤.
+        // (ë°°í‹€ í•„ë“œì— ìˆë˜ ìœ ë‹›ì´ ì¸ë²¤í† ë¦¬ë¡œ ìŠ¤ì™‘ë˜ì–´ ë°€ë ¤ì™”ì„ ìˆ˜ë„ ìˆê¸° ë•Œë¬¸ì…ë‹ˆë‹¤)
         BattleSlotPanel.instance.SyncAllBattleSlots();
     }
 }

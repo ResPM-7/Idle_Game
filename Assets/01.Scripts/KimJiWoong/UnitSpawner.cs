@@ -3,27 +3,28 @@ using System.Collections.Generic;
 
 public class UnitSpawner : MonoBehaviour
 {
-    [Header("¼³Á¤")] 
+    [Header("ì„¤ì •")]
     public Transform gridPanel;
-    public UnitDataSO baseUnitData; // 1½ºÅ×ÀÌÁö
-    [SerializeField] private UnitDataSO[] upgradedSpawnData; // 2½ºÅ×ÀÌÁöºÎÅÍ ¼ø¼­´ë·Î
+    [SerializeField] private UnitDataSO playerUnitData;
+    [SerializeField] private int baseUnitId = 101;
+    [SerializeField] private int[] upgradedSpawnUnitIds = { 102, 103, 104, 105 };
 
-    [Header("ºñ¿ë ¼³Á¤")]
+    [Header("ë¹„ìš© ì„¤ì •")]
     [SerializeField] private int spawnCost = 10;
 
     private List<Transform> gridSlots = new List<Transform>();
 
-    private UnitDataSO currentSpawnData;
+    private UnitData currentSpawnData;
 
     private void Awake()
     {
-        // ±×¸®µå ÇÏÀ§ÀÇ ¸ğµç ½½·ÔÀ» Ã£¾Æ ¸®½ºÆ®¿¡ ³Ö½À´Ï´Ù.
+        // ê·¸ë¦¬ë“œ í•˜ìœ„ì˜ ëª¨ë“  ìŠ¬ë¡¯ì„ ì°¾ì•„ ë¦¬ìŠ¤íŠ¸ì— ë„£ìŠµë‹ˆë‹¤.
         foreach (Transform child in gridPanel)
         {
             gridSlots.Add(child);
         }
 
-        Debug.Log($"ÃÊ±âÈ­ ¿Ï·á: ÃÑ {gridSlots.Count}°³ÀÇ ±×¸®µå ½½·ÔÀÌ ¸®½ºÆ®¿¡ ÀúÀåµÇ¾ú½À´Ï´Ù.");
+        Debug.Log($"ì´ˆê¸°í™” ì™„ë£Œ: ì´ {gridSlots.Count}ê°œì˜ ê·¸ë¦¬ë“œ ìŠ¬ë¡¯ì´ ë¦¬ìŠ¤íŠ¸ì— ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
     private void OnEnable()
@@ -44,32 +45,42 @@ public class UnitSpawner : MonoBehaviour
 
     private void UpdateSpawnData(int stage)
     {
-        currentSpawnData = baseUnitData;
-
-        if (stage < 2 || upgradedSpawnData == null || upgradedSpawnData.Length == 0)
+        if (playerUnitData == null)
+        {
+            currentSpawnData = null;
+            Debug.LogWarning("UnitSpawnerì— PlayerUnitDataê°€ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return;
+        }
 
-        int index = Mathf.Min(stage - 2, upgradedSpawnData.Length - 1);
-        if (upgradedSpawnData[index] != null)
-            currentSpawnData = upgradedSpawnData[index];
+        int targetId = baseUnitId;
+
+        if (stage >= 2 && upgradedSpawnUnitIds != null && upgradedSpawnUnitIds.Length > 0)
+        {
+            int index = Mathf.Min(stage - 2, upgradedSpawnUnitIds.Length - 1);
+            targetId = upgradedSpawnUnitIds[index];
+        }
+
+        currentSpawnData = playerUnitData.GetById(targetId);
+        if (currentSpawnData == null)
+            Debug.LogWarning($"PlayerUnitDataì—ì„œ unitId {targetId}ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
     }
 
     public void SpawnTestUnit()
     {
         Transform targetSlot = null;
 
-        // ¹Ì¸® ÀúÀåÇØµĞ ¸®½ºÆ®¸¸ ºü¸£°Ô °Ë»çÇÕ´Ï´Ù.
+        // ë¯¸ë¦¬ ì €ì¥í•´ë‘” ë¦¬ìŠ¤íŠ¸ë§Œ ë¹ ë¥´ê²Œ ê²€ì‚¬í•©ë‹ˆë‹¤.
         foreach (Transform slot in gridSlots)
         {
-            if (slot.childCount == 0) // ÀÚ½ÄÀÌ ¾ø´Ù¸é ºó Ä­
+            if (slot.childCount == 0) // ìì‹ì´ ì—†ë‹¤ë©´ ë¹ˆ ì¹¸
             {
                 targetSlot = slot;
-                break; // Ã¹ ¹øÂ° ºó Ä­À» Ã£¾ÒÀ¸´Ï Áï½Ã ¹İº¹¹® Å»Ãâ!
+                break; // ì²« ë²ˆì§¸ ë¹ˆ ì¹¸ì„ ì°¾ì•˜ìœ¼ë‹ˆ ì¦‰ì‹œ ë°˜ë³µë¬¸ íƒˆì¶œ!
             }
         }
 
-        // ºó Ä­À» Ã£¾ÒÀ¸¸é ¼ÒÈ¯, ¸ø Ã£¾ÒÀ¸¸é ²Ë Âù »óÅÂ
-        if (targetSlot != null)
+        // ë¹ˆ ì¹¸ì„ ì°¾ì•˜ìœ¼ë©´ ì†Œí™˜, ëª» ì°¾ì•˜ìœ¼ë©´ ê½‰ ì°¬ ìƒíƒœ
+        if (targetSlot != null && currentSpawnData != null)
         {
             if (MoneyManager.instance != null && MoneyManager.instance.SpendCredit(spawnCost))
             {
@@ -82,7 +93,7 @@ public class UnitSpawner : MonoBehaviour
         }
         else
         {
-            Debug.Log("±×¸®µå°¡ ²Ë Ã¡½À´Ï´Ù! ¼ÒÈ¯ ºÒ°¡.");
+            Debug.Log("ê·¸ë¦¬ë“œê°€ ê½‰ ì°¼ìŠµë‹ˆë‹¤! ì†Œí™˜ ë¶ˆê°€.");
         }
     }
 }

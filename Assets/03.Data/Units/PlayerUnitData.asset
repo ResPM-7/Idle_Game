@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: PlayerUnitData
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  units:
+  - unitId: 101
+    uiPoolName: UIUnit
+    battlePoolName: BattleUnit
+    unitLevel: 1
+    unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+    maxHp: 100
+    moveSpeed: 10
+    attackDamage: 1
+    attackSpeed: 1
+    attackRange: 5
+    defense: 0
+    criticalRate: 100
+    criticalDamage: 2
+    coin: 0
+    credit: 0
+    unitSprite: {fileID: 0}
+    nextUpgradeUnitIds: [102]
+  - unitId: 102
+    uiPoolName: UIUnit
+    battlePoolName: BattleUnit
+    unitLevel: 2
+    unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+    maxHp: 110
+    moveSpeed: 10
+    attackDamage: 2
+    attackSpeed: 1
+    attackRange: 5
+    defense: 0
+    criticalRate: 5
+    criticalDamage: 2
+    coin: 0
+    credit: 0
+    unitSprite: {fileID: 0}
+    nextUpgradeUnitIds: [103]
+  - unitId: 103
+    uiPoolName: UIUnit
+    battlePoolName: BattleUnit
+    unitLevel: 3
+    unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+    maxHp: 120
+    moveSpeed: 10
+    attackDamage: 3
+    attackSpeed: 1
+    attackRange: 5
+    defense: 0
+    criticalRate: 5
+    criticalDamage: 2
+    coin: 0
+    credit: 0
+    unitSprite: {fileID: 0}
+    nextUpgradeUnitIds: [104]
+  - unitId: 104
+    uiPoolName: UIUnit
+    battlePoolName: BattleUnit
+    unitLevel: 4
+    unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+    maxHp: 130
+    moveSpeed: 10
+    attackDamage: 4
+    attackSpeed: 1
+    attackRange: 5
+    defense: 0
+    criticalRate: 5
+    criticalDamage: 2
+    coin: 0
+    credit: 0
+    unitSprite: {fileID: 0}
+    nextUpgradeUnitIds: [105]
+  - unitId: 105
+    uiPoolName: UIUnit
+    battlePoolName: BattleUnit
+    unitLevel: 5
+    unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+    maxHp: 140
+    moveSpeed: 10
+    attackDamage: 5
+    attackSpeed: 1
+    attackRange: 5
+    defense: 0
+    criticalRate: 5
+    criticalDamage: 2
+    coin: 0
+    credit: 0
+    unitSprite: {fileID: 0}
+    nextUpgradeUnitIds: [201, 301, 401, 501]
+  - unitId: 201
+    uiPoolName: UIUnit
+    battlePoolName: BattleUnit
+    unitLevel: 6
+    unitName: "\uC804\uC0AC"
+    maxHp: 140
+    moveSpeed: 10
+    attackDamage: 5
+    attackSpeed: 1
+    attackRange: 5
+    defense: 2
+    criticalRate: 5
+    criticalDamage: 2
+    coin: 0
+    credit: 0
+    unitSprite: {fileID: 0}
+    nextUpgradeUnitIds: []
+  - unitId: 301
+    uiPoolName: UIUnit
+    battlePoolName: BattleUnit
+    unitLevel: 6
+    unitName: "\uAD81\uC218"
+    maxHp: 140
+    moveSpeed: 10
+    attackDamage: 5
+    attackSpeed: 1
+    attackRange: 5
+    defense: 0
+    criticalRate: 10
+    criticalDamage: 2
+    coin: 0
+    credit: 0
+    unitSprite: {fileID: 0}
+    nextUpgradeUnitIds: []
+  - unitId: 401
+    uiPoolName: UIUnit
+    battlePoolName: BattleUnit
+    unitLevel: 6
+    unitName: "\uB3C4\uC801"
+    maxHp: 140
+    moveSpeed: 10
+    attackDamage: 5
+    attackSpeed: 1
+    attackRange: 5
+    defense: 0
+    criticalRate: 25
+    criticalDamage: 2.5
+    coin: 0
+    credit: 0
+    unitSprite: {fileID: 0}
+    nextUpgradeUnitIds: []
+  - unitId: 501
+    uiPoolName: UIUnit
+    battlePoolName: BattleUnit
+    unitLevel: 6
+    unitName: "\uC0AC\uC81C"
+    maxHp: 140
+    moveSpeed: 10
+    attackDamage: 5
+    attackSpeed: 1
+    attackRange: 5
+    defense: 1
+    criticalRate: 0
+    criticalDamage: 2
+    coin: 0
+    credit: 0
+    unitSprite: {fileID: 0}
+    nextUpgradeUnitIds: []

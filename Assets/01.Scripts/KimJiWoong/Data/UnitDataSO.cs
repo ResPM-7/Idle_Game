@@ -1,50 +1,94 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public class UnitData
+{
+    // <sheet-fields>
+    public int @unitId;
+    public string @uiPoolName;
+    public string @battlePoolName;
+    public int @unitLevel;
+    public string @unitName;
+    public float @maxHp;
+    public float @moveSpeed;
+    public float @attackDamage;
+    public float @attackSpeed;
+    public float @attackRange;
+    public int @defense;
+    public int @criticalRate;
+    public float @criticalDamage;
+    public int @coin;
+    public int @credit;
+    // </sheet-fields>
+
+    public Sprite unitSprite;
+    public int[] nextUpgradeUnitIds = Array.Empty<int>();
+
+    [NonSerialized] private UnitDataSO database;
+
+    internal void Bind(UnitDataSO owner)
+    {
+        database = owner;
+    }
+
+    public UnitData GetNextUpgradeUnit()
+    {
+        if (database == null || nextUpgradeUnitIds == null || nextUpgradeUnitIds.Length == 0)
+            return null;
+
+        int index = nextUpgradeUnitIds.Length == 1
+            ? 0
+            : UnityEngine.Random.Range(0, nextUpgradeUnitIds.Length);
+        return database.GetById(nextUpgradeUnitIds[index]);
+    }
+}
 
 [CreateAssetMenu(fileName = "New Unit Data", menuName = "Data/Unit Data")]
 public class UnitDataSO : ScriptableObject
 {
-    [Header("기본 정보")]
-    public int unitId;
-    public int unitLevel;
-    public string unitName;
+    [SerializeField] private List<UnitData> units = new List<UnitData>();
+    private Dictionary<int, UnitData> lookup;
 
-    public string uiPoolName;
-    public string battlePoolName;
+    public IReadOnlyList<UnitData> Units => units;
+    public int Count => units.Count;
 
-    [Header("외형 정보")]
-    public Sprite unitSprite;
-
-    [Header("전투 정보")]
-    public float maxHp;
-    public float moveSpeed;
-    public float attackDamage;
-    public float attackSpeed;
-    public float attackRange;
-
-    public int defense;
-    [Range(0,100)]
-    public int criticalRate;
-    public float criticalDamage; //배율
-
-
-
-    [Header("적 처치시 재화드롭")]
-    public int coin;//스텟강화
-    public int credit;//소환재화
-
-    [Header("다음 업그레이드 유닛 (여러 개면 /로 구분하여 랜덤 진화 있으면 추가 없으면 빈칸)")]
-    public UnitDataSO[] nextUpgradeUnits; //단일 객체에서 배열[]로 변경!
-
-    // 랜덤 진화를 처리하는 핵심 함수
-    public UnitDataSO GetNextUpgradeUnit()
+    public UnitData GetById(int unitId)
     {
-        // 진화 트리가 아예 없으면 null 반환
-        if (nextUpgradeUnits == null || nextUpgradeUnits.Length == 0) return null;
+        EnsureLookup();
+        return lookup.TryGetValue(unitId, out UnitData unit) ? unit : null;
+    }
 
-        // 진화 트리가 1개뿐이면 그것을 그대로 반환 (기존의 확정 진화)
-        if (nextUpgradeUnits.Length == 1) return nextUpgradeUnits[0];
+    public bool TryGetById(int unitId, out UnitData unit)
+    {
+        EnsureLookup();
+        return lookup.TryGetValue(unitId, out unit);
+    }
 
-        // 2개 이상일 경우 랜덤으로 하나를 뽑아서 반환 (랜덤 분기 진화)
-        return nextUpgradeUnits[Random.Range(0, nextUpgradeUnits.Length)];
+    public void SetUnits(IEnumerable<UnitData> newUnits)
+    {
+        units.Clear();
+        if (newUnits != null) units.AddRange(newUnits);
+        RebuildLookup();
+    }
+
+    private void OnEnable() => RebuildLookup();
+    private void OnValidate() => RebuildLookup();
+
+    private void EnsureLookup()
+    {
+        if (lookup == null) RebuildLookup();
+    }
+
+    private void RebuildLookup()
+    {
+        lookup = new Dictionary<int, UnitData>();
+        foreach (UnitData unit in units)
+        {
+            if (unit == null) continue;
+            unit.Bind(this);
+            if (!lookup.ContainsKey(unit.unitId)) lookup.Add(unit.unitId, unit);
+        }
     }
 }

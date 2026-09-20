@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// MonoBehaviour¿Í IDropHandler¸¦ »ó¼Ó¹Ş´Â 'Ãß»ó(abstract)' ºÎ¸ğ Å¬·¡½ºÀÔ´Ï´Ù.
+// MonoBehaviourì™€ IDropHandlerë¥¼ ìƒì†ë°›ëŠ” 'ì¶”ìƒ(abstract)' ë¶€ëª¨ í´ë˜ìŠ¤ì…ë‹ˆë‹¤.
 public abstract class BaseSlot : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
@@ -10,18 +10,18 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
             WaveManager.instance != null &&
             !WaveManager.instance.stageGiveUp)
         {
-            Debug.Log("ÀüÅõ Áß¿¡´Â ¹èÆ² ½½·ÔÀÇ À¯´ÖÀ» Á¶ÀÛÇÒ ¼ö ¾ø½À´Ï´Ù!");
+            Debug.Log("ì „íˆ¬ ì¤‘ì—ëŠ” ë°°í‹€ ìŠ¬ë¡¯ì˜ ìœ ë‹›ì„ ì¡°ì‘í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
             return;
         }
 
-        // µå·¡±×°¡ ½ÇÁ¦·Î ½ÃÀÛµÇÁö ¾Ê¾Ò°Å³ª ÀÌ¹Ì ÇØÁ¦µÈ °æ¿ì ¹æ¾î
+        // ë“œë˜ê·¸ê°€ ì‹¤ì œë¡œ ì‹œì‘ë˜ì§€ ì•Šì•˜ê±°ë‚˜ ì´ë¯¸ í•´ì œëœ ê²½ìš° ë°©ì–´
         if (eventData == null || eventData.pointerDrag == null)
             return;
 
         GameObject droppedObj = eventData.pointerDrag;
         DragableUnit droppedUnit = droppedObj.GetComponent<DragableUnit>();
 
-        // ¿ø·¡ ½½·Ô Á¤º¸°¡ ¾øÀ¸¸é ÀÌµ¿/±³Ã¼/¸ÓÁö¸¦ Ã³¸®ÇÒ ¼ö ¾øÀ½
+        // ì›ë˜ ìŠ¬ë¡¯ ì •ë³´ê°€ ì—†ìœ¼ë©´ ì´ë™/êµì²´/ë¨¸ì§€ë¥¼ ì²˜ë¦¬í•  ìˆ˜ ì—†ìŒ
         if (droppedUnit == null || droppedUnit.originalParent == null)
             return;
 
@@ -35,7 +35,7 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
             return;
         }
 
-        // ¾Æ·¡ ±âÁ¸ ÄÚµå À¯Áö
+        // ì•„ë˜ ê¸°ì¡´ ì½”ë“œ ìœ ì§€
         if (transform.childCount == 0)
         {
             HandleEmptySlot(droppedUnit);
@@ -49,8 +49,8 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
                 return;
 
             if (myUnit.myData.unitLevel == droppedUnit.myData.unitLevel &&
-                myUnit.myData.nextUpgradeUnits != null &&
-                myUnit.myData.nextUpgradeUnits.Length > 0)
+                myUnit.myData.nextUpgradeUnitIds != null &&
+                myUnit.myData.nextUpgradeUnitIds.Length > 0)
             {
                 HandleMerge(droppedUnit, myUnit);
             }
@@ -61,7 +61,7 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
         }
     }
 
-    // 1. ºó Ä­ ÀÌµ¿ ·ÎÁ÷ (°øÅë)
+    // 1. ë¹ˆ ì¹¸ ì´ë™ ë¡œì§ (ê³µí†µ)
     protected virtual void HandleEmptySlot(DragableUnit droppedUnit)
     {
         droppedUnit.transform.SetParent(transform);
@@ -69,7 +69,7 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
         OnAfterDrop();
     }
 
-    // 2. ½º¿Ò ·ÎÁ÷ (°øÅë)
+    // 2. ìŠ¤ì™‘ ë¡œì§ (ê³µí†µ)
     protected virtual void HandleSwap(DragableUnit droppedUnit, DragableUnit myUnit)
     {
         myUnit.transform.SetParent(droppedUnit.originalParent);
@@ -80,9 +80,9 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
         OnAfterDrop();
     }
 
-    // 3. ÇÕ¼º ·ÎÁ÷ (Ãß»ó ¸Ş¼­µå: ¹èÆ²½½·Ô°ú ÀÎº¥Åä¸®ÀÇ ÇÕ¼º °á°ú°¡ ´Ù¸£¹Ç·Î ÀÚ½ÄµéÀÌ Á÷Á¢ ±¸ÇöÇÏ°Ô °­Á¦ÇÕ´Ï´Ù)
+    // 3. í•©ì„± ë¡œì§ (ì¶”ìƒ ë©”ì„œë“œ: ë°°í‹€ìŠ¬ë¡¯ê³¼ ì¸ë²¤í† ë¦¬ì˜ í•©ì„± ê²°ê³¼ê°€ ë‹¤ë¥´ë¯€ë¡œ ìì‹ë“¤ì´ ì§ì ‘ êµ¬í˜„í•˜ê²Œ ê°•ì œí•©ë‹ˆë‹¤)
     protected abstract void HandleMerge(DragableUnit droppedUnit, DragableUnit myUnit);
 
-    // 4. µå·ÓÀÌ ³¡³­ ÈÄ ½ÇÇàµÉ Ãß°¡ ÀÛ¾÷ (°¡»ó ¸Ş¼­µå: ÇÊ¿äÇÒ ¶§ µ¤¾î¾²±â)
+    // 4. ë“œë¡­ì´ ëë‚œ í›„ ì‹¤í–‰ë  ì¶”ê°€ ì‘ì—… (ê°€ìƒ ë©”ì„œë“œ: í•„ìš”í•  ë•Œ ë®ì–´ì“°ê¸°)
     protected virtual void OnAfterDrop() { }
 }

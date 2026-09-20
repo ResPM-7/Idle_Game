@@ -3,28 +3,28 @@ using UnityEngine;
 
 public interface IUnitState
 {
-    void Enter(Unit_Base_Test unit);    // »óÅÂ¿¡ ÁøÀÔÇÒ ¶§ 1È¸ È£Ãâ
-    void Execute(Unit_Base_Test unit);  // UpdateÃ³·³ ¸Å ÇÁ·¹ÀÓ È£Ãâ
-    void Exit(Unit_Base_Test unit);     // »óÅÂ¸¦ ºüÁ®³ª°¥ ¶§ 1È¸ È£Ãâ
+    void Enter(Unit_Base_Test unit);    // ìƒíƒœì— ì§„ì…í•  ë•Œ 1íšŒ í˜¸ì¶œ
+    void Execute(Unit_Base_Test unit);  // Updateì²˜ëŸ¼ ë§¤ í”„ë ˆì„ í˜¸ì¶œ
+    void Exit(Unit_Base_Test unit);     // ìƒíƒœë¥¼ ë¹ ì ¸ë‚˜ê°ˆ ë•Œ 1íšŒ í˜¸ì¶œ
 }
 
 
 public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 {
-    //À¯´Ö ¾÷±×·¹ÀÌµå °áÇÕµµ¸¦ ³·Ãß±âÀ§ÇØ µ¨¸®°ÔÀÌÆ®
+    //ìœ ë‹› ì—…ê·¸ë ˆì´ë“œ ê²°í•©ë„ë¥¼ ë‚®ì¶”ê¸°ìœ„í•´ ë¸ë¦¬ê²Œì´íŠ¸
     public static event Action<Unit_Base_Test> OnUnitSpawned;
     public static event Action<Unit_Base_Test> OnUnitDespawned;
 
     public event Action OnDeathEvent;
     public event Action<Unit_Base_Test, float, float, float, bool> OnHpChanged;
 
-    [Header("±âº» ¼³Á¤")]
-    [SerializeField] private UnitDataSO myData;
+    [Header("ê¸°ë³¸ ì„¤ì •")]
+    private UnitData myData;
     [SerializeField] private LayerMask targetLayer;
-    //º»ÀÎÀÇ ¿ÜÇü
+    //ë³¸ì¸ì˜ ì™¸í˜•
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    public UnitDataSO MyData => myData;
+    public UnitData MyData => myData;
     public LayerMask TargetLayer => targetLayer;
     public float CurrentAttackSpeed { get; set; }
     public float CurrentMaxHp { get; set; }
@@ -37,10 +37,10 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public float SearchTimer { get; set; }
     public Transform CurrentTarget { get; set; }
 
-    // FSM °ü·Ã º¯¼ö
+    // FSM ê´€ë ¨ ë³€ìˆ˜
     private IUnitState currentState;
 
-    // »óÅÂ °´Ã¼¸¦ ¹Ì¸® »ı¼º
+    // ìƒíƒœ ê°ì²´ë¥¼ ë¯¸ë¦¬ ìƒì„±
     public IUnitState idleState = new UnitIdleState();
     public IUnitState moveState = new UnitMoveState();
     public IUnitState attackState = new UnitAttackState();
@@ -49,10 +49,10 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     private void Start()
     {
         if (myData != null) Init(myData);
-        else Debug.LogWarning($"{gameObject.name}¿¡ µ¥ÀÌÅÍ(UnitDataSO)°¡ ºñ¾îÀÖ½À´Ï´Ù!");
+        else Debug.LogWarning($"{gameObject.name}ì— UnitDataê°€ ë¹„ì–´ìˆìŠµë‹ˆë‹¤!");
     }
 
-    public void Init(UnitDataSO data)
+    public void Init(UnitData data)
     {
         myData = data;
 
@@ -74,9 +74,9 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
 
         ChangeState(idleState);
-        //¼ÒÈ¯µÉ¶§ À¯´Ö Ã¼·Â¹Ù°¡ Á¦´ë·Î Ãâ·ÂµÇ°Ô
+        //ì†Œí™˜ë ë•Œ ìœ ë‹› ì²´ë ¥ë°”ê°€ ì œëŒ€ë¡œ ì¶œë ¥ë˜ê²Œ
         OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f, false);
-        // ¸Å´ÏÀú¸¦ Á÷Á¢ Ã£Áö ¾Ê°í ½ºÆùµÇ¾ú´Ù´Â ¹æ¼Û¸¸ ¼ÛÃâÇÕ´Ï´Ù
+        // ë§¤ë‹ˆì €ë¥¼ ì§ì ‘ ì°¾ì§€ ì•Šê³  ìŠ¤í°ë˜ì—ˆë‹¤ëŠ” ë°©ì†¡ë§Œ ì†¡ì¶œí•©ë‹ˆë‹¤
         OnUnitSpawned?.Invoke(this);
     }
 
@@ -84,21 +84,21 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     {
         if (gameObject.scene.isLoaded)
         {
-            // À¯´ÖÀÌ Á×°Å³ª Ç®·Î µ¹¾Æ°¥ ¶§ ¹æ¼Û ¼ÛÃâ
+            // ìœ ë‹›ì´ ì£½ê±°ë‚˜ í’€ë¡œ ëŒì•„ê°ˆ ë•Œ ë°©ì†¡ ì†¡ì¶œ
             OnUnitDespawned?.Invoke(this);
         }
     }
 
     void Update()
     {
-        // ÇöÀç »óÅÂÀÇ Execute ·ÎÁ÷À» ¸Å ÇÁ·¹ÀÓ ½ÇÇà
+        // í˜„ì¬ ìƒíƒœì˜ Execute ë¡œì§ì„ ë§¤ í”„ë ˆì„ ì‹¤í–‰
         if (currentState != null)
         {
             currentState.Execute(this);
         }
     }
 
-    // »óÅÂ ÀüÈ¯À» Ã³¸®ÇÏ´Â ÇÙ½É ÇÔ¼ö
+    // ìƒíƒœ ì „í™˜ì„ ì²˜ë¦¬í•˜ëŠ” í•µì‹¬ í•¨ìˆ˜
     public void ChangeState(IUnitState newState)
     {
         if (currentState != null)
@@ -114,12 +114,12 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     {
         if (currentState == destroyedState) return;
 
-        //¹æ¾î·Â Â÷°¨ ¹æ¾î·ÂÀÌ ³ô¾Æ¼­ µ¥¹ÌÁö°¡ 0ÀÌµÇ¾îµµ ÀÌº¥Æ®°¡ ³ª¿À°Ô ±¸Çö
+        //ë°©ì–´ë ¥ ì°¨ê° ë°©ì–´ë ¥ì´ ë†’ì•„ì„œ ë°ë¯¸ì§€ê°€ 0ì´ë˜ì–´ë„ ì´ë²¤íŠ¸ê°€ ë‚˜ì˜¤ê²Œ êµ¬í˜„
         float finalDamage = Mathf.Max(0f, amount - CurrentDefense);
 
         CurrentHp -= finalDamage;
 
-        //UI³ª ÀÌÆåÆ® ÂÊ¿¡ 'ÃÖÁ¾ °è»êµÈ µ¥¹ÌÁö(finalDamage)'¸¦ ³Ñ°ÜÁİ´Ï´Ù.
+        //UIë‚˜ ì´í™íŠ¸ ìª½ì— 'ìµœì¢… ê³„ì‚°ëœ ë°ë¯¸ì§€(finalDamage)'ë¥¼ ë„˜ê²¨ì¤ë‹ˆë‹¤.
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, finalDamage, isCritical);
 
         if (CurrentHp <= 0)
@@ -136,31 +136,31 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
     public void ResetAndStopCombat()
     {
-        // 1. Ã¼·ÂÀ» ÃÖ´ëÄ¡·Î 100% È¸º¹
+        // 1. ì²´ë ¥ì„ ìµœëŒ€ì¹˜ë¡œ 100% íšŒë³µ
         CurrentHp = myData.maxHp;
 
-        // 2. UI Ã¼·Â¹Ù °»½Å
+        // 2. UI ì²´ë ¥ë°” ê°±ì‹ 
         OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f, false);
 
-        // 3. Å¸°ÙÆÃ ÃÊ±âÈ­ ¹× Å¸ÀÌ¸Ó ¸®¼Â
+        // 3. íƒ€ê²ŸíŒ… ì´ˆê¸°í™” ë° íƒ€ì´ë¨¸ ë¦¬ì…‹
         CurrentTarget = null;
         AttackTimer = 0f;
         SearchTimer = 0f;
 
-        // 4. ÇöÀç °ø°İ ÁßÀÌ°Å³ª ÀÌµ¿ ÁßÀÌ´õ¶óµµ °­Á¦·Î ´ë±â(Idle) »óÅÂ·Î Á¤Áö!
+        // 4. í˜„ì¬ ê³µê²© ì¤‘ì´ê±°ë‚˜ ì´ë™ ì¤‘ì´ë”ë¼ë„ ê°•ì œë¡œ ëŒ€ê¸°(Idle) ìƒíƒœë¡œ ì •ì§€!
         ChangeState(idleState);
     }
 
     private void OnDrawGizmosSelected()
     {
-        // µ¥ÀÌÅÍ°¡ ¾ÆÁ÷ ¾È µé¾î¿Ô´Ù¸é ±×¸®Áö ¾ÊÀ½ (¿¡·¯ ¹æÁö)
+        // ë°ì´í„°ê°€ ì•„ì§ ì•ˆ ë“¤ì–´ì™”ë‹¤ë©´ ê·¸ë¦¬ì§€ ì•ŠìŒ (ì—ëŸ¬ ë°©ì§€)
         if (myData == null) return;
 
-        // 1. ½ÇÁ¦ °ø°İ »ç°Å¸® (»¡°£»ö)
+        // 1. ì‹¤ì œ ê³µê²© ì‚¬ê±°ë¦¬ (ë¹¨ê°„ìƒ‰)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, myData.attackRange);
 
-        // 2. Àû Å½»ö ¹üÀ§ (³ë¶õ»ö) - ÇöÀç ÄÚµå¿¡¼­ »ç°Å¸®ÀÇ 2¹è·Î Å½»ö ÁßÀÌ½ÃÁÒ!
+        // 2. ì  íƒìƒ‰ ë²”ìœ„ (ë…¸ë€ìƒ‰) - í˜„ì¬ ì½”ë“œì—ì„œ ì‚¬ê±°ë¦¬ì˜ 2ë°°ë¡œ íƒìƒ‰ ì¤‘ì´ì‹œì£ !
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, myData.attackRange * 2f);
     }
