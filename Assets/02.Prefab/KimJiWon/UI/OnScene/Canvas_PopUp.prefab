@@ -31,7 +31,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 720000000000000002}
+  - {fileID: 11145833404628995}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -57,7 +57,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 30
@@ -109,13 +109,77 @@ PrefabInstance:
   m_Modification:
     serializedVersion: 3
     m_TransformParent: {fileID: 6352360511270033656}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 710000000000000001, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2464252774100392756, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2464252774100392756, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3840911861185205827, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3840911861185205827, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5423228378290179434, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5423228378290179434, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5423228378290179434, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6711449410112282034, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6711449410112282034, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6711449410112282034, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599511527419853598, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599511527419853598, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599511527419853598, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567283431057907514, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567283431057907514, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
---- !u!224 &720000000000000002 stripped
+--- !u!224 &11145833404628995 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 710000000000000002, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
   m_PrefabInstance: {fileID: 720000000000000001}
