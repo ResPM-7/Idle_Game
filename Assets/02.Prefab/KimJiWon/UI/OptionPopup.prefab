@@ -685,6 +685,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 710000000000000002}
+  - component: {fileID: 6571219689228977469}
+  - component: {fileID: 6047199159556873437}
   m_Layer: 5
   m_Name: OptionPopup
   m_TagString: Untagged
@@ -713,6 +715,33 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6571219689228977469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e0d4139afdf9d04ab579de9b2a44d24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SceneNavigation
+--- !u!114 &6047199159556873437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8585f428e8a8c494fa18a3a5306f4e64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_OptionPopup
+  closeButton: {fileID: 7530827567565908544}
+  backToTitleButton: {fileID: 5619533338864835181}
+  navigation: {fileID: 6571219689228977469}
 --- !u!1 &710000000000000003
 GameObject:
   m_ObjectHideFlags: 0
