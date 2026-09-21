@@ -604,7 +604,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 65
+  m_text: 50
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6842b1221358c0f42b293f4cf027c5e6, type: 2}
   m_sharedMaterial: {fileID: 4516137259878825004, guid: 6842b1221358c0f42b293f4cf027c5e6, type: 2}
@@ -688,6 +688,7 @@ GameObject:
   - component: {fileID: 6571219689228977469}
   - component: {fileID: 6047199159556873437}
   - component: {fileID: 7037857400970307084}
+  - component: {fileID: 230206347951587461}
   m_Layer: 5
   m_Name: OptionPopup
   m_TagString: Untagged
@@ -757,6 +758,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_DisplaySettings
   resolutionDropdown: {fileID: 3436297810130476186}
   displayModeDropdown: {fileID: 397661068402783266}
+--- !u!114 &230206347951587461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8094d9f1ef1f474b8d3051a598ce3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_AudioSettings
+  masterSlider: {fileID: 2270885900928060618}
+  bgmSlider: {fileID: 2990738397618691352}
+  sfxSlider: {fileID: 9023123063825374257}
+  masterValueText: {fileID: 4540034998564895267}
+  bgmValueText: {fileID: 1697445716796793922}
+  sfxValueText: {fileID: 5657317036510754232}
+  muteToggle: {fileID: 3454513312456566016}
 --- !u!1 &710000000000000003
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,7 +996,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 80
+  m_text: 50
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6842b1221358c0f42b293f4cf027c5e6, type: 2}
   m_sharedMaterial: {fileID: 4516137259878825004, guid: 6842b1221358c0f42b293f4cf027c5e6, type: 2}
@@ -1387,7 +1407,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 90
+  m_text: 50
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6842b1221358c0f42b293f4cf027c5e6, type: 2}
   m_sharedMaterial: {fileID: 4516137259878825004, guid: 6842b1221358c0f42b293f4cf027c5e6, type: 2}
@@ -1584,7 +1604,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 90
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3731,7 +3751,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 80
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4117,7 +4137,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 65
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
