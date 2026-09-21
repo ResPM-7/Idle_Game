@@ -14,8 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageMonsterDataSO
   entries:
   - startStage: 1
-    endStage: 10
+    endStage: 2
     enemyId: 201
     bossId: 301
     enemyData: {fileID: 11400000, guid: b0b64b1cb457da84580f3eccea3b24dc, type: 2}
     bossData: {fileID: 11400000, guid: 71b60ee52e195334ca9d55d137f52237, type: 2}
+  - startStage: 3
+    endStage: 4
+    enemyId: 202
+    bossId: 302
+    enemyData: {fileID: 11400000, guid: 8d221b4380ff984408d5783e0b1d4bf0, type: 2}
+    bossData: {fileID: 11400000, guid: 1c759b4056fa7e34a8b05bd48085326a, type: 2}

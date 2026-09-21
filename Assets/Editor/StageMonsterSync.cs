@@ -8,7 +8,7 @@ public class StageMonsterSync : EditorWindow
 {
     private const string stageMonsterSavePath = "Assets/03.Data/Stage/StageMonsterData.asset";
 
-    [MenuItem("Tools/3. 구글 시트 동기화 (스테이지 몬스터)")]
+    [MenuItem("Tools/5. 구글 시트 동기화 (스테이지 몬스터)")]
     public static void SyncStageMonsterData()
     {
         var stageReq = UnityWebRequest.Get(GoogleSheetSync.stageMonsterDataUrl);

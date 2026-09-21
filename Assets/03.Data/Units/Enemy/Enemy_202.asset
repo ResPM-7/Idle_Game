@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
-  m_Name: Enemy_301
+  m_Name: Enemy_202
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
-  unitId: 301
+  unitId: 202
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uD14C\uC2A4\uD2B8\uC801"
   team: 1
-  uiPoolName: Boss
-  battlePoolName: Boss
+  uiPoolName: Enemy
+  battlePoolName: Enemy
   unitSprite: {fileID: 0}
-  maxHp: 50
+  maxHp: 30
   moveSpeed: 0
-  attackDamage: 1
+  attackDamage: 2
   attackSpeed: 1
   searchRange: 0
   attackRange: 5
@@ -36,6 +36,6 @@ MonoBehaviour:
   defense: 0
   criticalRate: 0
   criticalDamage: 0
-  coin: 0
-  credit: 50
+  coin: 10
+  credit: 0
   nextUpgradeUnits: []
