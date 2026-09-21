@@ -23,11 +23,10 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 2
   attackSpeed: 1
+  searchRange: 99
   attackRange: 5
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: 
   canHeal: 0
   healRange: 5
