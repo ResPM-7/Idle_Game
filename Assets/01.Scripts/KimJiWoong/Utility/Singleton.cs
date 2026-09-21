@@ -11,35 +11,15 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         get
         {
             if (_applicationIsQuitting)
-            {
                 return null;
-            }
 
             if (_instance == null)
             {
-                _instance = FindObjectOfType<T>();
-                if (_instance == null)
-                {
-                    GameObject obj = new GameObject(typeof(T).Name);
-                    _instance = obj.AddComponent<T>();
-
-                    var singleton = _instance as Singleton<T>;
-
-                    if (singleton != null && singleton.isDontDestroy)
-                    {
-                        DontDestroyOnLoad(obj);
-                    }
-                }
+                // 씬에 배치된 인스턴스만 찾습니다.
+                // 존재하지 않는다고 빈 매니저를 생성하지 않습니다.
+                _instance = FindFirstObjectByType<T>();
             }
-            else
-            {
-                var singleton = _instance as Singleton<T>;
 
-                if (singleton != null && singleton.isDontDestroy)
-                {
-                    DontDestroyOnLoad(singleton);
-                }
-            }
             return _instance;
         }
     }
@@ -48,31 +28,33 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
+        _applicationIsQuitting = false;
+
         if (_instance == null)
         {
             _instance = this as T;
+
             if (isDontDestroy)
-            {
-                DontDestroyOnLoad(this.gameObject);
-            }
+                DontDestroyOnLoad(gameObject);
         }
         else if (_instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
     protected virtual void OnDestroy()
     {
+        // 씬 이동으로 파괴될 때는 인스턴스만 비웁니다.
         if (_instance == this)
         {
-            _applicationIsQuitting = true;
             _instance = null;
         }
     }
 
     protected virtual void OnApplicationQuit()
     {
+        // 실제 애플리케이션 종료 때만 true로 변경합니다.
         _applicationIsQuitting = true;
     }
 }

@@ -26,20 +26,24 @@ public class UnitSpawner : MonoBehaviour
         Debug.Log($"초기화 완료: 총 {gridSlots.Count}개의 그리드 슬롯이 리스트에 저장되었습니다.");
     }
 
-    private void OnEnable()
-    {
-        WaveManager.instance.OnStageChanged += UpdateSpawnData;
-    }
 
     private void Start()
     {
         UpdateSpawnData(WaveManager.instance.CurrentStage);
     }
 
+    private void OnEnable()
+    {
+        WaveManager.instance.OnStageChanged += UpdateSpawnData;
+    }
+
+
     private void OnDisable()
     {
-        if (WaveManager.instance != null)
-            WaveManager.instance.OnStageChanged -= UpdateSpawnData;
+        WaveManager manager = WaveManager.instance;
+
+        if (manager != null)
+            manager.OnStageChanged -= UpdateSpawnData;
     }
 
     private void UpdateSpawnData(int stage)
