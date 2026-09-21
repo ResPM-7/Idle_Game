@@ -15,6 +15,7 @@ MonoBehaviour:
   unitId: 105
   unitLevel: 5
   unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+  team: 0
   uiPoolName: UIUnit
   battlePoolName: BattleUnit
   unitSprite: {fileID: 0}
@@ -23,6 +24,14 @@ MonoBehaviour:
   attackDamage: 5
   attackSpeed: 1
   attackRange: 5
+  canMelee: 1
+  meleeRange: 1.5
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 5
   criticalDamage: 2

@@ -15,14 +15,23 @@ MonoBehaviour:
   unitId: 501
   unitLevel: 6
   unitName: "\uC0AC\uC81C"
+  team: 0
   uiPoolName: UIUnit
   battlePoolName: BattleUnit
   unitSprite: {fileID: 0}
   maxHp: 140
   moveSpeed: 10
-  attackDamage: 5
+  attackDamage: 4.5
   attackSpeed: 1
   attackRange: 5
+  canMelee: 0
+  meleeRange: 1.5
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 1
+  healRange: 4
+  healProjectilePoolName: Projectile_Heal
   defense: 1
   criticalRate: 0
   criticalDamage: 2

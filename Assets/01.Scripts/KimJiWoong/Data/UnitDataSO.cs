@@ -1,5 +1,7 @@
 using UnityEngine;
 
+public enum Team_Test { Player, Enemy }
+
 [CreateAssetMenu(fileName = "New Unit Data", menuName = "Data/Unit Data")]
 public class UnitDataSO : ScriptableObject
 {
@@ -7,6 +9,7 @@ public class UnitDataSO : ScriptableObject
     public int unitId;
     public int unitLevel;
     public string unitName;
+    public Team_Test team = Team_Test.Player;
 
     public string uiPoolName;
     public string battlePoolName;
@@ -20,6 +23,17 @@ public class UnitDataSO : ScriptableObject
     public float attackDamage;
     public float attackSpeed;
     public float attackRange;
+
+    public bool canMelee = true;
+    public float meleeRange = 1.5f;
+
+    public bool canRanged = false;
+    public float rangedRange = 5f;
+    public string projectilePoolName;
+
+    public bool canHeal = false;
+    public float healRange = 5f;
+    public string healProjectilePoolName;
 
     public int defense;
     [Range(0,100)]

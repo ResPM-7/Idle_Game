@@ -7,42 +7,59 @@ public class UnitIdleState : IUnitState
 
     public void Execute(Unit_Base_Test unit)
     {
-        // 나중에 WaveManager 완성 시 아래 주석 해제! 
-        // 파티 편성 모드(전투 정지)라면 적을 탐색하지 않고 가만히 서 있게 합니다.
-        
-        if (WaveManager.instance != null && WaveManager.instance.stageGiveUp) 
-        {
-            return;
-        }
-        
+        if (WaveManager.instance != null && WaveManager.instance.stageGiveUp) return;
 
         unit.SearchTimer += Time.deltaTime;
         if (unit.SearchTimer < 0.2f) return;
         unit.SearchTimer = 0f;
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(unit.transform.position, unit.MyData.attackRange * 2f, unit.TargetLayer);
+        // 유닛이 가진 능력 중 가장 긴 사거리부터 파악
+        float maxSearchRange = 0f;
+        if (unit.MyData.canMelee) maxSearchRange = Mathf.Max(maxSearchRange, unit.MyData.meleeRange);
+        if (unit.MyData.canRanged) maxSearchRange = Mathf.Max(maxSearchRange, unit.MyData.rangedRange);
+        if (unit.MyData.canHeal) maxSearchRange = Mathf.Max(maxSearchRange, unit.MyData.healRange);
+
+        float searchRadius = maxSearchRange * 2f; // 탐색 반경 넉넉하게 2배로 해둠
         Transform closestTarget = null;
-        float minDistance = float.MaxValue;
 
-        foreach (Collider2D col in colliders)
+        if (unit.MyData.canHeal)
         {
-            Unit_Base_Test enemy = col.GetComponent<Unit_Base_Test>();
+            closestTarget = FindTarget(unit, unit.AllyLayer, searchRadius, true);
+        }
 
-            if (enemy != null && enemy.CurrentHp > 0)
-            {
-                float dist = Vector2.Distance(unit.transform.position, enemy.transform.position);
-                if (dist < minDistance)
-                {
-                    minDistance = dist;
-                    closestTarget = enemy.transform;
-                }
-            }
+        if (closestTarget == null && (unit.MyData.canMelee || unit.MyData.canRanged))
+        {
+            closestTarget = FindTarget(unit, unit.TargetLayer, searchRadius, false);
         }
 
         if (closestTarget != null)
         {
             unit.CurrentTarget = closestTarget;
-            unit.ChangeState(unit.moveState); // 타겟 발견 시 Move 상태로 전환
+            unit.ChangeState(unit.moveState);
         }
+    }
+
+    private Transform FindTarget(Unit_Base_Test unit, LayerMask searchLayer, float radius, bool findWoundedAlly)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(unit.transform.position, radius, searchLayer);
+        Transform bestTarget = null;
+        float minDistance = float.MaxValue;
+
+        foreach (Collider2D col in colliders)
+        {
+            Unit_Base_Test targetUnit = col.GetComponent<Unit_Base_Test>();
+            if (targetUnit != null && targetUnit.CurrentHp > 0)
+            {
+                if (findWoundedAlly && targetUnit.CurrentHp >= targetUnit.CurrentMaxHp) continue;
+
+                float dist = Vector2.Distance(unit.transform.position, targetUnit.transform.position);
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    bestTarget = targetUnit.transform;
+                }
+            }
+        }
+        return bestTarget;
     }
 }
