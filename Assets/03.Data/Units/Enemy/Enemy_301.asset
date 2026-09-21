@@ -19,7 +19,7 @@ MonoBehaviour:
   uiPoolName: Boss
   battlePoolName: Boss
   unitSprite: {fileID: 0}
-  maxHp: 5000
+  maxHp: 50
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1

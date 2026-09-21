@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public interface IUnitState
 {
@@ -46,6 +47,11 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public IUnitState attackState = new UnitAttackState();
     public IUnitState destroyedState = new UnitDestroyedState();
 
+    private float baseDamage;
+
+    public bool IsFrozen { get; private set; }
+    private Coroutine freezeRoutine;
+
     private void Start()
     {
         if (myData != null) Init(myData);
@@ -85,6 +91,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentMaxHp = myData.maxHp;
         CurrentHp = CurrentMaxHp;
         CurrentDamage = myData.attackDamage;
+        baseDamage = myData.attackDamage;
         CurrentAttackSpeed = myData.attackSpeed;
         CurrentDefense = myData.defense;
         CurrentCriticalRate = myData.criticalRate;
@@ -112,6 +119,8 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
     void Update()
     {
+        if(IsFrozen) return;
+
         // 현재 상태의 Execute 로직을 매 프레임 실행
         if (currentState != null)
         {
@@ -193,5 +202,44 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         // 2. 적 탐색 범위 (노란색) - 현재 코드에서 사거리의 2배로 탐색 중이시죠!
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, myData.attackRange * 2f);
+    }
+
+    // 공격력 버프
+    public void ApplyDamageBuff(float multiplier, float duration)
+    {
+        StartCoroutine(DamageBuffRoutine(multiplier, duration));
+    }
+
+    private IEnumerator DamageBuffRoutine(float multiplier, float duration)
+    {
+        CurrentDamage = baseDamage * multiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        CurrentDamage = baseDamage;
+    }
+
+    // 얼리기 스킬
+    public void ApplyFreeze(float duration)
+    {
+        if (currentState == destroyedState) return;
+
+        Debug.Log($"[ApplyFreeze] {gameObject.name} 빙결 시작, 지속시간: {duration}");
+
+        if (freezeRoutine != null)
+        {
+            StopCoroutine(freezeRoutine);
+        }
+
+        freezeRoutine = StartCoroutine(FreezeRoutine(duration));
+    }
+
+    private IEnumerator FreezeRoutine(float duration)
+    {
+        IsFrozen = true;
+
+        yield return new WaitForSeconds(duration);
+        IsFrozen = false;
+        freezeRoutine = null;
     }
 }

@@ -1,45 +1,59 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PoisonSkill : Skill
 {
-    [Header("Poison Setting")]
-    [SerializeField] private string poolName = "Poison";
-    [SerializeField] private float duration = 5f;
-    [SerializeField] private float damageInterval = 1f;
 
-    private void OnEnable()
+    [Header("Poison Setting")]
+    [SerializeField] float duration = 5f;       // 지속 시간
+    [SerializeField] float damageInterval = 1f;    // 데미지 들어가는 시간간격
+    [SerializeField] private string poolName = "Poison";
+
+    private float tickTimer = 0f;
+    private List<Collider2D> targetsInRange = new List<Collider2D>();
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        StartCoroutine(PoisonRoutine());
+        if (!targetsInRange.Contains(collision))
+            targetsInRange.Add(collision);
     }
 
-    private IEnumerator PoisonRoutine()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        // GetObject()가 활성화한 뒤 SkillManager가 위치를 세팅할 시간을 한 프레임 줌
-        yield return null;
+        targetsInRange.Remove(collision);
+    }
+ 
+    void Update()
+    {
+        tickTimer += Time.deltaTime;
 
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
+        if(tickTimer >= damageInterval)
         {
-            Collider2D[] targets = Physics2D.OverlapCircleAll(
-                transform.position,
-                radius,
-                enemyLayer
-            );
+            tickTimer = 0f;
 
-            foreach (Collider2D target in targets)
+            for(int i = targetsInRange.Count - 1; i >= 0;i--)
             {
-                DamageTarget(target);
+                if (targetsInRange[i] == null)
+                {
+                    targetsInRange.RemoveAt(i);
+                    continue;
+                }
+
+                DamageTarget(targetsInRange[i]);
             }
-
-            yield return new WaitForSeconds(damageInterval);
-            elapsedTime += damageInterval;
         }
+    }
 
-        if (ObjectPoolManager.instance != null)
-        {
-            ObjectPoolManager.instance.ReturnObject(poolName, gameObject);
-        }
+    void Start()
+    {
+        tickTimer = 0f;
+        targetsInRange.Clear();
+        Invoke(nameof(ReturnToPool), duration);
+    }
+
+    private void ReturnToPool()
+    {
+        ObjectPoolManager.instance.ReturnObject(poolName, gameObject);
     }
 }

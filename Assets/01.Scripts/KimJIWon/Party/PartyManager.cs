@@ -25,6 +25,7 @@ public class PartyManager : MonoBehaviour
 
         partyData[pIdx, sIdx] = unit;
         //Debug.Log($"{partyIndex}파티 {slotIndex}번 슬롯에 Lv.{unit?.unitLevel} 유닛 배치 완료");
+       
     }
 
     // 슬롯에서 유닛이 빠질 때 호출
@@ -32,4 +33,27 @@ public class PartyManager : MonoBehaviour
     {
         SetUnitToParty(partyIndex, slotIndex, null);
     }
+
+    // 공격력 합산
+    //public float GetTotalAttack(int partyIndex)
+    //{
+    //    float totalAttack = 0;
+
+    //    int pIdx = partyIndex - 1;
+
+    //    if (pIdx < 0 || pIdx >= 5)
+    //        return 0f;
+
+    //    for (int i = 0; i < 5; i++)
+    //    {
+    //        DragableUnit unit = partyData[pIdx, i];
+
+    //        if (unit != null && partyData[pIdx, i])
+    //        {
+    //            totalAttack += unit.myData.attackDamage;
+    //        }
+    //    }
+
+    //    return totalAttack;
+    //}
 }

@@ -9,6 +9,7 @@ public class PartySlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+       
         GameObject droppedObj = eventData.pointerDrag;
         if (droppedObj == null) return;
 

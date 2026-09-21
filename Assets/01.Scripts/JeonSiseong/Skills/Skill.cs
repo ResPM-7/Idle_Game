@@ -5,6 +5,7 @@ public class Skill : MonoBehaviour
     [Header("Skill Settings")]
     [SerializeField] protected float radius;
     [SerializeField] protected float damage;
+    [SerializeField] protected float damageRatio = 0.1f;
 
 
     [Header("Target")]
@@ -22,7 +23,20 @@ public class Skill : MonoBehaviour
 
         if(target != null)
         {
-            target.TakeSkillDamage(damage);
+            float partyAttack = 0f;
+
+            if(PartyBuildManager.instance != null)
+            {
+                partyAttack = PartyBuildManager.instance.GetTotalAttack();
+            }
+
+            
+            float finalDamage = damage + (partyAttack * damageRatio);
+
+            target.TakeSkillDamage(finalDamage);
+
+            Debug.Log(
+                $"기본 데미지: {damage}, 파티 공격력: {partyAttack}, 배율: {damageRatio}, 최종 데미지: {finalDamage}");
         }
 
 
@@ -34,17 +48,4 @@ public class Skill : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, radius);
     }
 
-
-
-
-    void Start()
-    {
-
-    }
-
-
-    void Update()
-    {
-
-    }
 }
