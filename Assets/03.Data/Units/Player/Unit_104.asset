@@ -23,6 +23,7 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 4
   attackSpeed: 1
+  searchRange: 0
   attackRange: 5
   canMelee: 1
   meleeRange: 1.5

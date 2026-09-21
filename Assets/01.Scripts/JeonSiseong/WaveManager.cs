@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class WaveManager : Singleton<WaveManager>
 {
-
+    
     [Header("Boss")]
     [SerializeField] private UnitDataSO bossData;
     [SerializeField] private Transform bossSpawnPoint;
@@ -33,6 +33,7 @@ public class WaveManager : Singleton<WaveManager>
 
     [Header("Wave Data")]
     [SerializeField] WaveData waveData;
+    [SerializeField] StageMonsterDataSO stageMonsterData;
 
     int aliveCount = 0;     // 현재 생존 중인 몬스터 수
     int killCount = 0;      // 현재 웨이브 처치 수 
@@ -178,10 +179,18 @@ public class WaveManager : Singleton<WaveManager>
             return false;
         }
 
+        StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
+        UnitDataSO enemyToSpawn = entry != null ? entry.enemyData : null;
+
+        if(enemyToSpawn == null)
+        {
+            Debug.Log($"Stage {currentStage}에 해당하는 EnemyData가 없습니다");
+            return false;
+        }
 
         int randomIndex = Random.Range(0, spawnPoints.Length);  // 스폰 포인트를 랜덤으로 뽑음
 
-        bool success = spawnPoints[randomIndex].SpawnEnemy();
+        bool success = spawnPoints[randomIndex].SpawnEnemy(enemyToSpawn);
 
         if (success)
         {
@@ -346,6 +355,12 @@ public class WaveManager : Singleton<WaveManager>
         {
             Debug.Log("이미 보스 존재");
             return;
+        }
+
+        StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
+        if (entry != null && entry.bossData != null )
+        {
+            bossData = entry.bossData;
         }
 
         if (bossData == null)

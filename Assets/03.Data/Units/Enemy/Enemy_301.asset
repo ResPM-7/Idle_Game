@@ -19,10 +19,11 @@ MonoBehaviour:
   uiPoolName: Boss
   battlePoolName: Boss
   unitSprite: {fileID: 0}
-  maxHp: 50
+  maxHp: 5000
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
+  searchRange: 0
   attackRange: 5
   canMelee: 1
   meleeRange: 1.5
