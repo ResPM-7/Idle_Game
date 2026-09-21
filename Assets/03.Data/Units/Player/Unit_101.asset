@@ -23,9 +23,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 1
   attackSpeed: 1
+  searchRange: 0
   attackRange: 5
   canMelee: 1
-  meleeRange: 1.5
+  meleeRange: 3
   canRanged: 0
   rangedRange: 5
   projectilePoolName: Projectile_Attack
