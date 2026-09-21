@@ -22,6 +22,7 @@ public class UnitDataSO : ScriptableObject
     public float moveSpeed;
     public float attackDamage;
     public float attackSpeed;
+    public float searchRange;
     public float attackRange;
 
     public bool canMelee = true;
