@@ -8,7 +8,8 @@ public struct StatConfig
     public string statName;             // UI에 표시될 이름
     public float valueIncreasePerLevel; // 1업당 증가량
     public int baseUpgradePrice;        // 기본 강화 비용
-    public int priceIncreasePerLevel;   // 레벨당 비용 증가량
+    [Min(1f)]
+    public float priceMultiplier;// 레벨당 비용 증가량
     //public StatUpgradeItem uiItem;      // 연결할 UI 오브젝트
 }
 
@@ -34,7 +35,7 @@ public class BarracksSystem : MonoBehaviour
                 CurrentValue = 0f,
                 ValueIncreasePerLevel = config.valueIncreasePerLevel,
                 UpgradePrice = config.baseUpgradePrice,
-                PriceIncreasePerLevel = config.priceIncreasePerLevel
+                PriceMultiplier = Mathf.Max(1f, config.priceMultiplier)
             };
 
             statDatabase[config.type] = newData;
