@@ -47,13 +47,21 @@ MonoBehaviour:
   poisonSkillPrefab: {fileID: 0}
   lightningSkillPrefab: {fileID: 0}
   fireSkillPrefab: {fileID: 0}
+  attackBuffSkillPrefab: {fileID: 0}
+  freezeSkillPrefab: {fileID: 0}
   poisonPoolName: Poison
   lightningPoolName: Lightning
   firePoolName: Fire
+  attackBuffPoolName: AttackBuff
+  freezePoolName: Freeze
   poisonCooltime: 8
   lightningCooltime: 5
   fireCooltime: 10
+  attackBuffCooltime: 15
+  freezeCooltime: 12
   skillSpawnPoint: {fileID: 0}
   poisonCooldownImage: {fileID: 0}
   lightningCooldownImage: {fileID: 0}
   fireCooldownImage: {fileID: 0}
+  attackBuffCooldownImage: {fileID: 0}
+  freezeCooldownImage: {fileID: 0}

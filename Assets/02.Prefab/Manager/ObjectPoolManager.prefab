@@ -57,13 +57,25 @@ MonoBehaviour:
     poolSize: 10
   - poolName: Fire
     prefab: {fileID: 467310908342717953, guid: 3ad08d14d2f8b2745aa4a2ffc24e47e3, type: 3}
-    poolSize: 10
+    poolSize: 5
   - poolName: Lightning
     prefab: {fileID: 2261763633164832102, guid: 34fb6409fb8ef104c959a9910144e9c2, type: 3}
-    poolSize: 10
+    poolSize: 5
   - poolName: Poison
     prefab: {fileID: 2220259676657357551, guid: 6b2995635950a174aa2bdd5c423a5030, type: 3}
-    poolSize: 10
+    poolSize: 5
+  - poolName: AttackBuff
+    prefab: {fileID: 3010926347606723163, guid: 14c9fa6027600dd40b6a095ffd427173, type: 3}
+    poolSize: 5
+  - poolName: Freeze
+    prefab: {fileID: 8888592620301257213, guid: eee969898ba9fb849b31da3adc5fa15f, type: 3}
+    poolSize: 5
+  - poolName: Projectile_Attack
+    prefab: {fileID: 491372568394146561, guid: ee9eae241a64a1544bf1f2a23dce2e5d, type: 3}
+    poolSize: 5
+  - poolName: Projectile_Heal
+    prefab: {fileID: 5589688112995409827, guid: 7f9b774887349c94e87fcafd2c161878, type: 3}
+    poolSize: 5
   canvasPools:
   - poolName: UIUnit
     prefab: {fileID: 4829221465037358062, guid: 1a3dd7a64d5d41e4caa0a6118e64214b, type: 3}
