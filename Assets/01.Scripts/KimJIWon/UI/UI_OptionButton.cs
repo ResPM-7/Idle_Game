@@ -7,7 +7,7 @@ public class UI_OptionButton : MonoBehaviour
 
     private void Awake()
     {
-        //ÄÄÆ÷³ÍÆ® ÀÚµ¿ Å½»ö
+        //ì»´í¬ë„ŒíŠ¸ ìë™ íƒìƒ‰
         optionButton = GetComponent<Button>();
 
         if (optionButton != null)
@@ -18,19 +18,20 @@ public class UI_OptionButton : MonoBehaviour
 
     private void OnClickOption()
     {
-        if (UIManager.Instance == null) return;
-
-        Transform popupCanvas = GameObject.Find("Canvas_PopUp")?.transform;
-        if (popupCanvas != null)
+        foreach (var popup in FindObjectsByType<UI_OptionPopup>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
-            Transform optionPopupTrans = popupCanvas.Find("OptionPopup");
-            if (optionPopupTrans != null)
+            if (popup.gameObject.scene != gameObject.scene) continue;
+            if (popup.gameObject.activeSelf) return;
+            foreach (var manager in FindObjectsByType<UI_PopUpManager>(FindObjectsSortMode.None))
             {
-                UIManager.Instance.ShowPopupGameObject(optionPopupTrans.gameObject);
+                if (manager.gameObject.scene != gameObject.scene) continue;
+                manager.ShowPopupGameObject(popup.gameObject);
                 return;
             }
+            popup.Open();
+            return;
         }
 
-        Debug.LogWarning("'OptionPopup'À» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogWarning("'OptionPopup'ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
     }
 }
