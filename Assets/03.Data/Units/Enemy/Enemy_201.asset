@@ -20,12 +20,12 @@ MonoBehaviour:
   unitSprite: {fileID: 0}
   maxHp: 20
   moveSpeed: 0
-  attackDamage: 10
+  attackDamage: 2
   attackSpeed: 1
   attackRange: 5
   defense: 0
   criticalRate: 0
   criticalDamage: 0
-  coin: 0
-  credit: 10
+  coin: 10
+  credit: 0
   nextUpgradeUnits: []
