@@ -13,21 +13,17 @@ public class UnitIdleState : IUnitState
         if (unit.SearchTimer < 0.2f) return;
         unit.SearchTimer = 0f;
 
-        // 유닛이 가진 능력 중 가장 긴 사거리부터 파악
-        float maxSearchRange = 0f;
-        if (unit.MyData.canMelee) maxSearchRange = Mathf.Max(maxSearchRange, unit.MyData.meleeRange);
-        if (unit.MyData.canRanged) maxSearchRange = Mathf.Max(maxSearchRange, unit.MyData.rangedRange);
-        if (unit.MyData.canHeal) maxSearchRange = Mathf.Max(maxSearchRange, unit.MyData.healRange);
-
-        float searchRadius = maxSearchRange * 2f; // 탐색 반경 넉넉하게 2배로 해둠
+        float searchRadius = unit.MyData.searchRange;
         Transform closestTarget = null;
 
         if (unit.MyData.canHeal)
         {
+            // 먼저 힐할 아군을 찾음
             closestTarget = FindTarget(unit, unit.AllyLayer, searchRadius, true);
         }
 
-        if (closestTarget == null && (unit.MyData.canMelee || unit.MyData.canRanged))
+        // 아군을 못 찾았거나, 원래 공격 유닛인 경우 적을 찾음
+        if (closestTarget == null && (unit.MyData.canMelee || unit.MyData.canRanged || unit.MyData.canHeal))
         {
             closestTarget = FindTarget(unit, unit.TargetLayer, searchRadius, false);
         }
