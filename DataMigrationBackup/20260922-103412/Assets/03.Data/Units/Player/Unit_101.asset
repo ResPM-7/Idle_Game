@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_101
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 101
+  unitLevel: 1
+  unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 100
+  moveSpeed: 10
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  meleeRange: 3
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 0
+  criticalRate: 100
+  criticalDamage: 2
+  coin: 0
+  credit: 0
+  nextUpgradeUnits:
+  - {fileID: 11400000, guid: dde605fc40a258b43911ee349661cef5, type: 2}
