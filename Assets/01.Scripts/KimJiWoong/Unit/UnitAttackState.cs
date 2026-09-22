@@ -20,26 +20,28 @@ public class UnitAttackState : IUnitState
 
             float dist = Vector2.Distance(unit.transform.position, targetUnit.transform.position);
             bool isTargetAlly = ((1 << targetUnit.gameObject.layer) & unit.AllyLayer.value) != 0;
+            float validRange = isTargetAlly ? unit.MyData.healRange : unit.MyData.attackRange;
 
-            if (isTargetAlly)
+            if (dist <= validRange)
             {
-                // 아군이고 힐 사거리 내부일 때 투사체 발사
-                if (unit.MyData.canHeal && dist <= unit.MyData.healRange)
+                if (isTargetAlly)
                 {
-                    FireProjectile(unit, targetUnit, finalAmount, true, unit.MyData.healProjectilePoolName);
+                    // 아군 타겟 = 힐
+                    if (unit.MyData.canHeal)
+                    {
+                        FireProjectile(unit, targetUnit, finalAmount, true, unit.MyData.healProjectilePoolName, isCrit);
+                    }
                 }
-            }
-            else
-            {
-                // 적일 경우 거리에 따라 공격 방식 선택
-                if (unit.MyData.canMelee && dist <= unit.MyData.meleeRange)
+                else
                 {
-                    targetUnit.TakeDamage(finalAmount, isCrit);
-                }
-
-                else if (unit.MyData.canRanged && dist <= unit.MyData.rangedRange)
-                {
-                    FireProjectile(unit, targetUnit, finalAmount, false, unit.MyData.projectilePoolName);
+                    if (unit.MyData.canMelee)
+                    {
+                        targetUnit.TakeDamage(finalAmount, isCrit);
+                    }
+                    else if (unit.MyData.canRanged || unit.MyData.canHeal)
+                    {
+                        FireProjectile(unit, targetUnit, finalAmount, false, unit.MyData.projectilePoolName, isCrit);
+                    }
                 }
             }
         }

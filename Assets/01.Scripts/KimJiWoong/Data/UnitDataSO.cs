@@ -26,10 +26,7 @@ public class UnitDataSO : ScriptableObject
     public float attackRange;
 
     public bool canMelee = true;
-    public float meleeRange = 1.5f;
-
     public bool canRanged = false;
-    public float rangedRange = 5f;
     public string projectilePoolName;
 
     public bool canHeal = false;

@@ -23,12 +23,14 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 2
   attackSpeed: 1
+<<<<<<< HEAD:DataMigrationBackup/20260922-103412/Assets/03.Data/Units/Enemy/Enemy_201.asset
   searchRange: 0
+=======
+  searchRange: 99
+>>>>>>> Oh-Yoon-Seo:Assets/03.Data/Units/Enemy/Enemy_201.asset
   attackRange: 5
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: 
   canHeal: 0
   healRange: 5
