@@ -11,10 +11,9 @@ public class GoogleSheetSync : EditorWindow
     // =========================================================
     private const string unitDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=0&single=true&output=csv";
     private const string enemyDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=1042200275&single=true&output=csv";
-    internal const string stageMonsterDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=340714933&single=true&output=csv";
 
     private const string playerSavePath = "Assets/03.Data/Units/Player";
-    internal const string enemySavePath = "Assets/03.Data/Units/Enemy";
+    private const string enemySavePath = "Assets/03.Data/Units/Enemy";
 
     // =========================================================
     // 2. 오브젝트 풀 데이터 세팅
@@ -50,6 +49,7 @@ public class GoogleSheetSync : EditorWindow
                         ParseAndApplyUnitData(enemyReq.downloadHandler.text, enemySavePath, "Enemy_");
 
                         AssetDatabase.SaveAssets();
+                        GameDataTools.Rebuild();
                         AssetDatabase.Refresh();
                         Debug.Log(" 아군 및 적군 유닛 데이터 구글 시트 동기화 완료! (배열 진화 오류 수정됨)");
                     }
@@ -70,6 +70,8 @@ public class GoogleSheetSync : EditorWindow
 
     private static void ParseAndApplyUnitData(string csv, string targetFolderPath, string fileNamePrefix)
     {
+        string groupPath = targetFolderPath + ".asset";
+        UnitDatabase group = AssetDatabase.LoadAssetAtPath<UnitDatabase>(groupPath);
         if (!AssetDatabase.IsValidFolder(targetFolderPath))
         {
             string parent = Path.GetDirectoryName(targetFolderPath).Replace('\\', '/');
@@ -79,6 +81,11 @@ public class GoogleSheetSync : EditorWindow
 
         string[] guids = AssetDatabase.FindAssets("t:UnitDataSO", new[] { targetFolderPath });
         Dictionary<int, UnitDataSO> soDict = new Dictionary<int, UnitDataSO>();
+        if (group != null)
+        {
+            foreach (var unit in fileNamePrefix == "Enemy_" ? group.enemies : group.players)
+                soDict.Add(unit.unitId, unit);
+        }
 
         foreach (string guid in guids)
         {
@@ -110,11 +117,20 @@ public class GoogleSheetSync : EditorWindow
                 targetSO.unitId = id;
 
                 string assetPath = $"{targetFolderPath}/{fileNamePrefix}{id}.asset";
-                AssetDatabase.CreateAsset(targetSO, assetPath);
+                if (group == null) AssetDatabase.CreateAsset(targetSO, assetPath);
+                else
+                {
+                    targetSO.name = fileNamePrefix + id;
+                    AssetDatabase.AddObjectToAsset(targetSO, group);
+                    (fileNamePrefix == "Enemy_" ? group.enemies : group.players).Add(targetSO);
+                    EditorUtility.SetDirty(group);
+                }
                 soDict[id] = targetSO;
             }
 
             targetSO.uiPoolName = values[1];
+            targetSO.team = fileNamePrefix == "Enemy_" ? Team_Test.Enemy : Team_Test.Player;
+            targetSO.nextUpgradeUnits = new UnitDataSO[0];
             targetSO.battlePoolName = values[2];
             targetSO.unitName = unitName;
 
@@ -343,5 +359,4 @@ public class GoogleSheetSync : EditorWindow
         }
         return null;
     }
-
 }

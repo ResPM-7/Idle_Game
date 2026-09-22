@@ -98,7 +98,7 @@ MonoBehaviour:
   attackDamage: 3
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: Projectile_Attack
@@ -136,7 +136,7 @@ MonoBehaviour:
   attackDamage: 2
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: Projectile_Attack
@@ -271,7 +271,7 @@ MonoBehaviour:
   attackDamage: 1
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: Projectile_Attack
@@ -309,7 +309,7 @@ MonoBehaviour:
   attackDamage: 5
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: Projectile_Attack
@@ -350,7 +350,7 @@ MonoBehaviour:
   attackDamage: 4
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: Projectile_Attack
