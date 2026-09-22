@@ -3,11 +3,44 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public static class GameDataTools
 {
     public const string DatabasePath = "Assets/Resources/GameData/UnitDatabase.asset";
+
+    // 스크립트 재컴파일 후 현재 씬에 배치된 서비스가 아직 비어 있을 때만 한 번 연결합니다.
+    // 연결 결과는 씬에 직렬화되므로 게임 실행 중에는 Find를 사용하지 않습니다.
+    [InitializeOnLoadMethod]
+    private static void ScheduleMissingSaveServiceReferences()
+    {
+        EditorApplication.delayCall += BindMissingSaveServiceReferences;
+    }
+
+    private static void BindMissingSaveServiceReferences()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+
+        var service = UnityEngine.Object.FindFirstObjectByType<GameSaveService>();
+        if (service == null || !service.gameObject.scene.IsValid()) return;
+
+        var serialized = new SerializedObject(service);
+        if (serialized.FindProperty("database").objectReferenceValue != null &&
+            serialized.FindProperty("spawner").objectReferenceValue != null &&
+            serialized.FindProperty("barracks").objectReferenceValue != null &&
+            serialized.FindProperty("moneyManager").objectReferenceValue != null &&
+            serialized.FindProperty("waveManager").objectReferenceValue != null &&
+            serialized.FindProperty("barracksManager").objectReferenceValue != null &&
+            serialized.FindProperty("gridUnitFactory").objectReferenceValue != null &&
+            serialized.FindProperty("objectPoolManager").objectReferenceValue != null &&
+            serialized.FindProperty("battleSlotPanel").objectReferenceValue != null &&
+            serialized.FindProperty("party").arraySize > 0)
+            return;
+
+        try { BindSaveServiceReferences(); }
+        catch (Exception ex) { Debug.LogWarning("GameSaveService 참조 자동 연결 대기: " + ex.Message); }
+    }
 
     [MenuItem("Tools/Game Data/Rebuild Unit Database")]
     public static void Rebuild()
@@ -36,6 +69,56 @@ public static class GameDataTools
         EditorUtility.SetDirty(db);
         AssetDatabase.SaveAssets();
         Debug.Log($"UnitDatabase: 아군 {db.players.Count}, 적 {db.enemies.Count}");
+    }
+
+    [MenuItem("Tools/Game Data/Bind Save Service References")]
+    public static void BindSaveServiceReferences()
+    {
+        var service = UnityEngine.Object.FindFirstObjectByType<GameSaveService>();
+        if (service == null)
+            throw new InvalidOperationException("현재 씬에서 GameSaveService를 찾지 못했습니다.");
+
+        var serialized = new SerializedObject(service);
+        SetReference<UnitDatabase>(serialized, "database",
+            AssetDatabase.LoadAssetAtPath<UnitDatabase>(DatabasePath));
+        SetReference<UnitSpawner>(serialized, "spawner");
+        SetReference<BarracksSystem>(serialized, "barracks");
+        SetReference<MoneyManager>(serialized, "moneyManager");
+        SetReference<WaveManager>(serialized, "waveManager");
+        SetReference<BarracksManager>(serialized, "barracksManager");
+        SetReference<GridUnitFactory>(serialized, "gridUnitFactory");
+        SetReference<ObjectPoolManager>(serialized, "objectPoolManager");
+        BattleSlotPanel panel = SetReference<BattleSlotPanel>(serialized, "battleSlotPanel");
+
+        BattleSlotUI[] slots = panel.GetComponentsInChildren<BattleSlotUI>(true)
+            .OrderBy(slot => slot.slotIndex).ToArray();
+        SerializedProperty party = serialized.FindProperty("party");
+        party.arraySize = slots.Length;
+        for (int i = 0; i < slots.Length; i++)
+            party.GetArrayElementAtIndex(i).objectReferenceValue = slots[i];
+
+        serialized.FindProperty("isDontDestroy").boolValue = false;
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+        PrefabUtility.RecordPrefabInstancePropertyModifications(service);
+        EditorSceneManager.MarkSceneDirty(service.gameObject.scene);
+        EditorSceneManager.SaveScene(service.gameObject.scene);
+        Debug.Log($"GameSaveService 참조 연결 완료: 파티 슬롯 {slots.Length}개");
+    }
+
+    // 자동 검증이나 CI에서도 동일한 연결 작업을 실행할 수 있도록 MainScene을 먼저 엽니다.
+    public static void BindSaveServiceReferencesInMainScene()
+    {
+        EditorSceneManager.OpenScene("Assets/00.Scenes/MainScene.unity");
+        BindSaveServiceReferences();
+    }
+
+    private static T SetReference<T>(SerializedObject serialized, string field, T value = null)
+        where T : UnityEngine.Object
+    {
+        if (value == null) value = UnityEngine.Object.FindFirstObjectByType<T>();
+        if (value == null) throw new InvalidOperationException(field + " 참조 대상을 찾지 못했습니다.");
+        serialized.FindProperty(field).objectReferenceValue = value;
+        return value;
     }
 
     // 기존 참조를 보존하기 위해 복제 → 참조 교체 → 원본 백업 순서로 실행합니다.

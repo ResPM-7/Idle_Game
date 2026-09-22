@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d77ca40c7439e43bc8311de384c02c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSaveService
-  isDontDestroy: 1
+  isDontDestroy: 0

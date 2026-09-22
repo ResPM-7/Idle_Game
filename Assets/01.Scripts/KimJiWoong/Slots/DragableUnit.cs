@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    private static int activeDragCount;
+    public static bool IsAnyDragging => activeDragCount > 0;
+
     [Header("데이터 및 UI")]
     public UnitDataSO myData;
     public TextMeshProUGUI levelText;
@@ -13,6 +16,13 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private CanvasGroup canvasGroup;
 
     private bool isValidDrag = false;
+    private bool isCountedAsDragging;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetDragState()
+    {
+        activeDragCount = 0;
+    }
 
     private void Awake()
     {
@@ -27,6 +37,11 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
         if (canvasGroup != null) canvasGroup.blocksRaycasts = true;
         UpdateLevelUI();
+    }
+
+    private void OnDisable()
+    {
+        SetDragging(false);
     }
 
     // 팩토리에서 소환될 때 데이터를 직접 꽂아주는 함수
@@ -78,6 +93,7 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         if (IsLocked()) return;
 
         isValidDrag = true;
+        SetDragging(true);
         originalParent = transform.parent;
 
         if (canvasGroup != null)
@@ -101,6 +117,7 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         if (!isValidDrag) return;
 
         isValidDrag = false;
+        SetDragging(false);
 
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = true;
@@ -125,9 +142,19 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     public void CompleteExternalDrop()
     {
         isValidDrag = false;
+        SetDragging(false);
         originalParent = null;
 
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = true;
+    }
+
+    private void SetDragging(bool dragging)
+    {
+        if (isCountedAsDragging == dragging) return;
+
+        isCountedAsDragging = dragging;
+        activeDragCount += dragging ? 1 : -1;
+        activeDragCount = Mathf.Max(0, activeDragCount);
     }
 }
