@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -34,9 +35,6 @@ public class StageMonsterSync : EditorWindow
 
     private static void ParseAndApplyStageMonsterData(string csv)
     {
-        //Debug.Log("=== RAW CSV START ===\n" + csv + "\n=== RAW CSV END ===");
-
-
         string folder = Path.GetDirectoryName(stageMonsterSavePath).Replace('\\', '/');
         if (!AssetDatabase.IsValidFolder(folder))
         {
@@ -64,6 +62,7 @@ public class StageMonsterSync : EditorWindow
         List<StageMonsterEntry> newEntries = new List<StageMonsterEntry>();
         string[] lines = csv.Split('\n');
 
+        // 시트 컬럼: StartStage, EndStage, EnemyIDs(예: 201/202), BossID
         for (int i = 1; i < lines.Length; i++)
         {
             string line = lines[i].Trim();
@@ -74,21 +73,32 @@ public class StageMonsterSync : EditorWindow
 
             if (!int.TryParse(values[0], out int startStage)) continue;
             if (!int.TryParse(values[1], out int endStage)) continue;
-            if (!int.TryParse(values[2], out int enemyId)) continue;
             if (!int.TryParse(values[3], out int bossId)) continue;
+
+            string[] enemyIdStrs = values[2].Split('/');
+            List<UnitDataSO> pool = new List<UnitDataSO>();
+
+            foreach (string idStr in enemyIdStrs)
+            {
+                if (int.TryParse(idStr.Trim(), out int enemyId))
+                {
+                    if (enemyDict.TryGetValue(enemyId, out UnitDataSO enemySO))
+                    {
+                        pool.Add(enemySO);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[StageMonsterData] {startStage}~{endStage} 구간의 EnemyID {enemyId}를 찾을 수 없습니다.");
+                    }
+                }
+            }
 
             StageMonsterEntry entry = new StageMonsterEntry
             {
                 startStage = startStage,
                 endStage = endStage,
-                enemyId = enemyId,
-                bossId = bossId
+                enemyPool = pool.ToArray()
             };
-
-            if (enemyDict.TryGetValue(enemyId, out UnitDataSO enemySO))
-                entry.enemyData = enemySO;
-            else
-                Debug.LogWarning($"[StageMonsterData] {startStage}~{endStage} 구간의 EnemyID {enemyId}를 찾을 수 없습니다.");
 
             if (enemyDict.TryGetValue(bossId, out UnitDataSO bossSO))
                 entry.bossData = bossSO;

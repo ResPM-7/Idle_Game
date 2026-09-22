@@ -167,10 +167,6 @@ public class WaveManager : Singleton<WaveManager>
         }
     }
 
-
-
-
-
     public bool SpawnEnemy()
     {
         if (spawnPoints == null || spawnPoints.Length == 0)
@@ -180,17 +176,18 @@ public class WaveManager : Singleton<WaveManager>
         }
 
         StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
-        UnitDataSO enemyToSpawn = entry != null ? entry.enemyData : null;
-
-        if(enemyToSpawn == null)
+        if (entry == null || entry.enemyPool == null || entry.enemyPool.Length == 0)
         {
-            Debug.Log($"Stage {currentStage}에 해당하는 EnemyData가 없습니다");
+            Debug.LogWarning($"Stage {currentStage}에 해당하는 EnemyPool이 없습니다.");
             return false;
         }
 
-        int randomIndex = Random.Range(0, spawnPoints.Length);  // 스폰 포인트를 랜덤으로 뽑음
+        UnitDataSO enemyToSpawn = entry.enemyPool[Random.Range(0, entry.enemyPool.Length)];
+        float multiplier = stageMonsterData.GetMultiplierForStage(currentStage);
 
-        bool success = spawnPoints[randomIndex].SpawnEnemy(enemyToSpawn);
+        int randomIndex = Random.Range(0, spawnPoints.Length);
+
+        bool success = spawnPoints[randomIndex].SpawnEnemy(enemyToSpawn, multiplier);
 
         if (success)
         {
@@ -198,9 +195,7 @@ public class WaveManager : Singleton<WaveManager>
         }
 
         return success;
-
     }
-
 
     IEnumerator Spawn()
     {
@@ -358,7 +353,8 @@ public class WaveManager : Singleton<WaveManager>
         }
 
         StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
-        if (entry != null && entry.bossData != null )
+        float bossMultiplier = stageMonsterData.GetMultiplierForStage(currentStage);
+        if (entry != null && entry.bossData != null)
         {
             bossData = entry.bossData;
         }
@@ -386,6 +382,19 @@ public class WaveManager : Singleton<WaveManager>
         }
 
         currentBoss = boss;
+
+        // 배율 증가
+        if (!Mathf.Approximately(bossMultiplier, 1f))
+        {
+            Unit_Base_Test bossStatUnit = currentBoss.GetComponent<Unit_Base_Test>();
+            if (bossStatUnit != null)
+            {
+                bossStatUnit.CurrentMaxHp *= bossMultiplier;
+                bossStatUnit.CurrentHp = bossStatUnit.CurrentMaxHp;
+                bossStatUnit.CurrentDamage *= bossMultiplier;
+                bossStatUnit.CurrentDefense = Mathf.RoundToInt(bossStatUnit.CurrentDefense * bossMultiplier);
+            }
+        }
 
         //보스전 시작
         currentState = WaveState.BossBattle;
