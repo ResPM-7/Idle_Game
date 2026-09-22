@@ -45,7 +45,7 @@ public static class GameDataSmokeTest
                 EditorApplication.Exit(0);
                 return;
             }
-            if (state == 4 && EditorApplication.isPlaying && GameSaveService.Instance != null && GameSaveService.Instance.IsReady)
+            if (state == 4 && EditorApplication.isPlaying && GameSaveService.instance != null && GameSaveService.instance.IsReady)
             {
                 Check(MoneyManager.instance.currentGold == 12345 && MoneyManager.instance.currentCredit == 678, "씬 재진입 재화 자동 복원");
                 Check(PartyBuildManager.instance.GetActiveUnitCount() == 1, "씬 재진입 파티 자동 복원");
@@ -54,9 +54,9 @@ public static class GameDataSmokeTest
                 EditorApplication.ExitPlaymode();
                 return;
             }
-            if (state != 1 || !EditorApplication.isPlaying || GameSaveService.Instance == null || !GameSaveService.Instance.IsReady) return;
+            if (state != 1 || !EditorApplication.isPlaying || GameSaveService.instance == null || !GameSaveService.instance.IsReady) return;
             SessionState.SetInt("GuildSmoke", 3);
-            var service = GameSaveService.Instance;
+            var service = GameSaveService.instance;
             var db = Resources.Load<UnitDatabase>("GameData/UnitDatabase");
             var spawner = UnityEngine.Object.FindFirstObjectByType<UnitSpawner>();
             WaveManager.instance.StageGiveUp();

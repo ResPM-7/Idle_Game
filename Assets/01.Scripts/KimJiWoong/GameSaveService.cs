@@ -10,7 +10,6 @@ using UnityEngine.SceneManagement;
 public class GameSaveService : Singleton<GameSaveService>
 {
     // 기존 대문자 Instance 호출도 부모 싱글톤의 동일한 인스턴스를 사용합니다.
-    public static GameSaveService Instance => instance;
     public bool IsReady => ready;
     public static string SavePath
     {

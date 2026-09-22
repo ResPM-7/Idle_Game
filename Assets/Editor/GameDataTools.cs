@@ -103,9 +103,9 @@ public static class GameDataTools
     }
 
     [MenuItem("Tools/Game Data/Save Play Progress")]
-    public static void Save() { if (GameSaveService.Instance != null) GameSaveService.Instance.SaveNow(); }
+    public static void Save() { if (GameSaveService.instance != null) GameSaveService.instance.SaveNow(); }
     [MenuItem("Tools/Game Data/Load Play Progress")]
-    public static void Load() { if (GameSaveService.Instance != null) GameSaveService.Instance.LoadNow(); }
+    public static void Load() { if (GameSaveService.instance != null) GameSaveService.instance.LoadNow(); }
     [MenuItem("Tools/Game Data/Open Save Folder")]
     public static void OpenFolder() { EditorUtility.RevealInFinder(Application.persistentDataPath); }
 }
