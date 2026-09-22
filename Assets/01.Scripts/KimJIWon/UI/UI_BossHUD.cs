@@ -10,7 +10,7 @@ public class UI_BossHUD : MonoBehaviour
     [SerializeField] private TMP_Text timerText;
 
     [Header("Bars")]
-    [SerializeField] private Image healthFillImage;
+    [SerializeField] private UI_DelayedFillBar healthBar;
     [SerializeField] private Image timerFillImage;
 
     public void Show(
@@ -23,7 +23,7 @@ public class UI_BossHUD : MonoBehaviour
         gameObject.SetActive(true);
 
         SetBossName(bossName);
-        SetHealth(currentHp, maxHp);
+        SetHealthInternal(currentHp, maxHp, true);
         SetTimer(remainingTime, totalTime);
     }
 
@@ -42,13 +42,21 @@ public class UI_BossHUD : MonoBehaviour
 
     public void SetHealth(float currentHp, float maxHp)
     {
+        SetHealthInternal(currentHp, maxHp, false);
+    }
+
+    private void SetHealthInternal(float currentHp, float maxHp, bool immediate)
+    {
         float healthRatio = maxHp > 0f
             ? Mathf.Clamp01(currentHp / maxHp)
             : 0f;
 
-        if (healthFillImage != null)
+        if (healthBar != null)
         {
-            healthFillImage.fillAmount = healthRatio;
+            if (immediate)
+                healthBar.SetValueImmediate(healthRatio);
+            else
+                healthBar.SetValue(healthRatio);
         }
 
         if (healthText != null)
