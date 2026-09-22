@@ -10,21 +10,21 @@ public class BarracksManager : Singleton<BarracksManager>
     public float bonusFlatHp = 10f;
     public float bonusFlatAttack = 10f;
 
-    //±¸µ¶½ÃÀÛ
+    //êµ¬ë…ì‹œì‘
     private void OnEnable()
     {
         Unit_Base_Test.OnUnitSpawned += HandleUnitSpawned;
         Unit_Base_Test.OnUnitDespawned += HandleUnitDespawned;
     }
 
-    //±¸µ¶ÇØÁ¦
+    //êµ¬ë…í•´ì œ
     private void OnDisable()
     {
         Unit_Base_Test.OnUnitSpawned -= HandleUnitSpawned;
         Unit_Base_Test.OnUnitDespawned -= HandleUnitDespawned;
     }
 
-    // ¾÷±×·¹ÀÌµå ¹ßµ¿ ½Ã È£Ãâ
+    // ì—…ê·¸ë ˆì´ë“œ ë°œë™ ì‹œ í˜¸ì¶œ
     public void UpgradeStat(StatType type, float increaseAmount)
     {
         if (!globalBuffs.ContainsKey(type))
@@ -49,7 +49,7 @@ public class BarracksManager : Singleton<BarracksManager>
         {
             if (!activeUnits.Contains(unit)) activeUnits.Add(unit);
 
-            // ¹æ±İ ½ºÆùµÈ À¯´Ö¿¡°Ô´Â '¸ğµç ½ºÅÈ'À» ÇÑ ¹ø¿¡ ¹ß¶óÁİ´Ï´Ù.
+            // ë°©ê¸ˆ ìŠ¤í°ëœ ìœ ë‹›ì—ê²ŒëŠ” 'ëª¨ë“  ìŠ¤íƒ¯'ì„ í•œ ë²ˆì— ë°œë¼ì¤ë‹ˆë‹¤.
             ApplyAllStatsToNewUnit(unit);
         }
     }
@@ -59,23 +59,26 @@ public class BarracksManager : Singleton<BarracksManager>
         if (activeUnits.Contains(unit)) activeUnits.Remove(unit);
     }
 
-    // °« ½ºÆùµÈ À¯´Ö ÃÊ±âÈ­ Àü¿ë
+    // ê°“ ìŠ¤í°ëœ ìœ ë‹› ì´ˆê¸°í™” ì „ìš©
     private void ApplyAllStatsToNewUnit(Unit_Base_Test unit)
     {
         if (unit.MyData == null) return;
 
-        // º´¿µ °­È­±îÁö ¹İ¿µÇÑ ½ÇÁ¦ ÃÖ´ë Ã¼·Â
+        // ë³‘ì˜ ê°•í™”ê¹Œì§€ ë°˜ì˜í•œ ì‹¤ì œ ìµœëŒ€ ì²´ë ¥
         unit.CurrentMaxHp =
             unit.MyData.maxHp + GetBuffValue(StatType.Health);
 
-        // »õ·Î »ı¼ºµÈ À¯´ÖÀº °­È­µÈ ÃÖ´ë Ã¼·ÂÀ¸·Î ½ÃÀÛ
+        // ìƒˆë¡œ ìƒì„±ëœ ìœ ë‹›ì€ ê°•í™”ëœ ìµœëŒ€ ì²´ë ¥ìœ¼ë¡œ ì‹œì‘
         unit.CurrentHp = unit.CurrentMaxHp;
 
         unit.CurrentDamage =
             unit.MyData.attackDamage + GetBuffValue(StatType.Strength);
+        ApplyRealTimeStat(unit, StatType.Defense, 0);
+        ApplyRealTimeStat(unit, StatType.CriticalRate, 0);
+        ApplyRealTimeStat(unit, StatType.CriticalDamage, 0);
     }
 
-    // ÀÌ¹Ì ½Î¿ì°í ÀÖ´Â À¯´Ö ½Ç½Ã°£ °»½Å¿ë
+    // ì´ë¯¸ ì‹¸ìš°ê³  ìˆëŠ” ìœ ë‹› ì‹¤ì‹œê°„ ê°±ì‹ ìš©
     private void ApplyRealTimeStat(Unit_Base_Test unit, StatType type, float amount)
     {
         if (unit.MyData == null) return;
@@ -88,7 +91,7 @@ public class BarracksManager : Singleton<BarracksManager>
                 float newMaxHp =
                     unit.MyData.maxHp + GetBuffValue(StatType.Health);
 
-                // ÇöÀç Ã¼·Â ºñÀ²À» À¯ÁöÇÏ¸ç ÃÖ´ë Ã¼·Â¸¸ °»½Å
+                // í˜„ì¬ ì²´ë ¥ ë¹„ìœ¨ì„ ìœ ì§€í•˜ë©° ìµœëŒ€ ì²´ë ¥ë§Œ ê°±ì‹ 
                 float hpRatio = previousMaxHp > 0f
                     ? unit.CurrentHp / previousMaxHp
                     : 1f;

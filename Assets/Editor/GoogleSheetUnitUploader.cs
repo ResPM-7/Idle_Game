@@ -21,6 +21,8 @@ internal static class GoogleSheetUnitUploader
     internal const string AccessTokenKey = "IdleGame.GoogleSheetUpload.AccessToken";
 
     private static UnityWebRequest activeRequest;
+    internal static bool IsUploading => activeRequest != null;
+    internal static string Status { get; private set; } = string.Empty;
 
     [MenuItem("Tools/3. 구글 시트 업로드 설정")]
     private static void OpenSettings()
@@ -31,6 +33,18 @@ internal static class GoogleSheetUnitUploader
     [MenuItem("Tools/4. 유니티 유닛 데이터 -> 구글 시트 업로드")]
     private static void UploadUnitData()
     {
+        var database = AssetDatabase.LoadAssetAtPath<UnitDatabase>(GameDataTools.DatabasePath);
+        UploadDatabase(database);
+    }
+
+    internal static void UploadDatabase(UnitDatabase database)
+    {
+        if (database == null)
+        {
+            Status = "UnitDatabase를 찾을 수 없습니다.";
+            Debug.LogError(Status);
+            return;
+        }
         if (activeRequest != null)
         {
             Debug.LogWarning("[구글 시트 업로드] 이전 업로드가 아직 진행 중입니다.");
@@ -56,9 +70,19 @@ internal static class GoogleSheetUnitUploader
             return;
         }
 
+        string targets = string.Join(", ", new[]
+        {
+            database.players.Count > 0 ? "UnitData (아군)" : null,
+            database.enemies.Count > 0 ? "EnemyData (적)" : null
+        }.Where(x => x != null));
+        if (targets.Length == 0)
+        {
+            Status = "업로드할 유닛이 없습니다.";
+            return;
+        }
         if (!EditorUtility.DisplayDialog(
                 "구글 시트에 업로드",
-                "현재 Unity의 아군/적군 UnitDataSO 값으로 Google Sheet의 UnitData와 EnemyData 탭을 갱신합니다. 계속할까요?",
+                $"현재 데이터베이스의 전체 목록으로 {targets} 탭을 갱신합니다. 시트의 기존 값이 변경됩니다. 계속할까요?",
                 "업로드",
                 "취소"))
         {
@@ -68,23 +92,24 @@ internal static class GoogleSheetUnitUploader
         SheetUploadRequest payload;
         try
         {
+            var sheets = new List<SheetUploadData>();
+            if (database.players.Count > 0) sheets.Add(BuildSheet("UnitData", database.players));
+            if (database.enemies.Count > 0) sheets.Add(BuildSheet("EnemyData", database.enemies));
             payload = new SheetUploadRequest
             {
                 token = accessToken,
-                sheets = new[]
-                {
-                    BuildSheet("UnitData", PlayerFolder),
-                    BuildSheet("EnemyData", EnemyFolder)
-                }
+                sheets = sheets.ToArray()
             };
         }
         catch (Exception exception)
         {
+            Status = "데이터 검사 실패: " + exception.Message;
             Debug.LogError("[구글 시트 업로드] 데이터 검사 실패: " + exception.Message);
             return;
         }
 
         string json = JsonUtility.ToJson(payload);
+        AssetDatabase.SaveAssets();
         byte[] body = Encoding.UTF8.GetBytes(json);
 
         // 공개 CSV 주소는 읽기 전용이므로 Apps Script 웹 앱에 JSON을 POST합니다.
@@ -99,21 +124,20 @@ internal static class GoogleSheetUnitUploader
 
         UnityWebRequestAsyncOperation operation = activeRequest.SendWebRequest();
         operation.completed += _ => FinishUpload();
+        Status = targets + " 업로드 중…";
         Debug.Log("[구글 시트 업로드] Unity 데이터를 전송하고 있습니다...");
     }
 
-    private static SheetUploadData BuildSheet(string sheetName, string folder)
+    private static SheetUploadData BuildSheet(string sheetName, List<UnitDataSO> source)
     {
-        string[] guids = AssetDatabase.FindAssets("t:UnitDataSO", new[] { folder });
-        List<UnitDataSO> units = guids
-            .Select(AssetDatabase.GUIDToAssetPath)
-            .Select(AssetDatabase.LoadAssetAtPath<UnitDataSO>)
-            .Where(unit => unit != null)
+        if (source.Any(unit => unit == null || unit.unitId <= 0))
+            throw new InvalidOperationException($"{sheetName}: 비어 있거나 ID가 잘못된 유닛이 있습니다.");
+        List<UnitDataSO> units = source
             .OrderBy(unit => unit.unitId)
             .ToList();
 
         if (units.Count == 0)
-            throw new InvalidOperationException($"{folder}에서 UnitDataSO를 찾지 못했습니다.");
+            throw new InvalidOperationException($"{sheetName}에 업로드할 유닛이 없습니다.");
 
         int[] duplicatedIds = units
             .GroupBy(unit => unit.unitId)
@@ -121,7 +145,11 @@ internal static class GoogleSheetUnitUploader
             .Select(group => group.Key)
             .ToArray();
         if (duplicatedIds.Length > 0)
-            throw new InvalidOperationException($"{folder}에 중복 unitId가 있습니다: {string.Join(", ", duplicatedIds)}");
+            throw new InvalidOperationException($"{sheetName}에 중복 unitId가 있습니다: {string.Join(", ", duplicatedIds)}");
+
+        foreach (var unit in units)
+            if (unit.nextUpgradeUnits != null && unit.nextUpgradeUnits.Any(next => next == null || !units.Contains(next)))
+                throw new InvalidOperationException($"{unit.unitId}: 진화 대상이 해당 시트 목록에 없습니다.");
 
         // 1행 변수명과 2행 자료형은 현재 Google Sheet 형식을 그대로 유지합니다.
         string[] headers =
@@ -192,6 +220,7 @@ internal static class GoogleSheetUnitUploader
         {
             if (request.result != UnityWebRequest.Result.Success)
             {
+                Status = "업로드 실패: " + request.error;
                 Debug.LogError($"[구글 시트 업로드] 통신 실패: {request.error}\n{request.downloadHandler?.text}");
                 return;
             }
@@ -201,11 +230,18 @@ internal static class GoogleSheetUnitUploader
             if (response == null || !response.success)
             {
                 string message = response == null ? responseText : response.message;
+                Status = "시트 갱신 실패: " + message;
                 Debug.LogError("[구글 시트 업로드] 시트 갱신 실패: " + message);
                 return;
             }
 
+            Status = "업로드 완료: " + response.message;
             Debug.Log("[구글 시트 업로드] 완료: " + response.message);
+        }
+        catch (Exception exception)
+        {
+            Status = "업로드 응답 처리 실패: " + exception.Message;
+            Debug.LogError(Status);
         }
         finally
         {

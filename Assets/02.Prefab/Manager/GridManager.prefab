@@ -45,10 +45,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSpawner
   gridPanel: {fileID: 0}
-  baseUnitData: {fileID: 11400000, guid: 1db63748386e98f45b6a5e9804a595ee, type: 2}
+  baseUnitData: {fileID: 2443524085047685643, guid: ab79b4ab1b33b5845ad5057e37bd7d35, type: 2}
   upgradedSpawnData:
-  - {fileID: 11400000, guid: dde605fc40a258b43911ee349661cef5, type: 2}
-  - {fileID: 11400000, guid: e0b6451f24d9de64694eabb41c26e11c, type: 2}
-  - {fileID: 11400000, guid: 2359025f22c5c024ab9f2e13c9bf4157, type: 2}
-  - {fileID: 11400000, guid: 67204a074355d624cb9365f6d8ac742e, type: 2}
+  - {fileID: -2218967168668622336, guid: ab79b4ab1b33b5845ad5057e37bd7d35, type: 2}
+  - {fileID: -2777291789800658952, guid: ab79b4ab1b33b5845ad5057e37bd7d35, type: 2}
+  - {fileID: 5065207610665848539, guid: ab79b4ab1b33b5845ad5057e37bd7d35, type: 2}
+  - {fileID: 2753977287467367391, guid: ab79b4ab1b33b5845ad5057e37bd7d35, type: 2}
   spawnCost: 10
+  guildLevel: 1
+  basePromotionCost: 100
+  promotionCostMultiplier: 1.5
+  guildPromotionButton: {fileID: 0}
+  guildLevelText: {fileID: 0}
+  promotionCostText: {fileID: 0}
+  summonUnitText: {fileID: 0}

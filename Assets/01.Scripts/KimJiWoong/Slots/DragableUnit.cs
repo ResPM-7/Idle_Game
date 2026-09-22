@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [Header("µ¥ÀÌÅÍ ¹× UI")]
+    [Header("ë°ì´í„° ë° UI")]
     public UnitDataSO myData;
     public TextMeshProUGUI levelText;
 
@@ -21,11 +21,15 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     private void OnEnable()
     {
+        // í’€ì—ì„œ ë‹¤ì‹œ êº¼ë‚¸ ìœ ë‹›ì´ ì´ì „ ë“œë˜ê·¸ ìƒíƒœë¥¼ ìœ ì§€í•˜ì§€ ì•Šë„ë¡ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
+        isValidDrag = false;
+        originalParent = null;
+
         if (canvasGroup != null) canvasGroup.blocksRaycasts = true;
         UpdateLevelUI();
     }
 
-    // ÆÑÅä¸®¿¡¼­ ¼ÒÈ¯µÉ ¶§ µ¥ÀÌÅÍ¸¦ Á÷Á¢ ²È¾ÆÁÖ´Â ÇÔ¼ö
+    // íŒ©í† ë¦¬ì—ì„œ ì†Œí™˜ë  ë•Œ ë°ì´í„°ë¥¼ ì§ì ‘ ê½‚ì•„ì£¼ëŠ” í•¨ìˆ˜
     public void InitializeByData(UnitDataSO newData)
     {
         myData = newData;
@@ -34,7 +38,7 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void LevelUp()
     {
-        UnitDataSO nextData = myData.GetNextUpgradeUnit(); // ·£´ı ÁøÈ­ ÇÔ¼ö È£Ãâ
+        UnitDataSO nextData = myData.GetNextUpgradeUnit(); // ëœë¤ ì§„í™” í•¨ìˆ˜ í˜¸ì¶œ
 
         if (nextData != null)
         {
@@ -43,7 +47,7 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
         else
         {
-            Debug.Log("´õ ÀÌ»ó ÁøÈ­ÇÒ ¼ö ¾ø´Â ÃÖÁ¾ ÇüÅÂÀÔ´Ï´Ù!");
+            Debug.Log("ë” ì´ìƒ ì§„í™”í•  ìˆ˜ ì—†ëŠ” ìµœì¢… í˜•íƒœì…ë‹ˆë‹¤!");
         }
     }
 
@@ -59,18 +63,18 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         bool isInBattleSlot = GetComponentInParent<BattleSlotUI>() != null;
 
-        // ¹èÆ² ½½·Ô¿¡ ÀÖ°í && ÀüÅõ°¡ ÁøÇà Áß(!stageGiveUp)ÀÌ¶ó¸é Á¶ÀÛ ºÒ°¡(true)
+        // ë°°í‹€ ìŠ¬ë¡¯ì— ìˆê³  && ì „íˆ¬ê°€ ì§„í–‰ ì¤‘(!stageGiveUp)ì´ë¼ë©´ ì¡°ì‘ ë¶ˆê°€(true)
         if (isInBattleSlot && WaveManager.instance != null && !WaveManager.instance.stageGiveUp)
         {
             return true;
         }
-        return false; // ±× ¿Ü(±×¸®µå¿¡ ÀÖ°Å³ª, ÀüÅõ Á¤Áö Áß)¿¡´Â ¸ğµÎ Á¶ÀÛ °¡´É(false)
+        return false; // ê·¸ ì™¸(ê·¸ë¦¬ë“œì— ìˆê±°ë‚˜, ì „íˆ¬ ì •ì§€ ì¤‘)ì—ëŠ” ëª¨ë‘ ì¡°ì‘ ê°€ëŠ¥(false)
     }
 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // ÀüÅõ ÁßÀÌ¸é »õ µå·¡±× ½ÃÀÛ ÀÚÃ¼¸¦ ¸·À½
+        // ì „íˆ¬ ì¤‘ì´ë©´ ìƒˆ ë“œë˜ê·¸ ì‹œì‘ ìì²´ë¥¼ ë§‰ìŒ
         if (IsLocked()) return;
 
         isValidDrag = true;
@@ -85,7 +89,7 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnDrag(PointerEventData eventData)
     {
-        // ÀÌ¹Ì ½ÃÀÛµÈ µå·¡±×¸¸ ¿òÁ÷ÀÓ
+        // ì´ë¯¸ ì‹œì‘ëœ ë“œë˜ê·¸ë§Œ ì›€ì§ì„
         if (!isValidDrag) return;
 
         transform.position = eventData.position;
@@ -93,7 +97,7 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // µå·¡±×¸¦ ½ÃÀÛÇÏÁö ¸øÇß´Ù¸é Ã³¸®ÇÒ °Í ¾øÀ½
+        // ë“œë˜ê·¸ë¥¼ ì‹œì‘í•˜ì§€ ëª»í–ˆë‹¤ë©´ ì²˜ë¦¬í•  ê²ƒ ì—†ìŒ
         if (!isValidDrag) return;
 
         isValidDrag = false;
@@ -101,8 +105,8 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = true;
 
-        // ÀÏ½ÃÁ¤Áö ÇØÁ¦ µîÀ¸·Î ÀüÅõ »óÅÂ°¡ ¹Ù²î¾ú¾îµµ,
-        // root¿¡ ³²Àº À¯´ÖÀº ¹İµå½Ã ¿ø·¡ ½½·ÔÀ¸·Î º¹±Í½ÃÅ´
+        // ì¼ì‹œì •ì§€ í•´ì œ ë“±ìœ¼ë¡œ ì „íˆ¬ ìƒíƒœê°€ ë°”ë€Œì—ˆì–´ë„,
+        // rootì— ë‚¨ì€ ìœ ë‹›ì€ ë°˜ë“œì‹œ ì›ë˜ ìŠ¬ë¡¯ìœ¼ë¡œ ë³µê·€ì‹œí‚´
         if (gameObject.activeSelf &&
             transform.parent == transform.root &&
             originalParent != null)
@@ -112,5 +116,18 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
 
         originalParent = null;
+    }
+
+    /// <summary>
+    /// ì“°ë ˆê¸°í†µ íŒë§¤ì²˜ëŸ¼ ì¼ë°˜ ìŠ¬ë¡¯ ë“œë¡­ì´ ì•„ë‹Œ ê³³ì—ì„œ ë“œë˜ê·¸ë¥¼ ì™„ë£Œí•  ë•Œ í˜¸ì¶œí•©ë‹ˆë‹¤.
+    /// íŒë§¤ëœ ìœ ë‹›ì´ OnEndDragì—ì„œ ì›ë˜ ìŠ¬ë¡¯ìœ¼ë¡œ ëŒì•„ê°€ëŠ” ê²ƒì„ ë§‰ìŠµë‹ˆë‹¤.
+    /// </summary>
+    public void CompleteExternalDrop()
+    {
+        isValidDrag = false;
+        originalParent = null;
+
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = true;
     }
 }

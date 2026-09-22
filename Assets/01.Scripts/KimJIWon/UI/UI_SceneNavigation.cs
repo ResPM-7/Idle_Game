@@ -22,6 +22,8 @@ public class UI_SceneNavigation : MonoBehaviour
             return;
         }
         loading = true;
+        // 씬 오브젝트가 파괴되기 전에 마지막 편성/재화를 저장합니다.
+        if (GameSaveService.instance != null) GameSaveService.instance.SaveNow();
         float previousScale = Time.timeScale;
         Time.timeScale = 1f;
         try
@@ -39,6 +41,7 @@ public class UI_SceneNavigation : MonoBehaviour
 
     public void QuitGame()
     {
+        if (GameSaveService.instance != null) GameSaveService.instance.SaveNow();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
