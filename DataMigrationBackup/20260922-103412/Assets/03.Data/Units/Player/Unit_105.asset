@@ -23,7 +23,11 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 5
   attackSpeed: 1
+<<<<<<< HEAD:DataMigrationBackup/20260922-103412/Assets/03.Data/Units/Player/Unit_105.asset
   searchRange: 99
+=======
+  searchRange: 0
+>>>>>>> Jeon-Si-Seong:Assets/03.Data/Units/Player/Unit_105.asset
   attackRange: 5
   canMelee: 1
   canRanged: 0

@@ -10,35 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
-  m_Name: Unit_101
+  m_Name: Enemy_302
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
-  unitId: 101
+  unitId: 302
   unitLevel: 1
-  unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
-  team: 0
-  uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
   unitSprite: {fileID: 0}
-  maxHp: 100
-  moveSpeed: 10
+  maxHp: 60
+  moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-<<<<<<< HEAD:DataMigrationBackup/20260922-103412/Assets/03.Data/Units/Player/Unit_101.asset
-  searchRange: 99
-=======
   searchRange: 0
->>>>>>> Jeon-Si-Seong:Assets/03.Data/Units/Player/Unit_101.asset
   attackRange: 5
   canMelee: 1
+  meleeRange: 1.5
   canRanged: 0
-  projectilePoolName: Projectile_Attack
+  rangedRange: 5
+  projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: Projectile_Heal
+  healProjectilePoolName: 
   defense: 0
-  criticalRate: 100
-  criticalDamage: 2
+  criticalRate: 0
+  criticalDamage: 0
   coin: 0
-  credit: 0
-  nextUpgradeUnits:
-  - {fileID: 11400000, guid: dde605fc40a258b43911ee349661cef5, type: 2}
+  credit: 50
+  nextUpgradeUnits: []

@@ -7,16 +7,17 @@ using System.IO;
 public class GoogleSheetSync : EditorWindow
 {
     // =========================================================
-    // 1. ìœ ë‹› ë°ì´í„° ì„¸íŒ… (ì•„êµ° & ì êµ° ë¶„ë¦¬)
+    // 1. À¯´Ö µ¥ÀÌÅÍ ¼¼ÆÃ (¾Æ±º & Àû±º ºĞ¸®)
     // =========================================================
     private const string unitDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=0&single=true&output=csv";
     private const string enemyDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=1042200275&single=true&output=csv";
+    internal const string stageMonsterDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=340714933&single=true&output=csv";
 
     private const string playerSavePath = "Assets/03.Data/Units/Player";
-    private const string enemySavePath = "Assets/03.Data/Units/Enemy";
+    internal const string enemySavePath = "Assets/03.Data/Units/Enemy";
 
     // =========================================================
-    // 2. ì˜¤ë¸Œì íŠ¸ í’€ ë°ì´í„° ì„¸íŒ…
+    // 2. ¿ÀºêÁ§Æ® Ç® µ¥ÀÌÅÍ ¼¼ÆÃ
     // =========================================================
     private const string objectPoolDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=1927439287&single=true&output=csv";
     private const string canvasPoolDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=620845422&single=true&output=csv";
@@ -25,9 +26,9 @@ public class GoogleSheetSync : EditorWindow
     private const string poolPrefabFolder = "Assets/02.Prefab/ObjectPool";
 
     // =========================================================
-    // ìœ ë‹› ë°ì´í„° ë™ê¸°í™” (ì•„êµ° + ì êµ°)
+    // À¯´Ö µ¥ÀÌÅÍ µ¿±âÈ­ (¾Æ±º + Àû±º)
     // =========================================================
-    [MenuItem("Tools/1. êµ¬ê¸€ ì‹œíŠ¸ ë™ê¸°í™” (ìœ ë‹› ë°ì´í„° í†µí•©)")]
+    [MenuItem("Tools/1. ±¸±Û ½ÃÆ® µ¿±âÈ­ (À¯´Ö µ¥ÀÌÅÍ ÅëÇÕ)")]
     public static void SyncData()
     {
         var playerReq = UnityWebRequest.Get(unitDataUrl);
@@ -49,20 +50,19 @@ public class GoogleSheetSync : EditorWindow
                         ParseAndApplyUnitData(enemyReq.downloadHandler.text, enemySavePath, "Enemy_");
 
                         AssetDatabase.SaveAssets();
-                        GameDataTools.Rebuild();
                         AssetDatabase.Refresh();
-                        Debug.Log(" ì•„êµ° ë° ì êµ° ìœ ë‹› ë°ì´í„° êµ¬ê¸€ ì‹œíŠ¸ ë™ê¸°í™” ì™„ë£Œ! (ë°°ì—´ ì§„í™” ì˜¤ë¥˜ ìˆ˜ì •ë¨)");
+                        Debug.Log(" ¾Æ±º ¹× Àû±º À¯´Ö µ¥ÀÌÅÍ ±¸±Û ½ÃÆ® µ¿±âÈ­ ¿Ï·á! (¹è¿­ ÁøÈ­ ¿À·ù ¼öÁ¤µÊ)");
                     }
                     else
                     {
-                        Debug.LogError("ì êµ° ë™ê¸°í™” ì‹¤íŒ¨: " + enemyReq.error);
+                        Debug.LogError("Àû±º µ¿±âÈ­ ½ÇÆĞ: " + enemyReq.error);
                     }
                     enemyReq.Dispose();
                 };
             }
             else
             {
-                Debug.LogError("ì•„êµ° ë™ê¸°í™” ì‹¤íŒ¨: " + playerReq.error);
+                Debug.LogError("¾Æ±º µ¿±âÈ­ ½ÇÆĞ: " + playerReq.error);
             }
             playerReq.Dispose();
         };
@@ -70,8 +70,6 @@ public class GoogleSheetSync : EditorWindow
 
     private static void ParseAndApplyUnitData(string csv, string targetFolderPath, string fileNamePrefix)
     {
-        string groupPath = targetFolderPath + ".asset";
-        UnitDatabase group = AssetDatabase.LoadAssetAtPath<UnitDatabase>(groupPath);
         if (!AssetDatabase.IsValidFolder(targetFolderPath))
         {
             string parent = Path.GetDirectoryName(targetFolderPath).Replace('\\', '/');
@@ -81,11 +79,6 @@ public class GoogleSheetSync : EditorWindow
 
         string[] guids = AssetDatabase.FindAssets("t:UnitDataSO", new[] { targetFolderPath });
         Dictionary<int, UnitDataSO> soDict = new Dictionary<int, UnitDataSO>();
-        if (group != null)
-        {
-            foreach (var unit in fileNamePrefix == "Enemy_" ? group.enemies : group.players)
-                soDict.Add(unit.unitId, unit);
-        }
 
         foreach (string guid in guids)
         {
@@ -117,20 +110,11 @@ public class GoogleSheetSync : EditorWindow
                 targetSO.unitId = id;
 
                 string assetPath = $"{targetFolderPath}/{fileNamePrefix}{id}.asset";
-                if (group == null) AssetDatabase.CreateAsset(targetSO, assetPath);
-                else
-                {
-                    targetSO.name = fileNamePrefix + id;
-                    AssetDatabase.AddObjectToAsset(targetSO, group);
-                    (fileNamePrefix == "Enemy_" ? group.enemies : group.players).Add(targetSO);
-                    EditorUtility.SetDirty(group);
-                }
+                AssetDatabase.CreateAsset(targetSO, assetPath);
                 soDict[id] = targetSO;
             }
 
             targetSO.uiPoolName = values[1];
-            targetSO.team = fileNamePrefix == "Enemy_" ? Team_Test.Enemy : Team_Test.Player;
-            targetSO.nextUpgradeUnits = new UnitDataSO[0];
             targetSO.battlePoolName = values[2];
             targetSO.unitName = unitName;
 
@@ -147,12 +131,12 @@ public class GoogleSheetSync : EditorWindow
             int.TryParse(values[13], out targetSO.coin);
             int.TryParse(values[14], out targetSO.credit);
 
-            // ë‹¤ì¤‘ ì„ íƒ ë°ì´í„° ì¡°ë¦½ ë¡œì§
-            // ì‰¼í‘œ ë•Œë¬¸ì— ìª¼ê°œì ¸ë²„ë¦° 15ë²ˆ ì¸ë±ìŠ¤ë¶€í„° ëê¹Œì§€ì˜ ëª¨ë“  í…ìŠ¤íŠ¸ë¥¼ ë‹¤ì‹œ í•˜ë‚˜ë¡œ ë¬¶ì–´ì¤ë‹ˆë‹¤.
+            // ´ÙÁß ¼±ÅÃ µ¥ÀÌÅÍ Á¶¸³ ·ÎÁ÷
+            // ½°Ç¥ ¶§¹®¿¡ ÂÉ°³Á®¹ö¸° 15¹ø ÀÎµ¦½ººÎÅÍ ³¡±îÁöÀÇ ¸ğµç ÅØ½ºÆ®¸¦ ´Ù½Ã ÇÏ³ª·Î ¹­¾îÁİ´Ï´Ù.
             if (values.Length > 15)
             {
                 string joinedIds = string.Join(",", values, 15, values.Length - 15);
-                joinedIds = joinedIds.Replace("\"", ""); // êµ¬ê¸€ ì‹œíŠ¸ê°€ ì–µì§€ë¡œ ë„£ì€ í°ë”°ì˜´í‘œ ì œê±°
+                joinedIds = joinedIds.Replace("\"", ""); // ±¸±Û ½ÃÆ®°¡ ¾ïÁö·Î ³ÖÀº Å«µû¿ÈÇ¥ Á¦°Å
 
                 if (!string.IsNullOrWhiteSpace(joinedIds))
                 {
@@ -181,7 +165,7 @@ public class GoogleSheetSync : EditorWindow
                     }
                     else
                     {
-                        Debug.LogWarning($"[ë™ê¸°í™” ê²½ê³ ] {currentSO.unitName}ì˜ ì§„í™” ëŒ€ìƒì¸ {nextId}ë²ˆ ìœ ë‹›ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+                        Debug.LogWarning($"[µ¿±âÈ­ °æ°í] {currentSO.unitName}ÀÇ ÁøÈ­ ´ë»óÀÎ {nextId}¹ø À¯´ÖÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
                     }
                 }
             }
@@ -192,9 +176,9 @@ public class GoogleSheetSync : EditorWindow
     }
 
     // =========================================================
-    // ì˜¤ë¸Œì íŠ¸ í’€ ë°ì´í„° ë™ê¸°í™”
+    // ¿ÀºêÁ§Æ® Ç® µ¥ÀÌÅÍ µ¿±âÈ­
     // =========================================================
-    [MenuItem("Tools/2. êµ¬ê¸€ ì‹œíŠ¸ ë™ê¸°í™” (ì˜¤ë¸Œì íŠ¸ í’€ ì‚¬ì´ì¦ˆ)")]
+    [MenuItem("Tools/2. ±¸±Û ½ÃÆ® µ¿±âÈ­ (¿ÀºêÁ§Æ® Ç® »çÀÌÁî)")]
     public static void SyncPoolData()
     {
         var requestObj = UnityWebRequest.Get(objectPoolDataUrl);
@@ -217,14 +201,14 @@ public class GoogleSheetSync : EditorWindow
                     }
                     else
                     {
-                        Debug.LogError("ìº”ë²„ìŠ¤ í’€ ë°ì´í„° ë™ê¸°í™” ì‹¤íŒ¨: " + requestCanvas.error);
+                        Debug.LogError("Äµ¹ö½º Ç® µ¥ÀÌÅÍ µ¿±âÈ­ ½ÇÆĞ: " + requestCanvas.error);
                     }
                     requestCanvas.Dispose();
                 };
             }
             else
             {
-                Debug.LogError("ì¼ë°˜ ì˜¤ë¸Œì íŠ¸ í’€ ë°ì´í„° ë™ê¸°í™” ì‹¤íŒ¨: " + requestObj.error);
+                Debug.LogError("ÀÏ¹İ ¿ÀºêÁ§Æ® Ç® µ¥ÀÌÅÍ µ¿±âÈ­ ½ÇÆĞ: " + requestObj.error);
             }
             requestObj.Dispose();
         };
@@ -238,7 +222,7 @@ public class GoogleSheetSync : EditorWindow
         ObjectPoolManager manager = prefab.GetComponent<ObjectPoolManager>();
         if (manager == null) return;
 
-        // --- 1. ì¼ë°˜ ì˜¤ë¸Œì íŠ¸ í’€ ì™„ì „ ë™ê¸°í™” ---
+        // --- 1. ÀÏ¹İ ¿ÀºêÁ§Æ® Ç® ¿ÏÀü µ¿±âÈ­ ---
         string[] objLines = objCsv.Split('\n');
         HashSet<string> validObjPools = new HashSet<string>();
 
@@ -289,7 +273,7 @@ public class GoogleSheetSync : EditorWindow
             }
         }
 
-        // --- 2. ìº”ë²„ìŠ¤ í’€ ì™„ì „ ë™ê¸°í™” ---
+        // --- 2. Äµ¹ö½º Ç® ¿ÏÀü µ¿±âÈ­ ---
         string[] canvasLines = canvasCsv.Split('\n');
         HashSet<string> validCanvasPools = new HashSet<string>();
 
@@ -343,7 +327,7 @@ public class GoogleSheetSync : EditorWindow
         EditorUtility.SetDirty(prefab);
         PrefabUtility.SavePrefabAsset(prefab);
         AssetDatabase.Refresh();
-        Debug.Log(" ì˜¤ë¸Œì íŠ¸ í’€ ì‚¬ì´ì¦ˆ êµ¬ê¸€ ì‹œíŠ¸ ë™ê¸°í™” ì™„ë£Œ!");
+        Debug.Log(" ¿ÀºêÁ§Æ® Ç® »çÀÌÁî ±¸±Û ½ÃÆ® µ¿±âÈ­ ¿Ï·á!");
     }
 
     private static GameObject FindPrefabByName(string prefabName)
@@ -359,4 +343,5 @@ public class GoogleSheetSync : EditorWindow
         }
         return null;
     }
+
 }

@@ -100,14 +100,14 @@ public class TowerWaveManager : MonoBehaviour
 
 
 
-    public void SpawnEnemy()
-    {
-        int randomIndex = Random.Range(0, spawnPoints.Length);  // 스폰 포인트를 랜덤으로 뽑음
+    //public void SpawnEnemy()
+    //{
+    //    int randomIndex = Random.Range(0, spawnPoints.Length);  // 스폰 포인트를 랜덤으로 뽑음
 
-        spawnPoints[randomIndex].SpawnEnemy();
+    //    spawnPoints[randomIndex].SpawnEnemy();
 
-        aliveCount++;
-    }
+    //    aliveCount++;
+    //}
 
 
     IEnumerator Spawn()
@@ -121,7 +121,7 @@ public class TowerWaveManager : MonoBehaviour
 
             if (!waitingForBoss && aliveCount < maxAliveCount && spawnedCount < target)
             {
-                SpawnEnemy();
+                //SpawnEnemy();
                 spawnedCount++;
             }
 

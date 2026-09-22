@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class WaveManager : Singleton<WaveManager>
 {
-
+    
     [Header("Boss")]
     [SerializeField] private UnitDataSO bossData;
     [SerializeField] private Transform bossSpawnPoint;
@@ -33,6 +33,7 @@ public class WaveManager : Singleton<WaveManager>
 
     [Header("Wave Data")]
     [SerializeField] WaveData waveData;
+    [SerializeField] StageMonsterDataSO stageMonsterData;
 
     int aliveCount = 0;     // í˜„ì¬ ìƒì¡´ ì¤‘ì¸ ëª¬ìŠ¤í„° ìˆ˜
     int killCount = 0;      // í˜„ì¬ ì›¨ì´ë¸Œ ì²˜ì¹˜ ìˆ˜
@@ -174,10 +175,6 @@ public class WaveManager : Singleton<WaveManager>
         }
     }
 
-
-
-
-
     public bool SpawnEnemy()
     {
         if (spawnPoints == null || spawnPoints.Length == 0)
@@ -186,10 +183,23 @@ public class WaveManager : Singleton<WaveManager>
             return false;
         }
 
+        StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
+        if (entry == null || entry.enemyPool == null || entry.enemyPool.Length == 0)
+        {
+            Debug.LogWarning($"Stage {currentStage}¿¡ ÇØ´çÇÏ´Â EnemyPoolÀÌ ¾ø½À´Ï´Ù.");
+            return false;
+        }
 
+<<<<<<< HEAD
         int randomIndex = Random.Range(0, spawnPoints.Length);  // ìŠ¤í° í¬ì¸íŠ¸ë¥¼ ëœë¤ìœ¼ë¡œ ë½‘ìŒ
+=======
+        UnitDataSO enemyToSpawn = entry.enemyPool[Random.Range(0, entry.enemyPool.Length)];
+        float multiplier = stageMonsterData.GetMultiplierForStage(currentStage);
+>>>>>>> Jeon-Si-Seong
 
-        bool success = spawnPoints[randomIndex].SpawnEnemy();
+        int randomIndex = Random.Range(0, spawnPoints.Length);
+
+        bool success = spawnPoints[randomIndex].SpawnEnemy(enemyToSpawn, multiplier);
 
         if (success)
         {
@@ -197,9 +207,7 @@ public class WaveManager : Singleton<WaveManager>
         }
 
         return success;
-
     }
-
 
     IEnumerator Spawn()
     {
@@ -356,6 +364,13 @@ public class WaveManager : Singleton<WaveManager>
             return;
         }
 
+        StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
+        float bossMultiplier = stageMonsterData.GetMultiplierForStage(currentStage);
+        if (entry != null && entry.bossData != null)
+        {
+            bossData = entry.bossData;
+        }
+
         if (bossData == null)
         {
             Debug.LogWarning("WaveManagerì˜ Boss Dataê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
@@ -380,7 +395,24 @@ public class WaveManager : Singleton<WaveManager>
 
         currentBoss = boss;
 
+<<<<<<< HEAD
         //ë³´ìŠ¤ì „ ì‹œì‘
+=======
+        // ¹èÀ² Áõ°¡
+        if (!Mathf.Approximately(bossMultiplier, 1f))
+        {
+            Unit_Base_Test bossStatUnit = currentBoss.GetComponent<Unit_Base_Test>();
+            if (bossStatUnit != null)
+            {
+                bossStatUnit.CurrentMaxHp *= bossMultiplier;
+                bossStatUnit.CurrentHp = bossStatUnit.CurrentMaxHp;
+                bossStatUnit.CurrentDamage *= bossMultiplier;
+                bossStatUnit.CurrentDefense = Mathf.RoundToInt(bossStatUnit.CurrentDefense * bossMultiplier);
+            }
+        }
+
+        //º¸½ºÀü ½ÃÀÛ
+>>>>>>> Jeon-Si-Seong
         currentState = WaveState.BossBattle;
         bossFinish = false;
 
