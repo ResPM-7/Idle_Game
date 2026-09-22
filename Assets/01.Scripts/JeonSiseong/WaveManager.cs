@@ -401,6 +401,7 @@ public class WaveManager : Singleton<WaveManager>
                 bossStatUnit.CurrentHp = bossStatUnit.CurrentMaxHp;
                 bossStatUnit.CurrentDamage *= bossMultiplier;
                 bossStatUnit.CurrentDefense = Mathf.RoundToInt(bossStatUnit.CurrentDefense * bossMultiplier);
+                bossStatUnit.StatMultiplier = bossMultiplier;
             }
         }
 

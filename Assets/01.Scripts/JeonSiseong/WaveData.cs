@@ -19,10 +19,4 @@ public class WaveData : ScriptableObject
     public float spawnInterval = 1.2f;
     public int maxAliveCount = 6;
 
-
-
-
-
-
-
 }

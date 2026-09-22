@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class UnitDestroyedState : IUnitState
 {
     public void Enter(Unit_Base_Test unit)
@@ -6,7 +8,10 @@ public class UnitDestroyedState : IUnitState
 
         if (unit.MyData != null && MoneyManager.instance != null)
         {
-            MoneyManager.instance.AddGold(unit.MyData.coin);
+            int coinReward = Mathf.RoundToInt(unit.MyData.coin * unit.StatMultiplier);
+
+            MoneyManager.instance.AddGold(coinReward);
+            //MoneyManager.instance.AddGold(unit.MyData.coin);
             MoneyManager.instance.AddCredit(unit.MyData.credit);
         }
 
