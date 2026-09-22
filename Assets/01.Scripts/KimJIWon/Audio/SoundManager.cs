@@ -145,10 +145,7 @@ public class SoundManager : Singleton<SoundManager>
         source.volume = sound.Volume;
         source.pitch = 1f;
 
-        source.outputAudioMixerGroup =
-            sound.Category == SoundCategory.UI
-                ? uiGroup
-                : gameplayGroup;
+        source.outputAudioMixerGroup = sound.Category == SoundCategory.UI ? uiGroup : gameplayGroup;
 
         source.Play();
     }
