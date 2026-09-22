@@ -3947,6 +3947,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeTab
   contentTransform: {fileID: 942043881072365248}
   itemPrefab: {fileID: 8870875553095282495, guid: beb41ffa55f0abf40ab1373a84f9edf9, type: 3}
+  statIcons:
+  - statType: 0
+    icon: {fileID: -5118780443612325213, guid: a06b534f050a7d140a9b6808495d95e4, type: 3}
+  - statType: 1
+    icon: {fileID: 7926379242869924613, guid: 07bb09de631daa947b8efcf22596de02, type: 3}
+  - statType: 2
+    icon: {fileID: -3282710074867718681, guid: 01154d8122399fa4fb3e3d1fb5488aaa, type: 3}
+  - statType: 3
+    icon: {fileID: -703457753271872456, guid: 7ebd2acc48861c04aa3639c24c6aa9bf, type: 3}
+  - statType: 4
+    icon: {fileID: -703457753271872456, guid: 7ebd2acc48861c04aa3639c24c6aa9bf, type: 3}
 --- !u!1 &7381855374446598954
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,13 +3,23 @@ using UnityEngine;
 
 public class UI_UpgradeTab : MonoBehaviour
 {
+    [System.Serializable]
+    private struct StatIconEntry
+    {
+        public StatType statType;
+        public Sprite icon;
+    }
+
     [Header("Layout Reference")]
     [SerializeField] private Transform contentTransform; // ScrollView/Viewport/Content
-    [SerializeField] private StatUpgradeItem itemPrefab;   // StatUpgradeItem ÇÁ¸®ÆÕ
+    [SerializeField] private StatUpgradeItem itemPrefab;   // StatUpgradeItem í”„ë¦¬íŒ¹
+
+    [Header("Stat Icons")]
+    [SerializeField] private List<StatIconEntry> statIcons = new List<StatIconEntry>();
 
     private List<StatUpgradeItem> spawnedItems = new List<StatUpgradeItem>();
 
-    //¿ÜºÎ¿¡¼­ ½ºÅÈ µ¥ÀÌÅÍ ¸®½ºÆ®, Å¬¸¯ Äİ¹é ¹Ş¾Æ ÃÊ±âÈ­
+    //ì™¸ë¶€ì—ì„œ ìŠ¤íƒ¯ ë°ì´í„° ë¦¬ìŠ¤íŠ¸, í´ë¦­ ì½œë°± ë°›ì•„ ì´ˆê¸°í™”
     public void InitTab(List<IStatData> statList, System.Action<StatType> onUpgradeRequest)
     {
         foreach (Transform child in contentTransform)
@@ -20,16 +30,27 @@ public class UI_UpgradeTab : MonoBehaviour
 
         if (statList == null) return;
 
-        //ÇÁ¸®ÆÕ»ı¼º
+        //í”„ë¦¬íŒ¹ìƒì„±
         foreach (var statData in statList)
         {
             StatUpgradeItem item = Instantiate(itemPrefab, contentTransform);
-            item.Setup(statData, onUpgradeRequest);
+            item.Setup(statData, onUpgradeRequest, GetIcon(statData.Type));
             spawnedItems.Add(item);
         }
     }
 
-    // Æ¯Á¤ÇÑ ½ºÅÈ ¼öÄ¡°¡ ¹Ù²î¾úÀ» ¶§ ÇØ´ç UI¸¸ Ã£¾Æ¼­ °»½ÅÇÏ´Â ÇÔ¼ö
+    private Sprite GetIcon(StatType statType)
+    {
+        foreach (var entry in statIcons)
+        {
+            if (entry.statType == statType)
+                return entry.icon;
+        }
+
+        return null;
+    }
+
+    // íŠ¹ì •í•œ ìŠ¤íƒ¯ ìˆ˜ì¹˜ê°€ ë°”ë€Œì—ˆì„ ë•Œ í•´ë‹¹ UIë§Œ ì°¾ì•„ì„œ ê°±ì‹ í•˜ëŠ” í•¨ìˆ˜
     public void RefreshStatItem(IStatData updatedData)
     {
         if (updatedData == null) return;
