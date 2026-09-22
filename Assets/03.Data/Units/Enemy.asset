@@ -19,16 +19,14 @@ MonoBehaviour:
   uiPoolName: Boss
   battlePoolName: Boss
   unitSprite: {fileID: 0}
-  maxHp: 50
+  maxHp: 500
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: 
   canHeal: 0
   healRange: 5
@@ -74,16 +72,14 @@ MonoBehaviour:
   uiPoolName: Enemy
   battlePoolName: Enemy
   unitSprite: {fileID: 0}
-  maxHp: 20
+  maxHp: 500
   moveSpeed: 0
   attackDamage: 2
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: 
   canHeal: 0
   healRange: 5

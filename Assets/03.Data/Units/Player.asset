@@ -23,12 +23,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 5
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
@@ -62,12 +60,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 5
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
@@ -101,12 +97,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 3
   attackSpeed: 1
-  searchRange: 0
-  attackRange: 5
+  searchRange: 99
+  attackRange: 2
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
@@ -141,12 +135,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 2
   attackSpeed: 1
-  searchRange: 0
-  attackRange: 5
+  searchRange: 99
+  attackRange: 2
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
@@ -204,12 +196,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 5
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 0
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: Projectile_Attack
   canHeal: 1
   healRange: 4
@@ -243,12 +233,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 5
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 0
-  meleeRange: 1.5
   canRanged: 1
-  rangedRange: 5
   projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
@@ -282,12 +270,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
-  attackRange: 5
+  searchRange: 99
+  attackRange: 2
   canMelee: 1
-  meleeRange: 3
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
@@ -322,12 +308,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 5
   attackSpeed: 1
-  searchRange: 0
-  attackRange: 5
+  searchRange: 99
+  attackRange: 2
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
@@ -365,12 +349,10 @@ MonoBehaviour:
   moveSpeed: 10
   attackDamage: 4
   attackSpeed: 1
-  searchRange: 0
-  attackRange: 5
+  searchRange: 99
+  attackRange: 2
   canMelee: 1
-  meleeRange: 1.5
   canRanged: 0
-  rangedRange: 5
   projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
