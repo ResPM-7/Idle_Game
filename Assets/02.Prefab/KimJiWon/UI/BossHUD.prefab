@@ -54,7 +54,7 @@ MonoBehaviour:
   bossNameText: {fileID: 400000000000000002}
   healthText: {fileID: 400000000000000007}
   timerText: {fileID: 400000000000000010}
-  healthFillImage: {fileID: 400000000000000006}
+  healthBar: {fileID: 5633271491935988008}
   timerFillImage: {fileID: 400000000000000009}
 --- !u!1 &100000000000000002
 GameObject:
@@ -202,6 +202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 200000000000000003}
+  - component: {fileID: 5633271491935988008}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -223,6 +224,7 @@ RectTransform:
   m_Children:
   - {fileID: 200000000000000005}
   - {fileID: 200000000000000006}
+  - {fileID: 6253951028217969264}
   - {fileID: 200000000000000007}
   m_Father: {fileID: 200000000000000001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -231,6 +233,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -51}
   m_SizeDelta: {x: 720, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5633271491935988008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000000000000003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef05b9658c54a6449c5da125972abe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_DelayedFillBar
+  fillImage: {fileID: 2458537701870356554}
+  trailImage: {fileID: 400000000000000006}
+  trailDelay: 0.15
+  trailDuration: 0.35
 --- !u!1 &100000000000000004
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,7 +374,7 @@ GameObject:
   - component: {fileID: 300000000000000006}
   - component: {fileID: 400000000000000006}
   m_Layer: 5
-  m_Name: Fill
+  m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -409,7 +427,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 083667abd98a7fd4a9a4790d4b6958b1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b7b569c8b889d56479a3f76c62e7496a, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -843,3 +861,78 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &7853437306342034599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6253951028217969264}
+  - component: {fileID: 4898756335315433538}
+  - component: {fileID: 2458537701870356554}
+  m_Layer: 5
+  m_Name: Fill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6253951028217969264
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853437306342034599}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 200000000000000003}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.49630737, y: -0.18589973}
+  m_SizeDelta: {x: -25.1133, y: -14.0338}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4898756335315433538
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853437306342034599}
+  m_CullTransparentMesh: 1
+--- !u!114 &2458537701870356554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853437306342034599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 083667abd98a7fd4a9a4790d4b6958b1, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

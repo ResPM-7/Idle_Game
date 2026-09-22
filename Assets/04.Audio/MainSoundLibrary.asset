@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe511842e1f76ce49961c7673562bd38, type: 3}
   m_Name: MainSoundLibrary
   m_EditorClassIdentifier: Assembly-CSharp::SoundLibrary
-  sounds: []
+  sounds:
+  - id: ui_click
+    clip: {fileID: 8300000, guid: c22bb60d47803524fb31498cfeedf993, type: 3}
+    category: 1
+    loop: 0
+    volume: 1

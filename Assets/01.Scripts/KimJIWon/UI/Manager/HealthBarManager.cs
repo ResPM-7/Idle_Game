@@ -152,7 +152,7 @@ public class HealthBarManager : MonoBehaviour
             float maxHp = unit.MyData != null ? unit.MyData.maxHp : 0f;
             float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
-            existingHealthBar.SetFill(normalizedHp);
+            existingHealthBar.SetFillImmediate(normalizedHp);
             existingHealthBar.SetVisible(false);
             return;
         }
@@ -252,7 +252,7 @@ public class HealthBarManager : MonoBehaviour
             float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
             healthBar.SetStyle(IsEnemy(unit));
-            healthBar.SetFill(normalizedHp);
+            healthBar.SetFillImmediate(normalizedHp);
             // HP바가 풀에서 나온 직후 이전 위치에 잠깐 보이는 것을 방지
             healthBar.SetVisible(false);
 
