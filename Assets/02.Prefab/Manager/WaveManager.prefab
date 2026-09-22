@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
   isDontDestroy: 0
-  bossData: {fileID: 11400000, guid: 71b60ee52e195334ca9d55d137f52237, type: 2}
+  bossData: {fileID: -1985273095112801932, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
   bossSpawnPoint: {fileID: 0}
   spawnPoints:
   - {fileID: 0}

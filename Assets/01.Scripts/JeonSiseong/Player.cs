@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     
     void Update()
     {
+        // 모바일/헤드리스 실행에는 키보드 장치가 없을 수 있습니다.
+        if (Keyboard.current == null || skillManager == null) return;
         dir = Vector2.zero;
 
         if (Keyboard.current.upArrowKey.isPressed)
@@ -37,7 +39,7 @@ public class Player : MonoBehaviour
 
         dir = dir.normalized;
 
-        // �ӽ� ��ų ���
+        // 임시 스킬 사용
 
         if(Keyboard.current.aKey.wasPressedThisFrame)
         {

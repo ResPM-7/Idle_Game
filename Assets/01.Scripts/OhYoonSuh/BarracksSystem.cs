@@ -4,13 +4,13 @@ using UnityEngine;
 [System.Serializable]
 public struct StatConfig
 {
-    public StatType type;               // ½ºÅÈ Á¾·ù (Health, Strength, AttackSpeed µî)
-    public string statName;             // UI¿¡ Ç¥½ÃµÉ ÀÌ¸§
-    public float valueIncreasePerLevel; // 1¾÷´ç Áõ°¡·®
-    public int baseUpgradePrice;        // ±âº» °­È­ ºñ¿ë
+    public StatType type;               // ìŠ¤íƒ¯ ì¢…ë¥˜ (Health, Strength, AttackSpeed ë“±)
+    public string statName;             // UIì— í‘œì‹œë  ì´ë¦„
+    public float valueIncreasePerLevel; // 1ì—…ë‹¹ ì¦ê°€ëŸ‰
+    public int baseUpgradePrice;        // ê¸°ë³¸ ê°•í™” ë¹„ìš©
     [Min(1f)]
-    public float priceMultiplier;// ·¹º§´ç ºñ¿ë Áõ°¡·®
-    //public StatUpgradeItem uiItem;      // ¿¬°áÇÒ UI ¿ÀºêÁ§Æ®
+    public float priceMultiplier;// ë ˆë²¨ë‹¹ ë¹„ìš© ì¦ê°€ëŸ‰
+    //public StatUpgradeItem uiItem;      // ì—°ê²°í•  UI ì˜¤ë¸Œì íŠ¸
 }
 
 public class BarracksSystem : MonoBehaviour
@@ -18,16 +18,42 @@ public class BarracksSystem : MonoBehaviour
     [SerializeField] private StatConfig[] statConfigs;
 
     private Dictionary<StatType, StatData> statDatabase = new Dictionary<StatType, StatData>();
+    public bool IsInitialized => statDatabase.Count > 0;
+
+    public List<SavedUpgrade> CaptureUpgrades()
+    {
+        var result = new List<SavedUpgrade>();
+        foreach (var item in statDatabase.Values)
+            result.Add(new SavedUpgrade { type = item.Type, level = item.CurrentLevel });
+        return result;
+    }
+
+    public void RestoreUpgrades(List<SavedUpgrade> upgrades)
+    {
+        // ê°•í™” íšŸìˆ˜ë¡œ í˜„ì¬ ì„¤ì •ì˜ ê°€ê²©/ëŠ¥ë ¥ì¹˜ë¥¼ ì¬ê³„ì‚°í•©ë‹ˆë‹¤.
+        foreach (var config in statConfigs)
+        {
+            var data = statDatabase[config.type];
+            int level = upgrades.Find(x => x.type == config.type)?.level ?? 1;
+            data.CurrentLevel = 1;
+            data.CurrentValue = 0;
+            data.UpgradePrice = config.baseUpgradePrice;
+            for (int i = 1; i < level; i++) data.LevelUp();
+            float previous = BarracksManager.instance.GetBuffValue(config.type);
+            BarracksManager.instance.UpgradeStat(config.type, data.CurrentValue - previous);
+            if (UIManager.Instance != null) UIManager.Instance.RefreshUpgradeStatItem(data);
+        }
+    }
     //private Dictionary<StatType, StatUpgradeItem> uiDatabase = new Dictionary<StatType, StatUpgradeItem>();
 
     private void Start()
     {
-        // UIManagerÀÇ µ¿Àû UI »ı¼º¿¡ Àü´ŞÇÒ ½ºÅÈ ¸®½ºÆ®
+        // UIManagerì˜ ë™ì  UI ìƒì„±ì— ì „ë‹¬í•  ìŠ¤íƒ¯ ë¦¬ìŠ¤íŠ¸
         List<IStatData> statList = new List<IStatData>();
 
         foreach (var config in statConfigs)
         {
-            // 1. µ¥ÀÌÅÍ ¼¼ÆÃ
+            // 1. ë°ì´í„° ì„¸íŒ…
             StatData newData = new StatData
             {
                 Type = config.type,
@@ -42,14 +68,14 @@ public class BarracksSystem : MonoBehaviour
             statList.Add(newData);
         }
 
-        //// 2. UI ¸ÅÇÎ ¹× ÃÊ±âÈ­
+        //// 2. UI ë§¤í•‘ ë° ì´ˆê¸°í™”
         //if (config.uiItem != null)
         //{
         //    uiDatabase[config.type] = config.uiItem;
         //    config.uiItem.Setup(newData, OnUpgradeClicked);
         //}
 
-        // 2. UIManager¸¦ ÅëÇØ UI ÅÇ Ç×¸ñµéÀ» ÀÚµ¿À¸·Î µ¿Àû »ı¼º
+        // 2. UIManagerë¥¼ í†µí•´ UI íƒ­ í•­ëª©ë“¤ì„ ìë™ìœ¼ë¡œ ë™ì  ìƒì„±
         if (UIManager.Instance != null)
         {
             UIManager.Instance.InitUpgradeTab(statList, OnUpgradeClicked);
@@ -58,27 +84,28 @@ public class BarracksSystem : MonoBehaviour
 
     private void OnUpgradeClicked(StatType type)
     {
-        // È¤½Ã ¸ğ¸¦ ¿¡·¯ ¹æÁö (µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é ¹«½Ã)
+        // í˜¹ì‹œ ëª¨ë¥¼ ì—ëŸ¬ ë°©ì§€ (ë°ì´í„°ê°€ ì—†ìœ¼ë©´ ë¬´ì‹œ)
         if (!statDatabase.ContainsKey(type)) return;
 
         StatData data = statDatabase[type];
 
-        if (MoneyManager.instance != null && !MoneyManager.instance.SpendGold(data.UpgradePrice))
+        if (MoneyManager.instance == null || BarracksManager.instance == null ||
+            !MoneyManager.instance.SpendGold(data.UpgradePrice))
         {
-            Debug.Log($"°ñµå°¡ ºÎÁ·ÇÏ¿© {data.StatName} ¾÷±×·¹ÀÌµå ½ÇÆĞ!");
+            Debug.Log($"ê³¨ë“œê°€ ë¶€ì¡±í•˜ì—¬ {data.StatName} ì—…ê·¸ë ˆì´ë“œ ì‹¤íŒ¨!");
             return;
         }
 
         data.LevelUp();
 
 
-        // º¯°æµÈ ½ºÅÈ µ¥ÀÌÅÍ¸¦ UIManager¸¦ ÅëÇØ UI ´ÜÀÏ Ç×¸ñ »õ·Î°íÄ§
+        // ë³€ê²½ëœ ìŠ¤íƒ¯ ë°ì´í„°ë¥¼ UIManagerë¥¼ í†µí•´ UI ë‹¨ì¼ í•­ëª© ìƒˆë¡œê³ ì¹¨
         if (UIManager.Instance != null)
         {
             UIManager.Instance.RefreshUpgradeStatItem(data);
         }
 
-        // ¸Å´ÏÀú È£Ãâµµ ÇÑ ÁÙ·Î ³¡!
+        // ë§¤ë‹ˆì € í˜¸ì¶œë„ í•œ ì¤„ë¡œ ë!
         BarracksManager.instance.UpgradeStat(type, data.ValueIncreasePerLevel);
     }
 }

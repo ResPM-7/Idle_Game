@@ -1,0 +1,384 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5422086740102441126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_401
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 401
+  unitLevel: 6
+  unitName: "\uB3C4\uC801"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 140
+  moveSpeed: 10
+  attackDamage: 5
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  meleeRange: 1.5
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 0
+  criticalRate: 25
+  criticalDamage: 2.5
+  coin: 0
+  credit: 0
+  nextUpgradeUnits: []
+--- !u!114 &-4650075786818633130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_201
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 201
+  unitLevel: 6
+  unitName: "\uC804\uC0AC"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 140
+  moveSpeed: 10
+  attackDamage: 5
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  meleeRange: 1.5
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 2
+  criticalRate: 5
+  criticalDamage: 2
+  coin: 0
+  credit: 0
+  nextUpgradeUnits: []
+--- !u!114 &-2777291789800658952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_103
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 103
+  unitLevel: 3
+  unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 120
+  moveSpeed: 10
+  attackDamage: 3
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  meleeRange: 1.5
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 0
+  criticalRate: 5
+  criticalDamage: 2
+  coin: 0
+  credit: 0
+  nextUpgradeUnits:
+  - {fileID: 5065207610665848539}
+--- !u!114 &-2218967168668622336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_102
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 102
+  unitLevel: 2
+  unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 110
+  moveSpeed: 10
+  attackDamage: 2
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  meleeRange: 1.5
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 0
+  criticalRate: 5
+  criticalDamage: 2
+  coin: 0
+  credit: 0
+  nextUpgradeUnits:
+  - {fileID: -2777291789800658952}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8a8aad3e5a01f44b45e136c6f4eab8, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDatabase
+  players:
+  - {fileID: 2443524085047685643}
+  - {fileID: -2218967168668622336}
+  - {fileID: -2777291789800658952}
+  - {fileID: 5065207610665848539}
+  - {fileID: 2753977287467367391}
+  - {fileID: -4650075786818633130}
+  - {fileID: 1124326270215752797}
+  - {fileID: -5422086740102441126}
+  - {fileID: 658343444997711279}
+  enemies: []
+--- !u!114 &658343444997711279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_501
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 501
+  unitLevel: 6
+  unitName: "\uC0AC\uC81C"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 140
+  moveSpeed: 10
+  attackDamage: 5
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 0
+  meleeRange: 1.5
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 1
+  healRange: 4
+  healProjectilePoolName: Projectile_Heal
+  defense: 1
+  criticalRate: 0
+  criticalDamage: 2
+  coin: 0
+  credit: 0
+  nextUpgradeUnits: []
+--- !u!114 &1124326270215752797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_301
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 301
+  unitLevel: 6
+  unitName: "\uAD81\uC218"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 140
+  moveSpeed: 10
+  attackDamage: 5
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 0
+  meleeRange: 1.5
+  canRanged: 1
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 0
+  criticalRate: 10
+  criticalDamage: 2
+  coin: 0
+  credit: 0
+  nextUpgradeUnits: []
+--- !u!114 &2443524085047685643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_101
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 101
+  unitLevel: 1
+  unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 100
+  moveSpeed: 10
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  meleeRange: 3
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 0
+  criticalRate: 100
+  criticalDamage: 2
+  coin: 0
+  credit: 0
+  nextUpgradeUnits:
+  - {fileID: -2218967168668622336}
+--- !u!114 &2753977287467367391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_105
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 105
+  unitLevel: 5
+  unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 140
+  moveSpeed: 10
+  attackDamage: 5
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  meleeRange: 1.5
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 0
+  criticalRate: 5
+  criticalDamage: 2
+  coin: 0
+  credit: 0
+  nextUpgradeUnits:
+  - {fileID: -4650075786818633130}
+  - {fileID: 1124326270215752797}
+  - {fileID: -5422086740102441126}
+  - {fileID: 658343444997711279}
+--- !u!114 &5065207610665848539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Unit_104
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 104
+  unitLevel: 4
+  unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
+  team: 0
+  uiPoolName: UIUnit
+  battlePoolName: BattleUnit
+  unitSprite: {fileID: 0}
+  maxHp: 130
+  moveSpeed: 10
+  attackDamage: 4
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  meleeRange: 1.5
+  canRanged: 0
+  rangedRange: 5
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 0
+  criticalRate: 5
+  criticalDamage: 2
+  coin: 0
+  credit: 0
+  nextUpgradeUnits:
+  - {fileID: 2753977287467367391}

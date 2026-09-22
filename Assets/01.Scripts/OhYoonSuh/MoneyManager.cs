@@ -7,13 +7,21 @@ public class MoneyManager : Singleton<MoneyManager>
     public int currentGold = 0;
     public int currentCredit = 0;
 
-    // °ªÀÌ º¯°æµÉ ¶§¸¶´Ù UI µî¿¡ ¾Ë¸®±â À§ÇÑ ÀÌº¥Æ®
+    public void RestoreBalance(int gold, int credit)
+    {
+        currentGold = Math.Max(0, gold);
+        currentCredit = Math.Max(0, credit);
+        OnGoldChanged?.Invoke(currentGold);
+        OnCreditChanged?.Invoke(currentCredit);
+    }
+
+    // ê°’ì´ ë³€ê²½ë  ë•Œë§ˆë‹¤ UI ë“±ì— ì•Œë¦¬ê¸° ìœ„í•œ ì´ë²¤íŠ¸
     public event Action<int> OnGoldChanged;
     public event Action<int> OnCreditChanged;
 
     protected override void OnDestroy()
     {
-        base.OnDestroy(); // Singleton.cs¿¡ OnDestroy°¡ ÀÖ´Ù¸é base È£Ãâ
+        base.OnDestroy(); // Singleton.csì— OnDestroyê°€ ìˆë‹¤ë©´ base í˜¸ì¶œ
     }
 
     public void AddGold(int amount)
@@ -31,7 +39,7 @@ public class MoneyManager : Singleton<MoneyManager>
             return true;
         }
 
-        Debug.Log("°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+        Debug.Log("ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.");
         return false;
     }
 

@@ -11,15 +11,17 @@ public class StatData : IStatData
     public float ValueIncreasePerLevel { get; set; }
     public float PriceMultiplier { get; set; } = 1.2f;
 
-    // ¾÷±×·¹ÀÌµå ½ÇÇà ¸Þ¼­µå
+    // ì—…ê·¸ë ˆì´ë“œ ì‹¤í–‰ ë©”ì„œë“œ
     public void LevelUp()
     {
         CurrentLevel++;
         CurrentValue += ValueIncreasePerLevel;
 
-        // ÇöÀç °¡°Ý¿¡ ¹èÀ²À» Àû¿ëÇÏ°í ¼Ò¼öÁ¡Àº ¿Ã¸² Ã³¸®
-        UpgradePrice = Mathf.CeilToInt(
-            UpgradePrice * PriceMultiplier
-        );
+        // í˜„ìž¬ ê°€ê²©ì— ë°°ìœ¨ì„ ì ìš©í•˜ê³  ì†Œìˆ˜ì ì€ ì˜¬ë¦¼ ì²˜ë¦¬
+        // ë°˜ë³µ ê°•í™” í›„ int ë²”ìœ„ë¥¼ ë„˜ë”ë¼ë„ ìŒìˆ˜/ë¬´ë£Œ ê°€ê²©ìœ¼ë¡œ ë°”ë€Œì§€ ì•ŠìŠµë‹ˆë‹¤.
+        double price = System.Math.Ceiling(System.Math.Max(0, UpgradePrice)
+            * System.Math.Round((double)Mathf.Max(1f, PriceMultiplier), 6));
+        UpgradePrice = double.IsNaN(price) || price >= int.MaxValue
+            ? int.MaxValue : (int)price;
     }
 }

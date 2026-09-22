@@ -3,14 +3,6 @@ using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
-
-    [Header("Skill Prefabs")]                           // 스킬 프리팹
-    [SerializeField] GameObject poisonSkillPrefab;
-    [SerializeField] GameObject lightningSkillPrefab;
-    [SerializeField] GameObject fireSkillPrefab;
-    [SerializeField] GameObject attackBuffSkillPrefab;
-    [SerializeField] GameObject freezeSkillPrefab;
-
     [SerializeField] private string poisonPoolName = "Poison"; // 이미지에 적힌 오타 그대로 맞춤
     [SerializeField] private string lightningPoolName = "Lightning";
     [SerializeField] private string firePoolName = "Fire";

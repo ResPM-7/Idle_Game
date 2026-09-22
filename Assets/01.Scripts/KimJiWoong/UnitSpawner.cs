@@ -48,6 +48,16 @@ public class UnitSpawner : MonoBehaviour
     /// 현재 길드 등급입니다. 외부 UI에서도 읽을 수 있지만 직접 변경할 수는 없습니다.
     /// </summary>
     public int GuildLevel => guildLevel;
+    public Transform GridPanel => gridPanel;
+
+    // 저장 복원은 비용을 지불하거나 승급 보상을 다시 실행하지 않습니다.
+    public void RestoreGuildLevel(int level)
+    {
+        guildLevel = level;
+        ClampGuildLevel();
+        RefreshSpawnData();
+        RefreshGuildPromotionUI();
+    }
 
     /// <summary>
     /// 기본 유닛을 포함한 최대 길드 등급입니다.

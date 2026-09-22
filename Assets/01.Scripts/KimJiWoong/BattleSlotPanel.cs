@@ -1,20 +1,20 @@
 using UnityEngine;
 
-// TestCanvas ÇÏÀ§ÀÇ Panel ¿ÀºêÁ§Æ®¿¡ ºÙ¾îÀÖ´Â ½ºÅ©¸³Æ®ÀÔ´Ï´Ù.
+// TestCanvas í•˜ìœ„ì˜ Panel ì˜¤ë¸Œì íŠ¸ì— ë¶™ì–´ìˆëŠ” ìŠ¤í¬ë¦½íŠ¸ì…ë‹ˆë‹¤.
 public class BattleSlotPanel : Singleton<BattleSlotPanel>
 {
 
-    // 5°³ÀÇ ¹èÆ² ½½·ÔÀ» Ä³½ÌÇØµÑ ¹è¿­
+    // 5ê°œì˜ ë°°í‹€ ìŠ¬ë¡¯ì„ ìºì‹±í•´ë‘˜ ë°°ì—´
     [SerializeField] private BattleSlotUI[] battleSlots;
 
     private void Start()
     {
-        //ÀÚ½Ä ¿ÀºêÁ§Æ®µéÀ» Ã£¾Æ ¹è¿­¿¡ ¹Ì¸® ½Ï ´ã¾ÆµÓ´Ï´Ù
-        if (battleSlots == null)
-            battleSlots = GetComponentsInChildren<BattleSlotUI>();
+        //ìì‹ ì˜¤ë¸Œì íŠ¸ë“¤ì„ ì°¾ì•„ ë°°ì—´ì— ë¯¸ë¦¬ ì‹¹ ë‹´ì•„ë‘¡ë‹ˆë‹¤
+        if (battleSlots == null || battleSlots.Length == 0)
+            battleSlots = GetComponentsInChildren<BattleSlotUI>(true);
     }
 
-    // ¾î´À ½½·ÔÀÌµç À¯´Ö ¹èÄ¡°¡ ¹Ù²î¸é ¹«Á¶°Ç ÀÌ ÇÔ¼ö¸¦ ÇÑ ¹ø È£ÃâÇÕ´Ï´Ù.
+    // ì–´ëŠ ìŠ¬ë¡¯ì´ë“  ìœ ë‹› ë°°ì¹˜ê°€ ë°”ë€Œë©´ ë¬´ì¡°ê±´ ì´ í•¨ìˆ˜ë¥¼ í•œ ë²ˆ í˜¸ì¶œí•©ë‹ˆë‹¤.
     public void SyncAllBattleSlots()
     {
         for (int i = 0; i < battleSlots.Length; i++)
@@ -23,14 +23,14 @@ public class BattleSlotPanel : Singleton<BattleSlotPanel>
 
             if (slot.transform.childCount > 0)
             {
-                // UI¿¡ À¯´ÖÀÌ ÀÖ´Ù¸é ÆÄÆ¼ ¸Å´ÏÀú¿¡°Ô ¹èÄ¡ ¸í·É!
-                // (PartyBuildManager ÂÊ¿¡¼­ ÀÌ¹Ì °°Àº µ¥ÀÌÅÍ¸é ¹«½ÃÇÏµµ·Ï Ã³¸®ÇØµÒ)
+                // UIì— ìœ ë‹›ì´ ìˆë‹¤ë©´ íŒŒí‹° ë§¤ë‹ˆì €ì—ê²Œ ë°°ì¹˜ ëª…ë ¹!
+                // (PartyBuildManager ìª½ì—ì„œ ì´ë¯¸ ê°™ì€ ë°ì´í„°ë©´ ë¬´ì‹œí•˜ë„ë¡ ì²˜ë¦¬í•´ë‘ )
                 DragableUnit unit = slot.transform.GetChild(0).GetComponent<DragableUnit>();
                 PartyBuildManager.instance.DeployUnit(slot.slotIndex, unit.myData);
             }
             else
             {
-                // UI°¡ ºñ¾îÀÖ´Ù¸é ÆÄÆ¼ ¸Å´ÏÀú¿¡°Ô ºñ¿ì±â ¸í·É!
+                // UIê°€ ë¹„ì–´ìˆë‹¤ë©´ íŒŒí‹° ë§¤ë‹ˆì €ì—ê²Œ ë¹„ìš°ê¸° ëª…ë ¹!
                 PartyBuildManager.instance.RemoveUnit(slot.slotIndex);
             }
         }
