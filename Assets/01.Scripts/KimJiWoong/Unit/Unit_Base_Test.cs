@@ -36,6 +36,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public float CurrentCriticalDamage { get; set; }
     public float AttackTimer { get; set; }
     public float SearchTimer { get; set; }
+    public float StatMultiplier { get; set; } = 1f;
     public Transform CurrentTarget { get; set; }
 
     // FSM 관련 변수
@@ -100,6 +101,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         SearchTimer = 0f;
         CurrentTarget = null;
 
+        StatMultiplier = 1f;
 
         ChangeState(idleState);
         //소환될때 유닛 체력바가 제대로 출력되게
@@ -119,7 +121,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
     void Update()
     {
-        if(IsFrozen) return;
+        if (IsFrozen) return;
 
         // 현재 상태의 Execute 로직을 매 프레임 실행
         if (currentState != null)

@@ -66,6 +66,7 @@ public class EnemySpawn : MonoBehaviour
                 unit.CurrentHp = unit.CurrentMaxHp;
                 unit.CurrentDamage *= statMultiplier;
                 unit.CurrentDefense = Mathf.RoundToInt(unit.CurrentDefense * statMultiplier);
+                unit.StatMultiplier = statMultiplier;
             }
         }
 

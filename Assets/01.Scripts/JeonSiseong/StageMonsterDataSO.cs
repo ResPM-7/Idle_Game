@@ -27,7 +27,7 @@ public class StageMonsterDataSO : ScriptableObject
     public float GetMultiplierForStage(int stage)      // 사이클마다 배율 적용
     {
         int cycleCount = (stage - 1) / cycleLength;
-        return 1f + cycleCount * multiplierPerCycle;
+        return Mathf.Pow(1f +  multiplierPerCycle, cycleCount);
     }
 }
 
