@@ -92,6 +92,8 @@ public class DragableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         // 전투 중이면 새 드래그 시작 자체를 막음
         if (IsLocked()) return;
 
+        SoundManager.instance?.PlaySfx("ui_pickup");
+
         isValidDrag = true;
         SetDragging(true);
         originalParent = transform.parent;

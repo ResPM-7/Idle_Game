@@ -107,5 +107,7 @@ public class BarracksSystem : MonoBehaviour
 
         // 매니저 호출도 한 줄로 끝!
         BarracksManager.instance.UpgradeStat(type, data.ValueIncreasePerLevel);
+        // 업그레이드 사운드 재생
+        SoundManager.instance?.PlaySfx("ui_buy");
     }
 }

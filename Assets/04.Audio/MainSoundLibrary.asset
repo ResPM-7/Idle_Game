@@ -38,3 +38,13 @@ MonoBehaviour:
     category: 1
     loop: 0
     volume: 1
+  - id: ui_pickup
+    clip: {fileID: 8300000, guid: 5036be18a7301064dbfb48cd5e0e8ccd, type: 3}
+    category: 1
+    loop: 0
+    volume: 1
+  - id: ui_put
+    clip: {fileID: 8300000, guid: 22a6f22f92e98264eb74b326373fb19c, type: 3}
+    category: 1
+    loop: 0
+    volume: 1
