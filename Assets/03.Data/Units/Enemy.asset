@@ -17,7 +17,7 @@ MonoBehaviour:
   unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
-  battlePoolName: Boss
+  battlePoolName: ZombieBoss
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
   unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
-  battlePoolName: Boss
+  battlePoolName: ZombieBoss
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 0
@@ -276,7 +276,7 @@ MonoBehaviour:
   unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
-  battlePoolName: ZombieBoss
+  battlePoolName: GoblinBoss
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
   unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
-  battlePoolName: Boss
+  battlePoolName: GoblinBoss
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 0
@@ -489,7 +489,7 @@ MonoBehaviour:
   unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
-  battlePoolName: Boss
+  battlePoolName: ZombieBoss
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 0
