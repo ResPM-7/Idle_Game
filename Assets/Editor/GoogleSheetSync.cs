@@ -12,6 +12,7 @@ public class GoogleSheetSync : EditorWindow
     private const string unitDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=0&single=true&output=csv";
     private const string enemyDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=1042200275&single=true&output=csv";
     public const string stageMonsterDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=340714933&single=true&output=csv";
+    public const string stageBossDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=2000866037&single=true&output=csv";
 
     private const string playerSavePath = "Assets/03.Data/Units/Player";
     private const string enemySavePath = "Assets/03.Data/Units/Enemy";
