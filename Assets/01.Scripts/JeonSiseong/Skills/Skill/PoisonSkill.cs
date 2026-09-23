@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoisonSkill : Skill, IPoolable
+public class PoisonSkill : Skill
 {
 
     [Header("Poison Setting")]
-    [SerializeField] float duration = 5f;       // ì§€ì† ì‹œê°„
-    [SerializeField] float damageInterval = 1f;    // ë°ë¯¸ì§€ ë“¤ì–´ê°€ëŠ” ì‹œê°„ê°„ê²©
+    [SerializeField] float duration = 5f;       // Áö¼Ó ½Ã°£
+    [SerializeField] float damageInterval = 1f;    // µ¥¹ÌÁö µé¾î°¡´Â ½Ã°£°£°İ
+    [SerializeField] private string poolName = "Poison";
 
     private float tickTimer = 0f;
     private List<Collider2D> targetsInRange = new List<Collider2D>();
@@ -33,7 +34,7 @@ public class PoisonSkill : Skill, IPoolable
 
             for(int i = targetsInRange.Count - 1; i >= 0;i--)
             {
-                if (targetsInRange[i] == null || !targetsInRange[i].gameObject.activeInHierarchy)
+                if (targetsInRange[i] == null)
                 {
                     targetsInRange.RemoveAt(i);
                     continue;
@@ -44,9 +45,8 @@ public class PoisonSkill : Skill, IPoolable
         }
     }
 
-    public void OnSpawned()
+    void Start()
     {
-        CancelInvoke();
         tickTimer = 0f;
         targetsInRange.Clear();
         Invoke(nameof(ReturnToPool), duration);
@@ -54,12 +54,6 @@ public class PoisonSkill : Skill, IPoolable
 
     private void ReturnToPool()
     {
-        ObjectPoolManager.instance.ReturnObject(gameObject);
-    }
-    public void OnDespawned()
-    {
-        CancelInvoke();
-        tickTimer = 0f;
-        targetsInRange.Clear();
+        ObjectPoolManager.instance.ReturnObject(poolName, gameObject);
     }
 }

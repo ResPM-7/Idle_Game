@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class FreezeSkill : Skill, IPoolable
+public class FreezeSkill : Skill
 {
     [Header("Freeze Setting")]
     [SerializeField] private float freezeDuration = 2f;
+    [SerializeField] private string poolName = "Freeze";
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,15 +17,13 @@ public class FreezeSkill : Skill, IPoolable
             unit.ApplyFreeze(freezeDuration);
         }
     }
-    public void OnSpawned()
+    void Start()
     {
-        CancelInvoke();
         Invoke(nameof(ReturnToPool), 0.2f);
     }
 
     private void ReturnToPool()
     {
-        ObjectPoolManager.instance.ReturnObject(gameObject);
+        ObjectPoolManager.instance.ReturnObject(poolName, gameObject);
     }
-    public void OnDespawned() { CancelInvoke(); }
 }

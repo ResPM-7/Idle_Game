@@ -1,22 +1,21 @@
 using UnityEngine;
 
-public class FireSkill : Skill, IPoolable
+public class FireSkill : Skill
 {
+    [SerializeField] private string poolName = "Fire";
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         DamageTarget(collision);
     }
 
-    public void OnSpawned()
+    void Start()
     {
-        CancelInvoke();
         Invoke(nameof(ReturnToPool), 1f);
     }
 
     private void ReturnToPool()
     {
-        ObjectPoolManager.instance.ReturnObject(gameObject);
+        ObjectPoolManager.instance.ReturnObject(poolName, gameObject);
     }
-    public void OnDespawned() { CancelInvoke(); }
 }

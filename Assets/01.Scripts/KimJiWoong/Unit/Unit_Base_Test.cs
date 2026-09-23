@@ -10,7 +10,7 @@ public interface IUnitState
 }
 
 
-public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
+public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 {
     //유닛 업그레이드 결합도를 낮추기위해 델리게이트
     public static event Action<Unit_Base_Test> OnUnitSpawned;
@@ -54,10 +54,6 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
 
     private float baseDamage;
     private bool isInitialized;
-    private bool referencesReady;
-    private bool pendingSpawn;
-    private bool spawnAnnounced;
-    public uint SpawnVersion { get; private set; }
     private BattleUnitVisual battleVisual;
     private Rigidbody2D rigidBody;
     private Vector2 moveDirection;
@@ -68,13 +64,6 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
 
     private void Awake()
     {
-        EnsureReferences();
-    }
-
-    private void EnsureReferences()
-    {
-        if (referencesReady) return;
-        referencesReady = true;
         // 프리팹에 미리 부착한 BattleUnitVisual을 한 번만 가져옵니다.
         battleVisual = GetComponent<BattleUnitVisual>();
         rigidBody = GetComponent<Rigidbody2D>();
@@ -95,24 +84,18 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
 
     public void Init(UnitDataSO data)
     {
-        if (data == null) throw new ArgumentNullException(nameof(data), "유닛 초기화 데이터가 비어 있습니다.");
-        // 미리 생성한 비활성 객체는 Awake가 아직 실행되지 않았을 수 있어 참조를 직접 준비합니다.
-        EnsureReferences();
         StopAllCoroutines();
         freezeRoutine = null;
         IsFrozen = false;
         myData = data;
         isInitialized = true;
-        pendingSpawn = true;
-        SpawnVersion++;
-        moveDirection = Vector2.zero;
 
         int playerLayerIdx = LayerMask.NameToLayer("Player");
         int enemyLayerIdx = LayerMask.NameToLayer("Enemy");
 
         if (playerLayerIdx == -1 || enemyLayerIdx == -1)
         {
-            Debug.LogError("유니티 설정에 'Player' 또는 'Enemy' 레이어가 없습니다! 레이어 설정에서 추가해 주세요.");
+            Debug.LogError("유니티 설정에 'Player' 또는 'Enemy' 레이어가 없습니다! Add Layer를 해주세요.");
         }
 
         if (myData.team == Team_Test.Player)
@@ -148,51 +131,17 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
 
         StatMultiplier = 1f;
 
-        ChangeState(idleState);
-        // 풀의 데이터 준비는 비활성 상태에서 진행합니다. 생성 알림은 활성화 이후에만 보냅니다.
-        if (isActiveAndEnabled) OnSpawned();
-    }
-
-    public void OnSpawned()
-    {
-        if (!isInitialized)
-        {
-            if (myData == null) throw new InvalidOperationException("전투 유닛을 생성하기 전에 Init(data)로 유닛 데이터를 설정해야 합니다.");
-            Init(myData);
-            return;
-        }
-        if (!pendingSpawn) return;
-        pendingSpawn = false;
-        spawnAnnounced = true;
-        // 능력치는 이미 준비되었습니다. 애니메이터 조작은 오브젝트가 활성화된 뒤에 실행합니다.
+        // 전투용 캐릭터 외형만 교체합니다. UI 유닛과 단일 아이콘 데이터는 별개입니다.
         if (battleVisual != null)
         {
             battleVisual.Apply(this);
         }
 
-        OnUnitSpawned?.Invoke(this);
+        ChangeState(idleState);
+        //소환될때 유닛 체력바가 제대로 출력되게
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, 0f, false);
-    }
-
-    // 풀 반환 시 이전 전투의 타깃·이동·버프 타이머가 다음 사용에 남지 않도록 정리합니다.
-    public void OnDespawned()
-    {
-        StopAllCoroutines();
-        freezeRoutine = null;
-        IsFrozen = false;
-        CurrentTarget = null;
-        moveDirection = Vector2.zero;
-        AttackTimer = 0f;
-        SearchTimer = 0f;
-        CurrentDamage = baseDamage;
-        currentState = null;
-        isInitialized = false;
-        pendingSpawn = false;
-        if (rigidBody != null)
-        {
-            rigidBody.linearVelocity = Vector2.zero;
-            rigidBody.angularVelocity = 0f;
-        }
+        // 매니저를 직접 찾지 않고 스폰되었다는 방송만 송출합니다
+        OnUnitSpawned?.Invoke(this);
     }
 
     /// <summary>
@@ -223,9 +172,8 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
 
     private void OnDisable()
     {
-        if (spawnAnnounced && gameObject.scene.isLoaded)
+        if (gameObject.scene.isLoaded)
         {
-            spawnAnnounced = false;
             // 유닛이 죽거나 풀로 돌아갈 때 방송 송출
             OnUnitDespawned?.Invoke(this);
         }
@@ -363,9 +311,9 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
     // 얼리기 스킬
     public void ApplyFreeze(float duration)
     {
-        if (!isActiveAndEnabled || CurrentHp <= 0f || currentState == destroyedState) return;
+        if (currentState == destroyedState) return;
 
-        Debug.Log($"[빙결 적용] {gameObject.name} 빙결 시작, 지속시간: {duration}");
+        Debug.Log($"[ApplyFreeze] {gameObject.name} 빙결 시작, 지속시간: {duration}");
 
         if (freezeRoutine != null)
         {

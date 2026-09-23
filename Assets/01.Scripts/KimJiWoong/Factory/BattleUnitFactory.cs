@@ -24,14 +24,7 @@ public class BattleUnitFactory : Singleton<BattleUnitFactory>
             return null;
         }
 
-        GameObject battleUnit = ObjectPoolManager.instance.Spawn(data.battlePoolName, obj =>
-        {
-            obj.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
-            Unit_Base_Test unit = obj.GetComponent<Unit_Base_Test>();
-            if (unit == null)
-                throw new System.InvalidOperationException($"{obj.name} 프리팹에 Unit_Base_Test 컴포넌트가 없습니다.");
-            unit.Init(data);
-        });
+        GameObject battleUnit = ObjectPoolManager.instance.GetObject(data.battlePoolName);
 
         if (battleUnit == null)
         {
@@ -39,6 +32,17 @@ public class BattleUnitFactory : Singleton<BattleUnitFactory>
             return null;
         }
 
+        battleUnit.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
+
+        Unit_Base_Test unitScript = battleUnit.GetComponent<Unit_Base_Test>();
+        if (unitScript == null)
+        {
+            Debug.LogWarning($"{battleUnit.name} 프리팹에 Unit_Base_Test 컴포넌트가 없습니다!", battleUnit);
+            ObjectPoolManager.instance.ReturnObject(data.battlePoolName, battleUnit);
+            return null;
+        }
+
+        unitScript.Init(data);
         return battleUnit;
     }
 }

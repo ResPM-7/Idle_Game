@@ -561,7 +561,7 @@ public class WaveManager : Singleton<WaveManager>
         // 현재 보스가 있으면 풀로 반환
         if (currentBoss != null)
         {
-            ObjectPoolManager.instance.ReturnObject(currentBoss);
+            ObjectPoolManager.instance.ReturnObject(currentBoss.name, currentBoss);
             currentBoss = null;
         }
 
@@ -671,7 +671,7 @@ public class WaveManager : Singleton<WaveManager>
         // 현재 보스가 있으면 풀로 반환
         if (currentBoss != null)
         {
-            ObjectPoolManager.instance.ReturnObject(currentBoss);
+            ObjectPoolManager.instance.ReturnObject(currentBoss.name, currentBoss);
             currentBoss = null;
         }
 
@@ -758,7 +758,7 @@ public class WaveManager : Singleton<WaveManager>
         if (currentBoss != null)
         {
 
-            ObjectPoolManager.instance.ReturnObject(currentBoss);
+            ObjectPoolManager.instance.ReturnObject(currentBoss.name, currentBoss);
         }
 
         FinishBoss();
