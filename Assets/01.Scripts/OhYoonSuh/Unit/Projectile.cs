@@ -10,6 +10,8 @@ public class Projectile : MonoBehaviour
     private string myPoolName;
     private bool isCrit;
 
+    protected Transform Target => target;
+
     public void Setup(Transform target, float amount, bool isHeal, string poolName, bool isCrit = false)
     {
         this.target = target;
@@ -17,9 +19,11 @@ public class Projectile : MonoBehaviour
         this.isHeal = isHeal;
         this.myPoolName = poolName;
         this.isCrit = isCrit;
+
+        OnSetup();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (target == null || !target.gameObject.activeInHierarchy)
         {
@@ -27,13 +31,23 @@ public class Projectile : MonoBehaviour
             return;
         }
 
+        Vector3 direction = target.position - transform.position;
+        if (direction.sqrMagnitude > 0.000001f)
+        {
+            UpdateFlight(direction);
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, target.position) < 0.2f)
+        if ((transform.position - target.position).sqrMagnitude < 0.04f)
         {
             HitTarget();
         }
     }
+
+    protected virtual void OnSetup() { }
+
+    protected virtual void UpdateFlight(Vector3 direction) { }
 
     private void HitTarget()
     {
@@ -56,6 +70,8 @@ public class Projectile : MonoBehaviour
 
     private void ReturnToPool()
     {
+        target = null;
+
         if (!string.IsNullOrEmpty(myPoolName) && ObjectPoolManager.instance != null)
         {
             ObjectPoolManager.instance.ReturnObject(myPoolName, gameObject);

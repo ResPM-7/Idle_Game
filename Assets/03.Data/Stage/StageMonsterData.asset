@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StageMonsterData
   m_EditorClassIdentifier: Assembly-CSharp::StageMonsterDataSO
   cycleLength: 2
-  multiplierPerCycle: 0.5
+  multiplierPerCycle: 2
   entries:
   - startStage: 1
     endStage: 2
@@ -26,9 +26,4 @@ MonoBehaviour:
     - {fileID: -2107156837525844836, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
     - {fileID: -493028265017743643, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
     - {fileID: -3414527648549997551, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
-    bossData: {fileID: -1985273095112801932, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
-  - startStage: 1
-    endStage: 2
-    enemyPool:
-    - {fileID: 180788648125843077, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
     bossData: {fileID: -1985273095112801932, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}

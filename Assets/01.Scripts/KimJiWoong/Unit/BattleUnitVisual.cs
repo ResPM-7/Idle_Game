@@ -12,7 +12,6 @@ public class BattleUnitVisual : MonoBehaviour
     private AnimatorOverrideController ownedController;
     private Unit_Base_Test unit;
     private SPUM_Prefabs current;
-    private Vector3 previousPosition;
     private Vector3 baseScale;
     private SortingGroup sorting;
 
@@ -61,7 +60,6 @@ public class BattleUnitVisual : MonoBehaviour
         current._anim.ResetTrigger("2_Attack");
         current._anim.SetBool("1_Move", false);
         sorting.sortingOrder = Mathf.RoundToInt(-transform.position.y * 100f);
-        previousPosition = transform.position;
         Face(owner.MyData.team == Team_Test.Player ? 1f : -1f);
     }
 
@@ -88,13 +86,12 @@ public class BattleUnitVisual : MonoBehaviour
     private void LateUpdate()
     {
         if (!initialized || current == null || unit == null) return;
-        Vector3 delta = transform.position - previousPosition;
-        previousPosition = transform.position;
         current._anim.speed = unit.IsFrozen ? 0f : 1f;
-        current._anim.SetBool("1_Move", !unit.IsFrozen && delta.sqrMagnitude > 0.000001f);
+        current._anim.SetBool("1_Move", unit.IsMoving);
         if (unit.CurrentTarget != null)
             Face(unit.CurrentTarget.position.x - transform.position.x);
-        else if (Mathf.Abs(delta.x) > 0.001f) Face(delta.x);
+        else if (Mathf.Abs(unit.MoveDirection.x) > 0.001f)
+            Face(unit.MoveDirection.x);
         // 캐릭터 파츠 순서를 유지하며 캐릭터 전체의 앞뒤를 정렬합니다.
         sorting.sortingOrder = Mathf.RoundToInt(-transform.position.y * 100f);
     }

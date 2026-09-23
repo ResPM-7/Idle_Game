@@ -46,15 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPoolManager
   isDontDestroy: 0
   objList:
-  - poolName: BattleUnit
-    prefab: {fileID: 807837890451654685, guid: 683ad634980416e43be15fc43aaed785, type: 3}
-    poolSize: 5
-  - poolName: Boss
-    prefab: {fileID: 3624809761425899735, guid: 34501b131c8215345abf6cd11b0b1958, type: 3}
-    poolSize: 1
-  - poolName: Enemy
-    prefab: {fileID: 4004752810020888005, guid: 5fb46b1e861649b4692e75a6a363f539, type: 3}
-    poolSize: 10
   - poolName: Fire
     prefab: {fileID: 467310908342717953, guid: 3ad08d14d2f8b2745aa4a2ffc24e47e3, type: 3}
     poolSize: 5
@@ -70,8 +61,11 @@ MonoBehaviour:
   - poolName: Freeze
     prefab: {fileID: 8888592620301257213, guid: eee969898ba9fb849b31da3adc5fa15f, type: 3}
     poolSize: 5
-  - poolName: Projectile_Attack
+  - poolName: Projectile_EnergyBall
     prefab: {fileID: 491372568394146561, guid: ee9eae241a64a1544bf1f2a23dce2e5d, type: 3}
+    poolSize: 5
+  - poolName: Projectile_Arrow
+    prefab: {fileID: 491372568394146561, guid: e89b9dc70894d5245a1200af9b835086, type: 3}
     poolSize: 5
   - poolName: Projectile_Heal
     prefab: {fileID: 5589688112995409827, guid: 7f9b774887349c94e87fcafd2c161878, type: 3}
