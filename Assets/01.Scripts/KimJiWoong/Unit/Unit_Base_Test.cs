@@ -50,6 +50,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
     private float baseDamage;
     private bool isInitialized;
+    private BattleUnitVisual battleVisual;
 
     public bool IsFrozen { get; private set; }
     private Coroutine freezeRoutine;
@@ -107,6 +108,11 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentTarget = null;
 
         StatMultiplier = 1f;
+
+        // 전투용 캐릭터 외형만 교체합니다. UI 유닛과 단일 아이콘 데이터는 별개입니다.
+        if (battleVisual == null)
+            battleVisual = GetComponent<BattleUnitVisual>() ?? gameObject.AddComponent<BattleUnitVisual>();
+        battleVisual.Apply(this);
 
         ChangeState(idleState);
         //소환될때 유닛 체력바가 제대로 출력되게
@@ -170,6 +176,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         }
 
         currentState = newState;
+        if (newState == attackState && battleVisual != null) battleVisual.PlayAttack();
         currentState.Enter(this);
     }
 

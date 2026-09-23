@@ -1,0 +1,197 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e7306d021f4d58893c3d1efa914001, type: 3}
+  m_Name: BattleVisualCatalog
+  m_EditorClassIdentifier:
+  entries:
+  - team: 0
+    unitId: 101
+    prefab: {fileID: 4956262690050685123, guid: 28c3696bd74fc364d9094a547a630d4c, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 102
+    prefab: {fileID: 4956262690050685123, guid: 28c3696bd74fc364d9094a547a630d4c, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 103
+    prefab: {fileID: 4956262690050685123, guid: 28c3696bd74fc364d9094a547a630d4c, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 104
+    prefab: {fileID: 4956262690050685123, guid: 28c3696bd74fc364d9094a547a630d4c, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 105
+    prefab: {fileID: 4956262690050685123, guid: 28c3696bd74fc364d9094a547a630d4c, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 201
+    prefab: {fileID: 4581186965862415812, guid: 635920aaf2383c2429351a7fca706718, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 202
+    prefab: {fileID: 4581186965862415812, guid: 635920aaf2383c2429351a7fca706718, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 301
+    prefab: {fileID: 8190809325552192013, guid: 05e340c6da504f4408b92eff9379da12, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 2
+  - team: 0
+    unitId: 302
+    prefab: {fileID: 8190809325552192013, guid: 05e340c6da504f4408b92eff9379da12, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 2
+  - team: 0
+    unitId: 401
+    prefab: {fileID: 2439018553001832487, guid: d6b03cf2cca0c6c4faad091d3f20c943, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 402
+    prefab: {fileID: 2439018553001832487, guid: d6b03cf2cca0c6c4faad091d3f20c943, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 501
+    prefab: {fileID: 5153136095332640475, guid: e0bc6d85967272c4f97653746659f679, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 4
+  - team: 0
+    unitId: 502
+    prefab: {fileID: 5153136095332640475, guid: e0bc6d85967272c4f97653746659f679, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 4
+  - team: 0
+    unitId: 203
+    prefab: {fileID: 4222570037109911963, guid: d69fac91bb7283240bff492e24204bb3, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 303
+    prefab: {fileID: 5970256131091310474, guid: 4679433ed5b7b4349aaa1614f8fd8edc, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 2
+  - team: 0
+    unitId: 403
+    prefab: {fileID: 1397737121359573874, guid: eb76b4e1c037ad845b8a63e1649c6ef5, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 0
+    unitId: 503
+    prefab: {fileID: 3409630478132442668, guid: ce258e818d76aa54e8dd5acd62cc974e, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 4
+  - team: 1
+    unitId: 201
+    prefab: {fileID: 7774000568092705267, guid: 96240f71054d5984d912eaabd916fe72, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 1
+    unitId: 202
+    prefab: {fileID: 7370989072436695922, guid: 1872959cc035f7b45975be7ede2d4ca3, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 4
+  - team: 1
+    unitId: 203
+    prefab: {fileID: 2782571359685556620, guid: b415f38a828728845b8b5d19cff34605, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 1
+    unitId: 204
+    prefab: {fileID: 8855373997258886643, guid: 211cc2dc4400d3747b7481538151fe18, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 1
+    unitId: 205
+    prefab: {fileID: 9055611127357826398, guid: 47c1bc297c9478a4586ca17017bd35f3, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 1
+    unitId: 206
+    prefab: {fileID: 8195751686329284100, guid: 831dd5554914573499c0f8bf0ce9bc80, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 2
+  - team: 1
+    unitId: 207
+    prefab: {fileID: 433551749201036327, guid: 59ef78031df975d41989f73c6c2a15bc, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
+  - team: 1
+    unitId: 208
+    prefab: {fileID: 8970134645754600850, guid: d7dd0b1ed8f888b439fab47ef8586659, type: 3}
+    scale: 1
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 4
+  - team: 1
+    unitId: 301
+    prefab: {fileID: 2782571359685556620, guid: b415f38a828728845b8b5d19cff34605, type: 3}
+    scale: 1.5
+    offset: {x: 0, y: -0.45, z: 0}
+    facesLeft: 1
+    attackAnimation: 0
