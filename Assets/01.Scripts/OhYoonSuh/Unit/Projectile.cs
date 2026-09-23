@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : MonoBehaviour, IPoolable
 {
     [SerializeField] private float speed = 18.75f;
 
@@ -9,6 +9,12 @@ public class Projectile : MonoBehaviour
     private bool isHeal;
     private string myPoolName;
     private bool isCrit;
+    private Unit_Base_Test targetUnit;
+    // 같은 풀 객체가 새 유닛으로 재사용되면 이전 투사체가 새 유닛을 맞히지 않도록 구분합니다.
+    private uint targetSpawnVersion;
+    private float lifetime;
+    [Tooltip("투사체의 최대 생존 시간(초)입니다. 시간이 지나면 풀로 반환합니다.")]
+    [SerializeField, Min(0.1f)] private float maxLifetime = 10f;
 
     protected Transform Target => target;
 
@@ -19,13 +25,18 @@ public class Projectile : MonoBehaviour
         this.isHeal = isHeal;
         this.myPoolName = poolName;
         this.isCrit = isCrit;
+        targetUnit = target != null ? target.GetComponent<Unit_Base_Test>() : null;
+        targetSpawnVersion = targetUnit != null ? targetUnit.SpawnVersion : 0;
+        lifetime = 0f;
 
         OnSetup();
     }
 
     protected virtual void Update()
     {
-        if (target == null || !target.gameObject.activeInHierarchy)
+        lifetime += Time.deltaTime;
+        if (target == null || !target.gameObject.activeInHierarchy || lifetime >= maxLifetime
+            || (targetUnit != null && (targetUnit.CurrentHp <= 0f || targetUnit.SpawnVersion != targetSpawnVersion)))
         {
             ReturnToPool();
             return;
@@ -51,8 +62,6 @@ public class Projectile : MonoBehaviour
 
     private void HitTarget()
     {
-        Unit_Base_Test targetUnit = target.GetComponent<Unit_Base_Test>();
-
         if (targetUnit != null && targetUnit.CurrentHp > 0)
         {
             if (isHeal)
@@ -74,11 +83,27 @@ public class Projectile : MonoBehaviour
 
         if (!string.IsNullOrEmpty(myPoolName) && ObjectPoolManager.instance != null)
         {
-            ObjectPoolManager.instance.ReturnObject(myPoolName, gameObject);
+            ObjectPoolManager.instance.ReturnObject(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    public void OnSpawned() { lifetime = 0f; }
+
+    // 다음 발사에서 이전 타깃·피해량·회전이 남지 않도록 정리합니다.
+    public void OnDespawned()
+    {
+        target = null;
+        targetUnit = null;
+        targetSpawnVersion = 0;
+        amount = 0f;
+        isHeal = false;
+        isCrit = false;
+        myPoolName = null;
+        lifetime = 0f;
+        transform.localRotation = Quaternion.identity;
     }
 }

@@ -26,7 +26,7 @@ public class UnitAttackState : IUnitState
             {
                 if (isTargetAlly)
                 {
-                    // �Ʊ� Ÿ�� = ��
+                    // 아군 타겟 = 힐
                     if (unit.MyData.canHeal)
                     {
                         FireProjectile(unit, targetUnit, finalAmount, true, unit.MyData.healProjectilePoolName, isCrit);
@@ -55,12 +55,13 @@ public class UnitAttackState : IUnitState
     {
         if (string.IsNullOrEmpty(poolName)) return;
 
-        GameObject projectileObj = ObjectPoolManager.instance.GetObject(poolName);
-        if (projectileObj != null)
+        ObjectPoolManager.instance.Spawn(poolName, projectileObj =>
         {
             projectileObj.transform.position = unit.transform.position;
             Projectile proj = projectileObj.GetComponent<Projectile>();
-            if (proj != null) proj.Setup(target.transform, amount, isHeal, poolName, isCrit);
-        }
+            if (proj == null)
+                throw new System.InvalidOperationException($"{projectileObj.name} 프리팹에 Projectile 컴포넌트가 없습니다.");
+            proj.Setup(target.transform, amount, isHeal, poolName, isCrit);
+        });
     }
 }

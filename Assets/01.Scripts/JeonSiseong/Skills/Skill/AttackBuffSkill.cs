@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class AttackBuffSkill : MonoBehaviour
+public class AttackBuffSkill : MonoBehaviour, IPoolable
 {
     [Header("Buff Setting")]
-    [SerializeField] private float buffMultiplier = 1.5f;  //  50% ¡ı∞°
-    [SerializeField] private float buffDuration = 5f;     // πˆ«¡ ¡ˆº” Ω√∞£
-    [SerializeField] private string poolName = "AttackBuff";
+    [SerializeField] private float buffMultiplier = 1.5f;  //  50% Ï¶ùÍ∞Ä
+    [SerializeField] private float buffDuration = 5f;     // Î≤ÑÌîÑ ÏßÄÏÜç ÏãúÍ∞Ñ
 
-    void Start()
+    public void OnSpawned()
     {
+        CancelInvoke();
         if(PartyBuildManager.instance != null)
         {
             PartyBuildManager.instance.ApplyUnitDamageBuff(buffMultiplier, buffDuration);
@@ -20,7 +20,8 @@ public class AttackBuffSkill : MonoBehaviour
 
     private void ReturnToPool()
     {
-        ObjectPoolManager.instance.ReturnObject(poolName, gameObject);
+        ObjectPoolManager.instance.ReturnObject(gameObject);
     }
 
+    public void OnDespawned() { CancelInvoke(); }
 }

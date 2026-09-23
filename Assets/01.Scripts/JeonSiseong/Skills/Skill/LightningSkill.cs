@@ -1,20 +1,21 @@
 using UnityEngine;
 
-public class LightningSkill : Skill
+public class LightningSkill : Skill, IPoolable
 {
-    [SerializeField] private string poolName = "Lightning";
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         DamageTarget(collision);
     }
-    void Start()
+    public void OnSpawned()
     {
+        CancelInvoke();
         Invoke(nameof(ReturnToPool), 1f);
     }
 
     private void ReturnToPool()
     {
-        ObjectPoolManager.instance.ReturnObject(poolName, gameObject);
+        ObjectPoolManager.instance.ReturnObject(gameObject);
     }
+    public void OnDespawned() { CancelInvoke(); }
 }

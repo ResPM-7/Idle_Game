@@ -25,7 +25,6 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
             // [더블 풀링 방지] 유닛이 아직 맵에 살아서 활성화되어 있을 때만 풀로 돌려보냅니다!
             if (activeBattleUnits[slotIndex].activeInHierarchy)
             {
-                activeBattleUnits[slotIndex].SetActive(false);
                 if (oldData != null && !string.IsNullOrEmpty(oldData.battlePoolName))
                 {
                     ObjectPoolManager.instance.ReturnObject(oldData.battlePoolName, activeBattleUnits[slotIndex]);
@@ -57,7 +56,6 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
             // [더블 풀링 방지] 여기도 동일하게 살아있을 때만 반환!
             if (activeBattleUnits[slotIndex].activeInHierarchy)
             {
-                activeBattleUnits[slotIndex].SetActive(false);
                 if (oldData != null && !string.IsNullOrEmpty(oldData.battlePoolName))
                 {
                     ObjectPoolManager.instance.ReturnObject(oldData.battlePoolName, activeBattleUnits[slotIndex]);
@@ -97,7 +95,6 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
                 // (이미 죽어서 비활성화된 유닛은 에러 방지를 위해 중복 반환하지 않음)
                 if (activeBattleUnits[i].activeInHierarchy)
                 {
-                    activeBattleUnits[i].SetActive(false);
                     if (oldData != null && !string.IsNullOrEmpty(oldData.battlePoolName))
                     {
                         ObjectPoolManager.instance.ReturnObject(oldData.battlePoolName, activeBattleUnits[i]);

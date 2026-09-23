@@ -3,24 +3,24 @@ using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
-    [SerializeField] private string poisonPoolName = "Poison"; // ÀÌ¹ÌÁö¿¡ ÀûÈù ¿ÀÅ¸ ±×´ë·Î ¸ÂÃã
+    [SerializeField] private string poisonPoolName = "Poison"; // ì´ë¯¸ì§€ì— ì ížŒ ì˜¤íƒ€ ê·¸ëŒ€ë¡œ ë§žì¶¤
     [SerializeField] private string lightningPoolName = "Lightning";
     [SerializeField] private string firePoolName = "Fire";
     [SerializeField] private string attackBuffPoolName = "AttackBuff";
     [SerializeField] private string freezePoolName = "Freeze";
 
 
-    [Header("Skill Cooltime")]                          // °¢ ½ºÅ³ ÄðÅ¸ÀÓ
+    [Header("Skill Cooltime")]                          // ê° ìŠ¤í‚¬ ì¿¨íƒ€ìž„
     [SerializeField] float poisonCooltime = 8f;
     [SerializeField] float lightningCooltime = 5f;
     [SerializeField] float fireCooltime = 10f;
     [SerializeField] float attackBuffCooltime = 15f;
     [SerializeField] float freezeCooltime = 12f;
 
-    [Header("½ºÅ³ À§Ä¡")]
+    [Header("ìŠ¤í‚¬ ìœ„ì¹˜")]
     [SerializeField] private Transform skillSpawnPoint;
 
-    [Header("½ºÅ³ ÄðÅ¸ÀÓ ÀÌ¹ÌÁö È®ÀÎ")]
+    [Header("ìŠ¤í‚¬ ì¿¨íƒ€ìž„ ì´ë¯¸ì§€ í™•ì¸")]
     [SerializeField] private Image poisonCooldownImage;
     [SerializeField] private Image lightningCooldownImage;
     [SerializeField] private Image fireCooldownImage;
@@ -65,13 +65,10 @@ public class SkillManager : MonoBehaviour
     {
         if(freezeTimer > 0) return;
 
-        freezeTimer = freezeCooltime;
-
-        GameObject obj = ObjectPoolManager.instance.GetObject(freezePoolName);
+        GameObject obj = ObjectPoolManager.instance.Spawn(freezePoolName, position, Quaternion.identity);
         if(obj != null)
         {
-            obj.transform.position = position;
-            obj.transform.rotation = Quaternion.identity;
+            freezeTimer = freezeCooltime;
         }
     }
     public void UseAttackBuff(Vector3 position)
@@ -81,67 +78,55 @@ public class SkillManager : MonoBehaviour
             return;
         }
 
-        attackBuffTimer = attackBuffCooltime;
-
-        GameObject obj = ObjectPoolManager.instance.GetObject(attackBuffPoolName);
+        GameObject obj = ObjectPoolManager.instance.Spawn(attackBuffPoolName, position, Quaternion.identity);
         if(obj != null)
         {
-            obj.transform.position = position;
-            obj.transform.rotation = Quaternion.identity;
+            attackBuffTimer = attackBuffCooltime;
         }
     }
 
-    public void UsePoison(Vector3 position)       // ÇÃ·¹ÀÌ¾î°¡ È£Ãâ ÇÒ µ¶ ½ºÅ³
+    public void UsePoison(Vector3 position)       // í”Œë ˆì´ì–´ê°€ í˜¸ì¶œ í•  ë… ìŠ¤í‚¬
     {
         if (poisonTimer > 0)
         {
             return;
         }
 
-        poisonTimer = poisonCooltime;
-
-        GameObject obj = ObjectPoolManager.instance.GetObject(poisonPoolName);
+        GameObject obj = ObjectPoolManager.instance.Spawn(poisonPoolName, position, Quaternion.identity);
         if (obj != null)
         {
-            obj.transform.position = position;
-            obj.transform.rotation = Quaternion.identity;
+            poisonTimer = poisonCooltime;
         }
     }
 
-    public void UseLightning(Vector3 position)       // ÇÃ·¹ÀÌ¾î°¡ È£Ãâ ÇÒ ¹ø°³ ½ºÅ³
+    public void UseLightning(Vector3 position)       // í”Œë ˆì´ì–´ê°€ í˜¸ì¶œ í•  ë²ˆê°œ ìŠ¤í‚¬
     {
         if(lightningTimer > 0)
         {
             return;
         }
 
-        lightningTimer = lightningCooltime;
-
-        GameObject obj = ObjectPoolManager.instance.GetObject(lightningPoolName);
+        GameObject obj = ObjectPoolManager.instance.Spawn(lightningPoolName, position, Quaternion.identity);
         if (obj != null)
         {
-            obj.transform.position = position;
-            obj.transform.rotation = Quaternion.identity;
+            lightningTimer = lightningCooltime;
         }
     }
 
 
 
 
-    public void UseFire(Vector3 position)       // ÇÃ·¹ÀÌ¾î°¡ È£Ãâ ÇÒ È­¿° ½ºÅ³
+    public void UseFire(Vector3 position)       // í”Œë ˆì´ì–´ê°€ í˜¸ì¶œ í•  í™”ì—¼ ìŠ¤í‚¬
     {
         if(fireTimer > 0)
         {
             return;
         }
 
-        fireTimer = fireCooltime;
-
-        GameObject obj = ObjectPoolManager.instance.GetObject(firePoolName);
+        GameObject obj = ObjectPoolManager.instance.Spawn(firePoolName, position, Quaternion.identity);
         if (obj != null)
         {
-            obj.transform.position = position;
-            obj.transform.rotation = Quaternion.identity;
+            fireTimer = fireCooltime;
         }
     }
 
@@ -151,7 +136,7 @@ public class SkillManager : MonoBehaviour
         {
             poisonTimer -= Time.deltaTime;
             if (poisonCooldownImage != null)
-                poisonCooldownImage.fillAmount = poisonTimer / poisonCooltime; // ³²Àº ºñÀ² °è»ê
+                poisonCooldownImage.fillAmount = poisonTimer / poisonCooltime; // ë‚¨ì€ ë¹„ìœ¨ ê³„ì‚°
         }
 
         if (lightningTimer > 0)
