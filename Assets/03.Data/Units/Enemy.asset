@@ -1,5 +1,116 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7545483778160979276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_306
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 306
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  canRanged: 0
+  projectilePoolName: 
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: 
+  defense: 0
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 0
+  credit: 50
+  nextUpgradeUnits: []
+--- !u!114 &-7481264759479268748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_304
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 304
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  canRanged: 0
+  projectilePoolName: 
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: 
+  defense: 0
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 0
+  credit: 50
+  nextUpgradeUnits: []
+--- !u!114 &-6661274660169889933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_305
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 305
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  canRanged: 0
+  projectilePoolName: 
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: 
+  defense: 0
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 0
+  credit: 50
+  nextUpgradeUnits: []
 --- !u!114 &-3414527648549997551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +356,11 @@ MonoBehaviour:
   - {fileID: -2107156837525844836}
   - {fileID: -493028265017743643}
   - {fileID: -3414527648549997551}
+  - {fileID: 7289002018046057570}
+  - {fileID: 7660181002315093347}
+  - {fileID: -7481264759479268748}
+  - {fileID: -6661274660169889933}
+  - {fileID: -7545483778160979276}
 --- !u!114 &180788648125843077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +434,80 @@ MonoBehaviour:
   criticalDamage: 0
   coin: 12
   credit: 0
+  nextUpgradeUnits: []
+--- !u!114 &7289002018046057570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_302
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 302
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  canRanged: 0
+  projectilePoolName: 
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: 
+  defense: 0
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 0
+  credit: 50
+  nextUpgradeUnits: []
+--- !u!114 &7660181002315093347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_303
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 303
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  canRanged: 0
+  projectilePoolName: 
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: 
+  defense: 0
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 0
+  credit: 50
   nextUpgradeUnits: []
 --- !u!114 &8034744452644215871
 MonoBehaviour:

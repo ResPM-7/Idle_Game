@@ -70,22 +70,7 @@ public class StageMonsterSync : EditorWindow
                 enemyDict[enemy.unitId] = enemy;
             }
         }
-        //Dictionary<int, UnitDataSO> enemyDict = new Dictionary<int, UnitDataSO>();
-
-        //string[] guids = AssetDatabase.FindAssets(
-        //    "t:UnitDataSO",
-        //    new[] { "Assets/03.Data/Units/Enemy" }
-        //    );
-
-        //foreach (string guid in guids)
-        //{
-        //    string path = AssetDatabase.GUIDToAssetPath(guid);
-        //    UnitDataSO enemySO = AssetDatabase.LoadAssetAtPath<UnitDataSO>(path);
-
-        //    if (enemySO != null)
-        //        enemyDict[enemySO.unitId] = enemySO;
-        //}
-
+       
         List<StageMonsterEntry> newEntries = new List<StageMonsterEntry>();
         string[] lines = csv.Split('\n');
 

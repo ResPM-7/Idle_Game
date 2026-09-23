@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421b6249ef65494408c485891d5431eb, type: 3}
+  m_Name: StageBossData
+  m_EditorClassIdentifier: Assembly-CSharp::StageBossDataSO
+  cycleLength: 6
+  entries:
+  - stage: 1
+    bossData: {fileID: -1985273095112801932, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+  - stage: 2
+    bossData: {fileID: 7289002018046057570, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+  - stage: 3
+    bossData: {fileID: 7660181002315093347, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+  - stage: 4
+    bossData: {fileID: -7481264759479268748, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+  - stage: 5
+    bossData: {fileID: -6661274660169889933, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+  - stage: 6
+    bossData: {fileID: -7545483778160979276, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}

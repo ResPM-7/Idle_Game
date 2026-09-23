@@ -321,7 +321,7 @@ MonoBehaviour:
   uiPoolName: UIUnit
   battlePoolName: BattleUnit
   unitSprite: {fileID: 0}
-  maxHp: 150
+  maxHp: 220
   moveSpeed: 5
   attackDamage: 28
   attackSpeed: 1

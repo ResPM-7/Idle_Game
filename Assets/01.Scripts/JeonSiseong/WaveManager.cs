@@ -35,6 +35,9 @@ public class WaveManager : Singleton<WaveManager>
     [SerializeField] WaveData waveData;
     [SerializeField] StageMonsterDataSO stageMonsterData;
 
+    [Header("StageBoss Data")]
+    [SerializeField] private StageBossDataSO stageBossData;
+
     int aliveCount = 0;     // 현재 생존 중인 몬스터 수
     int killCount = 0;      // 현재 웨이브 처치 수 
     int spawnedCount = 0;   // 현재 웨이브에서 이미 스폰한 수
@@ -360,11 +363,13 @@ public class WaveManager : Singleton<WaveManager>
             return;
         }
 
-        StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
-        float bossMultiplier = stageMonsterData.GetMultiplierForStage(currentStage);
-        if (entry != null && entry.bossData != null)
+        //StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
+        StageBossEntry bossEntry = stageBossData.GetBossForStage(currentStage);
+        float bossMultiplier = stageBossData.GetMultiplierForStage(currentStage);
+
+        if (bossEntry != null && bossEntry.bossData != null)
         {
-            bossData = entry.bossData;
+            bossData = bossEntry.bossData;
         }
 
         if (bossData == null)
