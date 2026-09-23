@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c5a65547d1edf4a9d882bd6cff83eda8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Core/Basic_Resources/Materials/SpriteDiffuse.mat
+  uploadId: 822312

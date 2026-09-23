@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8904524cb1305964a8ade38c0ceebed2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Core/Basic_Resources/Animator/Horse/ATTACK.anim
+  uploadId: 822312
