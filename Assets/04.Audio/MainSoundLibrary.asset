@@ -18,3 +18,23 @@ MonoBehaviour:
     category: 1
     loop: 0
     volume: 1
+  - id: ui_sell
+    clip: {fileID: 8300000, guid: bc6fa499f9999a944b4ecd2f75bbc84d, type: 3}
+    category: 1
+    loop: 0
+    volume: 1
+  - id: ui_buy
+    clip: {fileID: 8300000, guid: 907fbe18067ef0e45943a6c53ca85c9d, type: 3}
+    category: 1
+    loop: 0
+    volume: 1
+  - id: ui_upgrade
+    clip: {fileID: 8300000, guid: cafda219ef87b154888963817748163f, type: 3}
+    category: 1
+    loop: 0
+    volume: 1
+  - id: ui_slide
+    clip: {fileID: 8300000, guid: c32bda4e3796a6547b6dfe60f4c79e1a, type: 3}
+    category: 1
+    loop: 0
+    volume: 1

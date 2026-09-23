@@ -803,6 +803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65320f1c5ea4b6e4ba8cab39b2f92b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatUpgradeItem
+  statIconImage: {fileID: 3433629713354370547}
   statNameText: {fileID: 5363052184373930401}
   levelText: {fileID: 758878556258515776}
   valueText: {fileID: 2965951881912974703}

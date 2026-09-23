@@ -1,0 +1,245 @@
+fileFormatVersion: 2
+guid: d9cc6cc270c635540b22bf9d37d7aebf
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3600790166825428578
+    second: Btn_Upgrade_Simple_0
+  - first:
+      213: -5783501574946890425
+    second: Btn_Upgrade_Simple_1
+  - first:
+      213: 6691741674833525712
+    second: Btn_Upgrade_Simple_2
+  - first:
+      213: 6187457404817812144
+    second: Btn_Upgrade_Simple_3
+  - first:
+      213: 8285779240526242273
+    second: Btn_Upgrade_Simple_4
+  - first:
+      213: -8082857478142645268
+    second: Btn_Upgrade_Simple_5
+  - first:
+      213: -2853494561560995271
+    second: Btn_Upgrade_Simple_6
+  - first:
+      213: -4649622741910321100
+    second: Btn_Upgrade_Simple_7
+  - first:
+      213: -153403037281515703
+    second: Btn_Upgrade_Simple_8
+  - first:
+      213: 7950450625523767218
+    second: Btn_Upgrade_Simple_9
+  - first:
+      213: 3501996618762217115
+    second: Btn_Upgrade_Simple_10
+  - first:
+      213: 9142421608995711911
+    second: Btn_Upgrade_Simple_11
+  - first:
+      213: 6918847663549546038
+    second: Btn_Upgrade_Simple_12
+  - first:
+      213: -1125792552178873078
+    second: Btn_Upgrade_Simple_13
+  - first:
+      213: -4997312285348067396
+    second: Btn_Upgrade_Simple_14
+  - first:
+      213: -950245159660012376
+    second: Btn_Upgrade_Simple_15
+  - first:
+      213: 7613618508666503447
+    second: Btn_Upgrade_Simple_16
+  - first:
+      213: -6150072646046599405
+    second: Btn_Upgrade_Simple_17
+  - first:
+      213: 3472495028096553361
+    second: Btn_Upgrade_Simple_18
+  - first:
+      213: -5782466483667568987
+    second: Btn_Upgrade_Simple_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Btn_Upgrade_Simple_16
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 204
+        width: 1556
+        height: 362
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 139, y: 142, z: 153, w: 133}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7110868e1b109a960800000000000000
+      internalID: 7613618508666503447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3bd353168bd642a4a949eb8cb4c294cb
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Btn_Upgrade_Simple_0: 3600790166825428578
+      Btn_Upgrade_Simple_1: -5783501574946890425
+      Btn_Upgrade_Simple_10: 3501996618762217115
+      Btn_Upgrade_Simple_11: 9142421608995711911
+      Btn_Upgrade_Simple_12: 6918847663549546038
+      Btn_Upgrade_Simple_13: -1125792552178873078
+      Btn_Upgrade_Simple_14: -4997312285348067396
+      Btn_Upgrade_Simple_15: -950245159660012376
+      Btn_Upgrade_Simple_16: 7613618508666503447
+      Btn_Upgrade_Simple_17: -6150072646046599405
+      Btn_Upgrade_Simple_18: 3472495028096553361
+      Btn_Upgrade_Simple_19: -5782466483667568987
+      Btn_Upgrade_Simple_2: 6691741674833525712
+      Btn_Upgrade_Simple_3: 6187457404817812144
+      Btn_Upgrade_Simple_4: 8285779240526242273
+      Btn_Upgrade_Simple_5: -8082857478142645268
+      Btn_Upgrade_Simple_6: -2853494561560995271
+      Btn_Upgrade_Simple_7: -4649622741910321100
+      Btn_Upgrade_Simple_8: -153403037281515703
+      Btn_Upgrade_Simple_9: 7950450625523767218
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
