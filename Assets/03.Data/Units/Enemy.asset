@@ -23,7 +23,7 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0
@@ -282,7 +282,7 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0
@@ -319,7 +319,7 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0
@@ -495,7 +495,7 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0

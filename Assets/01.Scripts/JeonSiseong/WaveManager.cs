@@ -602,6 +602,16 @@ public class WaveManager : Singleton<WaveManager>
 
     public void StageGiveUp()
     {
+        // 시작 또는 재시작 상태에서는 편성된 유닛이 최소 1명 필요합니다.
+        // 버튼 외의 경로에서 이 함수가 호출돼도 전투가 시작되지 않게 막습니다.
+        if (stageGiveUp &&
+            (PartyBuildManager.instance == null ||
+             PartyBuildManager.instance.GetActiveUnitCount() <= 0))
+        {
+            Debug.LogWarning("파티에 유닛을 1명 이상 편성해야 전투를 시작할 수 있습니다.");
+            return;
+        }
+
         // 아직 게임 시작 전이라면
         if (stageGiveUp)
         {
