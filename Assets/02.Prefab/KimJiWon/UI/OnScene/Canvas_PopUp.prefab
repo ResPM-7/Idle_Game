@@ -226,6 +226,14 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5741473628570603686, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5741473628570603686, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4957278366038313638, guid: 2504d498a3f997d4091a3f758179ead0, type: 3}
     - target: {fileID: 6711449410112282034, guid: 51602c540dce4380a3bb238f371cf18e, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
