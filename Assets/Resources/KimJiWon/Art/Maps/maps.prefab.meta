@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 11fdade78c3854ebdb689686ec91ec4b
+timeCreated: 1545811305
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Ultimate Resource Bundle/Res/Maps/#99.prefab
+  uploadId: 822312

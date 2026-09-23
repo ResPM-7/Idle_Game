@@ -917,6 +917,7 @@ GameObject:
   - component: {fileID: 5158491737294684469}
   - component: {fileID: 2783115464747064349}
   - component: {fileID: 8639647648398140258}
+  - component: {fileID: 4622950394083772876}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1026,6 +1027,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4622950394083772876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2268365114199849546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea2c4fa919d1134b9e657083a576315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SoundButton
+  soundId: ui_upgrade
 --- !u!1 &2369659799351063986
 GameObject:
   m_ObjectHideFlags: 0
