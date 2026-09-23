@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public interface IUnitState
 {
@@ -29,26 +30,14 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
     public float CurrentAttackSpeed { get; set; }
     public float CurrentMaxHp { get; set; }
     public float CurrentHp { get; set; }
-    // 외부 강화는 기본 공격력을 갱신하고, 일시 버프는 읽을 때 배율로 합성합니다.
-    private float damageWithoutBuff;
-    public float CurrentDamage
-    {
-        get => damageWithoutBuff * statusEffects.DamageMultiplier;
-        set => damageWithoutBuff = value;
-    }
+    public float CurrentDamage { get; set; }
     public int CurrentDefense { get; set; }
     public float CurrentCriticalRate { get; set; }
     public float CurrentCriticalDamage { get; set; }
     public float AttackTimer { get; set; }
     public float SearchTimer { get; set; }
     public float StatMultiplier { get; set; } = 1f;
-    public UnitCombatController Combat { get; } = new UnitCombatController();
-    private readonly UnitStatusEffects statusEffects = new UnitStatusEffects();
-    public Transform CurrentTarget
-    {
-        get => Combat.Target;
-        set => Combat.SetTarget(value);
-    }
+    public Transform CurrentTarget { get; set; }
     public Vector2 MoveDirection => moveDirection;
     public bool IsMoving => !IsFrozen
         && currentState == moveState
@@ -71,12 +60,10 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
     public uint SpawnVersion { get; private set; }
     private BattleUnitVisual battleVisual;
     private Rigidbody2D rigidBody;
-    private Collider2D targetingCollider;
-    public bool CanBeTargeted => isActiveAndEnabled && targetingCollider != null
-        && targetingCollider.enabled && (rigidBody == null || rigidBody.simulated);
     private Vector2 moveDirection;
 
-    public bool IsFrozen => statusEffects.IsFrozen;
+    public bool IsFrozen { get; private set; }
+    private Coroutine freezeRoutine;
     private UnitVisualEffect visualEffect;
 
     private void Awake()
@@ -91,7 +78,6 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
         // 프리팹에 미리 부착한 BattleUnitVisual을 한 번만 가져옵니다.
         battleVisual = GetComponent<BattleUnitVisual>();
         rigidBody = GetComponent<Rigidbody2D>();
-        targetingCollider = GetComponent<Collider2D>();
         visualEffect = GetComponent<UnitVisualEffect>();
 
         if (rigidBody == null)
@@ -112,9 +98,10 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
         if (data == null) throw new ArgumentNullException(nameof(data), "유닛 초기화 데이터가 비어 있습니다.");
         // 미리 생성한 비활성 객체는 Awake가 아직 실행되지 않았을 수 있어 참조를 직접 준비합니다.
         EnsureReferences();
-        statusEffects.Reset();
+        StopAllCoroutines();
+        freezeRoutine = null;
+        IsFrozen = false;
         myData = data;
-        Combat.Configure(this);
         isInitialized = true;
         pendingSpawn = true;
         SpawnVersion++;
@@ -183,8 +170,6 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
             battleVisual.Apply(this);
         }
 
-        statusEffects.BindVisual(visualEffect);
-        UnitTargetRegistry.Register(this);
         OnUnitSpawned?.Invoke(this);
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, 0f, false);
     }
@@ -192,8 +177,9 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
     // 풀 반환 시 이전 전투의 타깃·이동·버프 타이머가 다음 사용에 남지 않도록 정리합니다.
     public void OnDespawned()
     {
-        UnitTargetRegistry.Unregister(this);
-        statusEffects.Reset();
+        StopAllCoroutines();
+        freezeRoutine = null;
+        IsFrozen = false;
         CurrentTarget = null;
         moveDirection = Vector2.zero;
         AttackTimer = 0f;
@@ -237,9 +223,6 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
 
     private void OnDisable()
     {
-        UnitTargetRegistry.Unregister(this);
-        Combat.ClearTarget();
-        statusEffects.Reset();
         if (spawnAnnounced && gameObject.scene.isLoaded)
         {
             spawnAnnounced = false;
@@ -250,7 +233,6 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
 
     void Update()
     {
-        statusEffects.Tick(Time.deltaTime);
         if (IsFrozen) return;
 
         // 현재 상태의 Execute 로직을 매 프레임 실행
@@ -353,21 +335,55 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable, IPoolable
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, myData.attackRange);
 
-        // 2. 데이터에 설정된 실제 탐색 범위입니다.
+        // 2. 적 탐색 범위 (노란색) - 현재 코드에서 사거리의 2배로 탐색 중이시죠!
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, myData.searchRange);
+        Gizmos.DrawWireSphere(transform.position, myData.attackRange * 2f);
     }
 
-    // 같은 효과를 다시 적용하면 최신 배율과 지속 시간으로 갱신합니다.
+    // 공격력 버프
     public void ApplyDamageBuff(float multiplier, float duration)
     {
-        if (!isActiveAndEnabled || CurrentHp <= 0f || currentState == destroyedState) return;
-        statusEffects.ApplyDamageBuff(multiplier, duration);
+        if (!isActiveAndEnabled || CurrentHp <= 0f || currentState == destroyedState)
+            return;
+
+        StartCoroutine(DamageBuffRoutine(multiplier, duration));
     }
 
+    private IEnumerator DamageBuffRoutine(float multiplier, float duration)
+    {
+        CurrentDamage = baseDamage * multiplier;
+        visualEffect?.SetDamageBuff(true);
+
+        yield return new WaitForSeconds(duration);
+
+        CurrentDamage = baseDamage;
+        visualEffect?.SetDamageBuff(false);
+    }
+
+    // 얼리기 스킬
     public void ApplyFreeze(float duration)
     {
         if (!isActiveAndEnabled || CurrentHp <= 0f || currentState == destroyedState) return;
-        statusEffects.ApplyFreeze(duration);
+
+        Debug.Log($"[빙결 적용] {gameObject.name} 빙결 시작, 지속시간: {duration}");
+
+        if (freezeRoutine != null)
+        {
+            StopCoroutine(freezeRoutine);
+        }
+
+        freezeRoutine = StartCoroutine(FreezeRoutine(duration));
+    }
+
+    private IEnumerator FreezeRoutine(float duration)
+    {
+        IsFrozen = true;
+        visualEffect?.SetFrozen(true);
+
+        yield return new WaitForSeconds(duration);
+
+        IsFrozen = false;
+        visualEffect?.SetFrozen(false);
+        freezeRoutine = null;
     }
 }
