@@ -200,12 +200,6 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
         CurrentHp -= finalDamage;
 
-        // blocked 일시 막히는 사운드 재생, 그외 데미지 사운드 재생
-        if (amount > 0f)
-        {
-            SoundManager.instance?.PlaySfx(finalDamage <= 0f ? "blocked" : "takedamage");
-        }
-
         //UI나 이펙트 쪽에 '최종 계산된 데미지(finalDamage)'를 넘겨줍니다.
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, finalDamage, isCritical);
 
