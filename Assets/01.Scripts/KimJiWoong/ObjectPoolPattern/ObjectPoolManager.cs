@@ -113,6 +113,13 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
     /// 비활성 객체는 Awake가 아직 실행되지 않았을 수 있으므로 준비에 필요한 참조를 직접 확인하세요.
     /// </summary>
     public GameObject Spawn(string poolName, Action<GameObject> prepare = null)
+        => Spawn(poolName, prepare, InvokePrepare);
+
+    private static readonly Action<GameObject, Action<GameObject>> InvokePrepare = RunPrepare;
+    private static void RunPrepare(GameObject obj, Action<GameObject> prepare) => prepare?.Invoke(obj);
+
+    /// <summary>값 형식 문맥과 미리 보관한 대리자를 전달하면 호출마다 캡처 람다를 만들지 않습니다.</summary>
+    public GameObject Spawn<T>(string poolName, T context, Action<GameObject, T> prepare)
     {
         Initialize();
         if (string.IsNullOrEmpty(poolName) || !pools.TryGetValue(poolName, out var pool))
@@ -138,7 +145,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         member.State = MemberState.Preparing;
         try
         {
-            prepare?.Invoke(obj);
+            prepare?.Invoke(obj, context);
             if (obj == null || member.Version != version || member.State != MemberState.Preparing) return null;
             member.State = MemberState.Active;
             obj.SetActive(true);
@@ -162,7 +169,11 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
     }
 
     public GameObject Spawn(string poolName, Vector3 position, Quaternion rotation)
-        => Spawn(poolName, obj => obj.transform.SetPositionAndRotation(position, rotation));
+        => Spawn(poolName, new Pose(position, rotation), PreparePose);
+
+    private static readonly Action<GameObject, Pose> PreparePose = ApplyPose;
+    private static void ApplyPose(GameObject obj, Pose pose)
+        => obj.transform.SetPositionAndRotation(pose.position, pose.rotation);
 
     /// <summary>이 매니저가 꺼내어 사용 중인 객체인지 확인합니다. 단순 활성 여부와는 다릅니다.</summary>
     public bool IsRented(GameObject obj)
