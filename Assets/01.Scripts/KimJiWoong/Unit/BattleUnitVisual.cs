@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -6,78 +5,70 @@ using UnityEngine.Rendering;
 [DisallowMultipleComponent]
 public class BattleUnitVisual : MonoBehaviour
 {
-    private static BattleVisualCatalog catalog;
-    private readonly Dictionary<GameObject, SPUM_Prefabs> cached = new Dictionary<GameObject, SPUM_Prefabs>();
+    [SerializeField] private bool facesLeft = true;
+    [SerializeField, Min(0)] private int attackAnimation;
+    private bool initialized;
+    private Transform visualRoot;
+    private AnimatorOverrideController ownedController;
     private Unit_Base_Test unit;
-    private SpriteRenderer placeholder;
     private SPUM_Prefabs current;
-    private BattleVisualCatalog.Entry entry;
     private Vector3 previousPosition;
     private Vector3 baseScale;
     private SortingGroup sorting;
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    private static void ResetCache() { catalog = null; }
 
     public void Apply(Unit_Base_Test owner)
     {
         unit = owner;
-        if (placeholder == null) placeholder = GetComponent<SpriteRenderer>();
-        if (catalog == null) catalog = Resources.Load<BattleVisualCatalog>("GameData/BattleVisualCatalog");
-        entry = catalog != null ? catalog.Find(owner.MyData) : null;
-        if (current != null) current.gameObject.SetActive(false);
-        current = null;
-        if (entry == null || entry.prefab == null)
+        // 이미 풀링된 프리팹 내부의 외형을 찾습니다. 외형을 추가 생성하지 않습니다.
+        if (!initialized)
         {
-            if (placeholder != null) placeholder.enabled = true;
-            Debug.LogWarning($"전투 외형 연결 누락: {owner.MyData.unitName}", this);
-            return;
-        }
-
-        if (!cached.TryGetValue(entry.prefab, out current) || current == null)
-        {
-            var visual = Instantiate(entry.prefab, transform, false);
-            visual.name = "BattleVisual_" + entry.prefab.name;
-            visual.transform.localRotation = Quaternion.identity;
-            current = visual.GetComponent<SPUM_Prefabs>();
-            if (current == null || current._anim == null)
+            current = GetComponentInChildren<SPUM_Prefabs>(true);
+            if (current == null)
             {
-                Destroy(visual);
-                current = null;
-                if (placeholder != null) placeholder.enabled = true;
-                Debug.LogError("SPUM 외형에 SPUM_Prefabs 또는 Animator가 없습니다.", entry.prefab);
+                Debug.LogError($"{name}: SPUM_Prefabs 컴포넌트가 없습니다.", this);
                 return;
             }
-            // 같은 종류로 다시 소환되면 이미 만든 외형을 재사용합니다.
-            // 일부 제공 프리팹은 클립 목록이 비어 있어 패키지 정보에서 채워야 합니다.
+            if (current._anim == null || current._anim.runtimeAnimatorController == null)
+            {
+                Debug.LogError($"{name}: SPUM Animator/Controller 연결을 확인해주세요.", this);
+                current = null;
+                return;
+            }
             if (current.IDLE_List.Count == 0 || current.MOVE_List.Count == 0 || current.ATTACK_List.Count == 0)
                 current.PopulateAnimationLists();
+            // Animator Controller는 풀 객체당 한 번만 준비합니다.
             current.OverrideControllerInit();
-            cached[entry.prefab] = current;
+            ownedController = current.OverrideController;
+            visualRoot = current._anim.transform;
+            baseScale = visualRoot.localScale;
+            sorting = GetComponent<SortingGroup>();
+            if (sorting == null)
+            {
+                Debug.LogError(
+                    $"{name}: SortingGroup 컴포넌트가 없습니다. 전투 프리팹에 직접 추가해주세요.",
+                    this
+                );
+                return;
+            }
+            initialized = true;
         }
-
-        current.gameObject.SetActive(true);
-        current.transform.localPosition = entry.offset;
-        baseScale = Vector3.one * entry.scale;
-        current.transform.localScale = baseScale;
         current._anim.speed = 1f;
         current._anim.Rebind();
         current._anim.Update(0f);
         Play(PlayerState.IDLE, 0);
         Play(PlayerState.MOVE, 0);
+        current._anim.ResetTrigger("2_Attack");
         current._anim.SetBool("1_Move", false);
-        sorting = current.GetComponent<SortingGroup>();
-        if (sorting == null) sorting = current.gameObject.AddComponent<SortingGroup>();
-        sorting.sortingLayerID = placeholder != null ? placeholder.sortingLayerID : 0;
-        if (placeholder != null) placeholder.enabled = false;
+        sorting.sortingOrder = Mathf.RoundToInt(-transform.position.y * 100f);
         previousPosition = transform.position;
         Face(owner.MyData.team == Team_Test.Player ? 1f : -1f);
     }
 
     public void PlayAttack()
     {
-        if (current == null || unit.IsFrozen) return;
-        Play(PlayerState.ATTACK, entry.attackAnimation);
+        if (!initialized || unit == null || unit.IsFrozen) return;
+        Play(PlayerState.ATTACK, attackAnimation);
     }
 
     private void Play(PlayerState state, int index)
@@ -96,7 +87,7 @@ public class BattleUnitVisual : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (current == null || unit == null) return;
+        if (!initialized || current == null || unit == null) return;
         Vector3 delta = transform.position - previousPosition;
         previousPosition = transform.position;
         current._anim.speed = unit.IsFrozen ? 0f : 1f;
@@ -112,19 +103,14 @@ public class BattleUnitVisual : MonoBehaviour
     {
         if (Mathf.Abs(direction) < 0.001f) return;
         var scale = baseScale;
-        scale.x *= (direction > 0f) == entry.facesLeft ? -1f : 1f;
-        current.transform.localScale = scale;
+        scale.x = Mathf.Abs(scale.x) * (((direction > 0f) == facesLeft) ? -1f : 1f);
+        visualRoot.localScale = scale;
     }
 
-    private void OnDisable()
-    {
-        if (current != null) current.gameObject.SetActive(false);
-    }
+    // SPUM이 풀 객체 루트에 있으므로 별도로 비활성화하지 않습니다.
 
     private void OnDestroy()
     {
-        foreach (var visual in cached.Values)
-            if (visual != null && visual.OverrideController != null)
-                Destroy(visual.OverrideController);
+        if (ownedController != null) Destroy(ownedController);
     }
 }

@@ -74,14 +74,23 @@ public class GoogleSheetSync : EditorWindow
     {
         string groupPath = targetFolderPath + ".asset";
         UnitDatabase group = AssetDatabase.LoadAssetAtPath<UnitDatabase>(groupPath);
-        if (!AssetDatabase.IsValidFolder(targetFolderPath))
+        if (group == null && !AssetDatabase.IsValidFolder(targetFolderPath))
         {
-            string parent = Path.GetDirectoryName(targetFolderPath).Replace('\\', '/');
+            string parent =
+                Path.GetDirectoryName(targetFolderPath).Replace('\\', '/');
+
             string folder = Path.GetFileName(targetFolderPath);
             AssetDatabase.CreateFolder(parent, folder);
         }
 
-        string[] guids = AssetDatabase.FindAssets("t:UnitDataSO", new[] { targetFolderPath });
+        // 통합 파일 방식을 사용하면 개별 SO 폴더가 없을 수 있으므로
+        // 실제 폴더가 존재할 때만 검색합니다.
+        string[] guids = AssetDatabase.IsValidFolder(targetFolderPath)
+                        ? AssetDatabase.FindAssets(
+                        "t:UnitDataSO",
+                        new[] { targetFolderPath }
+                    )
+                    : new string[0];
         Dictionary<int, UnitDataSO> soDict = new Dictionary<int, UnitDataSO>();
         if (group != null)
         {

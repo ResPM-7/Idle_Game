@@ -57,5 +57,6 @@ MonoBehaviour:
   gameOverDelay: 2
   waveData: {fileID: 11400000, guid: 68fc76221f7d89d4ab40e308093d59d2, type: 2}
   stageMonsterData: {fileID: 11400000, guid: ea2e57cf6d6608d4286a39112d15f8d9, type: 2}
+  stageBossData: {fileID: 11400000, guid: a1e435e0cdad13f4eab6cdf4faa6ec21, type: 2}
   maxPlayerDeathCount: 5
   stageGiveUp: 0

@@ -55,6 +55,12 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public bool IsFrozen { get; private set; }
     private Coroutine freezeRoutine;
 
+    private void Awake()
+    {
+        // 프리팹에 미리 부착한 BattleUnitVisual을 한 번만 가져옵니다.
+        battleVisual = GetComponent<BattleUnitVisual>();
+    }
+
     private void Start()
     {
         // 팩토리에서 이미 Init을 호출했다면 Start에서 기본 능력치로 다시 덮어쓰지 않습니다.
@@ -66,6 +72,9 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
     public void Init(UnitDataSO data)
     {
+        StopAllCoroutines();
+        freezeRoutine = null;
+        IsFrozen = false;
         myData = data;
         isInitialized = true;
 
@@ -79,6 +88,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
         if (myData.team == Team_Test.Player)
         {
+            gameObject.tag = "Player";
             gameObject.layer = playerLayerIdx;            // 내 레이어를 Player로
             AllyLayer = 1 << playerLayerIdx;              // 아군 탐색용 레이어 = Player
             TargetLayer = 1 << enemyLayerIdx;             // 적 탐색용 레이어 = Enemy
@@ -110,9 +120,10 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         StatMultiplier = 1f;
 
         // 전투용 캐릭터 외형만 교체합니다. UI 유닛과 단일 아이콘 데이터는 별개입니다.
-        if (battleVisual == null)
-            battleVisual = GetComponent<BattleUnitVisual>() ?? gameObject.AddComponent<BattleUnitVisual>();
-        battleVisual.Apply(this);
+        if (battleVisual != null)
+        {
+            battleVisual.Apply(this);
+        }
 
         ChangeState(idleState);
         //소환될때 유닛 체력바가 제대로 출력되게

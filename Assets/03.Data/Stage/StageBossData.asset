@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: StageBossData
   m_EditorClassIdentifier: Assembly-CSharp::StageBossDataSO
   cycleLength: 6
+  multiplierPerCycle: 0.5
   entries:
   - stage: 1
     bossData: {fileID: -1985273095112801932, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
   - stage: 2
-    bossData: {fileID: 7289002018046057570, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    bossData: {fileID: -1956681799679172779, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
   - stage: 3
-    bossData: {fileID: 7660181002315093347, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    bossData: {fileID: -1407249794022230020, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
   - stage: 4
-    bossData: {fileID: -7481264759479268748, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    bossData: {fileID: -8090596691778061284, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
   - stage: 5
-    bossData: {fileID: -6661274660169889933, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    bossData: {fileID: -7392518741202430099, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
   - stage: 6
-    bossData: {fileID: -7545483778160979276, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    bossData: {fileID: 3116015082473174670, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
