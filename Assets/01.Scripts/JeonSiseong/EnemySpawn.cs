@@ -62,11 +62,7 @@ public class EnemySpawn : MonoBehaviour
             Unit_Base_Test unit = enemy.GetComponent<Unit_Base_Test>();
             if (unit != null)
             {
-                unit.CurrentMaxHp *= statMultiplier;
-                unit.CurrentHp = unit.CurrentMaxHp;
-                unit.CurrentDamage *= statMultiplier;
-                unit.CurrentDefense = Mathf.RoundToInt(unit.CurrentDefense * statMultiplier);
-                unit.StatMultiplier = statMultiplier;
+                unit.ApplyStatMultiplier(statMultiplier);
             }
         }
 

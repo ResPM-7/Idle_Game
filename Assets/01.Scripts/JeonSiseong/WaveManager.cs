@@ -397,11 +397,7 @@ public class WaveManager : Singleton<WaveManager>
             Unit_Base_Test bossStatUnit = currentBoss.GetComponent<Unit_Base_Test>();
             if (bossStatUnit != null)
             {
-                bossStatUnit.CurrentMaxHp *= bossMultiplier;
-                bossStatUnit.CurrentHp = bossStatUnit.CurrentMaxHp;
-                bossStatUnit.CurrentDamage *= bossMultiplier;
-                bossStatUnit.CurrentDefense = Mathf.RoundToInt(bossStatUnit.CurrentDefense * bossMultiplier);
-                bossStatUnit.StatMultiplier = bossMultiplier;
+                bossStatUnit.ApplyStatMultiplier(bossMultiplier);
             }
         }
 
@@ -420,7 +416,7 @@ public class WaveManager : Singleton<WaveManager>
             BossHUDPresenter.instance.BeginBossBattle(
                 bossUnit.MyData.unitName,
                 bossUnit.CurrentHp,
-                bossUnit.MyData.maxHp,
+                bossUnit.CurrentMaxHp,
                 waveData.baseBossTimeLimit,
                 waveData.baseBossTimeLimit
             );

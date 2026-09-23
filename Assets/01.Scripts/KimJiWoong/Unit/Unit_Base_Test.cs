@@ -49,12 +49,16 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public IUnitState destroyedState = new UnitDestroyedState();
 
     private float baseDamage;
+    private bool isInitialized;
 
     public bool IsFrozen { get; private set; }
     private Coroutine freezeRoutine;
 
     private void Start()
     {
+        // 팩토리에서 이미 Init을 호출했다면 Start에서 기본 능력치로 다시 덮어쓰지 않습니다.
+        if (isInitialized) return;
+
         if (myData != null) Init(myData);
         else Debug.LogWarning($"{gameObject.name}에 데이터(UnitDataSO)가 비어있습니다!");
     }
@@ -62,6 +66,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public void Init(UnitDataSO data)
     {
         myData = data;
+        isInitialized = true;
 
         int playerLayerIdx = LayerMask.NameToLayer("Player");
         int enemyLayerIdx = LayerMask.NameToLayer("Enemy");
@@ -105,9 +110,35 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
         ChangeState(idleState);
         //소환될때 유닛 체력바가 제대로 출력되게
-        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f, false);
+        OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, 0f, false);
         // 매니저를 직접 찾지 않고 스폰되었다는 방송만 송출합니다
         OnUnitSpawned?.Invoke(this);
+    }
+
+    /// <summary>
+    /// 웨이브 배율을 현재 유닛 능력치에 적용하고 체력 UI까지 즉시 갱신합니다.
+    /// Init 직후 한 번 호출하며, SO 원본 데이터는 변경하지 않습니다.
+    /// </summary>
+    public void ApplyStatMultiplier(float multiplier)
+    {
+        if (myData == null)
+        {
+            Debug.LogWarning($"{gameObject.name}은 데이터가 없어 능력치 배율을 적용할 수 없습니다.");
+            return;
+        }
+
+        multiplier = Mathf.Max(0f, multiplier);
+        StatMultiplier = multiplier;
+
+        CurrentMaxHp = myData.maxHp * multiplier;
+        CurrentHp = CurrentMaxHp;
+
+        baseDamage = myData.attackDamage * multiplier;
+        CurrentDamage = baseDamage;
+        CurrentDefense = Mathf.RoundToInt(myData.defense * multiplier);
+
+        // 배율 적용이 끝난 실제 최대 체력을 모든 체력 UI에 전달합니다.
+        OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, 0f, false);
     }
 
     private void OnDisable()
@@ -178,10 +209,10 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public void ResetAndStopCombat()
     {
         // 1. 체력을 최대치로 100% 회복
-        CurrentHp = myData.maxHp;
+        CurrentHp = CurrentMaxHp;
 
         // 2. UI 체력바 갱신
-        OnHpChanged?.Invoke(this, CurrentHp, myData.maxHp, 0f, false);
+        OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, 0f, false);
 
         // 3. 타겟팅 초기화 및 타이머 리셋
         CurrentTarget = null;

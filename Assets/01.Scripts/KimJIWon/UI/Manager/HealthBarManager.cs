@@ -92,9 +92,9 @@ public class HealthBarManager : MonoBehaviour
                 continue;
             }
 
-            unit.CurrentHp = Mathf.Min(unit.CurrentHp + amount,unit.MyData.maxHp);
+            unit.CurrentHp = Mathf.Min(unit.CurrentHp + amount, unit.CurrentMaxHp);
 
-            float normalizedHp = unit.MyData.maxHp > 0f ? unit.CurrentHp / unit.MyData.maxHp : 0f;
+            float normalizedHp = unit.CurrentMaxHp > 0f ? unit.CurrentHp / unit.CurrentMaxHp : 0f;
 
             healthBar.SetFill(normalizedHp);
         }
@@ -149,7 +149,7 @@ public class HealthBarManager : MonoBehaviour
 
         if (healthBars.TryGetValue(unit, out UI_HealthBar existingHealthBar))
         {
-            float maxHp = unit.MyData != null ? unit.MyData.maxHp : 0f;
+            float maxHp = unit.CurrentMaxHp;
             float normalizedHp = maxHp > 0f ? unit.CurrentHp / maxHp : 0f;
 
             existingHealthBar.SetFillImmediate(normalizedHp);
