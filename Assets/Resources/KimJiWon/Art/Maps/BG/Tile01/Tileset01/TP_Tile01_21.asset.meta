@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: a468728a8e8eb4ef88911265d2319e6c
+timeCreated: 1523427586
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Ultimate Resource Bundle/Res/Maps/BG/Tile01/Tileset01/TP_Tile01_21.asset
+  uploadId: 822312
