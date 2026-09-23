@@ -5,24 +5,24 @@ using Unity.VisualScripting;
 public class PartyBuildManager : Singleton<PartyBuildManager>
 {
    
-    [Header("ÀüÅõ ±¸¿ª ½ºÆù À§Ä¡")]
+    [Header("ì „íˆ¬ êµ¬ì—­ ìŠ¤í° ìœ„ì¹˜")]
     public Transform[] spawnPoints = new Transform[5];
 
-    // ÇöÀç ÀüÀå¿¡ ³ª°¡ ÀÖ´Â ½ÇÁ¦ ÀüÅõ À¯´ÖµéÀ» ÃßÀû
+    // í˜„ì¬ ì „ì¥ì— ë‚˜ê°€ ìˆëŠ” ì‹¤ì œ ì „íˆ¬ ìœ ë‹›ë“¤ì„ ì¶”ì 
     private GameObject[] activeBattleUnits = new GameObject[5];
 
     private UnitDataSO[] activeUnitDatas = new UnitDataSO[5];
 
     public void DeployUnit(int slotIndex, UnitDataSO data)
     {
-        // ÀÌ ÀÚ¸®¿¡ ÀÌ¹Ì ¶È°°Àº µ¥ÀÌÅÍÀÇ À¯´ÖÀÌ ÀÖ´Ù¸é ´Ù½Ã ¼ÒÈ¯ÇÒ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù
+        // ì´ ìë¦¬ì— ì´ë¯¸ ë˜‘ê°™ì€ ë°ì´í„°ì˜ ìœ ë‹›ì´ ìˆë‹¤ë©´ ë‹¤ì‹œ ì†Œí™˜í•  í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤
         if (activeUnitDatas[slotIndex] == data) return;
 
         if (activeBattleUnits[slotIndex] != null)
         {
             UnitDataSO oldData = activeUnitDatas[slotIndex];
 
-            // [´õºí Ç®¸µ ¹æÁö] À¯´ÖÀÌ ¾ÆÁ÷ ¸Ê¿¡ »ì¾Æ¼­ È°¼ºÈ­µÇ¾î ÀÖÀ» ¶§¸¸ Ç®·Î µ¹·Áº¸³À´Ï´Ù!
+            // [ë”ë¸” í’€ë§ ë°©ì§€] ìœ ë‹›ì´ ì•„ì§ ë§µì— ì‚´ì•„ì„œ í™œì„±í™”ë˜ì–´ ìˆì„ ë•Œë§Œ í’€ë¡œ ëŒë ¤ë³´ëƒ…ë‹ˆë‹¤!
             if (activeBattleUnits[slotIndex].activeInHierarchy)
             {
                 activeBattleUnits[slotIndex].SetActive(false);
@@ -32,7 +32,7 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
                 }
             }
 
-            // ÀÌ¹Ì Á×¾úµç »ì¾Æ¼­ ¹İÈ¯µÆµç, ¸Å´ÏÀúÀÇ ÃßÀû ¸®½ºÆ®¿¡¼­´Â ±ò²ûÇÏ°Ô Áö¿öÁİ´Ï´Ù.
+            // ì´ë¯¸ ì£½ì—ˆë“  ì‚´ì•„ì„œ ë°˜í™˜ëë“ , ë§¤ë‹ˆì €ì˜ ì¶”ì  ë¦¬ìŠ¤íŠ¸ì—ì„œëŠ” ê¹”ë”í•˜ê²Œ ì§€ì›Œì¤ë‹ˆë‹¤.
             activeBattleUnits[slotIndex] = null;
             activeUnitDatas[slotIndex] = null;
         }
@@ -43,18 +43,18 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
         {
             activeBattleUnits[slotIndex] = newBattleUnit;
             activeUnitDatas[slotIndex] = data;
-            Debug.Log($"{slotIndex + 1}¹ø ÀÚ¸®¿¡ [{data.unitName}] ÃâÀü ¿Ï·á!");
+            Debug.Log($"{slotIndex + 1}ë²ˆ ìë¦¬ì— [{data.unitName}] ì¶œì „ ì™„ë£Œ!");
         }
     }
 
     public void RemoveUnit(int slotIndex)
     {
-        // ÇØ´ç ÀÚ¸®¿¡ À¯´ÖÀÌ ÀÖ´Ù¸é Ç®·Î ¹İÈ¯ÇÏ°í ºñ¿ó´Ï´Ù.
+        // í•´ë‹¹ ìë¦¬ì— ìœ ë‹›ì´ ìˆë‹¤ë©´ í’€ë¡œ ë°˜í™˜í•˜ê³  ë¹„ì›ë‹ˆë‹¤.
         if (activeBattleUnits[slotIndex] != null)
         {
             UnitDataSO oldData = activeUnitDatas[slotIndex];
 
-            // [´õºí Ç®¸µ ¹æÁö] ¿©±âµµ µ¿ÀÏÇÏ°Ô »ì¾ÆÀÖÀ» ¶§¸¸ ¹İÈ¯!
+            // [ë”ë¸” í’€ë§ ë°©ì§€] ì—¬ê¸°ë„ ë™ì¼í•˜ê²Œ ì‚´ì•„ìˆì„ ë•Œë§Œ ë°˜í™˜!
             if (activeBattleUnits[slotIndex].activeInHierarchy)
             {
                 activeBattleUnits[slotIndex].SetActive(false);
@@ -66,11 +66,11 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
 
             activeBattleUnits[slotIndex] = null;
             activeUnitDatas[slotIndex] = null;
-            Debug.Log($"{slotIndex + 1}¹ø ÀÚ¸® ºñ¿ò!");
+            Debug.Log($"{slotIndex + 1}ë²ˆ ìë¦¬ ë¹„ì›€!");
         }
     }
 
-    //¹èÆ² ÇÒ¼ö ÀÖ´Ù¸é Æí¼ºµÈ ÆÄÆ¼ÀÇ ¼ö¸¦ È®ÀÎÇÏ±âÀ§ÇÑ ÄÚµå ¿şÀÌºê¸Å´ÏÀú¿¡°Ô Áı¾î³Ö¾î¼­ maxPlayerDeathCount°¡ º¯°æµÇ°Ô 
+    //ë°°í‹€ í• ìˆ˜ ìˆë‹¤ë©´ í¸ì„±ëœ íŒŒí‹°ì˜ ìˆ˜ë¥¼ í™•ì¸í•˜ê¸°ìœ„í•œ ì½”ë“œ ì›¨ì´ë¸Œë§¤ë‹ˆì €ì—ê²Œ ì§‘ì–´ë„£ì–´ì„œ maxPlayerDeathCountê°€ ë³€ê²½ë˜ê²Œ
     public int GetActiveUnitCount()
     {
         int count = 0;
@@ -86,15 +86,15 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
 
     public void ResetAllBattleUnits()
     {
-        // 1. ÀüÀå¿¡ ³²¾ÆÀÖ°Å³ª Á×¾îÀÖ´Â ¸ğµç À¯´ÖÀ» ½Ï ºñ¿ó´Ï´Ù.
+        // 1. ì „ì¥ì— ë‚¨ì•„ìˆê±°ë‚˜ ì£½ì–´ìˆëŠ” ëª¨ë“  ìœ ë‹›ì„ ì‹¹ ë¹„ì›ë‹ˆë‹¤.
         for (int i = 0; i < activeBattleUnits.Length; i++)
         {
             if (activeBattleUnits[i] != null)
             {
                 UnitDataSO oldData = activeUnitDatas[i];
 
-                // À¯´ÖÀÌ ¾È Á×°í »ì¾Æ¼­ È°¼ºÈ­µÇ¾î ÀÖ´Ù¸é Ç®·Î µÇµ¹·ÁÁİ´Ï´Ù.
-                // (ÀÌ¹Ì Á×¾î¼­ ºñÈ°¼ºÈ­µÈ À¯´ÖÀº ¿¡·¯ ¹æÁö¸¦ À§ÇØ Áßº¹ ¹İÈ¯ÇÏÁö ¾ÊÀ½)
+                // ìœ ë‹›ì´ ì•ˆ ì£½ê³  ì‚´ì•„ì„œ í™œì„±í™”ë˜ì–´ ìˆë‹¤ë©´ í’€ë¡œ ë˜ëŒë ¤ì¤ë‹ˆë‹¤.
+                // (ì´ë¯¸ ì£½ì–´ì„œ ë¹„í™œì„±í™”ëœ ìœ ë‹›ì€ ì—ëŸ¬ ë°©ì§€ë¥¼ ìœ„í•´ ì¤‘ë³µ ë°˜í™˜í•˜ì§€ ì•ŠìŒ)
                 if (activeBattleUnits[i].activeInHierarchy)
                 {
                     activeBattleUnits[i].SetActive(false);
@@ -104,13 +104,13 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
                     }
                 }
 
-                // ¸Å´ÏÀúÀÇ ÃßÀû µ¥ÀÌÅÍ ÃÊ±âÈ­ (ÀÌ°Ô ¹ö±× ÇØ°áÀÇ ÇÙ½ÉÀÔ´Ï´Ù!)
+                // ë§¤ë‹ˆì €ì˜ ì¶”ì  ë°ì´í„° ì´ˆê¸°í™” (ì´ê²Œ ë²„ê·¸ í•´ê²°ì˜ í•µì‹¬ì…ë‹ˆë‹¤!)
                 activeBattleUnits[i] = null;
                 activeUnitDatas[i] = null;
             }
         }
 
-        // 2. ÆĞ³Î(UI)¿¡ ¿Ã·ÁÁ® ÀÖ´Â À¯´ÖµéÀ» ±âÁØÀ¸·Î ´Ù½Ã ½ß½ßÇÑ »õ À¯´ÖµéÀ» ¼ÒÈ¯!
+        // 2. íŒ¨ë„(UI)ì— ì˜¬ë ¤ì ¸ ìˆëŠ” ìœ ë‹›ë“¤ì„ ê¸°ì¤€ìœ¼ë¡œ ë‹¤ì‹œ ìŒ©ìŒ©í•œ ìƒˆ ìœ ë‹›ë“¤ì„ ì†Œí™˜!
         if (BattleSlotPanel.instance != null)
         {
             BattleSlotPanel.instance.SyncAllBattleSlots();
@@ -118,7 +118,7 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
     }
 
 
-    // °ø°İ·Â ÇÕ»ê ÇÔ¼ö
+    // ê³µê²©ë ¥ í•©ì‚° í•¨ìˆ˜
     public float GetTotalAttack()
     {
         float totalAttack = 0f;
@@ -134,15 +134,15 @@ public class PartyBuildManager : Singleton<PartyBuildManager>
         return totalAttack;
     }
 
-    // ¹öÇÁ
+    // ë²„í”„
     public void ApplyUnitDamageBuff(float multiplier, float duration)
     {
-        foreach(GameObject unitObj in activeBattleUnits)
+        foreach (GameObject unitObj in activeBattleUnits)
         {
-            if(unitObj == null) continue;
+            if (unitObj == null || !unitObj.activeInHierarchy) continue;
 
             Unit_Base_Test unit = unitObj.GetComponent<Unit_Base_Test>();
-            if(unit != null)
+            if (unit != null && unit.CurrentHp > 0f)
             {
                 unit.ApplyDamageBuff(multiplier, duration);
             }

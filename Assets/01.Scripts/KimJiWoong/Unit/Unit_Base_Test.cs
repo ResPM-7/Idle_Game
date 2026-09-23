@@ -284,6 +284,9 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     // 공격력 버프
     public void ApplyDamageBuff(float multiplier, float duration)
     {
+        if (!isActiveAndEnabled || CurrentHp <= 0f || currentState == destroyedState)
+            return;
+
         StartCoroutine(DamageBuffRoutine(multiplier, duration));
     }
 
