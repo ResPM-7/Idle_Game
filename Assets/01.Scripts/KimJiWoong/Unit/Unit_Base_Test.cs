@@ -230,7 +230,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
         if(amount >0f)
         {
-            SoundManager.instance?.PlaySfx(finalDamage <= 0f ? "blocked" : "takedamage");
+            SoundManager.instance?.PlaySfx(finalDamage <= 0f ? "blocked" : "takedamaged");
         }
 
         //UI나 이펙트 쪽에 '최종 계산된 데미지(finalDamage)'를 넘겨줍니다.
