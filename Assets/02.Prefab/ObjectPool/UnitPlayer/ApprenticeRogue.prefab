@@ -3224,10 +3224,11 @@ GameObject:
   - component: {fileID: 2831762450998390772}
   - component: {fileID: -574040758554196385}
   - component: {fileID: -1661577641434658321}
+  - component: {fileID: 5250621699097454289}
   - component: {fileID: 8002960413721225995}
   - component: {fileID: 1678178619349111643}
   - component: {fileID: -1292619196480073842}
-  - component: {fileID: 5250621699097454289}
+  - component: {fileID: 2432927980115864380}
   m_Layer: 3
   m_Name: ApprenticeRogue
   m_TagString: Untagged
@@ -6981,6 +6982,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!210 &5250621699097454289
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2439018553001832487}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!114 &8002960413721225995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7021,19 +7035,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleUnitVisual
   facesLeft: 1
   attackAnimation: 0
---- !u!210 &5250621699097454289
-SortingGroup:
+--- !u!114 &2432927980115864380
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2439018553001832487}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
+  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
 --- !u!1 &2463953950486569890
 GameObject:
   m_ObjectHideFlags: 0

@@ -60,12 +60,14 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
     public bool IsFrozen { get; private set; }
     private Coroutine freezeRoutine;
+    private UnitVisualEffect visualEffect;
 
     private void Awake()
     {
         // 프리팹에 미리 부착한 BattleUnitVisual을 한 번만 가져옵니다.
         battleVisual = GetComponent<BattleUnitVisual>();
         rigidBody = GetComponent<Rigidbody2D>();
+        visualEffect = GetComponent<UnitVisualEffect>();
 
         if (rigidBody == null)
             Debug.LogError($"{gameObject.name} 프리팹에 Rigidbody2D가 없습니다.", this);
@@ -226,6 +228,11 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
         CurrentHp -= finalDamage;
 
+        if(amount >0f)
+        {
+            SoundManager.instance?.PlaySfx(finalDamage <= 0f ? "blocked" : "takedamage");
+        }
+
         //UI나 이펙트 쪽에 '최종 계산된 데미지(finalDamage)'를 넘겨줍니다.
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, finalDamage, isCritical);
 
@@ -293,10 +300,12 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     private IEnumerator DamageBuffRoutine(float multiplier, float duration)
     {
         CurrentDamage = baseDamage * multiplier;
+        visualEffect?.SetDamageBuff(true);
 
         yield return new WaitForSeconds(duration);
 
         CurrentDamage = baseDamage;
+        visualEffect?.SetDamageBuff(false);
     }
 
     // 얼리기 스킬
@@ -317,9 +326,12 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     private IEnumerator FreezeRoutine(float duration)
     {
         IsFrozen = true;
+        visualEffect?.SetFrozen(true);
 
         yield return new WaitForSeconds(duration);
+
         IsFrozen = false;
+        visualEffect?.SetFrozen(false);
         freezeRoutine = null;
     }
 }

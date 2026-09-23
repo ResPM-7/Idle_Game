@@ -9015,10 +9015,11 @@ GameObject:
   - component: {fileID: 2786010863473317427}
   - component: {fileID: -7580560585965098668}
   - component: {fileID: -7825493072705929489}
+  - component: {fileID: 4100269812269284341}
   - component: {fileID: -211731508117876914}
   - component: {fileID: -5396093474622064055}
   - component: {fileID: 1726580279586512626}
-  - component: {fileID: 4100269812269284341}
+  - component: {fileID: 1593826089190566461}
   m_Layer: 6
   m_Name: ZombieBoss
   m_TagString: Untagged
@@ -12797,6 +12798,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!210 &4100269812269284341
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7069125790425530102}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!114 &-211731508117876914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12837,19 +12851,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleUnitVisual
   facesLeft: 1
   attackAnimation: 0
---- !u!210 &4100269812269284341
-SortingGroup:
+--- !u!114 &1593826089190566461
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7069125790425530102}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
+  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
 --- !u!1 &7083897820094304868
 GameObject:
   m_ObjectHideFlags: 0

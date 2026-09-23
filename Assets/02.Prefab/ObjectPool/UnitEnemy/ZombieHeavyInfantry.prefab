@@ -386,10 +386,11 @@ GameObject:
   - component: {fileID: 8705727147308193334}
   - component: {fileID: -305135017525609040}
   - component: {fileID: -7582674299300070125}
+  - component: {fileID: 3216848099444416167}
   - component: {fileID: -3029472348552982638}
   - component: {fileID: 8694025079922016360}
   - component: {fileID: 7428749818682452684}
-  - component: {fileID: 3216848099444416167}
+  - component: {fileID: -2327052729671582160}
   m_Layer: 6
   m_Name: ZombieHeavyInfantry
   m_TagString: Untagged
@@ -4168,6 +4169,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!210 &3216848099444416167
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433551749201036327}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!114 &-3029472348552982638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4208,19 +4222,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleUnitVisual
   facesLeft: 1
   attackAnimation: 0
---- !u!210 &3216848099444416167
-SortingGroup:
+--- !u!114 &-2327052729671582160
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433551749201036327}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
+  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
 --- !u!1 &566586633802349073
 GameObject:
   m_ObjectHideFlags: 0

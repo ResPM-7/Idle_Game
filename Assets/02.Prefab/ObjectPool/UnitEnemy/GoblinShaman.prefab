@@ -9865,10 +9865,11 @@ GameObject:
   - component: {fileID: 8293853262230804747}
   - component: {fileID: -3028194315266114888}
   - component: {fileID: 4653800761531750893}
+  - component: {fileID: 3103325125315800018}
   - component: {fileID: 8169920099636662025}
   - component: {fileID: 3169366515276318430}
   - component: {fileID: 8735080126351535242}
-  - component: {fileID: 3103325125315800018}
+  - component: {fileID: 1345304592340573646}
   m_Layer: 6
   m_Name: GoblinShaman
   m_TagString: Untagged
@@ -13249,6 +13250,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!210 &3103325125315800018
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7370989072436695922}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!114 &8169920099636662025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13289,19 +13303,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleUnitVisual
   facesLeft: 1
   attackAnimation: 0
---- !u!210 &3103325125315800018
-SortingGroup:
+--- !u!114 &1345304592340573646
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7370989072436695922}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
+  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
 --- !u!1 &7375571224144691991
 GameObject:
   m_ObjectHideFlags: 0

@@ -3819,10 +3819,11 @@ GameObject:
   - component: {fileID: 5770286166616967397}
   - component: {fileID: -6498350750130291014}
   - component: {fileID: -4757972984241316469}
+  - component: {fileID: -2785339183155259121}
   - component: {fileID: -2217140388664489920}
   - component: {fileID: 5332330720466819078}
   - component: {fileID: -6035295307594783102}
-  - component: {fileID: -2785339183155259121}
+  - component: {fileID: -4864915643340143461}
   m_Layer: 6
   m_Name: GoblinShieldbearer
   m_TagString: Untagged
@@ -7183,6 +7184,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!210 &-2785339183155259121
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2782571359685556620}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!114 &-2217140388664489920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7223,19 +7237,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleUnitVisual
   facesLeft: 1
   attackAnimation: 0
---- !u!210 &-2785339183155259121
-SortingGroup:
+--- !u!114 &-4864915643340143461
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2782571359685556620}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
+  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
 --- !u!1 &2819888634859378567
 GameObject:
   m_ObjectHideFlags: 0
