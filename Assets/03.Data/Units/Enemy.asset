@@ -1,5 +1,79 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8090596691778061284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_304
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 304
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  canRanged: 0
+  projectilePoolName: 
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: 
+  defense: 0
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 0
+  credit: 50
+  nextUpgradeUnits: []
+--- !u!114 &-7392518741202430099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_305
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 305
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  canRanged: 0
+  projectilePoolName: 
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: 
+  defense: 0
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 0
+  credit: 50
+  nextUpgradeUnits: []
 --- !u!114 &-3414527648549997551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,20 +91,20 @@ MonoBehaviour:
   unitName: "\uC5B8\uB370\uB4DC \uC0AC\uB839\uC220\uC0AC"
   team: 1
   uiPoolName: Enemy
-  battlePoolName: Enemy
+  battlePoolName: ZombieShaman
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 0.8
   attackDamage: 18
   attackSpeed: 1.8
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
-  canMelee: 1
-  canRanged: 0
-  projectilePoolName: 
+  canMelee: 0
+  canRanged: 1
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 4
   criticalRate: 0
   criticalDamage: 0
@@ -54,20 +128,20 @@ MonoBehaviour:
   unitName: "\uC5B8\uB370\uB4DC \uAD81\uC218"
   team: 1
   uiPoolName: Enemy
-  battlePoolName: Enemy
+  battlePoolName: ZombieArcher
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 1
   attackDamage: 10
   attackSpeed: 0.8
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
-  canMelee: 1
-  canRanged: 0
-  projectilePoolName: 
+  canMelee: 0
+  canRanged: 1
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 4
   criticalRate: 0
   criticalDamage: 0
@@ -91,20 +165,20 @@ MonoBehaviour:
   unitName: "\uACE0\uBE14\uB9B0 \uBC29\uD328\uBCD1"
   team: 1
   uiPoolName: Enemy
-  battlePoolName: Enemy
+  battlePoolName: GoblinShieldbearer
   unitSprite: {fileID: 0}
   maxHp: 70
   moveSpeed: 0.8
   attackDamage: 10
   attackSpeed: 1.25
-  searchRange: 0
+  searchRange: 99
   attackRange: 2
   canMelee: 1
   canRanged: 0
-  projectilePoolName: 
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 8
   criticalRate: 0
   criticalDamage: 0
@@ -128,7 +202,7 @@ MonoBehaviour:
   unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
-  battlePoolName: Boss
+  battlePoolName: GoblinBoss
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 0
@@ -138,10 +212,10 @@ MonoBehaviour:
   attackRange: 5
   canMelee: 1
   canRanged: 0
-  projectilePoolName: 
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 0
   criticalDamage: 0
@@ -165,25 +239,99 @@ MonoBehaviour:
   unitName: "\uACE0\uBE14\uB9B0 \uB3C4\uC801"
   team: 1
   uiPoolName: Enemy
-  battlePoolName: Enemy
+  battlePoolName: GoblinRogue
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 1.2
   attackDamage: 12
   attackSpeed: 0.8
-  searchRange: 0
+  searchRange: 99
   attackRange: 2
+  canMelee: 1
+  canRanged: 0
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 5
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 12
+  credit: 0
+  nextUpgradeUnits: []
+--- !u!114 &-1956681799679172779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_302
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 302
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: ZombieBoss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: 
   canHeal: 0
   healRange: 5
   healProjectilePoolName: 
-  defense: 5
+  defense: 0
   criticalRate: 0
   criticalDamage: 0
-  coin: 12
-  credit: 0
+  coin: 0
+  credit: 50
+  nextUpgradeUnits: []
+--- !u!114 &-1407249794022230020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_303
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 303
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
+  attackSpeed: 1
+  searchRange: 0
+  attackRange: 5
+  canMelee: 1
+  canRanged: 0
+  projectilePoolName: 
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: 
+  defense: 0
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 0
+  credit: 50
   nextUpgradeUnits: []
 --- !u!114 &-493028265017743643
 MonoBehaviour:
@@ -202,20 +350,20 @@ MonoBehaviour:
   unitName: "\uC5B8\uB370\uB4DC \uC911\uAC11\uBCD1"
   team: 1
   uiPoolName: Enemy
-  battlePoolName: Enemy
+  battlePoolName: ZombieHeavyInfantry
   unitSprite: {fileID: 0}
   maxHp: 85
   moveSpeed: 0.7
   attackDamage: 10
   attackSpeed: 1.25
-  searchRange: 0
+  searchRange: 99
   attackRange: 2
   canMelee: 1
   canRanged: 0
-  projectilePoolName: 
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 10
   criticalRate: 0
   criticalDamage: 0
@@ -245,6 +393,11 @@ MonoBehaviour:
   - {fileID: -2107156837525844836}
   - {fileID: -493028265017743643}
   - {fileID: -3414527648549997551}
+  - {fileID: -1956681799679172779}
+  - {fileID: -1407249794022230020}
+  - {fileID: -8090596691778061284}
+  - {fileID: -7392518741202430099}
+  - {fileID: 3116015082473174670}
 --- !u!114 &180788648125843077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,7 +415,7 @@ MonoBehaviour:
   unitName: "\uACE0\uBE14\uB9B0"
   team: 1
   uiPoolName: Enemy
-  battlePoolName: Enemy
+  battlePoolName: Goblin
   unitSprite: {fileID: 0}
   maxHp: 50
   moveSpeed: 1
@@ -272,10 +425,10 @@ MonoBehaviour:
   attackRange: 2
   canMelee: 1
   canRanged: 0
-  projectilePoolName: 
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 5
   criticalRate: 0
   criticalDamage: 0
@@ -299,11 +452,48 @@ MonoBehaviour:
   unitName: "\uACE0\uBE14\uB9B0 \uC8FC\uC220\uC0AC"
   team: 1
   uiPoolName: Enemy
-  battlePoolName: Enemy
+  battlePoolName: GoblinShaman
   unitSprite: {fileID: 0}
   maxHp: 40
   moveSpeed: 1
   attackDamage: 8
+  attackSpeed: 1
+  searchRange: 99
+  attackRange: 5
+  canMelee: 0
+  canRanged: 1
+  projectilePoolName: Projectile_Attack
+  canHeal: 0
+  healRange: 5
+  healProjectilePoolName: Projectile_Heal
+  defense: 3
+  criticalRate: 0
+  criticalDamage: 0
+  coin: 12
+  credit: 0
+  nextUpgradeUnits: []
+--- !u!114 &3116015082473174670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d837a690c22c1f4984f7908ce809ff0, type: 3}
+  m_Name: Enemy_306
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
+  unitId: 306
+  unitLevel: 1
+  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  team: 1
+  uiPoolName: Boss
+  battlePoolName: Boss
+  unitSprite: {fileID: 0}
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
   attackSpeed: 1
   searchRange: 0
   attackRange: 5
@@ -313,11 +503,11 @@ MonoBehaviour:
   canHeal: 0
   healRange: 5
   healProjectilePoolName: 
-  defense: 3
+  defense: 0
   criticalRate: 0
   criticalDamage: 0
-  coin: 12
-  credit: 0
+  coin: 0
+  credit: 50
   nextUpgradeUnits: []
 --- !u!114 &8034744452644215871
 MonoBehaviour:
@@ -336,20 +526,20 @@ MonoBehaviour:
   unitName: "\uC5B8\uB370\uB4DC"
   team: 1
   uiPoolName: Enemy
-  battlePoolName: Enemy
+  battlePoolName: Zombie
   unitSprite: {fileID: 0}
   maxHp: 60
   moveSpeed: 0.8
   attackDamage: 12
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 2
   canMelee: 1
   canRanged: 0
-  projectilePoolName: 
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 6
   criticalRate: 0
   criticalDamage: 0

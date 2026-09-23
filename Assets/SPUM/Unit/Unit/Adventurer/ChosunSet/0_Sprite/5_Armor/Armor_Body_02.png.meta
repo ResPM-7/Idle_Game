@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: d3bebdf078cd4b1489fcdfe3e816fe4d
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Resources/Addons/PaladinSet/0_Unit/0_Sprite/5_Armor/Armor_Body_02.png
+  uploadId: 822312
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -119,6 +126,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
@@ -141,10 +161,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 345828
-  packageName: 'SPUM : Ultimate Resource Bundle Pack'
-  packageVersion: 1.0.1
-  assetPath: Assets/SPUM/Resources/Addons/PaladinSet/0_Unit/0_Sprite/5_Armor/Armor_Body_02.png
-  uploadId: 822312

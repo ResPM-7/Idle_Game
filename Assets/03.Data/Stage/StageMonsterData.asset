@@ -19,6 +19,13 @@ MonoBehaviour:
     endStage: 2
     enemyPool:
     - {fileID: 180788648125843077, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: 663784238560466414, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: -2038760621212632604, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: -1962996378260815448, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: 8034744452644215871, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: -2107156837525844836, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: -493028265017743643, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: -3414527648549997551, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
     bossData: {fileID: -1985273095112801932, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
   - startStage: 1
     endStage: 2

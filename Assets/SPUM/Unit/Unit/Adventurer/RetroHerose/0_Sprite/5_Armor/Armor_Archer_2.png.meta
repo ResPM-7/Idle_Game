@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 412a2d819169a634a972cbfe67e0c79c
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Resources/Addons/RetroHeroes/0_Unit/0_Sprite/5_Armor/Armor_Archer_2.png
+  uploadId: 822312
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -125,6 +132,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 32
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -193,10 +213,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 345828
-  packageName: 'SPUM : Ultimate Resource Bundle Pack'
-  packageVersion: 1.0.1
-  assetPath: Assets/SPUM/Resources/Addons/RetroHeroes/0_Unit/0_Sprite/5_Armor/Armor_Archer_2.png
-  uploadId: 822312

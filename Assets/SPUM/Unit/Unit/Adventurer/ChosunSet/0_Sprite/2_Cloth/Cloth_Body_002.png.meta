@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 5bc2c8b6c58ee86429f02af2b07822a5
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Resources/Addons/ChosunSet/0_Unit/0_Sprite/2_Cloth/Cloth_Body_002.png
+  uploadId: 822312
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -119,6 +126,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
@@ -141,10 +161,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 345828
-  packageName: 'SPUM : Ultimate Resource Bundle Pack'
-  packageVersion: 1.0.1
-  assetPath: Assets/SPUM/Resources/Addons/ChosunSet/0_Unit/0_Sprite/2_Cloth/Cloth_Body_002.png
-  uploadId: 822312
