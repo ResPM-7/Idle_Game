@@ -44,11 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fc77152081e7e4c812115be56fb960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillManager
-  poisonSkillPrefab: {fileID: 0}
-  lightningSkillPrefab: {fileID: 0}
-  fireSkillPrefab: {fileID: 0}
-  attackBuffSkillPrefab: {fileID: 0}
-  freezeSkillPrefab: {fileID: 0}
   poisonPoolName: Poison
   lightningPoolName: Lightning
   firePoolName: Fire
