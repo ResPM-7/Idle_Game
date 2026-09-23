@@ -48,3 +48,13 @@ MonoBehaviour:
     category: 1
     loop: 0
     volume: 1
+  - id: takedamaged
+    clip: {fileID: 8300000, guid: 4f708dd10f9aefd488869d829eff9c8f, type: 3}
+    category: 2
+    loop: 0
+    volume: 0.5
+  - id: blocked
+    clip: {fileID: 8300000, guid: 7c04b00c61fb41647afff01a68012634, type: 3}
+    category: 2
+    loop: 0
+    volume: 0.5
