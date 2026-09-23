@@ -4522,10 +4522,11 @@ GameObject:
   - component: {fileID: 3354789068325373321}
   - component: {fileID: -3014414284127028590}
   - component: {fileID: -1450402474296584170}
+  - component: {fileID: 785364837011503253}
   - component: {fileID: 4538607491749599915}
   - component: {fileID: 4754276567290242709}
   - component: {fileID: 4591970648849465506}
-  - component: {fileID: 785364837011503253}
+  - component: {fileID: 6967758023445588792}
   m_Layer: 3
   m_Name: Priest
   m_TagString: Untagged
@@ -8249,6 +8250,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!210 &785364837011503253
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409630478132442668}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!114 &4538607491749599915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8289,19 +8303,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleUnitVisual
   facesLeft: 1
   attackAnimation: 0
---- !u!210 &785364837011503253
-SortingGroup:
+--- !u!114 &6967758023445588792
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3409630478132442668}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
+  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
 --- !u!1 &3497422748741564661
 GameObject:
   m_ObjectHideFlags: 0

@@ -9871,10 +9871,11 @@ GameObject:
   - component: {fileID: 934784992299271538}
   - component: {fileID: 5868581979903765733}
   - component: {fileID: -4508416741579383111}
+  - component: {fileID: 7521396089931252509}
   - component: {fileID: -5468487893022655395}
   - component: {fileID: -4015035395597645190}
   - component: {fileID: 3153211743808223578}
-  - component: {fileID: 7521396089931252509}
+  - component: {fileID: 6620946130545979346}
   m_Layer: 6
   m_Name: ZombieArcher
   m_TagString: Untagged
@@ -13633,6 +13634,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!210 &7521396089931252509
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8195751686329284100}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!114 &-5468487893022655395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13673,19 +13687,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleUnitVisual
   facesLeft: 1
   attackAnimation: 0
---- !u!210 &7521396089931252509
-SortingGroup:
+--- !u!114 &6620946130545979346
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8195751686329284100}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
+  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
 --- !u!1 &8219985231424473211
 GameObject:
   m_ObjectHideFlags: 0

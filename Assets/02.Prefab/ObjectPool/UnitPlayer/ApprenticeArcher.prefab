@@ -10458,10 +10458,11 @@ GameObject:
   - component: {fileID: 5912089797773717686}
   - component: {fileID: 8862789142797293231}
   - component: {fileID: 2520485274415759411}
+  - component: {fileID: 603502416285425833}
   - component: {fileID: -3405781597660031441}
   - component: {fileID: 683391026543043354}
   - component: {fileID: 9171139064839369610}
-  - component: {fileID: 603502416285425833}
+  - component: {fileID: 3472141333415140441}
   m_Layer: 3
   m_Name: ApprenticeArcher
   m_TagString: Untagged
@@ -14195,6 +14196,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!210 &603502416285425833
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190809325552192013}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!114 &-3405781597660031441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14235,19 +14249,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleUnitVisual
   facesLeft: 1
   attackAnimation: 0
---- !u!210 &603502416285425833
-SortingGroup:
+--- !u!114 &3472141333415140441
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8190809325552192013}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
+  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
 --- !u!1 &8214082518065234677
 GameObject:
   m_ObjectHideFlags: 0
