@@ -2,12 +2,20 @@ using UnityEngine;
 
 public class UnitMoveState : IUnitState
 {
-    public void Enter(Unit_Base_Test unit) { }
-    public void Exit(Unit_Base_Test unit) { }
+    public void Enter(Unit_Base_Test unit)
+    {
+        unit.SetMoveDirection(Vector2.zero);
+    }
+
+    public void Exit(Unit_Base_Test unit)
+    {
+        unit.SetMoveDirection(Vector2.zero);
+    }
 
     public void Execute(Unit_Base_Test unit)
     {
         unit.AttackTimer += Time.deltaTime;
+        unit.SetMoveDirection(Vector2.zero);
 
         if (unit.CurrentTarget == null || unit.CurrentTarget.GetComponent<Unit_Base_Test>().CurrentHp <= 0)
         {
@@ -17,7 +25,7 @@ public class UnitMoveState : IUnitState
 
         bool isTargetAlly = ((1 << unit.CurrentTarget.gameObject.layer) & unit.AllyLayer.value) != 0;
 
-        // Å¸°ÙÀÌ ¾Æ±ºÀÌ¸é healRange, ÀûÀÌ¸é attackRange¸¦ Á¤Áö °Å¸®·Î »ç¿ë
+        // íƒ€ê²Ÿì´ ì•„êµ°ì´ë©´ healRange, ì ì´ë©´ attackRangeë¥¼ ì •ì§€ ê±°ë¦¬ë¡œ ì‚¬ìš©
         float stopDistance = isTargetAlly ? unit.MyData.healRange : unit.MyData.attackRange;
 
         float dist = Vector2.Distance(unit.transform.position, unit.CurrentTarget.position);
@@ -32,7 +40,8 @@ public class UnitMoveState : IUnitState
         else
         {
             Vector2 dir = (unit.CurrentTarget.position - unit.transform.position).normalized;
-            unit.transform.Translate(dir * unit.MyData.moveSpeed * Time.deltaTime);
+            // ì‹¤ì œ ì´ë™ì€ Unit_Base_Test.FixedUpdateì—ì„œ Rigidbody2Dë¡œ ì²˜ë¦¬í•©ë‹ˆë‹¤.
+            unit.SetMoveDirection(dir);
         }
     }
 }

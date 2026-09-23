@@ -101,7 +101,7 @@ MonoBehaviour:
   attackRange: 5
   canMelee: 0
   canRanged: 1
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: Projectile_EnergyBall
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal
@@ -138,7 +138,7 @@ MonoBehaviour:
   attackRange: 5
   canMelee: 0
   canRanged: 1
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: Projectile_Arrow
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal
@@ -462,7 +462,7 @@ MonoBehaviour:
   attackRange: 5
   canMelee: 0
   canRanged: 1
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: Projectile_EnergyBall
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal

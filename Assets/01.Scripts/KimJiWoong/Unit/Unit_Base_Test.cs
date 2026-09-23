@@ -4,24 +4,24 @@ using System.Collections;
 
 public interface IUnitState
 {
-    void Enter(Unit_Base_Test unit);    // »óÅÂ¿¡ ÁøÀÔÇÒ ¶§ 1È¸ È£Ãâ
-    void Execute(Unit_Base_Test unit);  // UpdateÃ³·³ ¸Å ÇÁ·¹ÀÓ È£Ãâ
-    void Exit(Unit_Base_Test unit);     // »óÅÂ¸¦ ºüÁ®³ª°¥ ¶§ 1È¸ È£Ãâ
+    void Enter(Unit_Base_Test unit);    // ìƒíƒœì— ì§„ì…í•  ë•Œ 1íšŒ í˜¸ì¶œ
+    void Execute(Unit_Base_Test unit);  // Updateì²˜ëŸ¼ ë§¤ í”„ë ˆì„ í˜¸ì¶œ
+    void Exit(Unit_Base_Test unit);     // ìƒíƒœë¥¼ ë¹ ì ¸ë‚˜ê°ˆ ë•Œ 1íšŒ í˜¸ì¶œ
 }
 
 
 public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 {
-    //À¯´Ö ¾÷±×·¹ÀÌµå °áÇÕµµ¸¦ ³·Ãß±âÀ§ÇØ µ¨¸®°ÔÀÌÆ®
+    //ìœ ë‹› ì—…ê·¸ë ˆì´ë“œ ê²°í•©ë„ë¥¼ ë‚®ì¶”ê¸°ìœ„í•´ ë¸ë¦¬ê²Œì´íŠ¸
     public static event Action<Unit_Base_Test> OnUnitSpawned;
     public static event Action<Unit_Base_Test> OnUnitDespawned;
 
     public event Action OnDeathEvent;
     public event Action<Unit_Base_Test, float, float, float, bool> OnHpChanged;
 
-    [Header("±âº» ¼³Á¤")]
+    [Header("ê¸°ë³¸ ì„¤ì •")]
     [SerializeField] private UnitDataSO myData;
-    //º»ÀÎÀÇ ¿ÜÇü
+    //ë³¸ì¸ì˜ ì™¸í˜•
     [SerializeField] private SpriteRenderer spriteRenderer;
     public LayerMask TargetLayer { get; private set; }
     public LayerMask AllyLayer { get; private set; }
@@ -38,11 +38,15 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     public float SearchTimer { get; set; }
     public float StatMultiplier { get; set; } = 1f;
     public Transform CurrentTarget { get; set; }
+    public Vector2 MoveDirection => moveDirection;
+    public bool IsMoving => !IsFrozen
+        && currentState == moveState
+        && moveDirection.sqrMagnitude > 0.000001f;
 
-    // FSM °ü·Ã º¯¼ö
+    // FSM ê´€ë ¨ ë³€ìˆ˜
     private IUnitState currentState;
 
-    // »óÅÂ °´Ã¼¸¦ ¹Ì¸® »ı¼º
+    // ìƒíƒœ ê°ì²´ë¥¼ ë¯¸ë¦¬ ìƒì„±
     public IUnitState idleState = new UnitIdleState();
     public IUnitState moveState = new UnitMoveState();
     public IUnitState attackState = new UnitAttackState();
@@ -51,23 +55,29 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     private float baseDamage;
     private bool isInitialized;
     private BattleUnitVisual battleVisual;
+    private Rigidbody2D rigidBody;
+    private Vector2 moveDirection;
 
     public bool IsFrozen { get; private set; }
     private Coroutine freezeRoutine;
 
     private void Awake()
     {
-        // ÇÁ¸®ÆÕ¿¡ ¹Ì¸® ºÎÂøÇÑ BattleUnitVisualÀ» ÇÑ ¹ø¸¸ °¡Á®¿É´Ï´Ù.
+        // í”„ë¦¬íŒ¹ì— ë¯¸ë¦¬ ë¶€ì°©í•œ BattleUnitVisualì„ í•œ ë²ˆë§Œ ê°€ì ¸ì˜µë‹ˆë‹¤.
         battleVisual = GetComponent<BattleUnitVisual>();
+        rigidBody = GetComponent<Rigidbody2D>();
+
+        if (rigidBody == null)
+            Debug.LogError($"{gameObject.name} í”„ë¦¬íŒ¹ì— Rigidbody2Dê°€ ì—†ìŠµë‹ˆë‹¤.", this);
     }
 
     private void Start()
     {
-        // ÆÑÅä¸®¿¡¼­ ÀÌ¹Ì InitÀ» È£ÃâÇß´Ù¸é Start¿¡¼­ ±âº» ´É·ÂÄ¡·Î ´Ù½Ã µ¤¾î¾²Áö ¾Ê½À´Ï´Ù.
+        // íŒ©í† ë¦¬ì—ì„œ ì´ë¯¸ Initì„ í˜¸ì¶œí–ˆë‹¤ë©´ Startì—ì„œ ê¸°ë³¸ ëŠ¥ë ¥ì¹˜ë¡œ ë‹¤ì‹œ ë®ì–´ì“°ì§€ ì•ŠìŠµë‹ˆë‹¤.
         if (isInitialized) return;
 
         if (myData != null) Init(myData);
-        else Debug.LogWarning($"{gameObject.name}¿¡ µ¥ÀÌÅÍ(UnitDataSO)°¡ ºñ¾îÀÖ½À´Ï´Ù!");
+        else Debug.LogWarning($"{gameObject.name}ì— ë°ì´í„°(UnitDataSO)ê°€ ë¹„ì–´ìˆìŠµë‹ˆë‹¤!");
     }
 
     public void Init(UnitDataSO data)
@@ -83,21 +93,21 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
         if (playerLayerIdx == -1 || enemyLayerIdx == -1)
         {
-            Debug.LogError("À¯´ÏÆ¼ ¼³Á¤¿¡ 'Player' ¶Ç´Â 'Enemy' ·¹ÀÌ¾î°¡ ¾ø½À´Ï´Ù! Add Layer¸¦ ÇØÁÖ¼¼¿ä.");
+            Debug.LogError("ìœ ë‹ˆí‹° ì„¤ì •ì— 'Player' ë˜ëŠ” 'Enemy' ë ˆì´ì–´ê°€ ì—†ìŠµë‹ˆë‹¤! Add Layerë¥¼ í•´ì£¼ì„¸ìš”.");
         }
 
         if (myData.team == Team_Test.Player)
         {
             gameObject.tag = "Player";
-            gameObject.layer = playerLayerIdx;            // ³» ·¹ÀÌ¾î¸¦ Player·Î
-            AllyLayer = 1 << playerLayerIdx;              // ¾Æ±º Å½»ö¿ë ·¹ÀÌ¾î = Player
-            TargetLayer = 1 << enemyLayerIdx;             // Àû Å½»ö¿ë ·¹ÀÌ¾î = Enemy
+            gameObject.layer = playerLayerIdx;            // ë‚´ ë ˆì´ì–´ë¥¼ Playerë¡œ
+            AllyLayer = 1 << playerLayerIdx;              // ì•„êµ° íƒìƒ‰ìš© ë ˆì´ì–´ = Player
+            TargetLayer = 1 << enemyLayerIdx;             // ì  íƒìƒ‰ìš© ë ˆì´ì–´ = Enemy
         }
         else if (myData.team == Team_Test.Enemy)
         {
-            gameObject.layer = enemyLayerIdx;             // ³» ·¹ÀÌ¾î¸¦ Enemy·Î
-            AllyLayer = 1 << enemyLayerIdx;               // ¾Æ±º Å½»ö¿ë ·¹ÀÌ¾î = Enemy
-            TargetLayer = 1 << playerLayerIdx;            // Àû Å½»ö¿ë ·¹ÀÌ¾î = Player
+            gameObject.layer = enemyLayerIdx;             // ë‚´ ë ˆì´ì–´ë¥¼ Enemyë¡œ
+            AllyLayer = 1 << enemyLayerIdx;               // ì•„êµ° íƒìƒ‰ìš© ë ˆì´ì–´ = Enemy
+            TargetLayer = 1 << playerLayerIdx;            // ì  íƒìƒ‰ìš© ë ˆì´ì–´ = Player
         }
 
         if (spriteRenderer != null && myData.unitSprite != null)
@@ -119,28 +129,28 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
         StatMultiplier = 1f;
 
-        // ÀüÅõ¿ë Ä³¸¯ÅÍ ¿ÜÇü¸¸ ±³Ã¼ÇÕ´Ï´Ù. UI À¯´Ö°ú ´ÜÀÏ ¾ÆÀÌÄÜ µ¥ÀÌÅÍ´Â º°°³ÀÔ´Ï´Ù.
+        // ì „íˆ¬ìš© ìºë¦­í„° ì™¸í˜•ë§Œ êµì²´í•©ë‹ˆë‹¤. UI ìœ ë‹›ê³¼ ë‹¨ì¼ ì•„ì´ì½˜ ë°ì´í„°ëŠ” ë³„ê°œì…ë‹ˆë‹¤.
         if (battleVisual != null)
         {
             battleVisual.Apply(this);
         }
 
         ChangeState(idleState);
-        //¼ÒÈ¯µÉ¶§ À¯´Ö Ã¼·Â¹Ù°¡ Á¦´ë·Î Ãâ·ÂµÇ°Ô
+        //ì†Œí™˜ë ë•Œ ìœ ë‹› ì²´ë ¥ë°”ê°€ ì œëŒ€ë¡œ ì¶œë ¥ë˜ê²Œ
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, 0f, false);
-        // ¸Å´ÏÀú¸¦ Á÷Á¢ Ã£Áö ¾Ê°í ½ºÆùµÇ¾ú´Ù´Â ¹æ¼Û¸¸ ¼ÛÃâÇÕ´Ï´Ù
+        // ë§¤ë‹ˆì €ë¥¼ ì§ì ‘ ì°¾ì§€ ì•Šê³  ìŠ¤í°ë˜ì—ˆë‹¤ëŠ” ë°©ì†¡ë§Œ ì†¡ì¶œí•©ë‹ˆë‹¤
         OnUnitSpawned?.Invoke(this);
     }
 
     /// <summary>
-    /// ¿şÀÌºê ¹èÀ²À» ÇöÀç À¯´Ö ´É·ÂÄ¡¿¡ Àû¿ëÇÏ°í Ã¼·Â UI±îÁö Áï½Ã °»½ÅÇÕ´Ï´Ù.
-    /// Init Á÷ÈÄ ÇÑ ¹ø È£ÃâÇÏ¸ç, SO ¿øº» µ¥ÀÌÅÍ´Â º¯°æÇÏÁö ¾Ê½À´Ï´Ù.
+    /// ì›¨ì´ë¸Œ ë°°ìœ¨ì„ í˜„ì¬ ìœ ë‹› ëŠ¥ë ¥ì¹˜ì— ì ìš©í•˜ê³  ì²´ë ¥ UIê¹Œì§€ ì¦‰ì‹œ ê°±ì‹ í•©ë‹ˆë‹¤.
+    /// Init ì§í›„ í•œ ë²ˆ í˜¸ì¶œí•˜ë©°, SO ì›ë³¸ ë°ì´í„°ëŠ” ë³€ê²½í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
     /// </summary>
     public void ApplyStatMultiplier(float multiplier)
     {
         if (myData == null)
         {
-            Debug.LogWarning($"{gameObject.name}Àº µ¥ÀÌÅÍ°¡ ¾ø¾î ´É·ÂÄ¡ ¹èÀ²À» Àû¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"{gameObject.name}ì€ ë°ì´í„°ê°€ ì—†ì–´ ëŠ¥ë ¥ì¹˜ ë°°ìœ¨ì„ ì ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -154,7 +164,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentDamage = baseDamage;
         CurrentDefense = Mathf.RoundToInt(myData.defense * multiplier);
 
-        // ¹èÀ² Àû¿ëÀÌ ³¡³­ ½ÇÁ¦ ÃÖ´ë Ã¼·ÂÀ» ¸ğµç Ã¼·Â UI¿¡ Àü´ŞÇÕ´Ï´Ù.
+        // ë°°ìœ¨ ì ìš©ì´ ëë‚œ ì‹¤ì œ ìµœëŒ€ ì²´ë ¥ì„ ëª¨ë“  ì²´ë ¥ UIì— ì „ë‹¬í•©ë‹ˆë‹¤.
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, 0f, false);
     }
 
@@ -162,7 +172,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     {
         if (gameObject.scene.isLoaded)
         {
-            // À¯´ÖÀÌ Á×°Å³ª Ç®·Î µ¹¾Æ°¥ ¶§ ¹æ¼Û ¼ÛÃâ
+            // ìœ ë‹›ì´ ì£½ê±°ë‚˜ í’€ë¡œ ëŒì•„ê°ˆ ë•Œ ë°©ì†¡ ì†¡ì¶œ
             OnUnitDespawned?.Invoke(this);
         }
     }
@@ -171,14 +181,30 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     {
         if (IsFrozen) return;
 
-        // ÇöÀç »óÅÂÀÇ Execute ·ÎÁ÷À» ¸Å ÇÁ·¹ÀÓ ½ÇÇà
+        // í˜„ì¬ ìƒíƒœì˜ Execute ë¡œì§ì„ ë§¤ í”„ë ˆì„ ì‹¤í–‰
         if (currentState != null)
         {
             currentState.Execute(this);
         }
     }
 
-    // »óÅÂ ÀüÈ¯À» Ã³¸®ÇÏ´Â ÇÙ½É ÇÔ¼ö
+    private void FixedUpdate()
+    {
+        if (rigidBody == null || myData == null || IsFrozen || currentState != moveState)
+            return;
+
+        Vector2 nextPosition = rigidBody.position
+            + moveDirection * myData.moveSpeed * Time.fixedDeltaTime;
+
+        rigidBody.MovePosition(nextPosition);
+    }
+
+    public void SetMoveDirection(Vector2 direction)
+    {
+        moveDirection = direction;
+    }
+
+    // ìƒíƒœ ì „í™˜ì„ ì²˜ë¦¬í•˜ëŠ” í•µì‹¬ í•¨ìˆ˜
     public void ChangeState(IUnitState newState)
     {
         if (currentState != null)
@@ -195,12 +221,12 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
     {
         if (currentState == destroyedState) return;
 
-        //¹æ¾î·Â Â÷°¨ ¹æ¾î·ÂÀÌ ³ô¾Æ¼­ µ¥¹ÌÁö°¡ 0ÀÌµÇ¾îµµ ÀÌº¥Æ®°¡ ³ª¿À°Ô ±¸Çö
+        //ë°©ì–´ë ¥ ì°¨ê° ë°©ì–´ë ¥ì´ ë†’ì•„ì„œ ë°ë¯¸ì§€ê°€ 0ì´ë˜ì–´ë„ ì´ë²¤íŠ¸ê°€ ë‚˜ì˜¤ê²Œ êµ¬í˜„
         float finalDamage = Mathf.Max(0f, amount - CurrentDefense);
 
         CurrentHp -= finalDamage;
 
-        //UI³ª ÀÌÆåÆ® ÂÊ¿¡ 'ÃÖÁ¾ °è»êµÈ µ¥¹ÌÁö(finalDamage)'¸¦ ³Ñ°ÜÁİ´Ï´Ù.
+        //UIë‚˜ ì´í™íŠ¸ ìª½ì— 'ìµœì¢… ê³„ì‚°ëœ ë°ë¯¸ì§€(finalDamage)'ë¥¼ ë„˜ê²¨ì¤ë‹ˆë‹¤.
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, finalDamage, isCritical);
 
         if (CurrentHp <= 0)
@@ -215,7 +241,7 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         if (currentState == destroyedState) return;
 
         CurrentHp = Mathf.Min(CurrentHp + amount, CurrentMaxHp);
-        // UI ¾÷µ¥ÀÌÆ®
+        // UI ì—…ë°ì´íŠ¸
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, -1f, false);
     }
 
@@ -226,36 +252,36 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
 
     public void ResetAndStopCombat()
     {
-        // 1. Ã¼·ÂÀ» ÃÖ´ëÄ¡·Î 100% È¸º¹
+        // 1. ì²´ë ¥ì„ ìµœëŒ€ì¹˜ë¡œ 100% íšŒë³µ
         CurrentHp = CurrentMaxHp;
 
-        // 2. UI Ã¼·Â¹Ù °»½Å
+        // 2. UI ì²´ë ¥ë°” ê°±ì‹ 
         OnHpChanged?.Invoke(this, CurrentHp, CurrentMaxHp, 0f, false);
 
-        // 3. Å¸°ÙÆÃ ÃÊ±âÈ­ ¹× Å¸ÀÌ¸Ó ¸®¼Â
+        // 3. íƒ€ê²ŸíŒ… ì´ˆê¸°í™” ë° íƒ€ì´ë¨¸ ë¦¬ì…‹
         CurrentTarget = null;
         AttackTimer = 0f;
         SearchTimer = 0f;
 
-        // 4. ÇöÀç °ø°İ ÁßÀÌ°Å³ª ÀÌµ¿ ÁßÀÌ´õ¶óµµ °­Á¦·Î ´ë±â(Idle) »óÅÂ·Î Á¤Áö!
+        // 4. í˜„ì¬ ê³µê²© ì¤‘ì´ê±°ë‚˜ ì´ë™ ì¤‘ì´ë”ë¼ë„ ê°•ì œë¡œ ëŒ€ê¸°(Idle) ìƒíƒœë¡œ ì •ì§€!
         ChangeState(idleState);
     }
 
     private void OnDrawGizmosSelected()
     {
-        // µ¥ÀÌÅÍ°¡ ¾ÆÁ÷ ¾È µé¾î¿Ô´Ù¸é ±×¸®Áö ¾ÊÀ½ (¿¡·¯ ¹æÁö)
+        // ë°ì´í„°ê°€ ì•„ì§ ì•ˆ ë“¤ì–´ì™”ë‹¤ë©´ ê·¸ë¦¬ì§€ ì•ŠìŒ (ì—ëŸ¬ ë°©ì§€)
         if (myData == null) return;
 
-        // 1. ½ÇÁ¦ °ø°İ »ç°Å¸® (»¡°£»ö)
+        // 1. ì‹¤ì œ ê³µê²© ì‚¬ê±°ë¦¬ (ë¹¨ê°„ìƒ‰)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, myData.attackRange);
 
-        // 2. Àû Å½»ö ¹üÀ§ (³ë¶õ»ö) - ÇöÀç ÄÚµå¿¡¼­ »ç°Å¸®ÀÇ 2¹è·Î Å½»ö ÁßÀÌ½ÃÁÒ!
+        // 2. ì  íƒìƒ‰ ë²”ìœ„ (ë…¸ë€ìƒ‰) - í˜„ì¬ ì½”ë“œì—ì„œ ì‚¬ê±°ë¦¬ì˜ 2ë°°ë¡œ íƒìƒ‰ ì¤‘ì´ì‹œì£ !
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, myData.attackRange * 2f);
     }
 
-    // °ø°İ·Â ¹öÇÁ
+    // ê³µê²©ë ¥ ë²„í”„
     public void ApplyDamageBuff(float multiplier, float duration)
     {
         StartCoroutine(DamageBuffRoutine(multiplier, duration));
@@ -270,12 +296,12 @@ public class Unit_Base_Test : MonoBehaviour, ISkillDamageable
         CurrentDamage = baseDamage;
     }
 
-    // ¾ó¸®±â ½ºÅ³
+    // ì–¼ë¦¬ê¸° ìŠ¤í‚¬
     public void ApplyFreeze(float duration)
     {
         if (currentState == destroyedState) return;
 
-        Debug.Log($"[ApplyFreeze] {gameObject.name} ºù°á ½ÃÀÛ, Áö¼Ó½Ã°£: {duration}");
+        Debug.Log($"[ApplyFreeze] {gameObject.name} ë¹™ê²° ì‹œì‘, ì§€ì†ì‹œê°„: {duration}");
 
         if (freezeRoutine != null)
         {
