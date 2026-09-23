@@ -30,5 +30,7 @@ public class BattleSlotUI : BaseSlot
     {
         // 배틀 슬롯에 변화가 생겼으니 5칸 전체 동기화 실행
         BattleSlotPanel.instance.SyncAllBattleSlots();
+        // 유닛 배치시 사운드 재생
+        SoundManager.instance?.PlaySfx("ui_put");
     }
 }
