@@ -11,10 +11,7 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        if (unitBase != null && unitBase.MyData != null)
-        {
-            unitBase.Init(unitBase.MyData);
-        }
+        // BattleUnitFactory.Init supplies the current spawn data after pool activation.
 
         // 유닛이 활성화될 때 사망 이벤트를 귀 기울여 듣기 시작합니다 (구독)
         if (unitBase != null)

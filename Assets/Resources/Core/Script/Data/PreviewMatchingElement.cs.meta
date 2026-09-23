@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 454fefcf272942f4c8dcc7e7f9b75249
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Core/Script/Data/PreviewMatchingElement.cs
+  uploadId: 822312

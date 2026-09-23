@@ -12,10 +12,11 @@ public class WaveManager : Singleton<WaveManager>
     [SerializeField] private Transform bossSpawnPoint;
 
     [Header("Monster Spawn")]
-    [SerializeField] EnemySpawn[] spawnPoints;    //  ¸ó½ºÅÍ ½ºÆù Æ÷ÀÎÆ® ¹è¿­
+    [Tooltip("ìœ„ì¹˜ëŠ” ë²”ìœ„ ì¤‘ì‹¬, Scale X/YëŠ” ìƒì„± ë²”ìœ„ í¬ê¸°ë¡œ ì‚¬ìš©í•©ë‹ˆë‹¤.")]
+    [SerializeField] private Transform enemySpawnArea;
 
     [Header("Wave")]
-    [SerializeField] int maxWave = 5;            // ½ºÅ×ÀÌÁö ´ç ¿şÀÌºê ¼ö
+    [SerializeField] int maxWave = 5;            // ìŠ¤í…Œì´ì§€ ë‹¹ ì›¨ì´ë¸Œ ìˆ˜
 
     float bossTimer;
 
@@ -25,7 +26,7 @@ public class WaveManager : Singleton<WaveManager>
     [SerializeField] TMP_Text giveUpButtonText;
 
     [Header("Next Wave/Stage Delay")]
-    [SerializeField] float nextWaveDelay = 3f;    //  ´ÙÀ½ ¿şÀÌºê/½ºÅ×ÀÌÁö ÁøÀÔ µô·¹ÀÌ ½Ã°£
+    [SerializeField] float nextWaveDelay = 3f;    //  ë‹¤ìŒ ì›¨ì´ë¸Œ/ìŠ¤í…Œì´ì§€ ì§„ì… ë”œë ˆì´ ì‹œê°„
 
     [Header("Game Over Delay")]
     [SerializeField] float gameOverDelay = 2f;
@@ -35,14 +36,17 @@ public class WaveManager : Singleton<WaveManager>
     [SerializeField] WaveData waveData;
     [SerializeField] StageMonsterDataSO stageMonsterData;
 
-    int aliveCount = 0;     // ÇöÀç »ıÁ¸ ÁßÀÎ ¸ó½ºÅÍ ¼ö
-    int killCount = 0;      // ÇöÀç ¿şÀÌºê Ã³Ä¡ ¼ö 
-    int spawnedCount = 0;   // ÇöÀç ¿şÀÌºê¿¡¼­ ÀÌ¹Ì ½ºÆùÇÑ ¼ö
+    [Header("StageBoss Data")]
+    [SerializeField] private StageBossDataSO stageBossData;
 
-    [Header("ÀÓ½Ã °ÔÀÓ¿À¹ö ÇÃ·¹ÀÌ¾î »ç¸Á È½¼ö")]
+    int aliveCount = 0;     // í˜„ì¬ ìƒì¡´ ì¤‘ì¸ ëª¬ìŠ¤í„° ìˆ˜
+    int killCount = 0;      // í˜„ì¬ ì›¨ì´ë¸Œ ì²˜ì¹˜ ìˆ˜
+    int spawnedCount = 0;   // í˜„ì¬ ì›¨ì´ë¸Œì—ì„œ ì´ë¯¸ ìŠ¤í°í•œ ìˆ˜
+
+    [Header("ì„ì‹œ ê²Œì„ì˜¤ë²„ í”Œë ˆì´ì–´ ì‚¬ë§ íšŸìˆ˜")]
     [SerializeField] public int maxPlayerDeathCount;
 
-    int playerDeathCount = 0;   // ÇÃ·¹ÀÌ¾î »ç¸Á È½¼ö
+    int playerDeathCount = 0;   // í”Œë ˆì´ì–´ ì‚¬ë§ íšŸìˆ˜
 
     bool bossFinish = false;
 
@@ -63,7 +67,7 @@ public class WaveManager : Singleton<WaveManager>
     }
 
     GameObject currentBoss;
-    List<Unit_Base_Test> activeEnemies = new List<Unit_Base_Test>();  // ÇöÀç »ì¾ÆÀÖ´Â ÀÏ¹İ ¸ó½ºÅÍ
+    List<Unit_Base_Test> activeEnemies = new List<Unit_Base_Test>();  // í˜„ì¬ ì‚´ì•„ìˆëŠ” ì¼ë°˜ ëª¬ìŠ¤í„°
 
 
 
@@ -77,7 +81,7 @@ public class WaveManager : Singleton<WaveManager>
     public int CurrentStage => currentStage; 
     public void RestoreStage(int stage)
     {
-        // ÀúÀåµÈ ½ºÅ×ÀÌÁöÀÇ Ã¹ ¿şÀÌºê¿¡¼­ »ç¿ëÀÚ°¡ ½ÃÀÛ ¹öÆ°À» ´©¸£µµ·Ï ´ë±âÇÕ´Ï´Ù.
+        // ì €ì¥ëœ ìŠ¤í…Œì´ì§€ì˜ ì²« ì›¨ì´ë¸Œì—ì„œ ì‚¬ìš©ìê°€ ì‹œì‘ ë²„íŠ¼ì„ ëˆ„ë¥´ë„ë¡ ëŒ€ê¸°í•©ë‹ˆë‹¤.
         if (!stageGiveUp) StageGiveUp();
         currentStage = Mathf.Max(1, stage);
         ResetWave();
@@ -85,7 +89,7 @@ public class WaveManager : Singleton<WaveManager>
     }
     public event System.Action<int> OnStageChanged;
 
-    //¿şÀÌºê ÃÊ±âÈ­
+    //ì›¨ì´ë¸Œ ì´ˆê¸°í™”
     void ResetWave()
     {
         currentWave = 1;
@@ -177,32 +181,58 @@ public class WaveManager : Singleton<WaveManager>
 
     public bool SpawnEnemy()
     {
-        if (spawnPoints == null || spawnPoints.Length == 0)
+        if (enemySpawnArea == null)
         {
-            Debug.Log("½ºÆù Æ÷ÀÎÆ®°¡ ¾ø½À´Ï´Ù");
+            Debug.LogWarning("WaveManagerì— Enemy Spawn Areaê°€ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.", this);
             return false;
         }
 
         StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
         if (entry == null || entry.enemyPool == null || entry.enemyPool.Length == 0)
         {
-            Debug.LogWarning($"Stage {currentStage}¿¡ ÇØ´çÇÏ´Â EnemyPoolÀÌ ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"Stage {currentStage}ì— í•´ë‹¹í•˜ëŠ” EnemyPoolì´ ì—†ìŠµë‹ˆë‹¤.");
             return false;
         }
 
         UnitDataSO enemyToSpawn = entry.enemyPool[Random.Range(0, entry.enemyPool.Length)];
         float multiplier = stageMonsterData.GetMultiplierForStage(currentStage);
 
-        int randomIndex = Random.Range(0, spawnPoints.Length);
+        GameObject enemy = BattleUnitFactory.instance.CreateBattleUnit(
+            enemyToSpawn,
+            GetRandomEnemySpawnPosition()
+        );
 
-        bool success = spawnPoints[randomIndex].SpawnEnemy(enemyToSpawn, multiplier);
+        if (enemy == null) return false;
 
-        if (success)
-        {
-            aliveCount++;
-        }
+        Unit_Base_Test unit = enemy.GetComponent<Unit_Base_Test>();
+        if (unit != null && !Mathf.Approximately(multiplier, 1f))
+            unit.ApplyStatMultiplier(multiplier);
 
-        return success;
+        aliveCount++;
+        return true;
+    }
+
+    private Vector3 GetRandomEnemySpawnPosition()
+    {
+        Vector3 localPosition = new Vector3(
+            Random.Range(-0.5f, 0.5f),
+            Random.Range(-0.5f, 0.5f),
+            0f
+        );
+
+        // TransformPointê°€ ë²”ìœ„ ì˜¤ë¸Œì íŠ¸ì˜ ìœ„ì¹˜, íšŒì „, Scaleì„ ëª¨ë‘ ë°˜ì˜í•©ë‹ˆë‹¤.
+        return enemySpawnArea.TransformPoint(localPosition);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (enemySpawnArea == null) return;
+
+        Matrix4x4 previousMatrix = Gizmos.matrix;
+        Gizmos.color = Color.yellow;
+        Gizmos.matrix = enemySpawnArea.localToWorldMatrix;
+        Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+        Gizmos.matrix = previousMatrix;
     }
 
     IEnumerator Spawn()
@@ -265,11 +295,11 @@ public class WaveManager : Singleton<WaveManager>
             return;
         }
 
-        //ÀÏ¹İ ¿şÀÌºê Ã³Ä¡ ¸ñÇ¥ ´Ş¼º
+        //ì¼ë°˜ ì›¨ì´ë¸Œ ì²˜ì¹˜ ëª©í‘œ ë‹¬ì„±
         if (killCount >= GetKillCountForWave(currentWave))
         {
 
-            // ¸¶Áö¸· ¿şÀÌºê
+            // ë§ˆì§€ë§‰ ì›¨ì´ë¸Œ
             if (currentWave >= maxWave)
             {
                 currentState = WaveState.WaitingBoss;
@@ -281,7 +311,7 @@ public class WaveManager : Singleton<WaveManager>
                     bossDelayRoutine = StartCoroutine(BossDelay());
                 }
             }
-            // ÀÏ¹İ ´ÙÀ½ ¿şÀÌºê
+            // ì¼ë°˜ ë‹¤ìŒ ì›¨ì´ë¸Œ
             else
             {
                 currentState = WaveState.WaitingNextWave;
@@ -344,32 +374,34 @@ public class WaveManager : Singleton<WaveManager>
 
     void StartBossBattle()
     {
-        Debug.Log("½ºÅ¸Æ® º¸½º ¹èÆ² È£ÃâµÊ ");
+        Debug.Log("ìŠ¤íƒ€íŠ¸ ë³´ìŠ¤ ë°°í‹€ í˜¸ì¶œë¨ ");
 
-        //ÀÌ¹Ì º¸½ºÀüÀÌ¸é Áßº¹ ½ÇÇà ¹æÁö
+        //ì´ë¯¸ ë³´ìŠ¤ì „ì´ë©´ ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€
         if (currentState == WaveState.BossBattle)
         {
-            Debug.Log("ÀÌ¹Ì º¸½ºÀü Áß");
+            Debug.Log("ì´ë¯¸ ë³´ìŠ¤ì „ ì¤‘");
             return;
         }
 
-        //ÀÌ¹Ì º¸½º°¡ Á¸ÀçÇÏ¸é Áßº¹ »ı¼º ¹æÁö
+        //ì´ë¯¸ ë³´ìŠ¤ê°€ ì¡´ì¬í•˜ë©´ ì¤‘ë³µ ìƒì„± ë°©ì§€
         if (currentBoss != null)
         {
-            Debug.Log("ÀÌ¹Ì º¸½º Á¸Àç");
+            Debug.Log("ì´ë¯¸ ë³´ìŠ¤ ì¡´ì¬");
             return;
         }
 
-        StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
-        float bossMultiplier = stageMonsterData.GetMultiplierForStage(currentStage);
-        if (entry != null && entry.bossData != null)
+        //StageMonsterEntry entry = stageMonsterData.GetEntryForStage(currentStage);
+        StageBossEntry bossEntry = stageBossData.GetBossForStage(currentStage);
+        float bossMultiplier = stageBossData.GetMultiplierForStage(currentStage);
+
+        if (bossEntry != null && bossEntry.bossData != null)
         {
-            bossData = entry.bossData;
+            bossData = bossEntry.bossData;
         }
 
         if (bossData == null)
         {
-            Debug.LogWarning("WaveManagerÀÇ Boss Data°¡ ºñ¾î ÀÖ½À´Ï´Ù.");
+            Debug.LogWarning("WaveManagerì˜ Boss Dataê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
             currentState = WaveState.WaitingBoss;
             return;
         }
@@ -382,7 +414,7 @@ public class WaveManager : Singleton<WaveManager>
         if (boss == null)
         {
             Debug.LogWarning(
-                $"º¸½º »ı¼º ½ÇÆĞ: {bossData.battlePoolName}"
+                $"ë³´ìŠ¤ ìƒì„± ì‹¤íŒ¨: {bossData.battlePoolName}"
             );
 
             currentState = WaveState.WaitingBoss;
@@ -391,7 +423,7 @@ public class WaveManager : Singleton<WaveManager>
 
         currentBoss = boss;
 
-        // ¹èÀ² Áõ°¡
+        // ë°°ìœ¨ ì¦ê°€
         if (!Mathf.Approximately(bossMultiplier, 1f))
         {
             Unit_Base_Test bossStatUnit = currentBoss.GetComponent<Unit_Base_Test>();
@@ -401,15 +433,15 @@ public class WaveManager : Singleton<WaveManager>
             }
         }
 
-        //º¸½ºÀü ½ÃÀÛ
+        //ë³´ìŠ¤ì „ ì‹œì‘
         currentState = WaveState.BossBattle;
         bossFinish = false;
 
         bossTimerText.gameObject.SetActive(true);
 
-        Debug.Log("º¸½ºÃâÇö");
+        Debug.Log("ë³´ìŠ¤ì¶œí˜„");
 
-        //º¸½º »ı¼º ¼º°ø ÈÄ¿¡¸¸ Å¸ÀÌ¸Ó ½ÃÀÛ
+        //ë³´ìŠ¤ ìƒì„± ì„±ê³µ í›„ì—ë§Œ íƒ€ì´ë¨¸ ì‹œì‘
         Unit_Base_Test bossUnit = currentBoss.GetComponent<Unit_Base_Test>();
         if (bossUnit != null && BossHUDPresenter.instance != null)
         {
@@ -453,14 +485,14 @@ public class WaveManager : Singleton<WaveManager>
     public void BossKilled()
     {
 
-        if (bossFinish)    // º¸½º »ç¸Á ÇÔ¼ö°¡ µÎ¹ø È£Ãâ µÆÀ» ¶§, ½ºÅ×ÀÌÁö µÎ¹ø ¿Ã¶ó°¡´Â °ÍÀ» ¹æÁö
+        if (bossFinish)    // ë³´ìŠ¤ ì‚¬ë§ í•¨ìˆ˜ê°€ ë‘ë²ˆ í˜¸ì¶œ ëì„ ë•Œ, ìŠ¤í…Œì´ì§€ ë‘ë²ˆ ì˜¬ë¼ê°€ëŠ” ê²ƒì„ ë°©ì§€
         {
             return;
         }
 
         bossFinish = true;
 
-        Debug.Log("º¸½ºÃ³Ä¡ ´ÙÀ½ ½ºÅ×ÀÌÁö ½ÃÀÛ");
+        Debug.Log("ë³´ìŠ¤ì²˜ì¹˜ ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ì‹œì‘");
 
         currentState = WaveState.WaitingNextStage;
 
@@ -489,7 +521,7 @@ public class WaveManager : Singleton<WaveManager>
     void NextStage()
     {
 
-        Debug.Log("´ÙÀ½ ½ºÅ×ÀÌÁö ½ÃÀÛ");
+        Debug.Log("ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ì‹œì‘");
 
         currentStage++;
         OnStageChanged?.Invoke(currentStage);
@@ -500,7 +532,7 @@ public class WaveManager : Singleton<WaveManager>
 
         StopSpawn();
 
-        //ÄÚ·çÆ¾ ÃÊ±âÈ­
+        //ì½”ë£¨í‹´ ì´ˆê¸°í™”
         StopRoutine(ref spawnRoutine);
         StopRoutine(ref nextWaveRoutine);
         StopRoutine(ref bossDelayRoutine);
@@ -508,7 +540,7 @@ public class WaveManager : Singleton<WaveManager>
 
         currentState = WaveState.NormalWave;
 
-        // ¾Æ±º À¯´Ö Ã¼·Â ÃÊ±âÈ­
+        // ì•„êµ° ìœ ë‹› ì²´ë ¥ ì´ˆê¸°í™”
         if (PartyBuildManager.instance != null)
         {
             PartyBuildManager.instance.ResetAllBattleUnits();
@@ -519,21 +551,21 @@ public class WaveManager : Singleton<WaveManager>
 
     public void GameOverRestart()
     {
-        // ÇöÀç ÁøÇà ÁßÀÎ ¸ğµç ÄÚ·çÆ¾ Á¤Áö
+        // í˜„ì¬ ì§„í–‰ ì¤‘ì¸ ëª¨ë“  ì½”ë£¨í‹´ ì •ì§€
         StopRoutine(ref spawnRoutine);
         StopRoutine(ref nextWaveRoutine);
         StopRoutine(ref bossDelayRoutine);
         StopRoutine(ref bossTimerRoutine);
         StopRoutine(ref nextStageRoutine);
 
-        // ÇöÀç º¸½º°¡ ÀÖÀ¸¸é Ç®·Î ¹İÈ¯
+        // í˜„ì¬ ë³´ìŠ¤ê°€ ìˆìœ¼ë©´ í’€ë¡œ ë°˜í™˜
         if (currentBoss != null)
         {
-            ObjectPoolManager.instance.ReturnObject("Boss", currentBoss);
+            ObjectPoolManager.instance.ReturnObject(currentBoss.name, currentBoss);
             currentBoss = null;
         }
 
-        // ÇöÀç »ì¾ÆÀÖ´Â ÀÏ¹İ ¸ó½ºÅÍ ÀüºÎ Ç®·Î ¹İÈ¯
+        // í˜„ì¬ ì‚´ì•„ìˆëŠ” ì¼ë°˜ ëª¬ìŠ¤í„° ì „ë¶€ í’€ë¡œ ë°˜í™˜
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
             Unit_Base_Test enemy = activeEnemies[i];
@@ -548,29 +580,39 @@ public class WaveManager : Singleton<WaveManager>
 
         activeEnemies.Clear();
 
-        // º¸½º °ü·Ã UI Á¾·á
+        // ë³´ìŠ¤ ê´€ë ¨ UI ì¢…ë£Œ
         FinishBoss();
 
-        // ÇöÀç ½ºÅ×ÀÌÁö´Â À¯Áö, ¿şÀÌºê¸¸ 1·Î ÃÊ±âÈ­
+        // í˜„ì¬ ìŠ¤í…Œì´ì§€ëŠ” ìœ ì§€, ì›¨ì´ë¸Œë§Œ 1ë¡œ ì´ˆê¸°í™”
         ResetWave();
 
         bossFinish = false;
 
-        // ÀÏ¹İ ¿şÀÌºê·Î »óÅÂ º¯°æ
+        // ì¼ë°˜ ì›¨ì´ë¸Œë¡œ ìƒíƒœ ë³€ê²½
         currentState = WaveState.NormalWave;
 
-        //°ÔÀÓ¿À¹ö·Î ÀÎÇÑ Àç½ÃÀÛ ½Ã¿¡µµ ¾Æ±º Ã¼·Â ¸®¼Â ¹× »ç¸Á È½¼ö °»½Å
+        //ê²Œì„ì˜¤ë²„ë¡œ ì¸í•œ ì¬ì‹œì‘ ì‹œì—ë„ ì•„êµ° ì²´ë ¥ ë¦¬ì…‹ ë° ì‚¬ë§ íšŸìˆ˜ ê°±ì‹ 
         PartyBuildManager.instance.ResetAllBattleUnits();
         maxPlayerDeathCount = PartyBuildManager.instance.GetActiveUnitCount();
         playerDeathCount = 0;
 
-        // ´Ù½Ã 1¿şÀÌºê ½ÃÀÛ
+        // ë‹¤ì‹œ 1ì›¨ì´ë¸Œ ì‹œì‘
         StartSpawn();
     }
 
     public void StageGiveUp()
     {
-        // ¾ÆÁ÷ °ÔÀÓ ½ÃÀÛ ÀüÀÌ¶ó¸é
+        // ì‹œì‘ ë˜ëŠ” ì¬ì‹œì‘ ìƒíƒœì—ì„œëŠ” í¸ì„±ëœ ìœ ë‹›ì´ ìµœì†Œ 1ëª… í•„ìš”í•©ë‹ˆë‹¤.
+        // ë²„íŠ¼ ì™¸ì˜ ê²½ë¡œì—ì„œ ì´ í•¨ìˆ˜ê°€ í˜¸ì¶œë¼ë„ ì „íˆ¬ê°€ ì‹œì‘ë˜ì§€ ì•Šê²Œ ë§‰ìŠµë‹ˆë‹¤.
+        if (stageGiveUp &&
+            (PartyBuildManager.instance == null ||
+             PartyBuildManager.instance.GetActiveUnitCount() <= 0))
+        {
+            Debug.LogWarning("íŒŒí‹°ì— ìœ ë‹›ì„ 1ëª… ì´ìƒ í¸ì„±í•´ì•¼ ì „íˆ¬ë¥¼ ì‹œì‘í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
+            return;
+        }
+
+        // ì•„ì§ ê²Œì„ ì‹œì‘ ì „ì´ë¼ë©´
         if (stageGiveUp)
         {
             stageGiveUp = false;
@@ -584,14 +626,14 @@ public class WaveManager : Singleton<WaveManager>
             maxPlayerDeathCount = PartyBuildManager.instance.GetActiveUnitCount();
             playerDeathCount = 0;
 
-            Debug.Log("°ÔÀÓ ½ÃÀÛ");
+            Debug.Log("ê²Œì„ ì‹œì‘");
 
             StartSpawn();
             return;
         }
 
 
-        // ÀÌ¹Ì Æ÷±âÇÑ »óÅÂ¶ó¸é ´Ù½Ã ½ÃÀÛ
+        // ì´ë¯¸ í¬ê¸°í•œ ìƒíƒœë¼ë©´ ë‹¤ì‹œ ì‹œì‘
         if (stageGiveUp)
         {
             stageGiveUp = false;
@@ -605,35 +647,35 @@ public class WaveManager : Singleton<WaveManager>
             giveUpButtonText.text = "GIVE UP";
 
             maxPlayerDeathCount = PartyBuildManager.instance.GetActiveUnitCount();
-            playerDeathCount = 0; // ´©Àû »ç¸Á È½¼öµµ 0À¸·Î ÃÊ±âÈ­
+            playerDeathCount = 0; // ëˆ„ì  ì‚¬ë§ íšŸìˆ˜ë„ 0ìœ¼ë¡œ ì´ˆê¸°í™”
 
-            Debug.Log($"Stage{currentStage}-1 Àç½ÃÀÛ (ÃÖ´ë »ç¸Á Çã¿ë: {maxPlayerDeathCount}¸í)");
+            Debug.Log($"Stage{currentStage}-1 ì¬ì‹œì‘ (ìµœëŒ€ ì‚¬ë§ í—ˆìš©: {maxPlayerDeathCount}ëª…)");
 
             StartSpawn();
 
             return;
         }
 
-        //Ã³À½ ´©¸¥ °æ¿ì¿¡´Â Æ÷±â
-        Debug.Log("ÇöÀç ¿şÀÌºê Æ÷±â");
+        //ì²˜ìŒ ëˆ„ë¥¸ ê²½ìš°ì—ëŠ” í¬ê¸°
+        Debug.Log("í˜„ì¬ ì›¨ì´ë¸Œ í¬ê¸°");
 
         stageGiveUp = true;
 
-        // ÇöÀç ½ÇÇà ÁßÀÎ ÄÚ·çÆ¾ ÀüºÎ Á¤Áö
+        // í˜„ì¬ ì‹¤í–‰ ì¤‘ì¸ ì½”ë£¨í‹´ ì „ë¶€ ì •ì§€
         StopRoutine(ref spawnRoutine);
         StopRoutine(ref nextWaveRoutine);
         StopRoutine(ref bossDelayRoutine);
         StopRoutine(ref bossTimerRoutine);
         StopRoutine(ref nextStageRoutine);
 
-        // ÇöÀç º¸½º°¡ ÀÖÀ¸¸é Ç®·Î ¹İÈ¯
+        // í˜„ì¬ ë³´ìŠ¤ê°€ ìˆìœ¼ë©´ í’€ë¡œ ë°˜í™˜
         if (currentBoss != null)
         {
-            ObjectPoolManager.instance.ReturnObject("Boss", currentBoss);
+            ObjectPoolManager.instance.ReturnObject(currentBoss.name, currentBoss);
             currentBoss = null;
         }
 
-        // ÇöÀç »ì¾Æ ÀÖ´Â ÀÏ¹İ ¸ó½ºÅÍ ÀüºÎ Ç®·Î ¹İÈ¯
+        // í˜„ì¬ ì‚´ì•„ ìˆëŠ” ì¼ë°˜ ëª¬ìŠ¤í„° ì „ë¶€ í’€ë¡œ ë°˜í™˜
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
             Unit_Base_Test enemy = activeEnemies[i];
@@ -644,23 +686,23 @@ public class WaveManager : Singleton<WaveManager>
             }
         }
 
-        // ¸®½ºÆ® Á¤¸®
+        // ë¦¬ìŠ¤íŠ¸ ì •ë¦¬
         activeEnemies.Clear();
 
-        // º¸½º UI Á¾·á
+        // ë³´ìŠ¤ UI ì¢…ë£Œ
         FinishBoss();
 
         PartyBuildManager.instance.ResetAllBattleUnits();
 
-        // ÀüÅõ ÁßÁö
+        // ì „íˆ¬ ì¤‘ì§€
         currentState = WaveState.WaitingNextStage;
 
-        Debug.Log($"Stage{currentStage} ÁßÁö »óÅÂ");
+        Debug.Log($"Stage{currentStage} ì¤‘ì§€ ìƒíƒœ");
 
-        //¹öÆ° ±ÛÀÚ º¯°æ
+        //ë²„íŠ¼ ê¸€ì ë³€ê²½
         giveUpButtonText.text = "RESTART";
 
-        Debug.Log($"Stage {currentStage} Æ÷±â »óÅÂ");
+        Debug.Log($"Stage {currentStage} í¬ê¸° ìƒíƒœ");
 
 
     }
@@ -668,11 +710,11 @@ public class WaveManager : Singleton<WaveManager>
     {
         playerDeathCount++;
 
-        Debug.Log($"ÇÃ·¹ÀÌ¾î »ç¸Á : {playerDeathCount} / {maxPlayerDeathCount}");
+        Debug.Log($"í”Œë ˆì´ì–´ ì‚¬ë§ : {playerDeathCount} / {maxPlayerDeathCount}");
 
         if (playerDeathCount >= maxPlayerDeathCount)
         {
-            Debug.Log("°ÔÀÓ¿À¹ö");
+            Debug.Log("ê²Œì„ì˜¤ë²„");
 
             if (gameOverRoutine == null)
             {
@@ -684,7 +726,7 @@ public class WaveManager : Singleton<WaveManager>
 
     IEnumerator GameOverDelay()
     {
-        // µô·¹ÀÌ µµ´Â µ¿¾È ¿şÀÌºê ÁøÇàÀÌ ¸ØÃßµµ·Ï Á¤Áö
+        // ë”œë ˆì´ ë„ëŠ” ë™ì•ˆ ì›¨ì´ë¸Œ ì§„í–‰ì´ ë©ˆì¶”ë„ë¡ ì •ì§€
         StopRoutine(ref spawnRoutine);
         StopRoutine(ref nextWaveRoutine);
         StopRoutine(ref bossDelayRoutine);
@@ -708,15 +750,15 @@ public class WaveManager : Singleton<WaveManager>
 
         bossFinish = true;
 
-        Debug.Log("º¸½º Á¦ÇÑ½Ã°£ Á¾·á");
+        Debug.Log("ë³´ìŠ¤ ì œí•œì‹œê°„ ì¢…ë£Œ");
 
         bossTimerText.gameObject.SetActive(false);
 
-        //º¸½º Ç®·Î ¹İÈ¯
+        //ë³´ìŠ¤ í’€ë¡œ ë°˜í™˜
         if (currentBoss != null)
         {
 
-            ObjectPoolManager.instance.ReturnObject("Boss", currentBoss);
+            ObjectPoolManager.instance.ReturnObject(currentBoss.name, currentBoss);
         }
 
         FinishBoss();
@@ -727,7 +769,7 @@ public class WaveManager : Singleton<WaveManager>
 
         bossFinish = false;
 
-        //ÀÏ¹İ ¿şÀÌºê ´Ù½Ã ½ÃÀÛ
+        //ì¼ë°˜ ì›¨ì´ë¸Œ ë‹¤ì‹œ ì‹œì‘
         StartSpawn();
 
     }

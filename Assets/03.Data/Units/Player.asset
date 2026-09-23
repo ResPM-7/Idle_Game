@@ -17,20 +17,20 @@ MonoBehaviour:
   unitName: "\uACAC\uC2B5 \uAD81\uC218"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: ApprenticeArcher
   unitSprite: {fileID: 0}
   maxHp: 240
   moveSpeed: 8
   attackDamage: 30
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
-  canMelee: 1
-  canRanged: 0
-  projectilePoolName: 
+  canMelee: 0
+  canRanged: 1
+  projectilePoolName: Projectile_Arrow
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 4
   criticalRate: 15
   criticalDamage: 2
@@ -55,20 +55,20 @@ MonoBehaviour:
   unitName: "\uACAC\uC2B5 \uC0AC\uC81C"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: ApprenticePriest
   unitSprite: {fileID: 0}
   maxHp: 180
   moveSpeed: 5
   attackDamage: 24
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
-  canMelee: 1
+  canMelee: 0
   canRanged: 0
-  projectilePoolName: 
-  canHeal: 0
+  projectilePoolName: Projectile_EnergyBall
+  canHeal: 1
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 3
   criticalRate: 5
   criticalDamage: 2
@@ -93,7 +93,7 @@ MonoBehaviour:
   unitName: "\uACAC\uC2B5 \uB3C4\uC801"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: ApprenticeRogue
   unitSprite: {fileID: 0}
   maxHp: 250
   moveSpeed: 10
@@ -131,7 +131,7 @@ MonoBehaviour:
   unitName: "\uACAC\uC2B5 \uC804\uC0AC"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: ApprenticeWarrior
   unitSprite: {fileID: 0}
   maxHp: 300
   moveSpeed: 5
@@ -169,20 +169,20 @@ MonoBehaviour:
   unitName: "\uB3C4\uC801"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: Rogue
   unitSprite: {fileID: 0}
   maxHp: 360
   moveSpeed: 10
   attackDamage: 30
   attackSpeed: 0.8
-  searchRange: 0
+  searchRange: 99
   attackRange: 2
   canMelee: 1
   canRanged: 0
-  projectilePoolName: 
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 7
   criticalRate: 5
   criticalDamage: 2.5
@@ -206,20 +206,20 @@ MonoBehaviour:
   unitName: "\uC804\uC0AC"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: Warrior
   unitSprite: {fileID: 0}
   maxHp: 430
   moveSpeed: 5
   attackDamage: 34
   attackSpeed: 1.2
-  searchRange: 0
+  searchRange: 99
   attackRange: 2
   canMelee: 1
   canRanged: 0
-  projectilePoolName: 
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 12
   criticalRate: 5
   criticalDamage: 2
@@ -243,7 +243,7 @@ MonoBehaviour:
   unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: Novice
   unitSprite: {fileID: 0}
   maxHp: 145
   moveSpeed: 5
@@ -281,7 +281,7 @@ MonoBehaviour:
   unitName: "\uC2E0\uC785 \uBAA8\uD5D8\uAC00"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: Novice
   unitSprite: {fileID: 0}
   maxHp: 120
   moveSpeed: 5
@@ -319,20 +319,20 @@ MonoBehaviour:
   unitName: "\uC0AC\uC81C"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: Priest
   unitSprite: {fileID: 0}
-  maxHp: 150
+  maxHp: 220
   moveSpeed: 5
   attackDamage: 28
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
-  canMelee: 1
+  canMelee: 0
   canRanged: 0
-  projectilePoolName: 
-  canHeal: 0
+  projectilePoolName: Projectile_EnergyBall
+  canHeal: 1
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 4
   criticalRate: 5
   criticalDamage: 2
@@ -387,7 +387,7 @@ MonoBehaviour:
   unitName: "\uACAC\uC2B5 \uC0AC\uC81C"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: ApprenticePriest
   unitSprite: {fileID: 0}
   maxHp: 150
   moveSpeed: 5
@@ -397,7 +397,7 @@ MonoBehaviour:
   attackRange: 5
   canMelee: 0
   canRanged: 0
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: Projectile_EnergyBall
   canHeal: 1
   healRange: 4
   healProjectilePoolName: Projectile_Heal
@@ -425,7 +425,7 @@ MonoBehaviour:
   unitName: "\uACAC\uC2B5 \uAD81\uC218"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: ApprenticeArcher
   unitSprite: {fileID: 0}
   maxHp: 200
   moveSpeed: 8
@@ -435,7 +435,7 @@ MonoBehaviour:
   attackRange: 5
   canMelee: 0
   canRanged: 1
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: Projectile_Arrow
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal
@@ -463,20 +463,20 @@ MonoBehaviour:
   unitName: "\uACAC\uC2B5 \uB3C4\uC801"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: ApprenticeRogue
   unitSprite: {fileID: 0}
   maxHp: 300
   moveSpeed: 10
   attackDamage: 24
   attackSpeed: 0.8
-  searchRange: 0
+  searchRange: 99
   attackRange: 2
   canMelee: 1
   canRanged: 0
-  projectilePoolName: 
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 5
   criticalRate: 5
   criticalDamage: 2.5
@@ -501,7 +501,7 @@ MonoBehaviour:
   unitName: "\uC2E0\uC785 \uBAA8\uD5D8\uAC00"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: Novice
   unitSprite: {fileID: 0}
   maxHp: 100
   moveSpeed: 5
@@ -539,7 +539,7 @@ MonoBehaviour:
   unitName: "\uBAA8\uD5D8\uAC00"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: Novice
   unitSprite: {fileID: 0}
   maxHp: 210
   moveSpeed: 5
@@ -580,7 +580,7 @@ MonoBehaviour:
   unitName: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: Novice
   unitSprite: {fileID: 0}
   maxHp: 175
   moveSpeed: 5
@@ -618,20 +618,20 @@ MonoBehaviour:
   unitName: "\uACAC\uC2B5 \uC804\uC0AC"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: ApprenticeWarrior
   unitSprite: {fileID: 0}
   maxHp: 360
   moveSpeed: 5
   attackDamage: 28
   attackSpeed: 1.2
-  searchRange: 0
+  searchRange: 99
   attackRange: 2
   canMelee: 1
   canRanged: 0
-  projectilePoolName: 
+  projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 10
   criticalRate: 5
   criticalDamage: 2
@@ -656,20 +656,20 @@ MonoBehaviour:
   unitName: "\uAD81\uC218"
   team: 0
   uiPoolName: UIUnit
-  battlePoolName: BattleUnit
+  battlePoolName: Archer
   unitSprite: {fileID: 0}
   maxHp: 290
   moveSpeed: 8
   attackDamage: 36
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
-  canMelee: 1
-  canRanged: 0
-  projectilePoolName: 
+  canMelee: 0
+  canRanged: 1
+  projectilePoolName: Projectile_Arrow
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 5
   criticalRate: 15
   criticalDamage: 2

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e77cb20a6a5db4c14aca1d862df7c650
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Retro UI Set/2_ExtraScript/IconLayout.cs
+  uploadId: 822312

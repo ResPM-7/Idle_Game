@@ -143,10 +143,48 @@ public class GameSaveService : Singleton<GameSaveService>
     }
 
     private void Validate(GameSaveData save)
+{
+    if (save == null)
+        throw new InvalidDataException("저장 데이터가 null입니다.");
+
+    if (save.version != 1)
+        throw new InvalidDataException(
+            $"지원하지 않는 저장 버전: {save.version}"
+        );
+
+    if (save.units == null)
+        throw new InvalidDataException("유닛 저장 목록이 null입니다.");
+
+    if (save.upgrades == null)
+        throw new InvalidDataException("강화 저장 목록이 null입니다.");
+
+    if (save.gold < 0)
+        throw new InvalidDataException(
+            $"골드가 음수입니다: {save.gold}"
+        );
+
+    if (save.credit < 0)
+        throw new InvalidDataException(
+            $"크레딧이 음수입니다: {save.credit}"
+        );
+
+    if (save.stage < 1)
+        throw new InvalidDataException(
+            $"스테이지가 잘못되었습니다: {save.stage}"
+        );
+
+    if (save.guildLevel < 1)
+        throw new InvalidDataException(
+            $"길드 레벨이 잘못되었습니다: {save.guildLevel}"
+        );
+
+    if (save.guildLevel > spawner.MaxGuildLevel)
     {
-        if (save == null || save.version != 1 || save.units == null || save.upgrades == null ||
-            save.gold < 0 || save.credit < 0 || save.stage < 1 || save.guildLevel < 1 ||
-            save.guildLevel > spawner.MaxGuildLevel) throw new InvalidDataException("지원하지 않거나 잘못된 저장 데이터");
+        throw new InvalidDataException(
+            $"길드 레벨이 최대치를 초과했습니다. " +
+            $"현재: {save.guildLevel}, 최대: {spawner.MaxGuildLevel}"
+        );
+    }
         var used = new HashSet<string>();
         foreach (var entry in save.units)
         {

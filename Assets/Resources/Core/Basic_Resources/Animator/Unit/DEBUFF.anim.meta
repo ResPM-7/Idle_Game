@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: df7347d9a26250f49a9dab946bc4b0a4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Core/Basic_Resources/Animator/Unit/DEBUFF.anim
+  uploadId: 822312

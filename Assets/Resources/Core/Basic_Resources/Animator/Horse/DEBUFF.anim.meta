@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7deccbbb01b5dce4282412d813b51593
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Core/Basic_Resources/Animator/Horse/DEBUFF.anim
+  uploadId: 822312

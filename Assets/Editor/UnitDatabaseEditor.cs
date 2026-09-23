@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,8 +14,8 @@ public class UnitDatabaseEditor : Editor
     {
         var db = (UnitDatabase)target;
         query = EditorGUILayout.TextField("ID / 이름 검색", query);
-        foreach (var unit in db.players) Row(unit);
-        foreach (var unit in db.enemies) Row(unit);
+        DrawUnitsById(db.players);
+        DrawUnitsById(db.enemies);
         if (selected != null)
         {
             EditorGUILayout.Space();
@@ -45,6 +46,21 @@ public class UnitDatabaseEditor : Editor
         if (query.Length > 0 && label.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) < 0) return;
         if (GUILayout.Button(label)) selected = unit;
     }
+
+    private void DrawUnitsById(List<UnitDataSO> units)
+    {
+        // 저장된 순서와 관계없이 인스펙터에는 항상 ID 오름차순으로 표시합니다.
+        var sorted = new List<UnitDataSO>(units);
+        sorted.Sort((a, b) =>
+        {
+            if (a == null) return b == null ? 0 : 1;
+            if (b == null) return -1;
+            return a.unitId.CompareTo(b.unitId);
+        });
+
+        foreach (var unit in sorted) Row(unit);
+    }
+
     private void OnDisable() { if (unitEditor != null) DestroyImmediate(unitEditor); }
     public override bool RequiresConstantRepaint() => GoogleSheetUnitUploader.IsUploading;
 }

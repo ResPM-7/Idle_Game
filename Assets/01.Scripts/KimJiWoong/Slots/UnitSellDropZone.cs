@@ -72,6 +72,9 @@ public class UnitSellDropZone : MonoBehaviour, IDropHandler
             unitData.uiPoolName,
             draggedUnit.gameObject);
 
+        // 유닛판매 사운드 재생
+        SoundManager.instance?.PlaySfx("ui_sell");
+
         Debug.Log($"Lv.{unitData.unitLevel} {unitData.unitName} 판매: {refundCredit} 크레딧 획득");
     }
 

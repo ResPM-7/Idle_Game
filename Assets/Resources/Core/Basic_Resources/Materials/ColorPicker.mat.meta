@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b63f4528eefc847b0a117c09da0c2524
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Core/Basic_Resources/Materials/ColorPicker.mat
+  uploadId: 822312

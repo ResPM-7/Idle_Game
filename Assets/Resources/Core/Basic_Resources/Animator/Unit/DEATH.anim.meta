@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e23bc41dfc64fef439b0a9d4b49d7d6a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Core/Basic_Resources/Animator/Unit/DEATH.anim
+  uploadId: 822312

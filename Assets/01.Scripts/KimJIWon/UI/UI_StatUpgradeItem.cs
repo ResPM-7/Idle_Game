@@ -4,21 +4,31 @@ using TMPro;
 
 public class StatUpgradeItem : MonoBehaviour
 {
+    [Header("UI Icon")]
+    [SerializeField] private Image statIconImage;
+
     [Header("UI Text Components")]
-    [SerializeField] private TMP_Text statNameText;  // 1. ½ºÅÈ ÀÌ¸§
-    [SerializeField] private TMP_Text levelText;     // 2. ÇöÀç ·¹º§
-    [SerializeField] private TMP_Text valueText;     // 3. ÇöÀç Áõ°¡ ¼öÄ¡
-    [SerializeField] private TMP_Text priceText;      // 4. ¾÷±×·¹ÀÌµå ºñ¿ë
+    [SerializeField] private TMP_Text statNameText;  // 1. ìŠ¤íƒ¯ ì´ë¦„
+    [SerializeField] private TMP_Text levelText;     // 2. í˜„ì¬ ë ˆë²¨
+    [SerializeField] private TMP_Text valueText;     // 3. í˜„ì¬ ì¦ê°€ ìˆ˜ì¹˜
+    [SerializeField] private TMP_Text priceText;      // 4. ì—…ê·¸ë ˆì´ë“œ ë¹„ìš©
 
     [Header("UI Button")]
-    [SerializeField] private Button upgradeButton;   // °­È­ ¹öÆ°
+    [SerializeField] private Button upgradeButton;   // ê°•í™” ë²„íŠ¼
 
     public StatType TargetStatType { get; private set; }
 
-    //ÃÊ±â ¼³Á¤
-    public void Setup(IStatData initialData, System.Action<StatType> onUpgradeClick)
+    //ì´ˆê¸° ì„¤ì •
+    public void Setup(IStatData initialData, System.Action<StatType> onUpgradeClick, Sprite iconSprite)
     {
         TargetStatType = initialData.Type;
+
+        if (statIconImage != null)
+        {
+            statIconImage.sprite = iconSprite;
+            statIconImage.preserveAspect = true;
+            statIconImage.enabled = iconSprite != null;
+        }
 
         if (upgradeButton != null)
         {
@@ -29,26 +39,26 @@ public class StatUpgradeItem : MonoBehaviour
         UpdateUI(initialData);
     }
 
-    // µ¥ÀÌÅÍ°¡ ¾÷µ¥ÀÌÆ®µÇ°Å³ª ÃÊ±âÈ­µÉ ¶§ 4°³ ÅØ½ºÆ® °¢°¢ °»½Å
+    // ë°ì´í„°ê°€ ì—…ë°ì´íŠ¸ë˜ê±°ë‚˜ ì´ˆê¸°í™”ë  ë•Œ 4ê°œ í…ìŠ¤íŠ¸ ê°ê° ê°±ì‹ 
     public void UpdateUI(IStatData data)
     {
         if (data == null || data.Type != TargetStatType) return;
 
-        //½ºÅÈ ÀÌ¸§
+        //ìŠ¤íƒ¯ ì´ë¦„
         if (statNameText != null)
             statNameText.text = data.StatName;
 
-        //ÇöÀç ·¹º§
+        //í˜„ì¬ ë ˆë²¨
         if (levelText != null)
             levelText.text = $"Lv.{data.CurrentLevel}";
 
-        //ÇöÀç Áõ°¡ ¼öÄ¡ (°ø°İ¼Óµµ´Â ¼Ò¼öÁ¡ F2, ÀÏ¹İ ½ºÅÈÀº F0 Ç¥±â)
+        //í˜„ì¬ ì¦ê°€ ìˆ˜ì¹˜ (ê³µê²©ì†ë„ëŠ” ì†Œìˆ˜ì  F2, ì¼ë°˜ ìŠ¤íƒ¯ì€ F0 í‘œê¸°)
         if (valueText != null)
         {
             valueText.text = $"+{data.CurrentValue.ToString("F0")}";
         }
 
-        //¾÷±×·¹ÀÌµå ºñ¿ë
+        //ì—…ê·¸ë ˆì´ë“œ ë¹„ìš©
         if (priceText != null)
             priceText.text = $"{data.UpgradePrice} G";
     }

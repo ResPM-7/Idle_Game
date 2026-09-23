@@ -12,6 +12,7 @@ public class GoogleSheetSync : EditorWindow
     private const string unitDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=0&single=true&output=csv";
     private const string enemyDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=1042200275&single=true&output=csv";
     public const string stageMonsterDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=340714933&single=true&output=csv";
+    public const string stageBossDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=2000866037&single=true&output=csv";
 
     private const string playerSavePath = "Assets/03.Data/Units/Player";
     private const string enemySavePath = "Assets/03.Data/Units/Enemy";
@@ -73,14 +74,23 @@ public class GoogleSheetSync : EditorWindow
     {
         string groupPath = targetFolderPath + ".asset";
         UnitDatabase group = AssetDatabase.LoadAssetAtPath<UnitDatabase>(groupPath);
-        if (!AssetDatabase.IsValidFolder(targetFolderPath))
+        if (group == null && !AssetDatabase.IsValidFolder(targetFolderPath))
         {
-            string parent = Path.GetDirectoryName(targetFolderPath).Replace('\\', '/');
+            string parent =
+                Path.GetDirectoryName(targetFolderPath).Replace('\\', '/');
+
             string folder = Path.GetFileName(targetFolderPath);
             AssetDatabase.CreateFolder(parent, folder);
         }
 
-        string[] guids = AssetDatabase.FindAssets("t:UnitDataSO", new[] { targetFolderPath });
+        // 통합 파일 방식을 사용하면 개별 SO 폴더가 없을 수 있으므로
+        // 실제 폴더가 존재할 때만 검색합니다.
+        string[] guids = AssetDatabase.IsValidFolder(targetFolderPath)
+                        ? AssetDatabase.FindAssets(
+                        "t:UnitDataSO",
+                        new[] { targetFolderPath }
+                    )
+                    : new string[0];
         Dictionary<int, UnitDataSO> soDict = new Dictionary<int, UnitDataSO>();
         if (group != null)
         {

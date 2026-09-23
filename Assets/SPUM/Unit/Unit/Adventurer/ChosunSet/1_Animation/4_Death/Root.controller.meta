@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 80abd89ca25e79e4898b484179ca86d6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 345828
+  packageName: 'SPUM : Ultimate Resource Bundle Pack'
+  packageVersion: 1.0.1
+  assetPath: Assets/SPUM/Resources/Addons/ChosunSet/0_Unit/1_Animation/4_Death/Root.controller
+  uploadId: 822312

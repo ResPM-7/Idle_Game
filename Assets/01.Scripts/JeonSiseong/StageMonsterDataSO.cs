@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class StageMonsterDataSO : ScriptableObject
 {
     [Header("사이클 설정")]
-    public int cycleLength = 10;              // 사이클 길이 (3+3+4 = 10스테이지)
+    public int cycleLength = 6;              // 사이클 길이 (3+3+4 = 10스테이지)
     public float multiplierPerCycle = 0.5f;   // 사이클 한 바퀴마다 배율 증가폭
 
     public List<StageMonsterEntry> entries = new List<StageMonsterEntry>();

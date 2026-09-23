@@ -107,3 +107,7 @@ InitTestScene*.unity*
 
 # Local backup of pre-consolidation assets (not game content)
 /DataMigrationBackup/
+
+# Licensed Unity Asset Store asset
+/Assets/Plugins/AllIn1SpriteShader/
+/Assets/Plugins/AllIn1SpriteShader.meta
