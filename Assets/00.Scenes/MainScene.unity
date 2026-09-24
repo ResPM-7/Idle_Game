@@ -3325,18 +3325,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3019322024187507003, guid: d0b4a012634091d4aa84506b72e1f47a, type: 3}
-      propertyPath: objList.Array.data[0].prefab
-      value: 
-      objectReference: {fileID: 7994993448127677805, guid: 8dafc9b89fe2ea04ea01ef87afa5996d, type: 3}
-    - target: {fileID: 3019322024187507003, guid: d0b4a012634091d4aa84506b72e1f47a, type: 3}
-      propertyPath: objList.Array.data[2].prefab
-      value: 
-      objectReference: {fileID: 5315446581541654924, guid: 32e989c724b1c7445b20559ed572589c, type: 3}
-    - target: {fileID: 3019322024187507003, guid: d0b4a012634091d4aa84506b72e1f47a, type: 3}
-      propertyPath: objList.Array.data[4].prefab
-      value: 
-      objectReference: {fileID: 3391895794129409543, guid: 91c599b0462cd89479bf0569a6999b38, type: 3}
-    - target: {fileID: 3019322024187507003, guid: d0b4a012634091d4aa84506b72e1f47a, type: 3}
       propertyPath: canvasPools.Array.data[0].targetCanvas
       value: 
       objectReference: {fileID: 570284763}
