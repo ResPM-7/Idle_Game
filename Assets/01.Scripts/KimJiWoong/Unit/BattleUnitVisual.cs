@@ -71,11 +71,14 @@ public class BattleUnitVisual : MonoBehaviour
 
     private void Play(PlayerState state, int index)
     {
-        if (!current.StateAnimationPairs.TryGetValue(state.ToString(), out var clips) || clips.Count == 0)
+        // 반복 공격마다 열거형 문자열을 새로 만들지 않습니다.
+        string key = state == PlayerState.ATTACK ? "ATTACK" : state == PlayerState.MOVE ? "MOVE" : "IDLE";
+        if (!current.StateAnimationPairs.TryGetValue(key, out var clips) || clips.Count == 0)
             return;
         index = Mathf.Clamp(index, 0, clips.Count - 1);
         if (clips[index] == null) return;
-        current.OverrideController[state.ToString()] = clips[index];
+        if (current.OverrideController[key] != clips[index])
+            current.OverrideController[key] = clips[index];
         if (state == PlayerState.ATTACK)
         {
             current._anim.SetBool("1_Move", false);

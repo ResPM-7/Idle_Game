@@ -13290,9 +13290,9 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7774000568092705267}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -450946561
+  m_SortingLayer: 3
+  m_SortingOrder: 5
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
 --- !u!114 &4801714737190549105
@@ -13309,6 +13309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Unit_Base_Test
   myData: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  targetSearchCapacity: 64
 --- !u!114 &-9149507748339339815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13347,8 +13348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
-  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
-  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
+  damageBuffMaterial: {fileID: 2100000, guid: dd3996447d9ffcf4b8f6b1853a0a0a79, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 9bfa4420be21172408149c63fb25dbe1, type: 2}
 --- !u!1 &7856453528328560567
 GameObject:
   m_ObjectHideFlags: 0
@@ -13631,7 +13632,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8991596719811853887}
-  - component: {fileID: 6373124212895678044}
   - component: {fileID: 3128349881757348080}
   m_Layer: 6
   m_Name: UnitRoot
@@ -13657,19 +13657,6 @@ Transform:
   - {fileID: 6546052172590438336}
   m_Father: {fileID: 6233700503571700864}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!210 &6373124212895678044
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7949194860881691469}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
 --- !u!95 &3128349881757348080
 Animator:
   serializedVersion: 7

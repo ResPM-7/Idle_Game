@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Floor
   layers:
   - Default
   - TransparentFX
@@ -40,6 +41,18 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 3053346009
+    locked: 0
+  - name: GroundEffect
+    uniqueID: 3121550335
+    locked: 0
+  - name: Units
+    uniqueID: 3844020735
+    locked: 0
+  - name: AirEffect
+    uniqueID: 3117418037
     locked: 0
   m_RenderingLayers:
   - Default
