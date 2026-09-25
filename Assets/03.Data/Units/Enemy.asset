@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 304
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uC5B8\uB370\uB4DC \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: ZombieBoss
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 305
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uC5B8\uB370\uB4DC \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: ZombieBoss
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 301
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uACE0\uBE14\uB9B0 \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: GoblinBoss
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 302
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uACE0\uBE14\uB9B0 \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: GoblinBoss
@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 303
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uACE0\uBE14\uB9B0 \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: GoblinBoss
@@ -486,7 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 306
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uC5B8\uB370\uB4DC \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: ZombieBoss

@@ -151,19 +151,22 @@ internal static class GoogleSheetUnitUploader
             if (unit.nextUpgradeUnits != null && unit.nextUpgradeUnits.Any(next => next == null || !units.Contains(next)))
                 throw new InvalidOperationException($"{unit.unitId}: 진화 대상이 해당 시트 목록에 없습니다.");
 
-        // 1행 변수명과 2행 자료형은 현재 Google Sheet 형식을 그대로 유지합니다.
+        // 동기화 도구와 같은 필드명을 사용하므로 열 순서가 바뀌어도 안전하게 다시 읽을 수 있습니다.
         string[] headers =
         {
             "unitId", "uiPoolName", "battlePoolName", "unitLevel", "unitName",
-            "maxHp", "moveSpeed", "attackDamage", "attackSpeed", "attackRange",
-            "defense", "criticalRate", "criticalDamage", "coin", "credit",
-            "nextUpgradeUnitIds"
+            "maxHp", "moveSpeed", "attackDamage", "attackSpeed", "searchRange",
+            "attackRange", "canMelee", "canRanged", "projectilePoolName", "canHeal",
+            "healRange", "healProjectilePoolName", "defense", "criticalRate",
+            "criticalDamage", "coin", "credit", "nextUpgradeUnitIds"
         };
         string[] types =
         {
             "int", "string", "string", "int", "string",
             "float", "float", "float", "float", "float",
-            "int", "int", "float", "int", "int", "UnitDataSO []"
+            "float", "bool", "bool", "string", "bool",
+            "float", "string", "int", "int", "float", "int", "int",
+            "UnitDataSO []"
         };
 
         SheetUploadRow[] rows = units.Select(ToUploadRow).ToArray();
@@ -199,7 +202,14 @@ internal static class GoogleSheetUnitUploader
                 unit.moveSpeed.ToString(CultureInfo.InvariantCulture),
                 unit.attackDamage.ToString(CultureInfo.InvariantCulture),
                 unit.attackSpeed.ToString(CultureInfo.InvariantCulture),
+                unit.searchRange.ToString(CultureInfo.InvariantCulture),
                 unit.attackRange.ToString(CultureInfo.InvariantCulture),
+                unit.canMelee ? "true" : "false",
+                unit.canRanged ? "true" : "false",
+                unit.projectilePoolName ?? string.Empty,
+                unit.canHeal ? "true" : "false",
+                unit.healRange.ToString(CultureInfo.InvariantCulture),
+                unit.healProjectilePoolName ?? string.Empty,
                 unit.defense.ToString(CultureInfo.InvariantCulture),
                 unit.criticalRate.ToString(CultureInfo.InvariantCulture),
                 unit.criticalDamage.ToString(CultureInfo.InvariantCulture),
