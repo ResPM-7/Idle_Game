@@ -30,7 +30,7 @@ MonoBehaviour:
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 0
   criticalDamage: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 0
   criticalDamage: 0
@@ -289,7 +289,7 @@ MonoBehaviour:
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 0
   criticalDamage: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 0
   criticalDamage: 0
@@ -385,7 +385,6 @@ MonoBehaviour:
   players: []
   enemies:
   - {fileID: 180788648125843077}
-  - {fileID: -1985273095112801932}
   - {fileID: 663784238560466414}
   - {fileID: -2038760621212632604}
   - {fileID: -1962996378260815448}
@@ -393,6 +392,7 @@ MonoBehaviour:
   - {fileID: -2107156837525844836}
   - {fileID: -493028265017743643}
   - {fileID: -3414527648549997551}
+  - {fileID: -1985273095112801932}
   - {fileID: -1956681799679172779}
   - {fileID: -1407249794022230020}
   - {fileID: -8090596691778061284}
@@ -502,9 +502,9 @@ MonoBehaviour:
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
-  criticalRate: 0
+  criticalRate: 41
   criticalDamage: 0
   coin: 0
   credit: 50
