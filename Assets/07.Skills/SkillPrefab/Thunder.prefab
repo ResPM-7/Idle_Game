@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6367771500234004189}
   - component: {fileID: 4197999699880310564}
-  - component: {fileID: 3388498955717680}
   - component: {fileID: -790911351120567180}
+  - component: {fileID: 3392782456326596284}
+  - component: {fileID: 6488359124773291965}
+  - component: {fileID: 2526985677965561157}
   m_Layer: 0
   m_Name: Thunder
   m_TagString: Untagged
@@ -27,10 +29,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6894433004266126195}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.16, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -93,30 +95,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3388498955717680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6894433004266126195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f1bc97192e48464d902943718cf5e54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  self_target: 1
-  sprite_target: {fileID: 0}
-  sprite_ani:
-  - {fileID: 6032972246876082220, guid: a29a15b176a2a67489ea2700cc27bb16, type: 3}
-  - {fileID: -7974334314510058712, guid: a29a15b176a2a67489ea2700cc27bb16, type: 3}
-  - {fileID: -7419469082364510714, guid: a29a15b176a2a67489ea2700cc27bb16, type: 3}
-  - {fileID: 4171446366699529209, guid: a29a15b176a2a67489ea2700cc27bb16, type: 3}
-  - {fileID: -8640275030725934787, guid: a29a15b176a2a67489ea2700cc27bb16, type: 3}
-  - {fileID: 21300000, guid: f7592f04a23ab684d8235c72da0a6bd6, type: 3}
-  time: 0.07
-  waitTime: 1
-  delayTime: 0
 --- !u!210 &-790911351120567180
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -125,8 +103,85 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6894433004266126195}
   m_Enabled: 1
-  m_SortingLayerID: -1173416961
-  m_SortingLayer: 2
+  m_SortingLayerID: -1177549259
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
+--- !u!95 &3392782456326596284
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6894433004266126195}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1099c8e8855ffea44853bd4b72b3f9d6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &6488359124773291965
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6894433004266126195}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.81
+--- !u!114 &2526985677965561157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6894433004266126195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ef20644e159e1488d055f38277b190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightningSkill
+  radius: 1.5
+  damage: 100
+  damageRatio: 0.1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  poolName: Lightning

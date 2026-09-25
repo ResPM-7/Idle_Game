@@ -10,7 +10,7 @@ public class LightningSkill : Skill
     }
     void Start()
     {
-        Invoke(nameof(ReturnToPool), 1f);
+        Invoke(nameof(ReturnToPool), 0.3f);
     }
 
     private void ReturnToPool()

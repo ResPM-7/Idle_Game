@@ -3325,6 +3325,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3019322024187507003, guid: d0b4a012634091d4aa84506b72e1f47a, type: 3}
+      propertyPath: objList.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 6894433004266126195, guid: 13669d107cd9e6945926386ec1b1cdd9, type: 3}
+    - target: {fileID: 3019322024187507003, guid: d0b4a012634091d4aa84506b72e1f47a, type: 3}
       propertyPath: canvasPools.Array.data[0].targetCanvas
       value: 
       objectReference: {fileID: 570284763}
