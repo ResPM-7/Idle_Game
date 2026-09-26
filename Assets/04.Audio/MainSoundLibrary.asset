@@ -58,6 +58,11 @@ MonoBehaviour:
     category: 2
     loop: 0
     volume: 0.5
+  - id: bgm_title
+    clip: {fileID: 8300000, guid: 1c6dba72af04ccd4c885cd0622326b60, type: 3}
+    category: 0
+    loop: 1
+    volume: 1
   - id: bgm_battle
     clip: {fileID: 8300000, guid: ea9a44343fe88724daa8116654b808e1, type: 3}
     category: 0

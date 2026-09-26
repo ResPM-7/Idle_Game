@@ -34,8 +34,7 @@ public class UI_SceneNavigation : MonoBehaviour
                 Time.timeScale = 1f;
                 loading = false;
 
-                if (path == TitleScenePath)
-                    SoundManager.instance?.StopBgm();
+                
             };
         }
         catch
