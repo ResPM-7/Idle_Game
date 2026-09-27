@@ -58,3 +58,38 @@ MonoBehaviour:
     category: 2
     loop: 0
     volume: 0.5
+  - id: bgm_title
+    clip: {fileID: 8300000, guid: 1c6dba72af04ccd4c885cd0622326b60, type: 3}
+    category: 0
+    loop: 1
+    volume: 1
+  - id: bgm_battle
+    clip: {fileID: 8300000, guid: ea9a44343fe88724daa8116654b808e1, type: 3}
+    category: 0
+    loop: 1
+    volume: 1
+  - id: skill_poison
+    clip: {fileID: 8300000, guid: 6bf15d431499ff448b20d147f71fcf2b, type: 3}
+    category: 2
+    loop: 0
+    volume: 1
+  - id: skill_lightning
+    clip: {fileID: 8300000, guid: ede67d9536ea08b499905cc919c2d4d9, type: 3}
+    category: 2
+    loop: 0
+    volume: 1
+  - id: skill_fire
+    clip: {fileID: 8300000, guid: f9f56c6f5d90ac245a37137272f2635f, type: 3}
+    category: 2
+    loop: 0
+    volume: 1
+  - id: skill_attack_buff
+    clip: {fileID: 8300000, guid: ad4c447e7b69f654aa2be5db0454e80f, type: 3}
+    category: 2
+    loop: 0
+    volume: 1
+  - id: skill_ice
+    clip: {fileID: 8300000, guid: 6fcccf06af28e5245be04a52ee9dae1d, type: 3}
+    category: 2
+    loop: 0
+    volume: 1

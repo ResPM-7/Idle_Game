@@ -29,7 +29,13 @@ public class UI_SceneNavigation : MonoBehaviour
         try
         {
             AsyncOperation operation = SceneManager.LoadSceneAsync(path, LoadSceneMode.Single);
-            operation.completed += _ => { Time.timeScale = 1f; loading = false; };
+            operation.completed += _ => 
+            {
+                Time.timeScale = 1f;
+                loading = false;
+
+                
+            };
         }
         catch
         {
