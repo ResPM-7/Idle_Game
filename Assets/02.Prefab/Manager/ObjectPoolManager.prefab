@@ -50,7 +50,7 @@ MonoBehaviour:
     prefab: {fileID: 7994993448127677805, guid: 8dafc9b89fe2ea04ea01ef87afa5996d, type: 3}
     poolSize: 5
   - poolName: Lightning
-    prefab: {fileID: 2261763633164832102, guid: 34fb6409fb8ef104c959a9910144e9c2, type: 3}
+    prefab: {fileID: 6894433004266126195, guid: 13669d107cd9e6945926386ec1b1cdd9, type: 3}
     poolSize: 5
   - poolName: Poison
     prefab: {fileID: 5315446581541654924, guid: 32e989c724b1c7445b20559ed572589c, type: 3}

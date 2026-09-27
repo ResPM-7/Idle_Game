@@ -67,7 +67,10 @@ public class SkillManager : MonoBehaviour
 
         freezeTimer = freezeCooltime;
 
+
+
         GameObject obj = ObjectPoolManager.instance.GetObject(freezePoolName);
+        SoundManager.instance.PlaySfx("skill_ice");
         if(obj != null)
         {
             obj.transform.position = position;
@@ -84,7 +87,8 @@ public class SkillManager : MonoBehaviour
         attackBuffTimer = attackBuffCooltime;
 
         GameObject obj = ObjectPoolManager.instance.GetObject(attackBuffPoolName);
-        if(obj != null)
+        SoundManager.instance.PlaySfx("skill_attack_buff");
+        if (obj != null)
         {
             obj.transform.position = position;
             obj.transform.rotation = Quaternion.identity;
@@ -101,6 +105,7 @@ public class SkillManager : MonoBehaviour
         poisonTimer = poisonCooltime;
 
         GameObject obj = ObjectPoolManager.instance.GetObject(poisonPoolName);
+        SoundManager.instance.PlaySfx("skill_poison");
         if (obj != null)
         {
             obj.transform.position = position;
@@ -118,6 +123,7 @@ public class SkillManager : MonoBehaviour
         lightningTimer = lightningCooltime;
 
         GameObject obj = ObjectPoolManager.instance.GetObject(lightningPoolName);
+        SoundManager.instance.PlaySfx("skill_lightning");
         if (obj != null)
         {
             obj.transform.position = position;
@@ -138,6 +144,7 @@ public class SkillManager : MonoBehaviour
         fireTimer = fireCooltime;
 
         GameObject obj = ObjectPoolManager.instance.GetObject(firePoolName);
+        SoundManager.instance.PlaySfx("skill_fire");
         if (obj != null)
         {
             obj.transform.position = position;
