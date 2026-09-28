@@ -11,11 +11,11 @@ public class SkillManager : MonoBehaviour
 
 
     [Header("Skill Cooltime")]                          // 각 스킬 쿨타임
-    [SerializeField] float poisonCooltime = 8f;
-    [SerializeField] float lightningCooltime = 5f;
-    [SerializeField] float fireCooltime = 10f;
-    [SerializeField] float attackBuffCooltime = 15f;
-    [SerializeField] float freezeCooltime = 12f;
+    [SerializeField] float poisonCooltime = 60f;
+    [SerializeField] float lightningCooltime = 120f;
+    [SerializeField] float fireCooltime = 90f;
+    [SerializeField] float attackBuffCooltime = 300f;
+    [SerializeField] float freezeCooltime = 180f;
 
     [Header("스킬 위치")]
     [SerializeField] private Transform skillSpawnPoint;

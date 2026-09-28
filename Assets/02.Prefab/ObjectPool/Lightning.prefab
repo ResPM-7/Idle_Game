@@ -179,8 +179,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightningSkill
   radius: 1.5
-  damage: 100
-  damageRatio: 0.1
+  damage: 0
+  damageRatio: 1.5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
