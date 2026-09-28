@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
   baseKillCountPerWave: 0300000003000000040000000400000005000000
   stageGrowthInterval: 5
-  killCountGrowthPerInterval: 1
+  killCountGrowthPerInterval: 0
   baseBossTimeLimit: 30
   spawnInterval: 0.6
   maxAliveCount: 6
