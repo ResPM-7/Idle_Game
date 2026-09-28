@@ -555,7 +555,10 @@ public class WaveManager : Singleton<WaveManager>
         if (PartyBuildManager.instance != null)
         {
             PartyBuildManager.instance.ResetAllBattleUnits();
+            maxPlayerDeathCount = PartyBuildManager.instance.GetActiveUnitCount();
         }
+
+        playerDeathCount = 0;
 
         StartSpawn();
     }
