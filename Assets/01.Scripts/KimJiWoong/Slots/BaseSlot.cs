@@ -48,7 +48,8 @@ public abstract class BaseSlot : MonoBehaviour, IDropHandler
             if (myUnit == null || myUnit.myData == null || droppedUnit.myData == null)
                 return;
 
-            if (myUnit.myData.unitLevel == droppedUnit.myData.unitLevel &&
+            if (myUnit.myData.unitId == droppedUnit.myData.unitId &&
+                myUnit.myData.unitLevel == droppedUnit.myData.unitLevel &&
                 myUnit.myData.nextUpgradeUnits != null &&
                 myUnit.myData.nextUpgradeUnits.Length > 0)
             {

@@ -55,7 +55,12 @@ public class StatUpgradeItem : MonoBehaviour
         //현재 증가 수치 (공격속도는 소수점 F2, 일반 스탯은 F0 표기)
         if (valueText != null)
         {
-            valueText.text = $"+{data.CurrentValue.ToString("F0")}";
+            bool isPercentage =
+                data.Type == StatType.CriticalRate ||
+                data.Type == StatType.CriticalDamage;
+
+            string suffix = isPercentage ? "%" : "";
+            valueText.text = $"+{data.CurrentValue:F0}{suffix}";
         }
 
         //업그레이드 비용
