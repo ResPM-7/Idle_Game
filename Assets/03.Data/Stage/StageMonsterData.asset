@@ -20,6 +20,13 @@ MonoBehaviour:
     enemyPool:
     - {fileID: 180788648125843077, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
   - startStage: 2
+    endStage: 2
+    enemyPool:
+    - {fileID: 180788648125843077, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: 663784238560466414, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: -2038760621212632604, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+    - {fileID: -1962996378260815448, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
+  - startStage: 3
     endStage: 3
     enemyPool:
     - {fileID: 663784238560466414, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
