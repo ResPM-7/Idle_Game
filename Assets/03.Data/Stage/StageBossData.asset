@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StageBossData
   m_EditorClassIdentifier: Assembly-CSharp::StageBossDataSO
   cycleLength: 6
-  multiplierPerCycle: 0.5
+  multiplierPerCycle: 0.6
   entries:
   - stage: 1
     bossData: {fileID: -1985273095112801932, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}

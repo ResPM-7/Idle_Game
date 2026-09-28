@@ -48,25 +48,25 @@ MonoBehaviour:
   - type: 1
     statName: "\uCCB4\uB825"
     valueIncreasePerLevel: 10
-    baseUpgradePrice: 10
-    priceMultiplier: 1.1
+    baseUpgradePrice: 50
+    priceMultiplier: 1.15
   - type: 0
     statName: "\uACF5\uACA9\uB825"
-    valueIncreasePerLevel: 10
-    baseUpgradePrice: 10
-    priceMultiplier: 1.1
+    valueIncreasePerLevel: 2
+    baseUpgradePrice: 50
+    priceMultiplier: 1.15
   - type: 2
     statName: "\uBC29\uC5B4\uB825"
-    valueIncreasePerLevel: 5
-    baseUpgradePrice: 5
-    priceMultiplier: 1.1
+    valueIncreasePerLevel: 1
+    baseUpgradePrice: 50
+    priceMultiplier: 1.15
   - type: 3
     statName: "\uCE58\uBA85\uD0C0\uD655\uB960"
-    valueIncreasePerLevel: 5
-    baseUpgradePrice: 5
-    priceMultiplier: 1.1
+    valueIncreasePerLevel: 1
+    baseUpgradePrice: 80
+    priceMultiplier: 1.3
   - type: 4
     statName: "\uCE58\uBA85\uD0C0\uD53C\uD574 \uBC30\uC728"
     valueIncreasePerLevel: 5
-    baseUpgradePrice: 5
-    priceMultiplier: 1.1
+    baseUpgradePrice: 50
+    priceMultiplier: 1.15

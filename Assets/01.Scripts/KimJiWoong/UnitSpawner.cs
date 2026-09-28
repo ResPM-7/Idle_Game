@@ -184,7 +184,7 @@ public class UnitSpawner : MonoBehaviour
     /// </summary>
     public int GetRequiredStageForNextPromotion()
     {
-        return guildLevel + 1;
+        return 6 * guildLevel + 1;
     }
 
     /// <summary>
