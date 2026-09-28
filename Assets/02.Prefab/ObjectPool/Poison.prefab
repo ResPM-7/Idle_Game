@@ -199,8 +199,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoisonSkill
   radius: 2.5
-  damage: 0
-  damageRatio: 0.4
+  damage: 10
+  damageRatio: 0.1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64

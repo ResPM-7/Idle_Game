@@ -16,5 +16,5 @@ MonoBehaviour:
   stageGrowthInterval: 5
   killCountGrowthPerInterval: 1
   baseBossTimeLimit: 30
-  spawnInterval: 0.6
+  spawnInterval: 1.2
   maxAliveCount: 6

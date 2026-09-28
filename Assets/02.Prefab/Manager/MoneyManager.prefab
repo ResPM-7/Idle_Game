@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoneyManager
   isDontDestroy: 0
-  currentGold: 0
-  currentCredit: 50
+  currentGold: 500
+  currentCredit: 100

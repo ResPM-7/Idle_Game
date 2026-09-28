@@ -49,11 +49,11 @@ MonoBehaviour:
   firePoolName: Fire
   attackBuffPoolName: AttackBuff
   freezePoolName: Freeze
-  poisonCooltime: 60
-  lightningCooltime: 120
-  fireCooltime: 90
-  attackBuffCooltime: 300
-  freezeCooltime: 180
+  poisonCooltime: 8
+  lightningCooltime: 5
+  fireCooltime: 10
+  attackBuffCooltime: 15
+  freezeCooltime: 12
   skillSpawnPoint: {fileID: 0}
   poisonCooldownImage: {fileID: 0}
   lightningCooldownImage: {fileID: 0}

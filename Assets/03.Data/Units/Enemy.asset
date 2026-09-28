@@ -13,29 +13,29 @@ MonoBehaviour:
   m_Name: Enemy_304
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 304
-  unitLevel: 4
-  unitName: "\uC5B8\uB370\uB4DC \uBC31\uBD80\uC7A5"
+  unitLevel: 1
+  unitName: "\uC5B8\uB370\uB4DC \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: ZombieBoss
   unitSprite: {fileID: 0}
-  maxHp: 650
-  moveSpeed: 0.8
-  attackDamage: 26
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: 
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal
-  defense: 10
+  defense: 0
   criticalRate: 0
   criticalDamage: 0
   coin: 0
-  credit: 30
+  credit: 50
   nextUpgradeUnits: []
 --- !u!114 &-7392518741202430099
 MonoBehaviour:
@@ -50,29 +50,29 @@ MonoBehaviour:
   m_Name: Enemy_305
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 305
-  unitLevel: 4
-  unitName: "\uC5B8\uB370\uB4DC \uB300\uC7A5\uAD70"
+  unitLevel: 1
+  unitName: "\uC5B8\uB370\uB4DC \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: ZombieBoss
   unitSprite: {fileID: 0}
-  maxHp: 700
-  moveSpeed: 0.8
-  attackDamage: 28
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: 
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal
-  defense: 11
+  defense: 0
   criticalRate: 0
   criticalDamage: 0
   coin: 0
-  credit: 30
+  credit: 50
   nextUpgradeUnits: []
 --- !u!114 &-3414527648549997551
 MonoBehaviour:
@@ -198,29 +198,29 @@ MonoBehaviour:
   m_Name: Enemy_301
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 301
-  unitLevel: 3
-  unitName: "\uACE0\uBE14\uB9B0 \uD589\uB3D9\uB300\uC7A5"
+  unitLevel: 1
+  unitName: "\uACE0\uBE14\uB9B0 \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: GoblinBoss
   unitSprite: {fileID: 0}
-  maxHp: 500
-  moveSpeed: 1
-  attackDamage: 20
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: Projectile_Attack
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal
-  defense: 8
+  defense: 0
   criticalRate: 0
   criticalDamage: 0
   coin: 0
-  credit: 30
+  credit: 50
   nextUpgradeUnits: []
 --- !u!114 &-1962996378260815448
 MonoBehaviour:
@@ -272,29 +272,29 @@ MonoBehaviour:
   m_Name: Enemy_302
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 302
-  unitLevel: 3
-  unitName: "\uACE0\uBE14\uB9B0 \uB300\uC804\uC0AC"
+  unitLevel: 1
+  unitName: "\uACE0\uBE14\uB9B0 \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: GoblinBoss
   unitSprite: {fileID: 0}
-  maxHp: 550
-  moveSpeed: 1
-  attackDamage: 22
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: 
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal
-  defense: 8
+  defense: 0
   criticalRate: 0
   criticalDamage: 0
   coin: 0
-  credit: 30
+  credit: 50
   nextUpgradeUnits: []
 --- !u!114 &-1407249794022230020
 MonoBehaviour:
@@ -309,29 +309,29 @@ MonoBehaviour:
   m_Name: Enemy_303
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 303
-  unitLevel: 3
-  unitName: "\uACE0\uBE14\uB9B0 \uC871\uC7A5"
+  unitLevel: 1
+  unitName: "\uACE0\uBE14\uB9B0 \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: GoblinBoss
   unitSprite: {fileID: 0}
-  maxHp: 600
-  moveSpeed: 1
-  attackDamage: 24
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: 
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal
-  defense: 9
+  defense: 0
   criticalRate: 0
   criticalDamage: 0
   coin: 0
-  credit: 30
+  credit: 50
   nextUpgradeUnits: []
 --- !u!114 &-493028265017743643
 MonoBehaviour:
@@ -485,29 +485,29 @@ MonoBehaviour:
   m_Name: Enemy_306
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 306
-  unitLevel: 4
-  unitName: "\uC5B8\uB370\uB4DC \uC655"
+  unitLevel: 1
+  unitName: "\uC5B8\uB370\uB4DC \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: ZombieBoss
   unitSprite: {fileID: 0}
-  maxHp: 750
-  moveSpeed: 0.8
-  attackDamage: 30
+  maxHp: 50
+  moveSpeed: 0
+  attackDamage: 1
   attackSpeed: 1
   searchRange: 99
-  attackRange: 2
+  attackRange: 5
   canMelee: 1
   canRanged: 0
-  projectilePoolName: Projectile_Attack
+  projectilePoolName: 
   canHeal: 0
   healRange: 5
   healProjectilePoolName: Projectile_Heal
-  defense: 12
-  criticalRate: 0
+  defense: 0
+  criticalRate: 41
   criticalDamage: 0
   coin: 0
-  credit: 30
+  credit: 50
   nextUpgradeUnits: []
 --- !u!114 &8034744452644215871
 MonoBehaviour:
