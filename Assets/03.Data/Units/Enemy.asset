@@ -19,7 +19,7 @@ MonoBehaviour:
   uiPoolName: Boss
   battlePoolName: ZombieBoss
   unitSprite: {fileID: 0}
-  maxHp: 650
+  maxHp: 390
   moveSpeed: 0.8
   attackDamage: 26
   attackSpeed: 1
@@ -56,7 +56,7 @@ MonoBehaviour:
   uiPoolName: Boss
   battlePoolName: ZombieBoss
   unitSprite: {fileID: 0}
-  maxHp: 700
+  maxHp: 420
   moveSpeed: 0.8
   attackDamage: 28
   attackSpeed: 1
@@ -204,7 +204,7 @@ MonoBehaviour:
   uiPoolName: Boss
   battlePoolName: GoblinBoss
   unitSprite: {fileID: 0}
-  maxHp: 500
+  maxHp: 300
   moveSpeed: 1
   attackDamage: 20
   attackSpeed: 1
@@ -278,7 +278,7 @@ MonoBehaviour:
   uiPoolName: Boss
   battlePoolName: GoblinBoss
   unitSprite: {fileID: 0}
-  maxHp: 550
+  maxHp: 330
   moveSpeed: 1
   attackDamage: 22
   attackSpeed: 1
@@ -315,7 +315,7 @@ MonoBehaviour:
   uiPoolName: Boss
   battlePoolName: GoblinBoss
   unitSprite: {fileID: 0}
-  maxHp: 600
+  maxHp: 360
   moveSpeed: 1
   attackDamage: 24
   attackSpeed: 1
@@ -417,9 +417,9 @@ MonoBehaviour:
   uiPoolName: Enemy
   battlePoolName: Goblin
   unitSprite: {fileID: 0}
-  maxHp: 50
+  maxHp: 45
   moveSpeed: 1
-  attackDamage: 10
+  attackDamage: 8
   attackSpeed: 1
   searchRange: 99
   attackRange: 2
@@ -456,7 +456,7 @@ MonoBehaviour:
   unitSprite: {fileID: 0}
   maxHp: 40
   moveSpeed: 1
-  attackDamage: 8
+  attackDamage: 10
   attackSpeed: 1
   searchRange: 99
   attackRange: 5
@@ -491,7 +491,7 @@ MonoBehaviour:
   uiPoolName: Boss
   battlePoolName: ZombieBoss
   unitSprite: {fileID: 0}
-  maxHp: 750
+  maxHp: 450
   moveSpeed: 0.8
   attackDamage: 30
   attackSpeed: 1

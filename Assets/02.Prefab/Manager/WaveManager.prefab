@@ -48,7 +48,7 @@ MonoBehaviour:
   bossData: {fileID: -1985273095112801932, guid: 3268a01314477dc40bc080588bcd8ca6, type: 2}
   bossSpawnPoint: {fileID: 0}
   enemySpawnArea: {fileID: 0}
-  maxWave: 2
+  maxWave: 5
   waveCountText: {fileID: 0}
   bossTimerText: {fileID: 0}
   giveUpButtonText: {fileID: 0}
