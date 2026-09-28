@@ -3707,6 +3707,7 @@ PrefabInstance:
       value: SkillManager
       objectReference: {fileID: 0}
     - target: {fileID: 7698671765319831069, guid: b83a0be32e5bbcb42927f97d8f7e7442, type: 3}
+<<<<<<< HEAD
       propertyPath: fireCooltime
       value: 1
       objectReference: {fileID: 0}
@@ -3719,6 +3720,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7698671765319831069, guid: b83a0be32e5bbcb42927f97d8f7e7442, type: 3}
+=======
+>>>>>>> Park-Chan-Ho
       propertyPath: skillSpawnPoint
       value: 
       objectReference: {fileID: 796248631}
@@ -3727,6 +3730,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 340800277}
     - target: {fileID: 7698671765319831069, guid: b83a0be32e5bbcb42927f97d8f7e7442, type: 3}
+<<<<<<< HEAD
       propertyPath: lightningCooltime
       value: 1
       objectReference: {fileID: 0}
@@ -3735,6 +3739,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7698671765319831069, guid: b83a0be32e5bbcb42927f97d8f7e7442, type: 3}
+=======
+>>>>>>> Park-Chan-Ho
       propertyPath: freezeCooldownImage
       value: 
       objectReference: {fileID: 420438292}
