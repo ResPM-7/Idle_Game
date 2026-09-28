@@ -79,6 +79,9 @@ public class WaveManager : Singleton<WaveManager>
     Coroutine gameOverRoutine;
 
     public int CurrentStage => currentStage; 
+    // Start 이전과 중지 상태에서도 전투 실행을 허용하지 않습니다.
+    private bool battleInitialized;
+    public bool IsBattleRunning => battleInitialized && isActiveAndEnabled && !stageGiveUp;
     public void RestoreStage(int stage)
     {
         // 저장된 스테이지의 첫 웨이브에서 사용자가 시작 버튼을 누르도록 대기합니다.
@@ -162,6 +165,7 @@ public class WaveManager : Singleton<WaveManager>
 
     void StartSpawn()
     {
+        if (!IsBattleRunning || currentState != WaveState.NormalWave) return;
 
         if (spawnRoutine != null)
         {
@@ -181,6 +185,7 @@ public class WaveManager : Singleton<WaveManager>
 
     public bool SpawnEnemy()
     {
+        if (!IsBattleRunning || currentState != WaveState.NormalWave) return false;
         if (enemySpawnArea == null)
         {
             Debug.LogWarning("WaveManager에 Enemy Spawn Area가 연결되지 않았습니다.", this);
@@ -238,7 +243,7 @@ public class WaveManager : Singleton<WaveManager>
     IEnumerator Spawn()
     {
 
-        while (currentState == WaveState.NormalWave)
+        while (IsBattleRunning && currentState == WaveState.NormalWave)
         {
 
             int target = GetKillCountForWave(currentWave);
@@ -263,6 +268,7 @@ public class WaveManager : Singleton<WaveManager>
 
     void Start()
     {
+        battleInitialized = true;
         currentState = WaveState.WaitingNextStage;
 
         stageGiveUp = true;
@@ -276,6 +282,7 @@ public class WaveManager : Singleton<WaveManager>
 
     public void EnemyKilled()
     {
+        if (!IsBattleRunning) return;
         aliveCount--;
 
         if (aliveCount < 0)
@@ -361,6 +368,7 @@ public class WaveManager : Singleton<WaveManager>
 
     void NextWave()
     {
+        if (!IsBattleRunning || currentState != WaveState.WaitingNextWave) return;
 
         currentWave++;
 
@@ -374,6 +382,7 @@ public class WaveManager : Singleton<WaveManager>
 
     void StartBossBattle()
     {
+        if (!IsBattleRunning || currentState != WaveState.WaitingBoss) return;
         Debug.Log("스타트 보스 배틀 호출됨 ");
 
         //이미 보스전이면 중복 실행 방지
@@ -484,6 +493,7 @@ public class WaveManager : Singleton<WaveManager>
 
     public void BossKilled()
     {
+        if (!IsBattleRunning) return;
 
         if (bossFinish)    // 보스 사망 함수가 두번 호출 됐을 때, 스테이지 두번 올라가는 것을 방지
         {
@@ -520,6 +530,7 @@ public class WaveManager : Singleton<WaveManager>
 
     void NextStage()
     {
+        if (!IsBattleRunning || currentState != WaveState.WaitingNextStage) return;
 
         Debug.Log("다음 스테이지 시작");
 
@@ -551,6 +562,8 @@ public class WaveManager : Singleton<WaveManager>
 
     public void GameOverRestart()
     {
+        if (!IsBattleRunning) return;
+        StopRoutine(ref gameOverRoutine);
         // 현재 진행 중인 모든 코루틴 정지
         StopRoutine(ref spawnRoutine);
         StopRoutine(ref nextWaveRoutine);
@@ -602,6 +615,16 @@ public class WaveManager : Singleton<WaveManager>
 
     public void StageGiveUp()
     {
+        // 시작 또는 재시작 상태에서는 편성된 유닛이 최소 1명 필요합니다.
+        // 버튼 외의 경로에서 이 함수가 호출돼도 전투가 시작되지 않게 막습니다.
+        if (stageGiveUp &&
+            (PartyBuildManager.instance == null ||
+             PartyBuildManager.instance.GetActiveUnitCount() <= 0))
+        {
+            Debug.LogWarning("파티에 유닛을 1명 이상 편성해야 전투를 시작할 수 있습니다.");
+            return;
+        }
+
         // 아직 게임 시작 전이라면
         if (stageGiveUp)
         {
@@ -652,6 +675,8 @@ public class WaveManager : Singleton<WaveManager>
         stageGiveUp = true;
 
         // 현재 실행 중인 코루틴 전부 정지
+        // 전멸 후 재시작 예약이 중지 상태에서 적을 다시 생성하지 않도록 취소합니다.
+        StopRoutine(ref gameOverRoutine);
         StopRoutine(ref spawnRoutine);
         StopRoutine(ref nextWaveRoutine);
         StopRoutine(ref bossDelayRoutine);
@@ -698,6 +723,7 @@ public class WaveManager : Singleton<WaveManager>
     }
     public void PlayerDied()
     {
+        if (!IsBattleRunning) return;
         playerDeathCount++;
 
         Debug.Log($"플레이어 사망 : {playerDeathCount} / {maxPlayerDeathCount}");
@@ -727,6 +753,7 @@ public class WaveManager : Singleton<WaveManager>
 
         gameOverRoutine = null;
 
+        if (!IsBattleRunning) yield break;
         GameOverRestart();
         playerDeathCount = 0;
 
@@ -735,6 +762,7 @@ public class WaveManager : Singleton<WaveManager>
 
     void BossTimeOut()
     {
+        if (!IsBattleRunning) return;
         if (bossFinish)
             return;
 

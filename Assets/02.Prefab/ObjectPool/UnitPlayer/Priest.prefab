@@ -4522,7 +4522,7 @@ GameObject:
   - component: {fileID: 3354789068325373321}
   - component: {fileID: -3014414284127028590}
   - component: {fileID: -1450402474296584170}
-  - component: {fileID: 785364837011503253}
+  - component: {fileID: -6826403668647777302}
   - component: {fileID: 4538607491749599915}
   - component: {fileID: 4754276567290242709}
   - component: {fileID: 4591970648849465506}
@@ -8250,7 +8250,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!210 &785364837011503253
+--- !u!210 &-6826403668647777302
 SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8258,9 +8258,9 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3409630478132442668}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -450946561
+  m_SortingLayer: 3
+  m_SortingOrder: 5
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
 --- !u!114 &4538607491749599915
@@ -8277,6 +8277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Unit_Base_Test
   myData: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  targetSearchCapacity: 64
 --- !u!114 &4754276567290242709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8315,8 +8316,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
-  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
-  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
+  damageBuffMaterial: {fileID: 2100000, guid: dd3996447d9ffcf4b8f6b1853a0a0a79, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 9bfa4420be21172408149c63fb25dbe1, type: 2}
 --- !u!1 &3497422748741564661
 GameObject:
   m_ObjectHideFlags: 0
@@ -11569,7 +11570,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8210585710597473801}
-  - component: {fileID: 7946766311765313925}
   - component: {fileID: 3080276639313732568}
   m_Layer: 3
   m_Name: UnitRoot
@@ -11595,19 +11595,6 @@ Transform:
   - {fileID: 8376057487658965328}
   m_Father: {fileID: 2276874067011042519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!210 &7946766311765313925
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5660141236085983797}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
 --- !u!95 &3080276639313732568
 Animator:
   serializedVersion: 7

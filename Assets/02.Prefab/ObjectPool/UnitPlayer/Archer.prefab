@@ -1710,7 +1710,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8860036700398396007}
-  - component: {fileID: 6256594981034054015}
   - component: {fileID: 6323902443355028417}
   m_Layer: 3
   m_Name: UnitRoot
@@ -1736,19 +1735,6 @@ Transform:
   - {fileID: 2203238207178660892}
   m_Father: {fileID: 8562841396289880540}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!210 &6256594981034054015
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978265908742721382}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
 --- !u!95 &6323902443355028417
 Animator:
   serializedVersion: 7
@@ -8607,7 +8593,7 @@ GameObject:
   - component: {fileID: 5467497638373715235}
   - component: {fileID: -7294494402108569203}
   - component: {fileID: -331469732895135399}
-  - component: {fileID: -8350355114962919502}
+  - component: {fileID: 8975514985947290318}
   - component: {fileID: -3855959431248339076}
   - component: {fileID: 5312637110801759508}
   - component: {fileID: -8482789186001450191}
@@ -12345,7 +12331,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!210 &-8350355114962919502
+--- !u!210 &8975514985947290318
 SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12353,9 +12339,9 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5970256131091310474}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -450946561
+  m_SortingLayer: 3
+  m_SortingOrder: 5
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
 --- !u!114 &-3855959431248339076
@@ -12372,6 +12358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Unit_Base_Test
   myData: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  targetSearchCapacity: 64
 --- !u!114 &5312637110801759508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12410,8 +12397,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
-  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
-  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
+  damageBuffMaterial: {fileID: 2100000, guid: dd3996447d9ffcf4b8f6b1853a0a0a79, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 9bfa4420be21172408149c63fb25dbe1, type: 2}
 --- !u!1 &5981450550868666778
 GameObject:
   m_ObjectHideFlags: 0

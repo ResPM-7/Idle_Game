@@ -2388,7 +2388,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7890061997578686000}
-  - component: {fileID: 2078619690414277581}
   - component: {fileID: 8800442800863017059}
   m_Layer: 6
   m_Name: UnitRoot
@@ -2414,19 +2413,6 @@ Transform:
   - {fileID: 3672620998569517428}
   m_Father: {fileID: 8958216307236467382}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!210 &2078619690414277581
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1840580104068278559}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_SortAtRoot: 0
-  m_Sort3DAs2D: 0
 --- !u!95 &8800442800863017059
 Animator:
   serializedVersion: 7
@@ -13258,9 +13244,9 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7370989072436695922}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -450946561
+  m_SortingLayer: 3
+  m_SortingOrder: 5
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
 --- !u!114 &8169920099636662025
@@ -13277,6 +13263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Unit_Base_Test
   myData: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  targetSearchCapacity: 64
 --- !u!114 &3169366515276318430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13315,8 +13302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9ae5dad3dddb74d90fbb39adf4defb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitVisualEffect
-  damageBuffMaterial: {fileID: 2100000, guid: ab74103fb360e3e458fbd043d2bea767, type: 2}
-  freezeMaterial: {fileID: 2100000, guid: 4870510b0b1cbf545aae3ebd99682bdc, type: 2}
+  damageBuffMaterial: {fileID: 2100000, guid: dd3996447d9ffcf4b8f6b1853a0a0a79, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 9bfa4420be21172408149c63fb25dbe1, type: 2}
 --- !u!1 &7375571224144691991
 GameObject:
   m_ObjectHideFlags: 0

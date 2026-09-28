@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 304
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uC5B8\uB370\uB4DC \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: ZombieBoss
@@ -23,14 +23,14 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 0
   criticalDamage: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 305
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uC5B8\uB370\uB4DC \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: ZombieBoss
@@ -60,14 +60,14 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 0
   criticalDamage: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 301
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uACE0\uBE14\uB9B0 \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: GoblinBoss
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 302
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uACE0\uBE14\uB9B0 \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: GoblinBoss
@@ -282,14 +282,14 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 0
   criticalDamage: 0
@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 303
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uACE0\uBE14\uB9B0 \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: GoblinBoss
@@ -319,14 +319,14 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
   criticalRate: 0
   criticalDamage: 0
@@ -385,7 +385,6 @@ MonoBehaviour:
   players: []
   enemies:
   - {fileID: 180788648125843077}
-  - {fileID: -1985273095112801932}
   - {fileID: 663784238560466414}
   - {fileID: -2038760621212632604}
   - {fileID: -1962996378260815448}
@@ -393,6 +392,7 @@ MonoBehaviour:
   - {fileID: -2107156837525844836}
   - {fileID: -493028265017743643}
   - {fileID: -3414527648549997551}
+  - {fileID: -1985273095112801932}
   - {fileID: -1956681799679172779}
   - {fileID: -1407249794022230020}
   - {fileID: -8090596691778061284}
@@ -486,7 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitDataSO
   unitId: 306
   unitLevel: 1
-  unitName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
+  unitName: "\uC5B8\uB370\uB4DC \uBCF4\uC2A4"
   team: 1
   uiPoolName: Boss
   battlePoolName: ZombieBoss
@@ -495,16 +495,16 @@ MonoBehaviour:
   moveSpeed: 0
   attackDamage: 1
   attackSpeed: 1
-  searchRange: 0
+  searchRange: 99
   attackRange: 5
   canMelee: 1
   canRanged: 0
   projectilePoolName: 
   canHeal: 0
   healRange: 5
-  healProjectilePoolName: 
+  healProjectilePoolName: Projectile_Heal
   defense: 0
-  criticalRate: 0
+  criticalRate: 41
   criticalDamage: 0
   coin: 0
   credit: 50

@@ -28,7 +28,7 @@ public class UnitDatabaseEditor : Editor
         string destination = db.players.Count > 0 && db.enemies.Count > 0
             ? "UnitData + EnemyData" : db.enemies.Count > 0 ? "EnemyData" : "UnitData";
         EditorGUILayout.LabelField("구글 시트 업로드", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox($"{destination} 탭에 이 데이터베이스의 전체 목록을 전송합니다. 기존 시트에 있는 16개 열만 업로드합니다.", MessageType.Info);
+        EditorGUILayout.HelpBox($"{destination} 탭에 이 데이터베이스의 전체 목록을 전송합니다. 전투 방식 필드를 포함한 23개 열을 업로드합니다.", MessageType.Info);
         using (new EditorGUI.DisabledScope(GoogleSheetUnitUploader.IsUploading || EditorApplication.isPlaying))
         {
             if (GUILayout.Button($"변경 내용 시트로 업로드 ({destination})", GUILayout.Height(32)))

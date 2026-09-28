@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -7,7 +10,7 @@ using System.IO;
 public class GoogleSheetSync : EditorWindow
 {
     // =========================================================
-    // 1. À¯´Ö µ¥ÀÌÅÍ ¼¼ÆÃ (¾Æ±º & Àû±º ºĞ¸®)
+    // 1. ìœ ë‹› ë°ì´í„° ì„¸íŒ… (ì•„êµ° & ì êµ° ë¶„ë¦¬)
     // =========================================================
     private const string unitDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=0&single=true&output=csv";
     private const string enemyDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=1042200275&single=true&output=csv";
@@ -18,7 +21,7 @@ public class GoogleSheetSync : EditorWindow
     private const string enemySavePath = "Assets/03.Data/Units/Enemy";
 
     // =========================================================
-    // 2. ¿ÀºêÁ§Æ® Ç® µ¥ÀÌÅÍ ¼¼ÆÃ
+    // 2. ì˜¤ë¸Œì íŠ¸ í’€ ë°ì´í„° ì„¸íŒ…
     // =========================================================
     private const string objectPoolDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=1927439287&single=true&output=csv";
     private const string canvasPoolDataUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRny9PnlR7YezXkx3ulR9BIlbLecmDIfGHieYOmDhXE3_t8Qw8KJGTGPC9y5G4Kh1J6qykVh89rm9by/pub?gid=620845422&single=true&output=csv";
@@ -27,9 +30,9 @@ public class GoogleSheetSync : EditorWindow
     private const string poolPrefabFolder = "Assets/02.Prefab/ObjectPool";
 
     // =========================================================
-    // À¯´Ö µ¥ÀÌÅÍ µ¿±âÈ­ (¾Æ±º + Àû±º)
+    // ìœ ë‹› ë°ì´í„° ë™ê¸°í™” (ì•„êµ° + ì êµ°)
     // =========================================================
-    [MenuItem("Tools/1. ±¸±Û ½ÃÆ® µ¿±âÈ­ (À¯´Ö µ¥ÀÌÅÍ ÅëÇÕ)")]
+    [MenuItem("Tools/1. êµ¬ê¸€ ì‹œíŠ¸ ë™ê¸°í™” (ìœ ë‹› ë°ì´í„° í†µí•©)")]
     public static void SyncData()
     {
         var playerReq = UnityWebRequest.Get(unitDataUrl);
@@ -39,7 +42,16 @@ public class GoogleSheetSync : EditorWindow
         {
             if (playerReq.result == UnityWebRequest.Result.Success)
             {
-                ParseAndApplyUnitData(playerReq.downloadHandler.text, playerSavePath, "Unit_");
+                try
+                {
+                    ParseAndApplyUnitData(playerReq.downloadHandler.text, playerSavePath, "Unit_");
+                }
+                catch (Exception exception)
+                {
+                    Debug.LogError("ì•„êµ° ë°ì´í„° ì ìš© ì‹¤íŒ¨: " + exception.Message);
+                    playerReq.Dispose();
+                    return;
+                }
 
                 var enemyReq = UnityWebRequest.Get(enemyDataUrl);
                 var enemyOp = enemyReq.SendWebRequest();
@@ -48,23 +60,29 @@ public class GoogleSheetSync : EditorWindow
                 {
                     if (enemyReq.result == UnityWebRequest.Result.Success)
                     {
-                        ParseAndApplyUnitData(enemyReq.downloadHandler.text, enemySavePath, "Enemy_");
-
-                        AssetDatabase.SaveAssets();
-                        GameDataTools.Rebuild();
-                        AssetDatabase.Refresh();
-                        Debug.Log(" ¾Æ±º ¹× Àû±º À¯´Ö µ¥ÀÌÅÍ ±¸±Û ½ÃÆ® µ¿±âÈ­ ¿Ï·á! (¹è¿­ ÁøÈ­ ¿À·ù ¼öÁ¤µÊ)");
+                        try
+                        {
+                            ParseAndApplyUnitData(enemyReq.downloadHandler.text, enemySavePath, "Enemy_");
+                            AssetDatabase.SaveAssets();
+                            GameDataTools.Rebuild();
+                            AssetDatabase.Refresh();
+                            Debug.Log("ì•„êµ° ë° ì êµ° ìœ ë‹› ë°ì´í„° êµ¬ê¸€ ì‹œíŠ¸ ë™ê¸°í™” ì™„ë£Œ!");
+                        }
+                        catch (Exception exception)
+                        {
+                            Debug.LogError("ì êµ° ë°ì´í„° ì ìš© ì‹¤íŒ¨: " + exception.Message);
+                        }
                     }
                     else
                     {
-                        Debug.LogError("Àû±º µ¿±âÈ­ ½ÇÆĞ: " + enemyReq.error);
+                        Debug.LogError("ì êµ° ë™ê¸°í™” ì‹¤íŒ¨: " + enemyReq.error);
                     }
                     enemyReq.Dispose();
                 };
             }
             else
             {
-                Debug.LogError("¾Æ±º µ¿±âÈ­ ½ÇÆĞ: " + playerReq.error);
+                Debug.LogError("ì•„êµ° ë™ê¸°í™” ì‹¤íŒ¨: " + playerReq.error);
             }
             playerReq.Dispose();
         };
@@ -72,6 +90,13 @@ public class GoogleSheetSync : EditorWindow
 
     private static void ParseAndApplyUnitData(string csv, string targetFolderPath, string fileNamePrefix)
     {
+        List<string[]> rows = ParseCsv(csv);
+        if (rows.Count < 2)
+            throw new InvalidDataException("ìœ ë‹› ì‹œíŠ¸ì— í•„ë“œëª… í–‰ê³¼ ìë£Œí˜• í–‰ì´ í•„ìš”í•©ë‹ˆë‹¤.");
+
+        Dictionary<string, int> columns = BuildColumnMap(rows[0]);
+        RequireColumn(columns, "unitId");
+
         string groupPath = targetFolderPath + ".asset";
         UnitDatabase group = AssetDatabase.LoadAssetAtPath<UnitDatabase>(groupPath);
         if (group == null && !AssetDatabase.IsValidFolder(targetFolderPath))
@@ -83,8 +108,8 @@ public class GoogleSheetSync : EditorWindow
             AssetDatabase.CreateFolder(parent, folder);
         }
 
-        // ÅëÇÕ ÆÄÀÏ ¹æ½ÄÀ» »ç¿ëÇÏ¸é °³º° SO Æú´õ°¡ ¾øÀ» ¼ö ÀÖÀ¸¹Ç·Î
-        // ½ÇÁ¦ Æú´õ°¡ Á¸ÀçÇÒ ¶§¸¸ °Ë»öÇÕ´Ï´Ù.
+        // í†µí•© íŒŒì¼ ë°©ì‹ì„ ì‚¬ìš©í•˜ë©´ ê°œë³„ SO í´ë”ê°€ ì—†ì„ ìˆ˜ ìˆìœ¼ë¯€ë¡œ
+        // ì‹¤ì œ í´ë”ê°€ ì¡´ì¬í•  ë•Œë§Œ ê²€ìƒ‰í•©ë‹ˆë‹¤.
         string[] guids = AssetDatabase.IsValidFolder(targetFolderPath)
                         ? AssetDatabase.FindAssets(
                         "t:UnitDataSO",
@@ -95,7 +120,7 @@ public class GoogleSheetSync : EditorWindow
         if (group != null)
         {
             foreach (var unit in fileNamePrefix == "Enemy_" ? group.enemies : group.players)
-                soDict.Add(unit.unitId, unit);
+                if (unit != null) soDict[unit.unitId] = unit;
         }
 
         foreach (string guid in guids)
@@ -105,22 +130,18 @@ public class GoogleSheetSync : EditorWindow
             if (so != null) soDict[so.unitId] = so;
         }
 
-        string[] lines = csv.Split('\n');
-
         Dictionary<UnitDataSO, string> upgradeLinks = new Dictionary<UnitDataSO, string>();
 
-        for (int i = 2; i < lines.Length; i++)
+        for (int i = 2; i < rows.Count; i++)
         {
-            string line = lines[i].Trim();
-            if (string.IsNullOrEmpty(line)) continue;
-
-            string[] values = line.Split(',');
-
-            if (values.Length < 15 || string.IsNullOrWhiteSpace(values[0])) continue;
-
-            if (!int.TryParse(values[0], out int id)) continue;
-
-            string unitName = values[4];
+            string[] values = rows[i];
+            string idText = ReadCell(values, columns, "unitId");
+            if (string.IsNullOrWhiteSpace(idText)) continue;
+            if (!int.TryParse(idText, NumberStyles.Integer, CultureInfo.InvariantCulture, out int id) || id <= 0)
+            {
+                Debug.LogWarning($"[ìœ ë‹› ë™ê¸°í™”] {i + 1}í–‰ì˜ unitIdê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤: {idText}");
+                continue;
+            }
 
             if (!soDict.TryGetValue(id, out UnitDataSO targetSO))
             {
@@ -139,36 +160,34 @@ public class GoogleSheetSync : EditorWindow
                 soDict[id] = targetSO;
             }
 
-            targetSO.uiPoolName = values[1];
             targetSO.team = fileNamePrefix == "Enemy_" ? Team_Test.Enemy : Team_Test.Player;
-            targetSO.nextUpgradeUnits = new UnitDataSO[0];
-            targetSO.battlePoolName = values[2];
-            targetSO.unitName = unitName;
+            AssignString(values, columns, "uiPoolName", value => targetSO.uiPoolName = value);
+            AssignString(values, columns, "battlePoolName", value => targetSO.battlePoolName = value);
+            AssignString(values, columns, "unitName", value => targetSO.unitName = value);
+            AssignInt(values, columns, "unitLevel", value => targetSO.unitLevel = value, i);
+            AssignFloat(values, columns, "maxHp", value => targetSO.maxHp = value, i);
+            AssignFloat(values, columns, "moveSpeed", value => targetSO.moveSpeed = value, i);
+            AssignFloat(values, columns, "attackDamage", value => targetSO.attackDamage = value, i);
+            AssignFloat(values, columns, "attackSpeed", value => targetSO.attackSpeed = value, i);
+            AssignFloat(values, columns, "searchRange", value => targetSO.searchRange = value, i);
+            AssignFloat(values, columns, "attackRange", value => targetSO.attackRange = value, i);
+            AssignBool(values, columns, "canMelee", value => targetSO.canMelee = value, i);
+            AssignBool(values, columns, "canRanged", value => targetSO.canRanged = value, i);
+            AssignString(values, columns, "projectilePoolName", value => targetSO.projectilePoolName = value);
+            AssignBool(values, columns, "canHeal", value => targetSO.canHeal = value, i);
+            AssignFloat(values, columns, "healRange", value => targetSO.healRange = value, i);
+            AssignString(values, columns, "healProjectilePoolName", value => targetSO.healProjectilePoolName = value);
+            AssignInt(values, columns, "defense", value => targetSO.defense = value, i);
+            AssignInt(values, columns, "criticalRate", value => targetSO.criticalRate = Mathf.Clamp(value, 0, 100), i);
+            AssignFloat(values, columns, "criticalDamage", value => targetSO.criticalDamage = value, i);
+            AssignInt(values, columns, "coin", value => targetSO.coin = value, i);
+            AssignInt(values, columns, "credit", value => targetSO.credit = value, i);
 
-            int.TryParse(values[3], out targetSO.unitLevel);
-            float.TryParse(values[5], out targetSO.maxHp);
-            float.TryParse(values[6], out targetSO.moveSpeed);
-            float.TryParse(values[7], out targetSO.attackDamage);
-            float.TryParse(values[8], out targetSO.attackSpeed);
-            float.TryParse(values[9], out targetSO.attackRange);
-            int.TryParse(values[10], out targetSO.defense);
-            int.TryParse(values[11], out targetSO.criticalRate);
-            float.TryParse(values[12], out targetSO.criticalDamage);
-
-            int.TryParse(values[13], out targetSO.coin);
-            int.TryParse(values[14], out targetSO.credit);
-
-            // ´ÙÁß ¼±ÅÃ µ¥ÀÌÅÍ Á¶¸³ ·ÎÁ÷
-            // ½°Ç¥ ¶§¹®¿¡ ÂÉ°³Á®¹ö¸° 15¹ø ÀÎµ¦½ººÎÅÍ ³¡±îÁöÀÇ ¸ğµç ÅØ½ºÆ®¸¦ ´Ù½Ã ÇÏ³ª·Î ¹­¾îÁİ´Ï´Ù.
-            if (values.Length > 15)
+            if (TryReadCell(values, columns, "nextUpgradeUnitIds", out string upgradeIds)
+                || TryReadCell(values, columns, "nextUpgradeUnits", out upgradeIds))
             {
-                string joinedIds = string.Join(",", values, 15, values.Length - 15);
-                joinedIds = joinedIds.Replace("\"", ""); // ±¸±Û ½ÃÆ®°¡ ¾ïÁö·Î ³ÖÀº Å«µû¿ÈÇ¥ Á¦°Å
-
-                if (!string.IsNullOrWhiteSpace(joinedIds))
-                {
-                    upgradeLinks[targetSO] = joinedIds;
-                }
+                targetSO.nextUpgradeUnits = Array.Empty<UnitDataSO>();
+                if (!string.IsNullOrWhiteSpace(upgradeIds)) upgradeLinks[targetSO] = upgradeIds;
             }
 
             EditorUtility.SetDirty(targetSO);
@@ -192,7 +211,7 @@ public class GoogleSheetSync : EditorWindow
                     }
                     else
                     {
-                        Debug.LogWarning($"[µ¿±âÈ­ °æ°í] {currentSO.unitName}ÀÇ ÁøÈ­ ´ë»óÀÎ {nextId}¹ø À¯´ÖÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                        Debug.LogWarning($"[ë™ê¸°í™” ê²½ê³ ] {currentSO.unitName}ì˜ ì§„í™” ëŒ€ìƒì¸ {nextId}ë²ˆ ìœ ë‹›ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                     }
                 }
             }
@@ -200,12 +219,151 @@ public class GoogleSheetSync : EditorWindow
             currentSO.nextUpgradeUnits = nextSOList.ToArray();
             EditorUtility.SetDirty(currentSO);
         }
+
+        if (group != null)
+        {
+            List<UnitDataSO> list = fileNamePrefix == "Enemy_" ? group.enemies : group.players;
+            list.Sort((a, b) => a == null ? 1 : b == null ? -1 : a.unitId.CompareTo(b.unitId));
+            EditorUtility.SetDirty(group);
+        }
+    }
+
+    private static Dictionary<string, int> BuildColumnMap(string[] headers)
+    {
+        var result = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        for (int i = 0; i < headers.Length; i++)
+        {
+            string header = headers[i].Trim().TrimStart('\uFEFF');
+            if (!string.IsNullOrEmpty(header)) result[header] = i;
+        }
+        return result;
+    }
+
+    private static void RequireColumn(Dictionary<string, int> columns, string name)
+    {
+        if (!columns.ContainsKey(name))
+            throw new InvalidDataException($"ìœ ë‹› ì‹œíŠ¸ì— í•„ìˆ˜ ì—´ '{name}'ì´ ì—†ìŠµë‹ˆë‹¤.");
+    }
+
+    private static string ReadCell(string[] row, Dictionary<string, int> columns, string name)
+    {
+        return TryReadCell(row, columns, name, out string value) ? value : string.Empty;
+    }
+
+    private static bool TryReadCell(
+        string[] row,
+        Dictionary<string, int> columns,
+        string name,
+        out string value)
+    {
+        value = string.Empty;
+        if (!columns.TryGetValue(name, out int index) || index >= row.Length) return false;
+        value = row[index].Trim();
+        return true;
+    }
+
+    private static void AssignString(
+        string[] row,
+        Dictionary<string, int> columns,
+        string name,
+        Action<string> setter)
+    {
+        if (TryReadCell(row, columns, name, out string value)) setter(value);
+    }
+
+    private static void AssignInt(
+        string[] row,
+        Dictionary<string, int> columns,
+        string name,
+        Action<int> setter,
+        int rowIndex)
+    {
+        if (!TryReadCell(row, columns, name, out string text)) return;
+        if (int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int value)) setter(value);
+        else Debug.LogWarning($"[ìœ ë‹› ë™ê¸°í™”] {rowIndex + 1}í–‰ì˜ {name} ê°’ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤: {text}");
+    }
+
+    private static void AssignFloat(
+        string[] row,
+        Dictionary<string, int> columns,
+        string name,
+        Action<float> setter,
+        int rowIndex)
+    {
+        if (!TryReadCell(row, columns, name, out string text)) return;
+        if (float.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out float value)) setter(value);
+        else Debug.LogWarning($"[ìœ ë‹› ë™ê¸°í™”] {rowIndex + 1}í–‰ì˜ {name} ê°’ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤: {text}");
+    }
+
+    private static void AssignBool(
+        string[] row,
+        Dictionary<string, int> columns,
+        string name,
+        Action<bool> setter,
+        int rowIndex)
+    {
+        if (!TryReadCell(row, columns, name, out string text)) return;
+        if (bool.TryParse(text, out bool value))
+        {
+            setter(value);
+            return;
+        }
+
+        if (text == "1" || text.Equals("yes", StringComparison.OrdinalIgnoreCase) || text.Equals("y", StringComparison.OrdinalIgnoreCase))
+            setter(true);
+        else if (text == "0" || text.Equals("no", StringComparison.OrdinalIgnoreCase) || text.Equals("n", StringComparison.OrdinalIgnoreCase))
+            setter(false);
+        else
+            Debug.LogWarning($"[ìœ ë‹› ë™ê¸°í™”] {rowIndex + 1}í–‰ì˜ {name} ê°’ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤: {text}");
+    }
+
+    private static List<string[]> ParseCsv(string csv)
+    {
+        var rows = new List<string[]>();
+        var row = new List<string>();
+        var cell = new StringBuilder();
+        bool quoted = false;
+
+        for (int i = 0; i < csv.Length; i++)
+        {
+            char character = csv[i];
+            if (character == '"')
+            {
+                if (quoted && i + 1 < csv.Length && csv[i + 1] == '"')
+                {
+                    cell.Append('"');
+                    i++;
+                }
+                else quoted = !quoted;
+            }
+            else if (character == ',' && !quoted)
+            {
+                row.Add(cell.ToString());
+                cell.Clear();
+            }
+            else if ((character == '\n' || character == '\r') && !quoted)
+            {
+                if (character == '\r' && i + 1 < csv.Length && csv[i + 1] == '\n') i++;
+                row.Add(cell.ToString());
+                cell.Clear();
+                if (row.Count > 1 || !string.IsNullOrWhiteSpace(row[0])) rows.Add(row.ToArray());
+                row.Clear();
+            }
+            else cell.Append(character);
+        }
+
+        if (cell.Length > 0 || row.Count > 0)
+        {
+            row.Add(cell.ToString());
+            if (row.Count > 1 || !string.IsNullOrWhiteSpace(row[0])) rows.Add(row.ToArray());
+        }
+        return rows;
     }
 
     // =========================================================
-    // ¿ÀºêÁ§Æ® Ç® µ¥ÀÌÅÍ µ¿±âÈ­
+    // ì˜¤ë¸Œì íŠ¸ í’€ ë°ì´í„° ë™ê¸°í™”
     // =========================================================
-    [MenuItem("Tools/2. ±¸±Û ½ÃÆ® µ¿±âÈ­ (¿ÀºêÁ§Æ® Ç® »çÀÌÁî)")]
+    [MenuItem("Tools/2. êµ¬ê¸€ ì‹œíŠ¸ ë™ê¸°í™” (ì˜¤ë¸Œì íŠ¸ í’€ ì‚¬ì´ì¦ˆ)")]
     public static void SyncPoolData()
     {
         var requestObj = UnityWebRequest.Get(objectPoolDataUrl);
@@ -228,14 +386,14 @@ public class GoogleSheetSync : EditorWindow
                     }
                     else
                     {
-                        Debug.LogError("Äµ¹ö½º Ç® µ¥ÀÌÅÍ µ¿±âÈ­ ½ÇÆĞ: " + requestCanvas.error);
+                        Debug.LogError("ìº”ë²„ìŠ¤ í’€ ë°ì´í„° ë™ê¸°í™” ì‹¤íŒ¨: " + requestCanvas.error);
                     }
                     requestCanvas.Dispose();
                 };
             }
             else
             {
-                Debug.LogError("ÀÏ¹İ ¿ÀºêÁ§Æ® Ç® µ¥ÀÌÅÍ µ¿±âÈ­ ½ÇÆĞ: " + requestObj.error);
+                Debug.LogError("ì¼ë°˜ ì˜¤ë¸Œì íŠ¸ í’€ ë°ì´í„° ë™ê¸°í™” ì‹¤íŒ¨: " + requestObj.error);
             }
             requestObj.Dispose();
         };
@@ -249,7 +407,7 @@ public class GoogleSheetSync : EditorWindow
         ObjectPoolManager manager = prefab.GetComponent<ObjectPoolManager>();
         if (manager == null) return;
 
-        // --- 1. ÀÏ¹İ ¿ÀºêÁ§Æ® Ç® ¿ÏÀü µ¿±âÈ­ ---
+        // --- 1. ì¼ë°˜ ì˜¤ë¸Œì íŠ¸ í’€ ì™„ì „ ë™ê¸°í™” ---
         string[] objLines = objCsv.Split('\n');
         HashSet<string> validObjPools = new HashSet<string>();
 
@@ -300,7 +458,7 @@ public class GoogleSheetSync : EditorWindow
             }
         }
 
-        // --- 2. Äµ¹ö½º Ç® ¿ÏÀü µ¿±âÈ­ ---
+        // --- 2. ìº”ë²„ìŠ¤ í’€ ì™„ì „ ë™ê¸°í™” ---
         string[] canvasLines = canvasCsv.Split('\n');
         HashSet<string> validCanvasPools = new HashSet<string>();
 
@@ -354,7 +512,7 @@ public class GoogleSheetSync : EditorWindow
         EditorUtility.SetDirty(prefab);
         PrefabUtility.SavePrefabAsset(prefab);
         AssetDatabase.Refresh();
-        Debug.Log(" ¿ÀºêÁ§Æ® Ç® »çÀÌÁî ±¸±Û ½ÃÆ® µ¿±âÈ­ ¿Ï·á!");
+        Debug.Log(" ì˜¤ë¸Œì íŠ¸ í’€ ì‚¬ì´ì¦ˆ êµ¬ê¸€ ì‹œíŠ¸ ë™ê¸°í™” ì™„ë£Œ!");
     }
 
     private static GameObject FindPrefabByName(string prefabName)

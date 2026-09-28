@@ -9,6 +9,9 @@ public class Projectile : MonoBehaviour
     private bool isHeal;
     private string myPoolName;
     private bool isCrit;
+    private Unit_Base_Test targetUnit;
+    private uint targetVersion;
+    private bool isReady;
 
     protected Transform Target => target;
 
@@ -19,13 +22,19 @@ public class Projectile : MonoBehaviour
         this.isHeal = isHeal;
         this.myPoolName = poolName;
         this.isCrit = isCrit;
+        targetUnit = target != null ? target.GetComponent<Unit_Base_Test>() : null;
+        targetVersion = targetUnit != null ? targetUnit.SpawnVersion : 0;
+        isReady = true;
 
         OnSetup();
     }
 
     protected virtual void Update()
     {
-        if (target == null || !target.gameObject.activeInHierarchy)
+        // 기존 풀은 먼저 활성화하므로 Setup이 끝난 뒤에만 비행합니다.
+        if (!isReady) return;
+        if (target == null || !target.gameObject.activeInHierarchy
+            || (targetUnit != null && (!targetUnit.IsCombatReady || targetUnit.CurrentHp <= 0f || targetUnit.SpawnVersion != targetVersion)))
         {
             ReturnToPool();
             return;
@@ -51,8 +60,6 @@ public class Projectile : MonoBehaviour
 
     private void HitTarget()
     {
-        Unit_Base_Test targetUnit = target.GetComponent<Unit_Base_Test>();
-
         if (targetUnit != null && targetUnit.CurrentHp > 0)
         {
             if (isHeal)
@@ -80,5 +87,17 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    protected virtual void OnDisable()
+    {
+        // 기존 ReturnObject의 비활성화 과정에서 다음 발사를 위해 상태를 비웁니다.
+        isReady = false;
+        target = null;
+        targetUnit = null;
+        targetVersion = 0;
+        amount = 0f;
+        isHeal = isCrit = false;
+        myPoolName = null;
     }
 }

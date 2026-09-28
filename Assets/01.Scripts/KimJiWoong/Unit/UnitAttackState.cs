@@ -1,66 +1,14 @@
-using UnityEngine;
-
+/// <summary>종류별 처리는 자식 행동에 위임하고 공격 상태 전환만 담당합니다.</summary>
 public class UnitAttackState : IUnitState
 {
     public void Enter(Unit_Base_Test unit)
     {
         unit.AttackTimer = 0f;
-        Unit_Base_Test targetUnit = unit.CurrentTarget.GetComponent<Unit_Base_Test>();
-
-        if (targetUnit != null)
-        {
-            float finalAmount = unit.CurrentDamage;
-            bool isCrit = false;
-
-            if (Random.Range(0, 100) < unit.CurrentCriticalRate)
-            {
-                finalAmount *= unit.CurrentCriticalDamage;
-                isCrit = true;
-            }
-
-            float dist = Vector2.Distance(unit.transform.position, targetUnit.transform.position);
-            bool isTargetAlly = ((1 << targetUnit.gameObject.layer) & unit.AllyLayer.value) != 0;
-            float validRange = isTargetAlly ? unit.MyData.healRange : unit.MyData.attackRange;
-
-            if (dist <= validRange)
-            {
-                if (isTargetAlly)
-                {
-                    // �Ʊ� Ÿ�� = ��
-                    if (unit.MyData.canHeal)
-                    {
-                        FireProjectile(unit, targetUnit, finalAmount, true, unit.MyData.healProjectilePoolName, isCrit);
-                    }
-                }
-                else
-                {
-                    if (unit.MyData.canMelee)
-                    {
-                        targetUnit.TakeDamage(finalAmount, isCrit);
-                    }
-                    else if (unit.MyData.canRanged || unit.MyData.canHeal)
-                    {
-                        FireProjectile(unit, targetUnit, finalAmount, false, unit.MyData.projectilePoolName, isCrit);
-                    }
-                }
-            }
-        }
-        unit.ChangeState(unit.idleState);
+        unit.Combat.Execute();
+        unit.CurrentTarget = null;
+        if (unit.isActiveAndEnabled && unit.IsCombatReady && unit.CurrentHp > 0f)
+            unit.ChangeState(unit.idleState);
     }
-
     public void Execute(Unit_Base_Test unit) { }
     public void Exit(Unit_Base_Test unit) { }
-
-    private void FireProjectile(Unit_Base_Test unit, Unit_Base_Test target, float amount, bool isHeal, string poolName, bool isCrit = false)
-    {
-        if (string.IsNullOrEmpty(poolName)) return;
-
-        GameObject projectileObj = ObjectPoolManager.instance.GetObject(poolName);
-        if (projectileObj != null)
-        {
-            projectileObj.transform.position = unit.transform.position;
-            Projectile proj = projectileObj.GetComponent<Projectile>();
-            if (proj != null) proj.Setup(target.transform, amount, isHeal, poolName, isCrit);
-        }
-    }
 }

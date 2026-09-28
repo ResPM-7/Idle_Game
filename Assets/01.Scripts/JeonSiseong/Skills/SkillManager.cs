@@ -3,24 +3,24 @@ using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
-    [SerializeField] private string poisonPoolName = "Poison"; // ÀÌ¹ÌÁö¿¡ ÀûÈù ¿ÀÅ¸ ±×´ë·Î ¸ÂÃã
+    [SerializeField] private string poisonPoolName = "Poison"; // ì´ë¯¸ì§€ì— ì ížŒ ì˜¤íƒ€ ê·¸ëŒ€ë¡œ ë§žì¶¤
     [SerializeField] private string lightningPoolName = "Lightning";
     [SerializeField] private string firePoolName = "Fire";
     [SerializeField] private string attackBuffPoolName = "AttackBuff";
     [SerializeField] private string freezePoolName = "Freeze";
 
 
-    [Header("Skill Cooltime")]                          // °¢ ½ºÅ³ ÄðÅ¸ÀÓ
+    [Header("Skill Cooltime")]                          // ê° ìŠ¤í‚¬ ì¿¨íƒ€ìž„
     [SerializeField] float poisonCooltime = 8f;
     [SerializeField] float lightningCooltime = 5f;
     [SerializeField] float fireCooltime = 10f;
     [SerializeField] float attackBuffCooltime = 15f;
     [SerializeField] float freezeCooltime = 12f;
 
-    [Header("½ºÅ³ À§Ä¡")]
+    [Header("ìŠ¤í‚¬ ìœ„ì¹˜")]
     [SerializeField] private Transform skillSpawnPoint;
 
-    [Header("½ºÅ³ ÄðÅ¸ÀÓ ÀÌ¹ÌÁö È®ÀÎ")]
+    [Header("ìŠ¤í‚¬ ì¿¨íƒ€ìž„ ì´ë¯¸ì§€ í™•ì¸")]
     [SerializeField] private Image poisonCooldownImage;
     [SerializeField] private Image lightningCooldownImage;
     [SerializeField] private Image fireCooldownImage;
@@ -33,6 +33,9 @@ public class SkillManager : MonoBehaviour
     float fireTimer;
     float attackBuffTimer;
     float freezeTimer;
+
+    // ë²„íŠ¼ê³¼ ì™¸ë¶€ ì½”ë“œ í˜¸ì¶œ ëª¨ë‘ ê°™ì€ ì „íˆ¬ ìƒíƒœ ì¡°ê±´ìœ¼ë¡œ ê²€ì‚¬í•©ë‹ˆë‹¤.
+    private bool CanUseSkill => WaveManager.instance != null && WaveManager.instance.IsBattleRunning;
 
     
 
@@ -63,11 +66,15 @@ public class SkillManager : MonoBehaviour
 
     public void UseFreeze(Vector3 position)
     {
+        if (!CanUseSkill) return;
         if(freezeTimer > 0) return;
 
         freezeTimer = freezeCooltime;
 
+
+
         GameObject obj = ObjectPoolManager.instance.GetObject(freezePoolName);
+        SoundManager.instance.PlaySfx("skill_ice");
         if(obj != null)
         {
             obj.transform.position = position;
@@ -76,6 +83,7 @@ public class SkillManager : MonoBehaviour
     }
     public void UseAttackBuff(Vector3 position)
     {
+        if (!CanUseSkill) return;
         if(attackBuffTimer > 0)
         {
             return;
@@ -84,15 +92,17 @@ public class SkillManager : MonoBehaviour
         attackBuffTimer = attackBuffCooltime;
 
         GameObject obj = ObjectPoolManager.instance.GetObject(attackBuffPoolName);
-        if(obj != null)
+        SoundManager.instance.PlaySfx("skill_attack_buff");
+        if (obj != null)
         {
             obj.transform.position = position;
             obj.transform.rotation = Quaternion.identity;
         }
     }
 
-    public void UsePoison(Vector3 position)       // ÇÃ·¹ÀÌ¾î°¡ È£Ãâ ÇÒ µ¶ ½ºÅ³
+    public void UsePoison(Vector3 position)       // í”Œë ˆì´ì–´ê°€ í˜¸ì¶œ í•  ë… ìŠ¤í‚¬
     {
+        if (!CanUseSkill) return;
         if (poisonTimer > 0)
         {
             return;
@@ -101,6 +111,7 @@ public class SkillManager : MonoBehaviour
         poisonTimer = poisonCooltime;
 
         GameObject obj = ObjectPoolManager.instance.GetObject(poisonPoolName);
+        SoundManager.instance.PlaySfx("skill_poison");
         if (obj != null)
         {
             obj.transform.position = position;
@@ -108,8 +119,9 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    public void UseLightning(Vector3 position)       // ÇÃ·¹ÀÌ¾î°¡ È£Ãâ ÇÒ ¹ø°³ ½ºÅ³
+    public void UseLightning(Vector3 position)       // í”Œë ˆì´ì–´ê°€ í˜¸ì¶œ í•  ë²ˆê°œ ìŠ¤í‚¬
     {
+        if (!CanUseSkill) return;
         if(lightningTimer > 0)
         {
             return;
@@ -118,6 +130,7 @@ public class SkillManager : MonoBehaviour
         lightningTimer = lightningCooltime;
 
         GameObject obj = ObjectPoolManager.instance.GetObject(lightningPoolName);
+        SoundManager.instance.PlaySfx("skill_lightning");
         if (obj != null)
         {
             obj.transform.position = position;
@@ -128,8 +141,9 @@ public class SkillManager : MonoBehaviour
 
 
 
-    public void UseFire(Vector3 position)       // ÇÃ·¹ÀÌ¾î°¡ È£Ãâ ÇÒ È­¿° ½ºÅ³
+    public void UseFire(Vector3 position)       // í”Œë ˆì´ì–´ê°€ í˜¸ì¶œ í•  í™”ì—¼ ìŠ¤í‚¬
     {
+        if (!CanUseSkill) return;
         if(fireTimer > 0)
         {
             return;
@@ -138,6 +152,7 @@ public class SkillManager : MonoBehaviour
         fireTimer = fireCooltime;
 
         GameObject obj = ObjectPoolManager.instance.GetObject(firePoolName);
+        SoundManager.instance.PlaySfx("skill_fire");
         if (obj != null)
         {
             obj.transform.position = position;
@@ -151,7 +166,7 @@ public class SkillManager : MonoBehaviour
         {
             poisonTimer -= Time.deltaTime;
             if (poisonCooldownImage != null)
-                poisonCooldownImage.fillAmount = poisonTimer / poisonCooltime; // ³²Àº ºñÀ² °è»ê
+                poisonCooldownImage.fillAmount = poisonTimer / poisonCooltime; // ë‚¨ì€ ë¹„ìœ¨ ê³„ì‚°
         }
 
         if (lightningTimer > 0)
